@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D3 Konzeptansatz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f3ef; --ink:#0d0d0d; --mute:#6b6b66; --line:#d6d4cc; --card:#fff;
+  --ah-green:#109e6a; --ah-dark:#333;
+  --a:#d4ff3a;   /* Route A: Signalgelb-Grün */
+  --b:#3a5bff;   /* Route B: Tiefenblau */
+  --c:#ff5a1f;   /* Route C: Interface-Orange */
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --sans:"Space Grotesk",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+@media(max-width:600px){.wrap{padding:0 16px}body{font-size:16px}}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+h1{font:700 clamp(44px,8vw,112px)/.92 var(--sans);letter-spacing:-.035em}
+h2{font:700 clamp(30px,4.4vw,56px)/1 var(--sans);letter-spacing:-.025em;margin-bottom:20px}
+h3{font:700 22px/1.2 var(--sans);letter-spacing:-.01em;margin-bottom:8px}
+p+p{margin-top:12px}
+a{color:inherit}
+section{padding:96px 0;border-top:1px solid var(--line)}
+@media(max-width:600px){section{padding:64px 0}}
+.lead{font-size:clamp(19px,2vw,23px);line-height:1.45;max-width:760px}
+.kicker{display:flex;gap:16px;align-items:center;margin-bottom:28px;color:var(--mute)}
+.kicker b{color:var(--ink);font-weight:600}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:860px){.g2,.g3{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:24px}
+.card .mono{color:var(--mute);display:block;margin-bottom:10px}
+ul.clean{list-style:none}
+ul.clean li{padding:9px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}
+ul.clean li:last-child{border:0}
+.tag{font:600 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;padding:5px 7px;border-radius:2px;white-space:nowrap;align-self:center}
+.now{background:var(--ink);color:#fff}
+.later{border:1px solid var(--ink)}
+.opt{color:var(--mute);border:1px dashed var(--mute)}
+
+/* Header */
+header.top{padding:32px 0 88px}
+.top .bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:80px}
+.meta{display:flex;flex-wrap:wrap;gap:24px 48px;margin-top:48px}
+.meta div span{display:block;color:var(--mute)}
+
+/* Logo-Systematik */
+.logos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:32px}
+@media(max-width:860px){.logos{grid-template-columns:1fr}}
+.logo-tile{background:var(--card);border:1px solid var(--line);padding:32px 24px;display:flex;flex-direction:column;gap:20px;min-height:220px;justify-content:space-between}
+.logo-tile.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.logo-tile svg{width:100%;height:auto;max-width:300px}
+
+/* Routen */
+.route{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:start}
+@media(max-width:960px){.route{grid-template-columns:1fr;gap:32px}}
+.route .num{font:700 15px var(--mono);display:inline-block;padding:6px 10px;margin-bottom:20px}
+.pro-con{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+@media(max-width:600px){.pro-con{grid-template-columns:1fr}}
+.pro-con h4{font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.pro-con ul{padding-left:18px;font-size:15px}
+.stage{position:relative;aspect-ratio:4/3.2;background:#0b0b0b;color:#fff;overflow:hidden;border-radius:4px}
+@media(max-width:600px){.stage{aspect-ratio:3/4}}
+.stage .cap{position:absolute;left:16px;bottom:14px;font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;opacity:.75;z-index:5}
+
+/* --- Route A: Raumplan --- */
+.sA{background:#0b0b0b}
+.sA .rooms{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:4% 7% 9% 10%}
+.sA .sign{display:flex;align-items:baseline;gap:16px;padding:8px 0;border-bottom:1px solid #2a2a2a;opacity:.4;transition:opacity .5s, transform .5s}
+.sA .sign.on{opacity:1;transform:translateX(10px)}
+.sA .sign .rn{font:700 clamp(20px,3vw,36px)/1 var(--sans);letter-spacing:-.02em;min-width:2.6em}
+.sA .sign .rt{font:500 clamp(13px,1.4vw,16px)/1.2 var(--sans)}
+.sA .sign .rt small{display:block;font:400 11px var(--mono);opacity:.6;letter-spacing:.05em;text-transform:uppercase;margin-top:3px}
+.sA .sign .arrow{margin-left:auto;font:700 22px var(--sans);color:var(--a);opacity:0;transition:opacity .4s}
+.sA .sign.on .arrow{opacity:1}
+.sA .you{position:absolute;left:4.5%;width:14px;height:14px;border-radius:50%;background:var(--a);box-shadow:0 0 0 6px rgba(212,255,58,.18);transition:top .7s cubic-bezier(.7,0,.2,1);z-index:3}
+.sA .you::after{content:"Du";position:absolute;left:-4px;top:-22px;font:600 10px var(--mono);color:var(--a)}
+.sA .rail{position:absolute;left:calc(4.5% + 6px);top:12%;bottom:12%;width:2px;background:#2a2a2a}
+
+/* --- Route B: Deep Dive --- */
+.sB{background:linear-gradient(#0b0b0b 0%, #06102e 100%)}
+.sB .layer{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform 1.4s cubic-bezier(.6,0,.2,1),opacity 1.4s}
+.sB .layer .frame{border:1px solid rgba(255,255,255,.55);width:62%;aspect-ratio:16/10;display:flex;flex-direction:column;justify-content:flex-end;padding:3%;}
+.sB .layer .frame b{font:700 clamp(18px,3.2vw,34px)/1 var(--sans);letter-spacing:-.02em}
+.sB .layer .frame span{font:400 11px var(--mono);opacity:.7;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.sB .depth{position:absolute;right:16px;top:16px;bottom:16px;width:52px;display:flex;flex-direction:column;justify-content:space-between;font:500 10px var(--mono);text-align:right;opacity:.85;z-index:4}
+.sB .depth i{font-style:normal;opacity:.35;transition:opacity .4s, color .4s}
+.sB .depth i.on{opacity:1;color:#8ea2ff}
+
+/* --- Route C: Fenster --- */
+.sC{background:#f1f0eb;color:var(--ink)}
+.sC .win{position:absolute;background:#fff;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;transition:all 1.1s cubic-bezier(.7,0,.2,1);box-shadow:6px 6px 0 rgba(0,0,0,.9)}
+.sC .win .tb{height:22px;border-bottom:1.5px solid var(--ink);display:flex;align-items:center;gap:5px;padding:0 8px;font:600 9px var(--mono);letter-spacing:.05em;text-transform:uppercase}
+.sC .win .tb i{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--ink)}
+.sC .win .tb span{margin-left:6px}
+.sC .win .bd{padding:10px 12px;font:700 clamp(14px,2.2vw,24px)/1.05 var(--sans);letter-spacing:-.02em}
+.sC .win .bd small{display:block;font:400 10px var(--mono);letter-spacing:.05em;text-transform:uppercase;margin-top:6px;color:var(--mute)}
+.sC .win.front{z-index:3}
+.sC .win.front .tb{background:var(--c);color:#fff;border-color:var(--ink)}
+.sC .person{position:absolute;width:22%;aspect-ratio:1/1.6;bottom:0;z-index:4;transition:left 1.1s cubic-bezier(.7,0,.2,1)}
+.sC .person svg{width:100%;height:100%}
+
+/* Struktur */
+.sitemap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media(max-width:860px){.sitemap{grid-template-columns:1fr}}
+.tree{font:400 14px/1.9 var(--mono)}
+.tree .d{color:var(--mute)}
+
+/* Mobile Programm Mock */
+.phone{width:300px;max-width:100%;border:10px solid var(--ink);border-radius:34px;background:#0b0b0b;color:#fff;padding:18px 14px 22px;margin:0 auto}
+.phone .slot{display:grid;grid-template-columns:46px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid #222}
+.phone .t{font:600 11px var(--mono);color:#9a9a92;padding-top:3px}
+.phone .items{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.phone .it{flex:0 0 auto;min-width:120px;max-width:170px;border:1px solid #333;border-radius:3px;padding:8px}
+.phone .it.one{flex:1 1 auto;max-width:none}
+.phone .it em{font:600 9px var(--mono);font-style:normal;letter-spacing:.06em;text-transform:uppercase;display:inline-block;padding:2px 4px;margin-bottom:5px;color:#0b0b0b}
+.phone .it b{display:block;font:600 13px/1.2 var(--sans)}
+.phone .it small{display:block;font:400 10px var(--mono);color:#9a9a92;margin-top:4px}
+.k{background:var(--a)}.w{background:#fff}.c{background:#9fe8c4}.n{background:#888}
+
+.reco{background:var(--ink);color:#fff}
+.reco .card{background:#161616;border-color:#2a2a2a}
+.reco .card .mono{color:#9a9a92}
+.reco .kicker{color:#9a9a92}.reco .kicker b{color:#fff}
+.q li{padding:12px 0;border-bottom:1px solid var(--line);list-style:none;display:grid;grid-template-columns:28px 1fr}
+.q li span{font:600 12px var(--mono);color:var(--mute);padding-top:3px}
+footer{padding:48px 0 64px;color:var(--mute)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="bar">
+      <span class="mono">CONCRETE × Amtshelden</span>
+      <span class="mono">Stand 01.10.2026 · Arbeitsstand</span>
+    </div>
+    <div class="kicker mono"><b>D3 · Deep Dive Day</b> Event-Website · Erste Eruierung</div>
+    <h1>Kein Webinar.<br>Ein Tag, durch den<br>man sich bewegt.</h1>
+    <p class="lead" style="margin-top:32px">Das Briefing fordert drei Dinge, bevor wir Screens gestalten: Grundstruktur, visuelle Leitidee, Bewegungsidee. Hier ist der erste Aufschlag dazu – mit drei Routen für die Leitidee und einer klaren Empfehlung.</p>
+    <div class="meta mono">
+      <div><span>Format</span>Digitales B2G-Event, wiederkehrend</div>
+      <div><span>Ausgabe 1</span>D3: KI + Transformation</div>
+      <div><span>Zielgruppe</span>Behörden &amp; öffentliche Organisationen</div>
+      <div><span>Plattform</span>Let's Get Digital</div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= KERN ================= -->
+<section>
+  <div class="wrap">
+    <div class="kicker mono"><b>01</b> Die eigentliche Aufgabe</div>
+    <h2>Das Problem ist ein Bildproblem.</h2>
+    <div class="grid g2">
+      <div>
+        <p class="lead">Es gibt kein Eventmaterial. Bühnenfotos wären gelogen, Webinar-Optik wäre zu klein, Metaverse wäre peinlich. Wir müssen also ein Bild für etwas bauen, das man nicht fotografieren kann.</p>
+      </div>
+      <div>
+        <p>Der Briefing-Satz, an dem alles hängt: <strong>„Ein realer Mensch bewegt sich durch eine digitale Veranstaltungswelt.“</strong></p>
+        <p>Daraus folgt für uns: Die Leitidee darf kein Hero-Bild sein, sondern muss ein <strong>System</strong> sein, das Startseite, Programm, Speaker und spätere Ausgaben gleichermaßen trägt. Und sie muss mobil funktionieren, weil das Programm das Herzstück wird.</p>
+        <p>Der Begriff <strong>B2G-Event</strong> gehört dabei sichtbar in die Positionierung – in Headline-Nähe, im Title-Tag und in der Partner-Ansprache. Er macht in einem Wort klar, für wen das ist und warum Aussteller hier richtig sind.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ROUTEN ================= -->
+<section>
+  <div class="wrap">
+    <div class="kicker mono"><b>02</b> Visuelle Leitidee · drei Routen</div>
+    <h2 style="margin-bottom:56px">Drei Wege ins Bild.</h2>
+
+    <!-- Route A -->
+    <div class="route" style="margin-bottom:96px">
+      <div>
+        <span class="num" style="background:var(--a)">A · Raumplan</span>
+        <h3 style="font-size:30px">Das Amt als Wegeleitsystem.</h3>
+        <p>Jede Behörde kennt es: Flure, Raumnummern, Schilder, „Sie befinden sich hier“. Wir übersetzen genau das ins Digitale. D3 ist ein Gebäude mit Räumen – Raum 01 Keynote, Raum 04 Workshop, Raum 07 Stand – und ein Punkt („Du“) wandert beim Scrollen von Raum zu Raum.</p>
+        <p>Das Programm wird zum Raumplan bzw. Linienplan: parallele Formate sind parallele Linien. Jede neue D3-Ausgabe ist ein neues „Gebäude“ mit eigener Akzentfarbe.</p>
+        <div class="pro-con">
+          <div><h4>Stark</h4><ul><li>Kommt aus der Welt der Zielgruppe, mit Augenzwinkern</li><li>Programm, Navigation und Key Visual sind dieselbe Idee</li><li>Funktioniert ohne jedes Foto, typografisch, mobil</li></ul></div>
+          <div><h4>Risiko</h4><ul><li>Darf nicht nach Amt-Klischee aussehen – muss präzise, technisch, schwarz gesetzt sein</li></ul></div>
+        </div>
+      </div>
+      <div class="stage sA" id="stageA">
+        <div class="rail"></div>
+        <div class="you" id="youA"></div>
+        <div class="rooms">
+          <div class="sign"><span class="rn">00</span><span class="rt">Get-together<small>09:00 · Foyer</small></span><span class="arrow">→</span></div>
+          <div class="sign"><span class="rn">01</span><span class="rt">Keynote: KI im Amt<small>09:40 · Hauptraum</small></span><span class="arrow">→</span></div>
+          <div class="sign"><span class="rn">04</span><span class="rt">Workshop: Prozesse automatisieren<small>11:00 · Werkstatt</small></span><span class="arrow">→</span></div>
+          <div class="sign"><span class="rn">07</span><span class="rt">Stand: Partner treffen<small>12:30 · Ausstellung</small></span><span class="arrow">→</span></div>
+          <div class="sign"><span class="rn">02</span><span class="rt">Case: Landkreis XY<small>13:30 · Fallraum</small></span><span class="arrow">→</span></div>
+        </div>
+        <span class="cap">Skizze · Der Punkt begleitet den Scroll</span>
+      </div>
+    </div>
+
+    <!-- Route B -->
+    <div class="route" style="margin-bottom:96px">
+      <div>
+        <span class="num" style="background:var(--b);color:#fff">B · Tiefe</span>
+        <h3 style="font-size:30px">Deep Dive wörtlich nehmen.</h3>
+        <p>Der Name liefert die Idee mit: Man taucht ab. Die Website ist ein Abstieg in die Tiefe, die Uhrzeit wird zur Tiefenskala. Jeder Programmpunkt ist eine Ebene, durch die man beim Scrollen hindurchfährt – vom Get-together an der Oberfläche bis zur Abschluss-Keynote ganz unten.</p>
+        <p>Der reale Mensch erscheint als ausgeschnittene Figur, die durch die Ebenen „fällt“.</p>
+        <div class="pro-con">
+          <div><h4>Stark</h4><ul><li>Direkt aus dem Namen abgeleitet, sehr eigen</li><li>Großes Bewegungsmoment im Header</li></ul></div>
+          <div><h4>Risiko</h4><ul><li>Tiefe erklärt „Tiefe“, aber nicht „verschiedene Orte“</li><li>Z-Achsen-Effekte sind mobil heikel und teuer</li><li>Trägt nur eine Ausgabe gut</li></ul></div>
+        </div>
+      </div>
+      <div class="stage sB" id="stageB">
+        <div class="depth" id="depthB"><i>09:00</i><i>09:40</i><i>11:00</i><i>13:30</i><i>15:00</i></div>
+        <span class="cap">Skizze · Uhrzeit als Tiefenskala</span>
+      </div>
+    </div>
+
+    <!-- Route C -->
+    <div class="route">
+      <div>
+        <span class="num" style="background:var(--c);color:#fff">C · Fenster</span>
+        <h3 style="font-size:30px">Der Bildschirm als Tür.</h3>
+        <p>Die Teilnehmer sitzen vor ihrem Rechner – also wird das Interface selbst zur Architektur. Fenster öffnen sich wie Räume, ein realer Mensch (Foto-Shooting, freigestellt) steigt von Fenster zu Fenster: Vortrag, Breakout, Workshop, Stand.</p>
+        <p>Formal reduziert, mit harten Kanten und Schlagschatten – eher Editorial als Tech-Konferenz.</p>
+        <div class="pro-con">
+          <div><h4>Stark</h4><ul><li>Löst „realer Mensch in digitaler Welt“ am wörtlichsten</li><li>Sofort als digitales Event lesbar</li></ul></div>
+          <div><h4>Risiko</h4><ul><li>Braucht ein Shooting</li><li>Fenster-Ästhetik ist verbreitet – Gefahr der Austauschbarkeit</li></ul></div>
+        </div>
+      </div>
+      <div class="stage sC" id="stageC">
+        <span class="cap" style="color:var(--ink)">Skizze · Mensch wechselt die Räume</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EMPFEHLUNG ================= -->
+<section class="reco">
+  <div class="wrap">
+    <div class="kicker mono"><b>03</b> Empfehlung</div>
+    <h2>Route A als System, C als Bildebene.</h2>
+    <p class="lead" style="margin-bottom:40px">Der Raumplan ist die einzige Idee, die gleichzeitig Key Visual, Navigation und Programm ist. Genau das verlangt das Briefing: eine zentrale Idee statt vieler Effekte. Aus Route C nehmen wir den realen Menschen mit – er bewegt sich durch die Räume des Plans.</p>
+    <div class="grid g3">
+      <div class="card"><span class="mono">Leitidee</span><h3>„Du bist hier.“</h3><p>Ein Marker begleitet den User durch die ganze Seite. Er steht für die Teilnehmerin, die sich durch den Tag bewegt. Im Header läuft er durch die Räume, im Programm markiert er „jetzt“, auf Speaker-Seiten zeigt er den Raum.</p></div>
+      <div class="card"><span class="mono">Bildwelt</span><h3>Typografie + ein Mensch</h3><p>Raumnummern, Schilder, Linien in Schwarz/Weiß tragen die Seite. Dazu eine reale Person, freigestellt fotografiert in wenigen Posen (zuhören, sprechen, notieren, Hand geben). Keine Menge, keine Bühne.</p></div>
+      <div class="card"><span class="mono">Bewegung</span><h3>Raumwechsel als Übergang</h3><p>Jeder Sektionswechsel ist ein Raumwechsel: Schild klappt um, Marker wandert, Raumnummer zählt hoch. Eine Bewegungsart, konsequent durchgezogen. Mobil als einfacher vertikaler Pfad.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LOGO ================= -->
+<section>
+  <div class="wrap">
+    <div class="kicker mono"><b>04</b> Logo-Systematik</div>
+    <h2>Die Sprechblase wird zum Raumschild.</h2>
+    <div class="grid g2">
+      <p class="lead">Das Amtshelden-Logo besteht aus zwei Boxen, eine davon mit Sprechblasen-Spitze. Das ist die Systematik, die wir weiterdrehen: Das Format bekommt eine eigene Box, der Absender bleibt klein darüber.</p>
+      <p>Regel: <strong>Formatkürzel in der Box + Ausgabe als Unterzeile.</strong> D3 heute, D3 Kommunikation morgen, und dieselbe Logik für andere Amtshelden-Formate (z. B. Connected). Kein neues Corporate Design – eine Schablone, die man in fünf Minuten neu befüllt.</p>
+    </div>
+    <div class="logos">
+      <div class="logo-tile">
+        <span class="mono" style="color:var(--mute)">Bestand</span>
+        <img src="../research/assets/amtshelden-logo.png" alt="Amtshelden Logo" style="width:100%;max-width:300px">
+      </div>
+      <div class="logo-tile dark">
+        <span class="mono" style="opacity:.6">D3 · Ausgabe 1</span>
+        <svg viewBox="0 0 300 150" aria-label="D3 Logo-Skizze">
+          <text x="0" y="14" fill="#fff" opacity=".7" font-family="Montserrat" font-weight="800" font-size="12" letter-spacing="1.5">AMTSHELDEN</text>
+          <path d="M0 26 h120 a8 8 0 0 1 8 8 v62 a8 8 0 0 1 -8 8 H52 l-22 22 v-22 H8 a8 8 0 0 1 -8 -8 V34 a8 8 0 0 1 8 -8z" fill="#d4ff3a"/>
+          <text x="16" y="88" fill="#0d0d0d" font-family="Montserrat" font-weight="800" font-size="58" letter-spacing="-2">D3</text>
+          <text x="144" y="56" fill="#fff" font-family="Space Grotesk" font-weight="700" font-size="20">KI +</text>
+          <text x="144" y="80" fill="#fff" font-family="Space Grotesk" font-weight="700" font-size="20">Transformation</text>
+          <text x="144" y="102" fill="#fff" opacity=".6" font-family="JetBrains Mono" font-size="10" letter-spacing="1">DEEP DIVE DAY · 2027</text>
+        </svg>
+      </div>
+      <div class="logo-tile">
+        <span class="mono" style="color:var(--mute)">D3 · spätere Ausgabe</span>
+        <svg viewBox="0 0 300 150" aria-label="D3 Logo-Skizze Ausgabe 2">
+          <text x="0" y="14" fill="#0d0d0d" opacity=".7" font-family="Montserrat" font-weight="800" font-size="12" letter-spacing="1.5">AMTSHELDEN</text>
+          <path d="M0 26 h120 a8 8 0 0 1 8 8 v62 a8 8 0 0 1 -8 8 H52 l-22 22 v-22 H8 a8 8 0 0 1 -8 -8 V34 a8 8 0 0 1 8 -8z" fill="#0d0d0d"/>
+          <text x="16" y="88" fill="#ff5a1f" font-family="Montserrat" font-weight="800" font-size="58" letter-spacing="-2">D3</text>
+          <text x="144" y="68" fill="#0d0d0d" font-family="Space Grotesk" font-weight="700" font-size="20">Kommunikation</text>
+          <text x="144" y="90" fill="#0d0d0d" opacity=".6" font-family="JetBrains Mono" font-size="10" letter-spacing="1">DEEP DIVE DAY · 2027</text>
+        </svg>
+      </div>
+    </div>
+    <p style="margin-top:20px;color:var(--mute);font-size:15px">Grobe Skizze zur Logik, nicht zur Form. Farben: Schwarz/Weiß als Basis, pro Ausgabe eine Akzentfarbe. Das Amtshelden-Grün bleibt im Absender.</p>
+  </div>
+</section>
+
+<!-- ================= STRUKTUR ================= -->
+<section>
+  <div class="wrap">
+    <div class="kicker mono"><b>05</b> Grundstruktur</div>
+    <h2>Jetzt schlank, später vollständig.</h2>
+    <p class="lead" style="margin-bottom:40px">Deine vorläufige Struktur passt. Ich würde sie nur anders schneiden: Programm, Keynotes, Masterclasses und Cases sind keine getrennten Seiten, sondern Filter auf dasselbe Programm. Das spart Pflege und macht das Programm zum Zentrum.</p>
+    <div class="sitemap">
+      <div class="card">
+        <span class="mono">Seiten &amp; Phasen</span>
+        <ul class="clean">
+          <li>Home – Leitidee, Datum, Thema, Absender <span class="tag now">Phase 1</span></li>
+          <li>Das Format – „So bewegst du dich durch D3“ <span class="tag now">Phase 1</span></li>
+          <li>Programm – Vorschau mit Slots &amp; Formaten <span class="tag now">Phase 1</span></li>
+          <li>↳ Filter: Keynotes · Masterclasses · Cases · Workshops <span class="tag later">Phase 2</span></li>
+          <li>↳ Detailseite Programmpunkt <span class="tag later">Phase 2</span></li>
+          <li>Speaker*innen – erste Namen, dann alle + Detail <span class="tag now">Phase 1</span></li>
+          <li>Aussteller &amp; Partner werden – für Partnerakquise <span class="tag now">Phase 1</span></li>
+          <li>Aussteller &amp; Partner – Übersicht <span class="tag later">Phase 2</span></li>
+          <li>Anmeldung – via Let's Get Digital <span class="tag later">Phase 2</span></li>
+          <li>FAQ – erst statisch, Bot optional <span class="tag opt">Option</span></li>
+          <li>About → Link zu amtshelden.de <span class="tag now">Phase 1</span></li>
+          <li>Archiv / Rückblick vergangener Ausgaben <span class="tag opt">Später</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="mono">URL-Logik für mehrere Ausgaben</span>
+        <div class="tree">
+          /<span class="d"> ← zeigt immer die nächste Ausgabe</span><br>
+          /format<br>
+          /partner-werden<br>
+          /ki-transformation<span class="d"> ← Ausgabe 1</span><br>
+          &nbsp;&nbsp;/programm<br>
+          &nbsp;&nbsp;/programm/[slot]<br>
+          &nbsp;&nbsp;/speaker/[name]<br>
+          &nbsp;&nbsp;/anmeldung<span class="d"> → LGD</span><br>
+          /kommunikation<span class="d"> ← Ausgabe 2</span><br>
+          /speaker/[name]<span class="d"> ← ausgabenübergreifend</span><br>
+          /cases/[case]<span class="d"> ← bleibt nach dem Event</span>
+        </div>
+        <p style="margin-top:16px;font-size:15px">Damit beantworten wir die offenen Fragen aus dem Briefing strukturell: Die Startseite zeigt immer das nächste Event, weitere Termine stehen als Leiste darunter, vergangene Ausgaben werden zum Archiv. Speaker und Cases leben ausgabenübergreifend – und können per Link oder Teaser zu Podcast, Artikel oder Interview auf amtshelden.de führen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROGRAMM MOBIL ================= -->
+<section>
+  <div class="wrap">
+    <div class="kicker mono"><b>06</b> Programm, mobil zuerst gedacht</div>
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <h2>Zeitachse runter,<br>Parallelen quer.</h2>
+        <p class="lead">Keine Tabelle. Die Zeit läuft vertikal, parallele Formate liegen als wischbare Reihe nebeneinander. Farbe zeigt das Format, der Raum-Code (aus Route A) gibt jedem Punkt eine Adresse.</p>
+        <p style="margin-top:16px">Damit sind die fünf Fragen aus dem Briefing auf einen Blick beantwortet: Was läuft wann, was parallel, welches Format, wer spricht, wohin für mehr.</p>
+      </div>
+      <div class="phone" aria-label="Mobiles Programm-Mock">
+        <div class="mono" style="color:#9a9a92;margin-bottom:8px">D3 · Programm</div>
+        <div class="slot"><span class="t">09:00</span><div class="items"><div class="it one"><em class="n">Foyer</em><b>Get-together</b></div></div></div>
+        <div class="slot"><span class="t">09:40</span><div class="items"><div class="it one"><em class="k">Keynote · R01</em><b>KI im Amt: Was jetzt geht</b><small>N. N.</small></div></div></div>
+        <div class="slot"><span class="t">10:30</span><div class="items"><div class="it"><em class="c">Case · R02</em><b>Landkreis XY automatisiert Anträge</b><small>N. N.</small></div><div class="it"><em class="w">Workshop · R04</em><b>Prompting für Sachbearbeitung</b><small>N. N.</small></div><div class="it"><em class="w">Workshop · R05</em><b>Datenschutz &amp; KI</b></div></div></div>
+        <div class="slot"><span class="t">11:30</span><div class="items"><div class="it"><em class="k">Vortrag · R01</em><b>Cybersecurity</b><small>N. N.</small></div><div class="it"><em class="c">Panel · R03</em><b>Führung &amp; Kultur</b></div></div></div>
+        <div class="slot" style="border:0"><span class="t">15:00</span><div class="items"><div class="it one"><em class="k">Keynote · R01</em><b>Abschluss</b></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= OFFEN ================= -->
+<section>
+  <div class="wrap">
+    <div class="kicker mono"><b>07</b> Offene Punkte</div>
+    <h2>Was wir klären müssen.</h2>
+    <div class="grid g2">
+      <ul class="q">
+        <li><span>01</span>Datum der ersten Ausgabe – braucht die Startseite sofort.</li>
+        <li><span>02</span>Let's Get Digital: eingebettetes Formular, Weiterleitung oder API? (klärst du) – Struktur sieht alle drei vor.</li>
+        <li><span>03</span>Domain: eigene D3-Domain oder Unterseite von amtshelden.de? Wichtig für SEO und die Verlinkung beider Welten.</li>
+        <li><span>04</span>CMS: Für Phase 1 reicht eine statische Seite mit Datendateien. Ab Phase 2 lohnt ein schlankes CMS für Programm und Speaker.</li>
+      </ul>
+      <ul class="q">
+        <li><span>05</span>Shooting: Gibt es Budget für eine Person, freigestellt, 4–6 Posen? Alternativ Stock-Model mit klarer Bildregel.</li>
+        <li><span>06</span>Akzentfarbe: eine pro Ausgabe – oder eine feste D3-Farbe und das Thema nur typografisch?</li>
+        <li><span>07</span>FAQ-Bot: erst nach Phase 1. Naheliegend wäre zu prüfen, ob LGD so etwas mitbringt, bevor wir einen weiteren Partner holen.</li>
+        <li><span>08</span>Tickets oder Anmeldung? Wenn kostenlos: „Anmeldung“. „Tickets“ nur bei Bezahlmodell.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap mono">CONCRETE – Brandbuilding · D3 Konzeptansatz · Arbeitsstand, nicht final</div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Route A – Marker wandert durch die Räume
+  const signs = [...document.querySelectorAll('#stageA .sign')];
+  const you = document.getElementById('youA');
+  const stageA = document.getElementById('stageA');
+  let ia = 0;
+  function stepA(){
+    signs.forEach((s,i)=>s.classList.toggle('on', i===ia));
+    const r = signs[ia].getBoundingClientRect(), p = stageA.getBoundingClientRect();
+    you.style.top = (r.top - p.top + r.height/2 - 7) + 'px';
+    ia = (ia+1) % signs.length;
+  }
+
+  // Route B – Ebenen fahren auf den Betrachter zu
+  const stageB = document.getElementById('stageB');
+  const marks = [...document.querySelectorAll('#depthB i')];
+  const layersB = [['09:00','Get-together'],['09:40','Keynote'],['11:00','Workshop'],['13:30','Case'],['15:00','Abschluss']];
+  const elsB = layersB.map(([t,n])=>{
+    const l=document.createElement('div'); l.className='layer';
+    l.innerHTML=`<div class="frame"><span>${t}</span><b>${n}</b></div>`;
+    stageB.appendChild(l); return l;
+  });
+  let ib = 0;
+  function stepB(){
+    elsB.forEach((l,i)=>{
+      const d = i - ib;
+      l.style.transform = `scale(${d<0 ? 2.6 : Math.pow(.62,d)})`;
+      l.style.opacity = d<0 ? 0 : d>3 ? 0 : 1 - d*.28;
+      l.style.zIndex = 10 - d;
+    });
+    marks.forEach((m,i)=>m.classList.toggle('on', i===ib));
+    ib = (ib+1) % elsB.length;
+  }
+
+  // Route C – Fenster wechseln, Person steigt weiter
+  const stageC = document.getElementById('stageC');
+  const winsC = [['Hauptraum','Keynote','09:40 · live'],['Breakout 3','Austausch','10:30 · 6 Personen'],['Werkstatt','Workshop','11:00 · interaktiv'],['Ausstellung','Stand','12:30 · Partner']];
+  const pos = [[6,10,46,40],[46,18,46,40],[12,50,40,36],[54,56,38,34]];
+  const elsC = winsC.map(([r,t,s])=>{
+    const w=document.createElement('div'); w.className='win';
+    w.innerHTML=`<div class="tb"><i></i><i></i><span>${r}</span></div><div class="bd">${t}<small>${s}</small></div>`;
+    stageC.appendChild(w); return w;
+  });
+  const person=document.createElement('div'); person.className='person';
+  person.innerHTML='<svg viewBox="0 0 60 96"><circle cx="30" cy="16" r="11" fill="#0d0d0d"/><path d="M10 96 V52 a20 20 0 0 1 40 0 V96z" fill="#0d0d0d"/><rect x="38" y="44" width="16" height="11" rx="2" fill="#ff5a1f"/></svg>';
+  stageC.appendChild(person);
+  let ic = 0;
+  function stepC(){
+    elsC.forEach((w,i)=>{
+      const [x,y,wd,h]=pos[(i - ic + 4) % 4];
+      Object.assign(w.style,{left:x+'%',top:y+'%',width:wd+'%',height:h+'%'});
+      w.classList.toggle('front', i===ic);
+    });
+    const [x,,wd]=pos[0];
+    person.style.left = (ic%2 ? 64 : 8) + '%';
+    ic = (ic+1) % elsC.length;
+  }
+
+  stepA(); stepB(); stepC();
+  if(!reduce){ setInterval(stepA, 1600); setInterval(stepB, 1900); setInterval(stepC, 2200); }
+  addEventListener('resize', ()=>{ ia = (ia - 1 + signs.length) % signs.length; stepA(); });
+})();
+</script>
+</body>
+</html>
