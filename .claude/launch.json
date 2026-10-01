@@ -4,8 +4,21 @@
     {
       "name": "concept",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4310"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4310"
+      ],
       "port": 4310
+    },
+    {
+      "name": "next",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "port": 4320
     }
   ]
 }

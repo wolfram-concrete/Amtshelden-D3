@@ -1,0 +1,110 @@
+/* D3 – gemeinsame Basistokens für beide Konzepte */
+:root {
+  /* Grund */
+  --d3-black: #080808;
+  --d3-charcoal: #121211;
+  --d3-graphite: #1d1d1b;
+  --d3-bone: #eeede4;
+  --d3-bone-dim: #d8d6cb;
+
+  /* Amtshelden */
+  --d3-yellow: #ffe500; /* Amtshelden-Gelb, primärer Akzent */
+  --d3-green: #0d9d69;  /* Amtshelden-Grün, sekundär */
+  --d3-orange: #ff4b23; /* Signal, tertiär */
+
+  --d3-mute-on-dark: #9b9a92;
+  --d3-mute-on-light: #5d5c55;
+
+  /* Schrift */
+  --font-display: var(--font-hubot), "Hubot Sans", system-ui, sans-serif;
+  --font-text: var(--font-mona), "Mona Sans", system-ui, sans-serif;
+  --font-mono: var(--font-fragment), "Fragment Mono", ui-monospace, monospace;
+
+  /* Bewegung */
+  --ease-snap: cubic-bezier(0.76, 0, 0.18, 1);
+  --ease-dive: cubic-bezier(0.22, 0.61, 0.18, 1);
+
+  --gutter: clamp(16px, 3.4vw, 48px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-text);
+  background: var(--d3-black);
+  color: var(--d3-bone);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--d3-yellow);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
