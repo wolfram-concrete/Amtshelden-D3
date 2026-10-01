@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D3 Fragment-System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c; --ink-2:#161617; --ink-line:#2a2a2c;
+  --paper:#eeece6; --paper-line:#d9d6cd;
+  --mute-d:#9a978f; --mute-l:#5f5d57;
+  --accent:#ff5a1f;           /* Ausgabe 1 · KI + Transformation */
+  --ah:#109e6a;               /* Amtshelden-Grün, nur Absender */
+  --sans:"Archivo",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --cell:64px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+@media(max-width:600px){.wrap{padding:0 16px}body{font-size:16px}:root{--cell:44px}}
+.mono{font:500 12px/1.3 var(--mono);letter-spacing:.04em;text-transform:uppercase}
+.wide{font-stretch:125%}
+h2{font:800 clamp(34px,5.4vw,76px)/.95 var(--sans);font-stretch:118%;letter-spacing:-.02em;margin-bottom:24px}
+h3{font:700 21px/1.2 var(--sans);font-stretch:105%;margin-bottom:8px}
+p+p{margin-top:12px}
+.lead{font-size:clamp(19px,2vw,23px);line-height:1.42;max-width:780px}
+section{position:relative;padding:112px 0}
+@media(max-width:600px){section{padding:72px 0}}
+.light{background:var(--paper);color:var(--ink);
+  background-image:linear-gradient(var(--paper-line) 1px,transparent 1px),linear-gradient(90deg,var(--paper-line) 1px,transparent 1px);
+  background-size:var(--cell) var(--cell);background-position:-1px -1px}
+.light .muted{color:var(--mute-l)} .muted{color:var(--mute-d)}
+.label{display:flex;gap:14px;align-items:center;margin-bottom:28px}
+.label b{display:inline-block;background:var(--accent);color:var(--ink);padding:5px 8px;font-weight:600}
+.grid{display:grid;gap:24px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.panel{background:var(--paper);color:var(--ink);padding:24px;border:1px solid var(--paper-line)}
+.panel-d{background:var(--ink-2);border:1px solid var(--ink-line);padding:24px}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100svh;padding:0;overflow:hidden;display:flex;flex-direction:column}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.hero .bar{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:24px 32px}
+@media(max-width:600px){.hero .bar{padding:16px}}
+.hero .bar img{width:104px;height:24px;display:block;background:var(--paper);padding:5px 7px;box-sizing:content-box}
+.hero .bar > span{background:var(--ink);padding:8px 10px;margin:-8px -10px}
+.hero-copy{position:relative;z-index:2;margin:auto 0 0;padding:0 32px 40px;max-width:900px}
+@media(max-width:600px){.hero-copy{padding:0 16px 28px}}
+.hero-copy .lockup{display:flex;align-items:flex-end;gap:22px;margin-bottom:28px}
+.hero-copy .lockup svg{width:clamp(54px,6.4vw,92px);height:auto;display:block}
+.hero-copy .lockup .d3{font:900 clamp(64px,8.4vw,120px)/.8 var(--sans);font-stretch:125%;letter-spacing:-.03em}
+.hero h1{font:800 clamp(34px,5.6vw,84px)/.9 var(--sans);font-stretch:125%;letter-spacing:-.025em;text-transform:uppercase}
+.hero h1 span{display:block}
+@media(max-width:600px){.hero h1{font-size:7.3vw}.hero-copy .lockup .d3{font-size:20vw}}
+.hero h1 .ac{color:var(--accent)}
+.hero .facts{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:28px}
+.hero .facts div span{display:block;color:var(--mute-d)}
+.hero .hint{position:absolute;right:32px;bottom:32px;z-index:2;color:var(--mute-d);background:var(--ink);padding:8px 10px}
+@media(max-width:900px){.hero .hint{display:none}}
+.hero .copy-bg{position:absolute;inset:-24px -32px -40px -32px;background:var(--ink);z-index:-1}
+
+/* ---------- LOGO ---------- */
+.logo-lab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+@media(max-width:900px){.logo-lab{grid-template-columns:1fr}}
+.logo-stage{background:var(--paper);aspect-ratio:1/1;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;border:1px solid var(--paper-line)}
+.logo-stage svg{width:100%;height:100%}
+.ctrl{margin-top:20px;display:flex;flex-direction:column;gap:14px}
+.ctrl label{display:grid;grid-template-columns:120px 1fr 52px;gap:12px;align-items:center}
+.ctrl input[type=range]{accent-color:var(--accent);width:100%}
+.ctrl .row{display:flex;gap:10px;flex-wrap:wrap}
+button.chip{font:500 12px var(--mono);letter-spacing:.04em;text-transform:uppercase;background:transparent;color:inherit;border:1px solid currentColor;padding:9px 12px;cursor:pointer}
+button.chip.on,button.chip:hover{background:var(--accent);border-color:var(--accent);color:var(--ink)}
+.notes li{list-style:none;padding:12px 0;border-bottom:1px solid var(--ink-line);display:grid;grid-template-columns:22px 1fr;gap:8px}
+.notes li i{font-style:normal;color:var(--accent);font-weight:700}
+
+/* ---------- ALPHABET ---------- */
+.alpha{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+@media(max-width:900px){.alpha{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.alpha > div{border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--paper)}
+.alpha svg{width:100%;aspect-ratio:1/1;display:block;transition:transform .5s cubic-bezier(.7,0,.2,1)}
+.alpha > div:hover svg{transform:rotate(-90deg)}
+.alpha b{font:700 16px/1.1 var(--sans);font-stretch:110%}
+.alpha small{display:block;font:400 13px/1.35 var(--sans);color:var(--mute-l)}
+
+/* ---------- DEPTH ---------- */
+.depth{padding:0;height:320vh;background:var(--ink)}
+.depth .sticky{position:sticky;top:0;height:100svh;overflow:hidden}
+.depth canvas{position:absolute;inset:0;width:100%;height:100%}
+.depth .over{position:absolute;left:32px;top:32px;right:32px;z-index:2;display:flex;justify-content:space-between;gap:24px;pointer-events:none}
+@media(max-width:600px){.depth .over{left:16px;right:16px;top:16px;flex-direction:column}}
+.depth .over .box{background:var(--ink);padding:18px 20px;max-width:440px}
+.depth .clock{font:800 clamp(56px,10vw,140px)/.85 var(--sans);font-stretch:125%;letter-spacing:-.03em;background:var(--ink);padding:10px 16px 6px;align-self:flex-start}
+.depth .meter{position:absolute;left:32px;right:32px;bottom:32px;z-index:2;height:4px;background:var(--ink-line)}
+@media(max-width:600px){.depth .meter{left:16px;right:16px}}
+.depth .meter i{display:block;height:100%;width:0;background:var(--accent)}
+
+/* ---------- FIGURE ---------- */
+.figure-wrap{position:relative;aspect-ratio:16/8;background:var(--ink);border:1px solid var(--ink-line);overflow:hidden}
+@media(max-width:600px){.figure-wrap{aspect-ratio:4/5}}
+.figure-wrap canvas{position:absolute;inset:0;width:100%;height:100%}
+.figure-wrap .tag{position:absolute;left:16px;bottom:14px;color:var(--mute-d);z-index:2}
+
+/* ---------- REVEAL ---------- */
+.reveal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media(max-width:900px){.reveal{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.flip{perspective:900px;aspect-ratio:3/4;cursor:pointer;background:none;border:0;padding:0;color:inherit;text-align:left;font:inherit}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .8s cubic-bezier(.7,0,.2,1);transform-style:preserve-3d}
+.flip.open .in{transform:rotateY(180deg)}
+.flip .f,.flip .b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:16px;display:flex;flex-direction:column;justify-content:space-between}
+.flip .f{background:var(--ink-2);border:1px solid var(--ink-line)}
+.flip .f svg{width:62%;align-self:center}
+.flip .b{background:var(--paper);color:var(--ink);transform:rotateY(180deg)}
+.flip .b .ph{width:58%;aspect-ratio:1/1;border-radius:50%;align-self:center;background:
+  repeating-linear-gradient(45deg,#d6d3ca 0 6px,#e4e1d9 6px 12px);display:flex;align-items:center;justify-content:center;font:500 11px var(--mono);color:var(--mute-l)}
+.flip .b strong{font:800 20px/1 var(--sans);font-stretch:115%;display:block}
+.flip:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+
+/* ---------- MEIN TAG ---------- */
+.myday{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px;align-items:start}
+@media(max-width:900px){.myday{grid-template-columns:1fr}}
+.sess{list-style:none;border-top:1px solid var(--ink)}
+.sess li{border-bottom:1px solid var(--ink)}
+.sess label{display:grid;grid-template-columns:52px 36px 1fr 24px;gap:12px;align-items:center;padding:12px 4px;cursor:pointer}
+.sess input{appearance:none;width:22px;height:22px;border:1.5px solid var(--ink);display:grid;place-content:center;cursor:pointer}
+.sess input:checked{background:var(--ink)}
+.sess input:checked::after{content:"";width:10px;height:10px;background:var(--accent)}
+.sess input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sess .t{font:600 13px var(--mono)}
+.sess .ti{font:600 16px/1.2 var(--sans)} .sess .ti small{display:block;font:400 12px var(--mono);color:var(--mute-l);text-transform:uppercase;letter-spacing:.04em;margin-top:3px}
+.sess svg{width:32px;height:32px;display:block}
+.mosaic-card{background:var(--ink);color:var(--paper);padding:24px;position:sticky;top:24px}
+.mosaic-card svg{width:100%;display:block;margin:18px 0}
+.mosaic-card .count{font:800 44px/1 var(--sans);font-stretch:125%}
+
+/* ---------- PROGRAMM MOBIL ---------- */
+.phone{width:320px;max-width:100%;border:10px solid #000;border-radius:36px;background:var(--ink);color:var(--paper);padding:18px 14px 20px;margin:0 auto;box-shadow:0 0 0 1px var(--ink-line)}
+.phone .slot{display:grid;grid-template-columns:44px 1fr;gap:8px;padding:10px 0;border-bottom:1px solid var(--ink-line)}
+.phone .tm{font:600 11px var(--mono);color:var(--mute-d);padding-top:4px}
+.phone .items{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x mandatory}
+.phone .it{flex:0 0 78%;scroll-snap-align:start;background:var(--ink-2);border:1px solid var(--ink-line);padding:10px;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.phone .it.solo{flex-basis:100%}
+.phone .it.now{border-color:var(--accent)}
+.phone .it svg{width:28px;height:28px}
+.phone .it em{font:600 10px var(--mono);font-style:normal;text-transform:uppercase;letter-spacing:.05em;color:var(--mute-d)}
+.phone .it b{display:block;font:600 14px/1.2 var(--sans);margin-top:2px}
+.legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px;margin-top:28px}
+.legend div{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:center}
+.legend svg{width:36px;height:36px}
+
+/* ---------- FARBE/TYPO ---------- */
+.sw{aspect-ratio:1/1.1;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;border:1px solid var(--ink-line)}
+.spec{font-stretch:125%;font-weight:800;font-size:clamp(48px,8vw,120px);line-height:.85;letter-spacing:-.03em;text-transform:uppercase}
+
+.q li{list-style:none;padding:14px 0;border-bottom:1px solid var(--ink-line);display:grid;grid-template-columns:32px 1fr;gap:8px}
+.q li span{font:600 12px var(--mono);color:var(--accent);padding-top:4px}
+footer{padding:40px 0 64px;color:var(--mute-d);border-top:1px solid var(--ink-line)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="hero">
+  <canvas id="heroField" aria-hidden="true"></canvas>
+  <div class="bar">
+    <img src="../../SVG/Amtshelden%20logo.svg" alt="Amtshelden">
+    <span class="mono muted">Konzept v2 · Fragment-System</span>
+  </div>
+  <div class="hero-copy" id="heroCopy">
+    <div class="copy-bg"></div>
+    <div class="lockup">
+      <svg viewBox="0 0 8.75 11.55" aria-label="D3 Logo"><path id="heroLogo" fill="#eeece6" fill-rule="evenodd"/></svg>
+      <span class="d3">D3</span>
+    </div>
+    <h1><span>Deep Dive Day</span><span class="ac">KI + Transformation</span></h1>
+    <div class="facts mono">
+      <div><span>Was</span>Das digitale B2G-Event von Amtshelden</div>
+      <div><span>Wann</span>Datum folgt</div>
+      <div><span>Wo</span>Online · ein Tag, viele Räume</div>
+    </div>
+  </div>
+  <span class="hint mono">Maus bewegen · das Feld taucht mit</span>
+</header>
+
+<!-- ================= 01 LOGO ================= -->
+<section>
+  <div class="wrap">
+    <div class="label mono"><b>01</b> Das Logo ist eine Formel</div>
+    <h2>Drei D, ein Drehpunkt, Schnitt wird Luft.</h2>
+    <div class="logo-lab" style="margin-top:40px">
+      <div>
+        <div class="logo-stage"><svg id="labSvg" viewBox="-2.4 -1.2 13.6 13.6"></svg></div>
+        <div class="ctrl">
+          <label class="mono">Tauchtiefe <input type="range" id="depthR" min="0" max="100" value="100"><span id="depthV">100 %</span></label>
+          <div class="row">
+            <button class="chip on" id="consBtn" type="button">Konstruktion</button>
+            <button class="chip" id="playBtn" type="button">Abtauchen abspielen</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="lead">Ich habe dein SVG nachgebaut. Es ist mathematisch sauber: drei gleich große Halbscheiben, ein gemeinsamer Drehpunkt unten links, gedreht um <strong>0°, 20° und 45°</strong>. Wo sich zwei überlagern, wird ausgespart.</p>
+        <p style="margin-top:16px">Das ist die eigentliche Nachricht: Das Logo ist kein Bild, sondern eine Regel. Und aus einer Regel kann man ein ganzes Designsystem ableiten – Raster, Icons, Bewegung, Programm.</p>
+        <ul class="notes" style="margin-top:28px">
+          <li><i>+</i><span>Das Abtauchen ist im Zeichen selbst angelegt. Aus einem D werden drei – das ist die Animation, die wir überall brauchen.</span></li>
+          <li><i>+</i><span>Der ungleiche Schritt (20° → 25°) wirkt wie eine Beschleunigung. Ich würde ihn so lassen.</span></li>
+          <li><i>!</i><span>Die „3“ steckt nur in der Anzahl. Das Zeichen braucht die Wortmarke D3 daneben, zumindest bis es gelernt ist.</span></li>
+          <li><i>!</i><span>Unten am Drehpunkt laufen drei Spitzen zusammen. Bei 16–24 px (Favicon, Social-Avatar) läuft das zu. Wir brauchen eine Kleinversion mit etwas Abstand am Pivot.</span></li>
+          <li><i>!</i><span>Dein SVG enthält vier winzige Splitter-Pfade an der Spitze. Die Rekonstruktion ist sauber, liegt als <code>SVG/D3-konstruktion.svg</code> im Repo.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 ALPHABET ================= -->
+<section class="light">
+  <div class="wrap">
+    <div class="label mono"><b>02</b> Fragment-Alphabet</div>
+    <h2>Jedes Format bekommt seine Form.</h2>
+    <p class="lead" style="margin-bottom:40px">Alle Fragmente kommen aus dem Logo: dieselbe Halbscheibe, derselbe Drehpunkt, dieselbe Ausspar-Regel. Die Anzahl der D zeigt, wie viele Stimmen sprechen. Dadurch codieren wir Formate über Form statt über Farbe – die Seite bleibt Schwarz/Weiß + eine Akzentfarbe.</p>
+    <div class="alpha" id="alpha"></div>
+    <p class="muted" style="margin-top:16px;font-size:15px">Hover dreht das Fragment. Im Feld drehen sich die Fragmente in 90°-Schritten und verbinden sich mit ihren Nachbarn.</p>
+  </div>
+</section>
+
+<!-- ================= 03 DEPTH ================= -->
+<section class="depth" id="depth">
+  <div class="sticky">
+    <canvas id="depthField" aria-hidden="true"></canvas>
+    <div class="over">
+      <div class="box">
+        <div class="label mono" style="margin-bottom:14px"><b>03</b> Raster &amp; Tiefe</div>
+        <h3 style="font-size:26px">Je tiefer der Tag, desto feiner das Raster.</h3>
+        <p class="muted" style="font-size:15px">Deine Route B, jetzt mit System. Beim Scrollen taucht man ab: Die Fragmente werden kleiner und dichter, die Uhr läuft durch den Veranstaltungstag. Dasselbe Prinzip trägt Startseite, Programm und Übergänge.</p>
+      </div>
+      <div class="clock" id="clock">09:00</div>
+    </div>
+    <div class="meter"><i id="meter"></i></div>
+  </div>
+</section>
+
+<!-- ================= 04 MENSCH ================= -->
+<section>
+  <div class="wrap">
+    <div class="label mono"><b>04</b> Der Mensch im Raster</div>
+    <div class="grid g2" style="align-items:end;margin-bottom:40px">
+      <h2 style="margin:0">Ein realer Mensch, gebaut aus Fragmenten.</h2>
+      <p class="lead">Damit lösen wir das Bildproblem aus dem Briefing: Keine Bühne, keine Menge. Ein Mensch bewegt sich durch die digitale Welt – und besteht dabei selbst aus ihr. Mit echtem Foto oder Video wird das noch stärker. Hier läuft die Figur durchs Feld, die Maus zieht sie mit.</p>
+    </div>
+    <div class="figure-wrap"><canvas id="figField" aria-hidden="true"></canvas><span class="tag mono">Skizze · Silhouette, später echtes Video</span></div>
+  </div>
+</section>
+
+<!-- ================= 05 GAMIFICATION ================= -->
+<section class="light">
+  <div class="wrap">
+    <div class="label mono"><b>05</b> Gamification, leise</div>
+    <h2>Spielgefühl, kein Spiel.</h2>
+    <p class="lead" style="margin-bottom:48px">Für eine Behörden-Zielgruppe würde ich keine Punkte und Badges bauen. Das Spielgefühl entsteht über drei Mechaniken, die alle aus dem Raster kommen.</p>
+
+    <div class="grid g3" style="margin-bottom:64px">
+      <div class="panel"><span class="mono muted">Phase 1</span><h3 style="margin-top:8px">Freischalten</h3><p>Speaker und Programmpunkte liegen als verdeckte Kacheln im Raster und drehen sich nach und nach um. Jede Enthüllung ist ein Anlass für Social und Newsletter.</p></div>
+      <div class="panel"><span class="mono muted">Phase 2</span><h3 style="margin-top:8px">Dein Tag</h3><p>Wer sich Programmpunkte merkt, baut sich ein eigenes Mosaik. Am Ende hat jede Teilnehmerin ihr persönliches D3 – teilbar, ohne Login.</p></div>
+      <div class="panel"><span class="mono muted">Eventtag</span><h3 style="margin-top:8px">Live-Raster</h3><p>Am Veranstaltungstag füllt sich das Programm-Mosaik in Echtzeit. Was gerade läuft, leuchtet in der Akzentfarbe.</p></div>
+    </div>
+
+    <h3 style="font-size:26px;margin-bottom:6px">Freischalten · antippen</h3>
+    <p class="muted" style="margin-bottom:20px">Platzhalter statt Fotos – keine erfundenen Gesichter.</p>
+    <div class="reveal" id="reveal"></div>
+
+    <h3 style="font-size:26px;margin:72px 0 6px">Dein Tag · auswählen</h3>
+    <p class="muted" style="margin-bottom:20px">Jede Auswahl legt ein Fragment in dein Mosaik.</p>
+    <div class="myday">
+      <ul class="sess" id="sess"></ul>
+      <div class="mosaic-card">
+        <span class="mono muted">Mein D3 · KI + Transformation</span>
+        <svg id="mosaic" viewBox="0 0 300 300" aria-label="Persönliches Mosaik"></svg>
+        <div class="count" id="mCount">0 / 7</div>
+        <span class="mono muted">Räume auf deinem Weg</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 PROGRAMM ================= -->
+<section>
+  <div class="wrap">
+    <div class="label mono"><b>06</b> Programm, mobil zuerst</div>
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <h2>Zeit läuft runter, Räume liegen quer.</h2>
+        <p class="lead">Die Uhrzeit steht links, parallele Formate wischt man seitlich. Das Fragment sagt, was es ist – Keynote, Case, Workshop – noch bevor man den Titel liest. Was gerade läuft, hat die Akzentkante.</p>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="phone" id="phone" aria-label="Mobiles Programm-Mock"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 07 FARBE & TYPO ================= -->
+<section>
+  <div class="wrap">
+    <div class="label mono"><b>07</b> Farbe &amp; Schrift</div>
+    <h2>Schwarz, Papier, ein Signal.</h2>
+    <div class="grid g4" style="margin:40px 0 64px">
+      <div class="sw" style="background:var(--ink)"><b>Schwarz</b><span class="mono muted">#0B0B0C · Bühne</span></div>
+      <div class="sw" style="background:var(--paper);color:var(--ink)"><b>Papier</b><span class="mono" style="color:var(--mute-l)">#EEECE6 · Raster</span></div>
+      <div class="sw" style="background:var(--accent);color:var(--ink)"><b>Signal</b><span class="mono">#FF5A1F · pro Ausgabe</span></div>
+      <div class="sw" style="background:var(--ah);color:var(--ink)"><b>Amtshelden</b><span class="mono">#109E6A · nur Absender</span></div>
+    </div>
+    <div class="grid g2" style="align-items:end">
+      <div class="spec">Deep<br>Dive<br>Day</div>
+      <div>
+        <p class="lead">Eine Grotesk in breitem Schnitt für Headlines, dieselbe Familie normal für Text, eine Mono für Zeiten, Räume und Labels.</p>
+        <p style="margin-top:14px" class="muted">Im Konzept: Archivo (variable Breite) und IBM Plex Mono, beide frei. Für die finale Seite lohnt ein Blick auf eine lizenzierte Grotesk mit mehr Charakter, falls Budget da ist. Die Akzentfarbe wechselt je Ausgabe – Schwarz, Papier und das Raster bleiben.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 08 MOZAYK ================= -->
+<section class="light">
+  <div class="wrap">
+    <div class="label mono"><b>08</b> Werkzeuge</div>
+    <h2>Mozayk für Assets, Code für die Seite.</h2>
+    <div class="grid g3" style="margin-top:32px">
+      <div class="panel"><h3>Was Mozayk kann</h3><p>Bild oder Video rein, Fragment-Mosaik raus. Export als PNG, JPG, GIF, MP4 und SVG. Eigene Formen lassen sich hochladen.</p></div>
+      <div class="panel"><h3>Wofür wir es nutzen</h3><p>Key-Visual-Stills, Social-Posts, Speaker-Porträts als Mosaik und kurze Video-Loops. Wichtig: Wir laden unser Fragment-Alphabet als eigene Formen hoch, sonst entsteht eine zweite Formensprache.</p></div>
+      <div class="panel"><h3>Was auf die Website gehört</h3><p>Das interaktive Feld bauen wir selbst im Code – wie in dieser Skizze. Es reagiert auf Maus, Touch und Scroll, ist leicht und mobil steuerbar. Ein exportiertes Video kann das nicht.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 09 NEXT ================= -->
+<section>
+  <div class="wrap">
+    <div class="label mono"><b>09</b> Nächste Schritte</div>
+    <h2>Was ich von dir brauche.</h2>
+    <div class="grid g2" style="margin-top:24px">
+      <ul class="q">
+        <li><span>01</span>Den Link zu deinen Pinterest-Sammlungen – der kam nicht mit. Ich habe bisher nur die beiden Plakate.</li>
+        <li><span>02</span>Akzentfarbe: Ist Signalorange für KI + Transformation gesetzt, oder willst du zwei, drei Varianten sehen?</li>
+        <li><span>03</span>Mensch im Raster: Lohnt ein kurzes Video-Shooting (eine Person läuft, setzt sich, spricht – vor neutralem Hintergrund)? Das wäre der stärkste Hero.</li>
+      </ul>
+      <ul class="q">
+        <li><span>04</span>Danach würde ich die Startseite für Phase 1 im Screen-Design bauen: Hero, Format, Programm-Vorschau, Freischalt-Raster, Partner werden.</li>
+        <li><span>05</span>Parallel: Kleinversion des Logos und Lockup mit Amtshelden-Absender.</li>
+        <li><span>06</span>Offen aus v1 bleiben: Datum, Domain, Anbindung von Let's Get Digital.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap" style="font-size:14px">CONCRETE – Brandbuilding · D3 Konzept v2 · Arbeitsstand · <a href="../index.html" style="color:inherit">Konzept v1 (Raumplan)</a></div></footer>
+
+<script>
+(() => {
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const C = {ink:'#0b0b0c', paper:'#eeece6', accent:'#ff5a1f', ah:'#109e6a', line:'#2a2a2c'};
+const LOGO = [0,20,45];
+const rad = d => d*Math.PI/180;
+const ease = t => t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+
+/* ---------- Geometrie: Halbscheibe auf Sehne ab Drehpunkt ---------- */
+function dSvg(a, px, py, L){
+  const qx = px + L*Math.sin(rad(a)), qy = py - L*Math.cos(rad(a)), r = L/2;
+  return `M${px.toFixed(3)},${py.toFixed(3)} L${qx.toFixed(3)},${qy.toFixed(3)} A${r.toFixed(3)},${r.toFixed(3)} 0 0 1 ${px.toFixed(3)},${py.toFixed(3)} Z`;
+}
+// Original-Proportionen: Pivot (0.16, 10.05), Sehne 10.06
+const logoPath = angles => angles.map(a => dSvg(a, .16, 10.05, 10.06)).join(' ');
+
+/* ---------- Hero-Logo: aus einem D werden drei ---------- */
+const heroLogo = document.getElementById('heroLogo');
+function animateLogo(el, from, to, dur, done){
+  if(RM){ el.setAttribute('d', logoPath(to)); done&&done(); return; }
+  const t0 = performance.now();
+  (function f(now){
+    const k = ease(Math.min(1,(now-t0)/dur));
+    el.setAttribute('d', logoPath(from.map((v,i)=>v+(to[i]-v)*k)));
+    if(k<1) requestAnimationFrame(f); else done&&done();
+  })(t0);
+}
+heroLogo.setAttribute('d', logoPath([0,0,0]));
+setTimeout(()=>animateLogo(heroLogo,[0,0,0],LOGO,1600), 400);
+
+/* ---------- Fragment-Feld (Canvas, XOR wie im Logo) ---------- */
+const STATES = [[0,0,0],[20,20,20],[45,45,45],[0,20,45],[0,45,45],[0,30,60]];
+class Field{
+  constructor(canvas, o={}){
+    this.cv = canvas; this.ctx = canvas.getContext('2d');
+    this.o = Object.assign({cell:64, accent:.07, density:.78, mask:null, cover:null, pointer:true}, o);
+    this.cells = []; this.ptr = null; this.visible = true; this.seed = o.seed||7;
+    this.resize(); addEventListener('resize', ()=>this.resize());
+    if(this.o.pointer){
+      const mv = e => { const r = this.cv.getBoundingClientRect(); const p = e.touches ? e.touches[0] : e;
+        this.ptr = {x:p.clientX-r.left, y:p.clientY-r.top}; this.kick(); };
+      this.cv.parentElement.addEventListener('pointermove', mv);
+      this.cv.parentElement.addEventListener('touchmove', mv, {passive:true});
+      this.cv.parentElement.addEventListener('pointerleave', ()=>{ this.ptr=null; });
+    }
+    new IntersectionObserver(es=>{ this.visible = es[0].isIntersecting; if(this.visible) this.kick(); }).observe(canvas);
+    this.last = 0; this.running = false; this.kick();
+  }
+  rnd(){ this.seed = (this.seed*16807) % 2147483647; return this.seed/2147483647; }
+  setCell(s){ if(Math.abs(s-this.o.cell)<1) return; this.o.cell = s; this.seed = 7; this.build(); this.draw(); }
+  resize(){
+    const dpr = Math.min(2, devicePixelRatio||1);
+    this.w = this.cv.clientWidth; this.h = this.cv.clientHeight;
+    this.cv.width = this.w*dpr; this.cv.height = this.h*dpr;
+    this.ctx.setTransform(dpr,0,0,dpr,0,0);
+    this.build(); this.draw();
+  }
+  build(){
+    const s = this.o.cell; this.cols = Math.ceil(this.w/s)+1; this.rows = Math.ceil(this.h/s)+1;
+    const mask = this.o.mask ? this.o.mask() : null;
+    this.cells = [];
+    for(let r=0;r<this.rows;r++) for(let c=0;c<this.cols;c++){
+      const x=c*s, y=r*s;
+      const masked = mask && x+s>mask.l && x<mask.r && y+s>mask.t && y<mask.b;
+      const st = STATES[Math.floor(this.rnd()*STATES.length)];
+      const rot = Math.floor(this.rnd()*4)*90;
+      const roll = this.rnd();
+      this.cells.push({c,r,x,y,masked, a:st.slice(), t:st.slice(), rot, rotT:rot,
+        on: this.rnd()<this.o.density ? 1:0, v:1,
+        col: roll<this.o.accent ? C.accent : (roll<this.o.accent+.006 ? C.ah : C.paper), hold:0});
+    }
+  }
+  kick(){ if(!this.running && this.visible){ this.running = true; requestAnimationFrame(t=>this.tick(t)); } }
+  tick(now){
+    if(!this.visible){ this.running=false; return; }
+    const s = this.o.cell; let moving = false;
+    // Zufällige Wechsel: das Feld lebt
+    if(!RM && now-this.last > 140){
+      this.last = now;
+      for(let i=0;i<Math.max(2,this.cells.length/90);i++){
+        const cell = this.cells[Math.floor(Math.random()*this.cells.length)];
+        if(cell && cell.hold<now){ cell.t = STATES[Math.floor(Math.random()*STATES.length)].slice();
+          if(Math.random()<.4) cell.rotT += (Math.random()<.5?90:-90); }
+      }
+    }
+    // Zeiger: Fragmente in Logo-Stellung
+    if(this.ptr && !this.o.cover){
+      const R = s*2.3;
+      for(const cell of this.cells){
+        const dx = cell.x+s/2-this.ptr.x, dy = cell.y+s/2-this.ptr.y;
+        if(dx*dx+dy*dy < R*R){ cell.t = LOGO.slice(); cell.rotT = Math.round(cell.rotT/360)*360; cell.hold = now+1400; }
+      }
+    }
+    if(this.o.cover) this.o.cover(this, now);
+    for(const cell of this.cells){
+      for(let i=0;i<3;i++){ const d = cell.t[i]-cell.a[i]; if(Math.abs(d)>.05){ cell.a[i]+=d*(RM?1:.12); moving=true; } else cell.a[i]=cell.t[i]; }
+      const dr = cell.rotT-cell.rot; if(Math.abs(dr)>.05){ cell.rot+=dr*(RM?1:.12); moving=true; } else cell.rot=cell.rotT;
+      const vt = cell.vt===undefined?1:cell.vt, dv = vt-cell.v; if(Math.abs(dv)>.01){ cell.v+=dv*.15; moving=true; } else cell.v=vt;
+    }
+    this.draw();
+    if(moving || !RM) requestAnimationFrame(t=>this.tick(t)); else this.running=false;
+  }
+  draw(){
+    const ctx = this.ctx, s = this.o.cell, L = s*.78, px = s*.08, py = s*.88;
+    ctx.clearRect(0,0,this.w,this.h);
+    ctx.globalCompositeOperation = 'xor';
+    for(const cell of this.cells){
+      if(cell.masked || !cell.on || cell.v<.02) continue;
+      ctx.globalAlpha = cell.v;
+      ctx.fillStyle = cell.colOverride || cell.col;
+      ctx.save();
+      ctx.translate(cell.x+s/2, cell.y+s/2); ctx.rotate(rad(cell.rot)); ctx.translate(-s/2,-s/2);
+      const sc = cell.v<1 ? .4+.6*cell.v : 1;
+      if(sc!==1){ ctx.translate(px,py); ctx.scale(sc,sc); ctx.translate(-px,-py); }
+      for(const a of cell.a){
+        const qx = px + L*Math.sin(rad(a)), qy = py - L*Math.cos(rad(a));
+        const mx = (px+qx)/2, my = (py+qy)/2, phi = Math.atan2(qy-py, qx-px);
+        ctx.beginPath(); ctx.arc(mx,my,L/2,phi,phi+Math.PI,false); ctx.closePath(); ctx.fill();
+      }
+      ctx.restore();
+    }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  }
+}
+
+/* Hero */
+const heroCopy = document.getElementById('heroCopy');
+const heroCv = document.getElementById('heroField');
+const isMobile = () => innerWidth < 600;
+const heroField = new Field(heroCv, {cell: isMobile()?44:64, mask: () => {
+  const a = heroCv.getBoundingClientRect(), b = heroCopy.getBoundingClientRect();
+  return {l:b.left-a.left-32, r:b.right-a.left+32, t:b.top-a.top-24, b:a.height};
+}});
+
+document.fonts && document.fonts.ready.then(()=>heroField.resize());
+
+/* Tiefe: Rastergröße folgt dem Scroll */
+const depthSec = document.getElementById('depth');
+const depthField = new Field(document.getElementById('depthField'), {cell:110, accent:.05, pointer:true, density:.85});
+const clock = document.getElementById('clock'), meter = document.getElementById('meter');
+function onScroll(){
+  const r = depthSec.getBoundingClientRect(), total = r.height - innerHeight;
+  const p = Math.min(1, Math.max(0, -r.top/total));
+  depthField.setCell(Math.round(110*Math.pow(14/110, p)));
+  const mins = 9*60 + Math.round(p*390/15)*15;   // 09:00 → 15:30
+  clock.textContent = String(Math.floor(mins/60)).padStart(2,'0')+':'+String(mins%60).padStart(2,'0');
+  meter.style.width = (p*100)+'%';
+}
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+/* Mensch im Raster */
+const figCv = document.getElementById('figField');
+new Field(figCv, {cell: isMobile()?20:26, density:1, accent:0, pointer:true, cover:(f, now) => {
+  const W=f.w, H=f.h, s=f.o.cell;
+  const auto = W*.5 + Math.sin(now/2600)*W*.28;
+  f.fx = f.fx===undefined ? auto : f.fx + ((f.ptr ? f.ptr.x : auto) - f.fx)*.06;
+  const X = f.fx, hr = H*.13, hy = H*.3, ex = H*.26, ey = H*.36, eyc = H*.9;
+  for(const cell of f.cells){
+    const cx = cell.x+s/2, cy = cell.y+s/2;
+    const d1 = Math.hypot(cx-X, cy-hy) - hr;
+    const d2 = (Math.hypot((cx-X)/ex, (cy-eyc)/ey) - 1) * Math.min(ex,ey);
+    const d = Math.min(d1,d2);
+    if(d < -s*.9){ cell.t = [0,0,0]; cell.vt = 1; cell.colOverride = C.paper; }
+    else if(d < s*.9){ cell.t = LOGO.slice(); cell.vt = 1; cell.colOverride = C.accent; cell.rotT = 0; cell.hold = now+300; }
+    else { cell.vt = .12; cell.colOverride = '#3a3a3c'; }
+  }
+}});
+
+/* ---------- Fragment-Icons (SVG, Pfade aus der Logo-Regel) ---------- */
+const P = {px:14, py:86, L:72};
+const D = (a, o=P) => dSvg(a, o.px, o.py, o.L);
+const FORMATS = {
+  keynote:   {name:'Keynote',    note:'Ein D · eine Stimme, volle Fläche', d:()=>D(0)},
+  talk:      {name:'Fachvortrag',note:'Ein D, geneigt · eine Stimme', d:()=>D(45)},
+  case:      {name:'Case',       note:'Zwei D · Behörde trifft Praxis', d:()=>D(0)+' '+D(45)},
+  panel:     {name:'Panel',      note:'Drei D · mehrere Stimmen, das Logo', d:()=>D(0)+' '+D(20)+' '+D(45)},
+  workshop:  {name:'Workshop',   note:'D im Quadrat ausgespart · selbst machen', d:()=>'M6,6 H94 V94 H6 Z '+dSvg(0,30,80,60)},
+  network:   {name:'Austausch',  note:'Zwei D gespiegelt · Begegnung', d:()=>dSvg(0,10,90,80)+' M90,10 L90,90 A40,40 0 0 1 90,10 Z'},
+  stand:     {name:'Stand',      note:'Viertelkreis · ein fester Ort', d:()=>'M10,90 L10,10 A80,80 0 0 1 90,90 Z M10,90 L10,46 A44,44 0 0 1 54,90 Z'},
+};
+const icon = (k, fill='currentColor', bg) => `<svg viewBox="0 0 100 100" aria-hidden="true">${bg?`<rect width="100" height="100" fill="${bg}"/>`:''}<path fill="${fill}" fill-rule="evenodd" d="${FORMATS[k].d()}"/></svg>`;
+
+document.getElementById('alpha').innerHTML = Object.keys(FORMATS).map(k =>
+  `<div>${icon(k,'#0b0b0c')}<div><b>${FORMATS[k].name}</b><small>${FORMATS[k].note}</small></div></div>`).join('');
+
+document.getElementById('legend').innerHTML = ['keynote','talk','case','panel','workshop','network'].map(k =>
+  `<div>${icon(k,'#eeece6')}<span><b style="font-weight:600">${FORMATS[k].name}</b></span></div>`).join('');
+
+/* ---------- Logo-Labor ---------- */
+const lab = document.getElementById('labSvg'), dR = document.getElementById('depthR'), dV = document.getElementById('depthV');
+let showCons = true;
+function drawLab(k){
+  const ang = LOGO.map(a=>a*k);
+  let cons = '';
+  if(showCons){
+    cons += ang.map((a,i)=>{
+      const qx=.16+10.06*Math.sin(rad(a)), qy=10.05-10.06*Math.cos(rad(a)), mx=(.16+qx)/2, my=(10.05+qy)/2;
+      return `<circle cx="${mx}" cy="${my}" r="5.03" fill="none" stroke="#ff5a1f" stroke-width=".035" stroke-dasharray=".18 .12"/>
+              <line x1=".16" y1="10.05" x2="${qx}" y2="${qy}" stroke="#ff5a1f" stroke-width=".05"/>
+              <text x="${qx+.15}" y="${qy-.1}" font-family="IBM Plex Mono" font-size=".42" fill="#ff5a1f">${Math.round(a)}°</text>`;
+    }).join('') + `<circle cx=".16" cy="10.05" r=".16" fill="#ff5a1f"/>`;
+  }
+  lab.innerHTML = `<path fill="#0b0b0c" fill-rule="evenodd" d="${logoPath(ang)}"/>${cons}`;
+}
+dR.addEventListener('input', ()=>{ const k=dR.value/100; dV.textContent=dR.value+' %'; drawLab(k); });
+document.getElementById('consBtn').addEventListener('click', e=>{ showCons=!showCons; e.currentTarget.classList.toggle('on',showCons); drawLab(dR.value/100); });
+document.getElementById('playBtn').addEventListener('click', ()=>{
+  const t0=performance.now(), dur=RM?0:1800;
+  (function f(now){ const k=dur?ease(Math.min(1,(now-t0)/dur)):1; dR.value=Math.round(k*100); dV.textContent=dR.value+' %'; drawLab(k); if(k<1) requestAnimationFrame(f); })(t0);
+});
+drawLab(1);
+
+/* ---------- Freischalten ---------- */
+const revKeys = ['keynote','case','workshop','panel','talk','network','stand','keynote'];
+const revFmt = ['Keynote','Case','Workshop','Panel','Fachvortrag','Austausch','Stand','Abschluss-Keynote'];
+document.getElementById('reveal').innerHTML = revKeys.map((k,i)=>`
+  <button class="flip${i===0?' open':''}" type="button" aria-label="Kachel ${i+1} umdrehen">
+    <div class="in">
+      <div class="f"><span class="mono muted">Raum ${String(i+1).padStart(2,'0')}</span>${icon(k, i===0?'#ff5a1f':'#eeece6')}<span class="mono muted">Wird bald enthüllt</span></div>
+      <div class="b"><span class="mono" style="color:#5f5d57">${revFmt[i]}</span><div class="ph">Foto</div><div><strong>N. N.</strong><span class="mono" style="color:#5f5d57">Behörde · Rolle</span></div></div>
+    </div>
+  </button>`).join('');
+document.querySelectorAll('.flip').forEach(b=>b.addEventListener('click',()=>b.classList.toggle('open')));
+
+/* ---------- Dein Tag ---------- */
+const SESS = [
+  ['09:40','keynote','KI im Amt: Was jetzt wirklich geht'],
+  ['10:30','case','Landkreis automatisiert Anträge'],
+  ['10:30','workshop','Prompting für die Sachbearbeitung'],
+  ['11:30','talk','Cybersecurity im KI-Zeitalter'],
+  ['12:30','network','Mittagsraum: Austausch in Kleingruppen'],
+  ['13:30','panel','Führung, Kultur und KI'],
+  ['15:00','keynote','Abschluss-Keynote'],
+];
+const sessEl = document.getElementById('sess');
+sessEl.innerHTML = SESS.map(([t,k,ti],i)=>`<li><label><span class="t">${t}</span>${icon(k,'#0b0b0c')}<span class="ti">${ti}<small>${FORMATS[k].name}</small></span><input type="checkbox" data-i="${i}" ${[0,1,5].includes(i)?'checked':''}></label></li>`).join('');
+function drawMosaic(){
+  const sel = [...sessEl.querySelectorAll('input:checked')].map(x=>SESS[+x.dataset.i]);
+  let out = '';
+  for(let i=0;i<9;i++){
+    const x=(i%3)*100, y=Math.floor(i/3)*100;
+    const s = sel[i];
+    out += `<rect x="${x}" y="${y}" width="100" height="100" fill="none" stroke="#2a2a2c"/>`;
+    if(s){ const rot = (i*90)%360;
+      out += `<g transform="translate(${x},${y}) rotate(${rot} 50 50)"><path fill="${i===sel.length-1?'#ff5a1f':'#eeece6'}" fill-rule="evenodd" d="${FORMATS[s[1]].d()}"/></g>`; }
+  }
+  document.getElementById('mosaic').innerHTML = out;
+  document.getElementById('mCount').textContent = `${sel.length} / ${SESS.length}`;
+}
+sessEl.addEventListener('change', drawMosaic); drawMosaic();
+
+/* ---------- Programm mobil ---------- */
+const PROG = [
+  ['09:00',[['network','Foyer','Get-together']]],
+  ['09:40',[['keynote','Raum 01','KI im Amt: Was jetzt wirklich geht',1]]],
+  ['10:30',[['case','Raum 02','Landkreis automatisiert Anträge'],['workshop','Raum 04','Prompting für die Sachbearbeitung'],['workshop','Raum 05','Datenschutz & KI']]],
+  ['11:30',[['talk','Raum 01','Cybersecurity im KI-Zeitalter'],['panel','Raum 03','Führung & Kultur']]],
+  ['12:30',[['stand','Ausstellung','Partner & Stände'],['network','Raum 06','Austausch in Kleingruppen']]],
+  ['15:00',[['keynote','Raum 01','Abschluss-Keynote']]],
+];
+document.getElementById('phone').innerHTML = `<div class="mono muted" style="margin-bottom:6px">D3 · Programm</div>` +
+  PROG.map(([t,items],si)=>`<div class="slot"${si===PROG.length-1?' style="border:0"':''}><span class="tm">${t}</span><div class="items">${
+    items.map(([k,room,ti,now])=>`<div class="it${items.length===1?' solo':''}${now?' now':''}">${icon(k, now?'#ff5a1f':'#eeece6')}<div><em>${FORMATS[k].name} · ${room}</em><b>${ti}</b></div></div>`).join('')
+  }</div></div>`).join('');
+})();
+</script>
+</body>
+</html>
