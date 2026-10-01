@@ -62,7 +62,8 @@ section{position:relative;padding:112px 0}
 @media(max-width:600px){.hero h1{font-size:7.3vw}.hero-copy .lockup .d3{font-size:20vw}}
 .hero h1 .ac{color:var(--accent)}
 .hero .facts{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:28px}
-.hero .facts div span{display:block;color:var(--mute-d)}
+.hero .facts div{text-transform:none;letter-spacing:0;font:500 15px/1.35 var(--sans)}
+.hero .facts div span{display:block;color:var(--mute-d);font:500 12px var(--mono);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
 .hero .hint{position:absolute;right:32px;bottom:32px;z-index:2;color:var(--mute-d);background:var(--ink);padding:8px 10px}
 @media(max-width:900px){.hero .hint{display:none}}
 .hero .copy-bg{position:absolute;inset:-24px -32px -40px -32px;background:var(--ink);z-index:-1}
@@ -118,8 +119,7 @@ button.chip.on,button.chip:hover{background:var(--accent);border-color:var(--acc
 .flip .f{background:var(--ink-2);border:1px solid var(--ink-line)}
 .flip .f svg{width:62%;align-self:center}
 .flip .b{background:var(--paper);color:var(--ink);transform:rotateY(180deg)}
-.flip .b .ph{width:58%;aspect-ratio:1/1;border-radius:50%;align-self:center;background:
-  repeating-linear-gradient(45deg,#d6d3ca 0 6px,#e4e1d9 6px 12px);display:flex;align-items:center;justify-content:center;font:500 11px var(--mono);color:var(--mute-l)}
+.flip .b .ph{width:58%;aspect-ratio:1/1;border-radius:50%;align-self:center;background:#dcd9d0;display:flex;align-items:center;justify-content:center;font:500 11px var(--mono);color:var(--mute-l)}
 .flip .b strong{font:800 20px/1 var(--sans);font-stretch:115%;display:block}
 .flip:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 
@@ -187,7 +187,7 @@ footer{padding:40px 0 64px;color:var(--mute-d);border-top:1px solid var(--ink-li
       <div><span>Wo</span>Online · ein Tag, viele Räume</div>
     </div>
   </div>
-  <span class="hint mono">Maus bewegen · das Feld taucht mit</span>
+  <span class="hint mono" style="text-transform:none">Maus bewegen · das Feld taucht mit</span>
 </header>
 
 <!-- ================= 01 LOGO ================= -->
@@ -256,7 +256,7 @@ footer{padding:40px 0 64px;color:var(--mute-d);border-top:1px solid var(--ink-li
       <h2 style="margin:0">Ein realer Mensch, gebaut aus Fragmenten.</h2>
       <p class="lead">Damit lösen wir das Bildproblem aus dem Briefing: Keine Bühne, keine Menge. Ein Mensch bewegt sich durch die digitale Welt – und besteht dabei selbst aus ihr. Mit echtem Foto oder Video wird das noch stärker. Hier läuft die Figur durchs Feld, die Maus zieht sie mit.</p>
     </div>
-    <div class="figure-wrap"><canvas id="figField" aria-hidden="true"></canvas><span class="tag mono">Skizze · Silhouette, später echtes Video</span></div>
+    <div class="figure-wrap"><canvas id="figField" aria-hidden="true"></canvas><span class="tag mono" style="text-transform:none">Skizze · Silhouette, später echtes Video</span></div>
   </div>
 </section>
 
