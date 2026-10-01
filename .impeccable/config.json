@@ -11,6 +11,15 @@
         ],
         "createdAt": "2026-10-01T14:46:50.380Z",
         "reason": "Claude: remaining hits are short mono labels (kickers, tags, captions) by design; longer meta/footer text was converted to sentence case"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "concept/fragment/index.html"
+        ],
+        "createdAt": "2026-10-01T15:51:54.867Z",
+        "reason": "Claude: only hit is .figure-wrap, a full-bleed canvas stage; its caption is absolutely inset 16px"
       }
     ]
   }
