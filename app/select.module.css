@@ -39,14 +39,24 @@
   align-items: center;
   padding: 28px 0;
   border-bottom: 1px solid #2a2a28;
-  transition: background 0.25s var(--ease-snap), padding 0.25s var(--ease-snap);
+  transition: background 0.25s var(--ease-snap);
 }
 
 .item:hover {
   background: var(--d3-yellow);
   color: var(--d3-black);
-  padding-left: 16px;
-  padding-right: 16px;
+}
+
+.item > * {
+  transition: transform 0.25s var(--ease-snap);
+}
+
+.item:hover > * {
+  transform: translateX(16px);
+}
+
+.item:hover > .arrow {
+  transform: translateX(-16px);
 }
 
 .no {
