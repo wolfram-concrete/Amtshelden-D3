@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "concept/index.html"
+        ],
+        "createdAt": "2026-10-01T14:46:50.380Z",
+        "reason": "Claude: remaining hits are short mono labels (kickers, tags, captions) by design; longer meta/footer text was converted to sentence case"
+      }
+    ]
+  }
+}
