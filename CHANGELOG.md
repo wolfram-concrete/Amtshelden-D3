@@ -13,6 +13,7 @@ v6 (D-Körper als einzige Formlogik) ist verworfen – zu monoton. Übernommen w
 - „Deep Dive Day“ immer zweizeilig wie im Logo: „Deep“ / „Dive Day“, mit „by Amtshelden“ als Label darüber.
 - Kleine Format-Zellen (Tablet/Mobil) zeigen nur Icon + Aktion.
 - Wandernder „Du“-Avatar entfernt. Die Porträt-Zelle mit wechselnder Maske bleibt.
+- Farbe gegen das Schwarz-Rot-Gold-Bild: Tinte `#1E1B36` statt Schwarz (Flächen und Schrift). Palette: Tinte, Bone, Amtshelden-Gelb, Purple (Thema), Rot `#FF4B23` (Keynote, CTA), Amtshelden-Grün `#0D9D69` (Networking).
 
 ### Entfernt
 - Routen `/v6` und `/design-system` samt generierten Dateien. Quellen bleiben unter `design/canvas-v6/` als Archiv.
