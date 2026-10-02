@@ -4,6 +4,11 @@
 
 Neuer Hauptstand. `/` zeigt nur noch v5.
 
+### Nachtrag · Icons & Wortmarke
+- Sechs Orts-Icons nach der Logik der Bildmarke (Grundform + D-Körper, Schnittmenge negativ): `SVG/icons/`.
+- D3-Wortmarke: 3 überlappt das D anteilig, Schnittmenge negativ: `SVG/d3-wortmarke.svg`.
+- „by Amtshelden“ im Lockup jetzt 1:1 aus `SVG/by Amtshelden logo.svg`, „by“ auf der Grundlinie des Schriftzugs.
+
 ### Neu
 - Vollbild-Interface statt Sections: fünf Zustände (Home, Formate, Programm, Speaker*innen, Mitmachen) im selben Raster.
 - Eigene Layouts für Desktop (12 Spalten), Tablet (8) und Mobil (4); längere Zustände scrollen innerhalb des Rasters.
