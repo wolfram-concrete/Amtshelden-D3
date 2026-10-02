@@ -14,7 +14,7 @@
 - Icon-Set aus der Bildmarke (`SVG/icons/`, 100er-Raster, echte Boolesche Flächen, ab 16 px):
   Keynote & Vortrag (geteilter Ring, oben/unten invertiert), Case & Panel (Burst + D-Körper),
   Masterclass (Kuppel aus D-Bögen), Aussteller (Kopf über einer Schale aus D-Körpern), Networking (zwei Kreise),
-  Weiter (drei Spitzen, Überlappungen negativ).
+  Weiter (drei Halbkreise hintereinander, Überlappungen negativ).
 
 ### Entfernt
 - `SVG/d3-wortmarke.svg` – verworfen.
