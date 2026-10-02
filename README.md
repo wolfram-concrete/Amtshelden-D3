@@ -23,9 +23,6 @@ Scrollen, Navigation oder die Pfeil-Felder lösen den Wechsel aus.
 | Doppelkreis | Networking |
 | Pfeil | Weiter / nächster Schritt |
 
-**Leitidee:** Eine reale Teilnehmerin („Du“) geht durch den Tag: Vortrag → Austausch → Masterclass → Stand → Case.
-Im Hero wechselt ihr Porträt dabei die Maske des jeweiligen Ortes.
-
 **Weitere Bausteine:** paralleles Programm mit vier Räumen (Format- und Themenfilter, Detailansicht mit
 Vor/Zurück, mobil als Wischzeilen), Speaker*innen mit Detail, Ausgaben-Logik (01 aktuell, 02 als Nächstes, Archiv),
 Phase 1 (Partner/Speaker*in werden) und Phase 2 (Anmeldung) als Schalter (`phase` in den Props).

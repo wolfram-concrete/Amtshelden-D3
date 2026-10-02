@@ -12,7 +12,7 @@ v6 (D-Körper als einzige Formlogik) ist verworfen – zu monoton. Übernommen w
 - Logo: In der Leiste steht nur die Bildmarke. Im Hero-Feld steht „D3“ ausgeschrieben, ohne zweite Bildmarke.
 - „Deep Dive Day“ immer zweizeilig wie im Logo: „Deep“ / „Dive Day“, mit „by Amtshelden“ als Label darüber.
 - Kleine Format-Zellen (Tablet/Mobil) zeigen nur Icon + Aktion.
-- Wandernder „Du“-Avatar entfernt. Die Porträt-Zelle mit wechselnder Maske bleibt.
+- „Du“-Element vollständig entfernt (wandernder Avatar, „Du“-Label, Mini-Avatar im Programm). Die Porträt-Zelle zeigt Zeit + Format.
 - Farbe gegen das Schwarz-Rot-Gold-Bild: Tinte `#1E1B36` statt Schwarz (Flächen und Schrift). Palette: Tinte, Bone, Amtshelden-Gelb, Purple (Thema), Rot `#FF4B23` (Keynote, CTA), Amtshelden-Grün `#0D9D69` (Networking).
 
 ### Entfernt

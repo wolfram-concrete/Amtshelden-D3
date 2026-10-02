@@ -133,8 +133,6 @@ a{color:inherit}
 .card.dim{opacity:.22}
 .card.cont{cursor:default;background:repeating-linear-gradient(135deg,transparent 0 7px,rgba(30,27,54,.07) 7px 8px);justify-content:center}
 .card.end{cursor:default;justify-content:center}
-.card .mini{position:absolute;right:10px;top:10px;width:30px;height:30px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 2px var(--d3-orange)}
-.card .mini img{width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
 .b-detail{position:absolute;right:0;top:0;bottom:0;width:min(440px,100%);z-index:6;background:var(--d3-bg);border-left:1px solid var(--d3-black);transform:translateX(102%);transition:transform var(--motion-layout) var(--ease-io);overflow:auto;padding:22px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px}
 .b-detail.open{transform:none}
 .xbtn{align-self:flex-end;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--d3-black);font-size:22px;flex-shrink:0}
@@ -345,7 +343,6 @@ a{color:inherit}
 <b>{{it.title}}</b>
 <span class="who">{{it.who}}</span>
 <sc-if value="{{it.topic}}" hint-placeholder-val="{{false}}"><span class="tp sys">{{it.topic}}</span></sc-if>
-<sc-if value="{{it.isSel}}" hint-placeholder-val="{{false}}"><span class="mini"><img src="/people/p06.jpg" alt=""></span></sc-if>
 </sc-if>
 <sc-if value="{{it.note}}" hint-placeholder-val="{{false}}"><span class="sys" style="color: var(--d3-mute)">{{it.note}}</span></sc-if>
 </button>
@@ -672,9 +669,6 @@ class Component extends DCLogic {
     var heroTimes = { fk: '09:40', fc: '10:30', fm: '10:30', fn: '12:00', fs: '12:00' };
     var caps = { fk: '09:40 · Vortrag ansehen', fc: '10:30 · Cases kennenlernen', fm: '10:30 · Masterclass mitmachen', fn: '12:00 · Leute treffen', fs: '12:00 · Stände besuchen' };
     var tp = tgt && L[tgt];
-    var duLabels = { fk: 'Vortrag', fc: 'Case', fm: 'Masterclass', fn: 'Austausch', fs: 'Stand', pc: 'Speaker*in', s2: 'Speaker*in', s3: 'Speaker*in', s4: 'Speaker*in', s5: 'Speaker*in', s6: 'Speaker*in' };
-    var du = tp ? { c: tp[0] + tp[2], r: tp[1], label: duLabels[tgt] || '', cls: '' } : { c: (this._du || [1, 0])[0], r: (this._du || [1, 0])[1], label: '', cls: 'hide' };
-    if (tp) this._du = [du.c, du.r];
 
     /* ctas */
     var ctaDefs = {
@@ -715,7 +709,7 @@ class Component extends DCLogic {
       rootRef: this._rootRef, stageRef: this._stageRef,
       mx: s.mx.toFixed(3), my: s.my.toFixed(3),
       lockSpan: bp === 'desk' ? 4 : (bp === 'tab' ? 5 : 3), ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: bp === 'mob' ? (p2 ? 'Anmelden' : 'Partner') : (p2 ? 'Anmelden' : 'Partner werden'), idxSpan: bp === 'desk' ? 1 : 1,
-      P: P, fmts: fmts, du: du, heroPlace: heroPlace, heroCap: 'Du · ' + caps[heroPlace], heroMeta: 'Du · ' + heroTimes[heroPlace], heroVerb: heroVerbs[heroPlace],
+      P: P, fmts: fmts, heroPlace: heroPlace, heroMeta: heroTimes[heroPlace] + ' · ' + { fk: 'Keynote', fc: 'Case', fm: 'Masterclass', fn: 'Networking', fs: 'Stände' }[heroPlace], heroVerb: heroVerbs[heroPlace],
       stNo: '0' + (idx + 1), stName: names[s.st],
       on: { home: s.st === 'home' ? 'on' : '', explore: s.st === 'explore' ? 'on' : '', program: s.st === 'program' ? 'on' : '', speaker: s.st === 'speaker' ? 'on' : '', partner: s.st === 'partner' ? 'on' : '' },
       nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner') },
