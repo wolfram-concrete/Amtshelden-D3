@@ -5,9 +5,11 @@
 ### Neu
 - Preloader: Die drei D-Körper der Bildmarke schieben sich ineinander, die fertige Marke fliegt in die Leiste,
   danach bauen sich die Kacheln von links oben auf. Klick überspringt, `intro` in den Props schaltet ab.
-- Ambient-Motion in den Format-Kacheln: Die Icons bauen sich aus ihren Teilen auf und verschieben sich in
-  langen, versetzten Schleifen; aus Überlagerungen entsteht eine zweite Farbe (Keynote-Kern gelb, Case-Überlappung,
-  Masterclass-Kreuzung purple, Networking-Schnittmenge gelb).
+- Ambient-Motion nach den Referenzen (9-Square-Animation, Poster-Raster): gerasterte Schritte – Bewegung ~0,45 s,
+  dann Halt –, Rotation in 22,5°/90°-Stufen, Teile verschieben sich, aus Überlagerungen entsteht eine zweite Farbe.
+- Farb-Wischer: Ein Halbkreis (D-Körper) wächst von einer Kachelkante und bringt die nächste Farbe
+  (Networking Grün → Gelb → Bone, Porträt Gelb → Grün → Gelb → Bone, „Als Nächstes“ Weiß ↔ Gelb).
+- Porträt-Masken wechseln per Kreis-Wischer statt Überblendung.
 - Maus-Tiefe: Text 2 px, Porträts 4 px, Icons 6 px – per CSS-Variable, ohne Neu-Rendern. Nur Desktop.
 - Weiter-/CTA-Pfeil: Die D-Staffel fährt beim Hover aus.
 
