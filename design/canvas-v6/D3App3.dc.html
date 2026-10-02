@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>D3 – Mosaic Interface v6 Refinement</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Martian+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+:root{
+--d3-bg:#EEEDE4;--d3-bg-2:#E3E2D7;--d3-white:#F8F7F2;--d3-black:#080808;
+--d3-yellow:#FFE500;--d3-orange:#FF4B23;--d3-purple:#7861D7;
+--d3-line:rgba(8,8,8,.14);--d3-mute:#56554F;
+--f-text:'Archivo','Helvetica Neue',Arial,sans-serif;--f-sys:'Martian Mono',ui-monospace,monospace;--f-wide:108%;
+--motion-fast:.16s;--motion-ui:.3s;--motion-layout:.75s;--motion-in:.42s;
+--ease-out:cubic-bezier(.2,.7,.1,1);--ease-io:cubic-bezier(.75,0,.2,1);
+/* Raster-Baselines: gleiche Werte in allen Zellen, damit Nachbarn dieselben Linien teilen */
+--cell-padding:18px;--label-position:var(--cell-padding);--content-baseline:var(--cell-padding);--meta-baseline:calc(var(--cell-padding) + 2px);
+/* Typo-Skala */
+--t-display:min(56cqh,52cqw);--t-head:min(34cqh,12cqw);--t-mod:clamp(20px,min(9cqw,30cqh),46px);--t-body:clamp(15px,3.6cqw,19px);--t-label:11px;
+/* Motion: genau drei Verhalten */
+--m-shift:.75s;--m-reveal:.55s;--m-expand:.75s}
+.bp-tab{--cell-padding:16px}.bp-mob{--cell-padding:12px}
+.evo{fill-rule:evenodd}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left}
+a{color:inherit}
+.sys{font-family:var(--f-sys);font-size:11px;letter-spacing:.05em;text-transform:uppercase;line-height:1.4}
+.big{font-weight:850;font-stretch:var(--f-wide);letter-spacing:-.035em;line-height:.95;text-transform:uppercase;margin:0}
+.app{position:relative;width:100%;height:100vh;overflow:hidden;background:var(--d3-bg);color:var(--d3-black);font-family:var(--f-text);display:grid;grid-template-rows:56px minmax(0,1fr);grid-template-columns:minmax(0,1fr)}
+.app.bp-tab,.app.bp-mob{grid-template-rows:56px minmax(0,1fr) 60px}
+/* top bar */
+.bar{position:relative;z-index:20;display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));border-bottom:1px solid var(--d3-black);background:var(--d3-bg)}
+.bar > *{display:flex;align-items:center;padding:0 12px;border-right:1px solid var(--d3-line);min-width:0;text-decoration:none;white-space:nowrap;overflow:hidden}
+.bar .nv{letter-spacing:.02em;transition:background var(--motion-fast),color var(--motion-fast)}
+.bar .nv:hover{background:var(--d3-bg-2)}.bar .nv.on{background:var(--d3-yellow);color:var(--d3-black);box-shadow:inset 0 -3px 0 var(--d3-black)}
+.lock{gap:10px}
+.lock .by{font-weight:800;font-size:12px;letter-spacing:-.01em;margin-left:2px}
+.bar .cta-b{background:var(--d3-orange);justify-content:space-between;font-weight:800;font-size:14px;text-transform:uppercase;border-right:0}
+.bp-tab .bar .nv,.bp-mob .bar .nv{display:none}
+.bp-mob .bar .idx,.bp-mob .hide-mob-txt{display:none}.lock .only-mob{display:none}.bp-mob .lock .only-mob{display:block}
+.bp-mob .bar .cta-b{font-size:12px;padding:0 10px}
+.bot{display:none}
+.bp-tab .bot,.bp-mob .bot{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--d3-black);background:var(--d3-bg);z-index:20}
+.bot > *{display:flex;align-items:center;justify-content:center;border-right:1px solid var(--d3-line);text-decoration:none;font-size:11px;padding:0 4px;text-align:center}
+.bot .on{background:var(--d3-yellow);color:var(--d3-black);box-shadow:inset 0 3px 0 var(--d3-black)}
+/* stage */
+.stage{position:relative;min-height:0;overflow-y:auto;overflow-x:hidden;container-type:size;scrollbar-width:thin}
+.canvas{position:relative;--rowh:max(calc(100cqh / var(--base)),var(--minrow));height:calc(var(--rows) * var(--rowh));background-image:linear-gradient(90deg,var(--d3-line) 1px,transparent 1px),linear-gradient(var(--d3-line) 1px,transparent 1px);background-size:calc(100% / var(--cols)) var(--rowh)}
+.mod{position:absolute;box-sizing:border-box;overflow:hidden;container-type:size;container-name:mod;transition:left var(--motion-layout) var(--ease-io),top var(--motion-layout) var(--ease-io),width var(--motion-layout) var(--ease-io),height var(--motion-layout) var(--ease-io),opacity var(--motion-ui) var(--ease-out),visibility 0s linear 0s;box-shadow:inset 0 0 0 .5px var(--d3-line)}
+.mod.off{opacity:0;visibility:hidden;pointer-events:none;transition:opacity var(--motion-fast) var(--ease-out),visibility 0s linear var(--motion-fast)}
+.mod.act{cursor:pointer}
+.dark{background:var(--d3-black);color:var(--d3-bg);--d3-mute:#B4B3AA;--d3-line:rgba(238,237,228,.16)}
+.hit{position:absolute;inset:0;z-index:0}
+.hit:focus-visible{outline:3px solid var(--d3-orange);outline-offset:-3px}
+.L{position:absolute;inset:0;z-index:2;opacity:0;visibility:hidden;pointer-events:none;box-sizing:border-box;clip-path:inset(100% 0 0 0);transition:opacity var(--motion-fast) var(--ease-out),clip-path var(--motion-fast) var(--ease-out),visibility 0s linear var(--motion-fast)}
+.L a,.L button,.L details,.L summary{pointer-events:auto}
+.st-home .l-home,.st-explore .l-explore,.st-program .l-program,.st-speaker .l-speaker,.st-partner .l-partner,.l-all{opacity:1;visibility:visible;clip-path:inset(0 0 0 0);transition:opacity var(--m-reveal) var(--ease-out) var(--motion-in),clip-path var(--m-reveal) var(--ease-io) var(--motion-in),visibility 0s linear 0s}
+.pad{padding:var(--label-position) var(--cell-padding) var(--content-baseline)}
+.fill{display:flex;flex-direction:column;justify-content:space-between;height:100%;box-sizing:border-box}
+.end{display:flex;flex-direction:column;justify-content:flex-end;height:100%;box-sizing:border-box;gap:8px}
+.p{margin:0;font-size:clamp(14px,4.2cqw,18px);line-height:1.38;max-width:34ch}
+/* shapes */
+.sh{position:absolute;z-index:1;display:block;transition:left var(--m-shift) var(--ease-io),top var(--m-shift) var(--ease-io),width var(--m-expand) var(--ease-io),height var(--m-expand) var(--ease-io),translate var(--m-shift) var(--ease-out)}
+/* Zeichen = Icon-Set aus der Bildmarke: flache Flächen, Negativräume per even-odd, keine Verläufe, keine Konturen */
+/* D3 Shape Library: sechs Primitive aus dem D-Körper der Bildmarke. Flache Fläche, Negativraum per even-odd. */
+.s-d{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M25,0c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M25,0c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50z'/%3E%3C/svg%3E") center/contain no-repeat;background:currentColor}
+.s-dd{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M12.5,0c9.10718,0 17.64567,2.43486 25,6.68911l0,86.62178c-7.35433,4.25425 -15.89282,6.68911 -25,6.68911zM62.5,50c0,18.50706 -10.05497,34.66565 -25,43.31089v6.68911c27.61424,0 50,-22.38576 50,-50c0,-27.61424 -22.38576,-50 -50,-50l0,6.68911c14.94503,8.64524 25,24.80383 25,43.31089z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M12.5,0c9.10718,0 17.64567,2.43486 25,6.68911l0,86.62178c-7.35433,4.25425 -15.89282,6.68911 -25,6.68911zM62.5,50c0,18.50706 -10.05497,34.66565 -25,43.31089v6.68911c27.61424,0 50,-22.38576 50,-50c0,-27.61424 -22.38576,-50 -50,-50l0,6.68911c14.94503,8.64524 25,24.80383 25,43.31089z'/%3E%3C/svg%3E") center/contain no-repeat;background:currentColor}
+.s-open{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M25,0c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50v-26c13.25483,0 24,-10.74517 24,-24c0,-13.25483 -10.74517,-24 -24,-24z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M25,0c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50v-26c13.25483,0 24,-10.74517 24,-24c0,-13.25483 -10.74517,-24 -24,-24z'/%3E%3C/svg%3E") center/contain no-repeat;background:currentColor}
+.s-pair{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M10,0c16.35599,0 30.87771,7.85343 40,19.99513c-6.27911,8.35744 -10,18.74663 -10,30.00487c0,11.25825 3.72089,21.64743 10,30.00487c-9.12229,12.14169 -23.64401,19.99513 -40,19.99513zM60,50c0,11.25825 -3.72089,21.64743 -10,30.00487c9.12229,12.14169 23.64401,19.99513 40,19.99513v-100c-16.35599,0 -30.87771,7.85343 -40,19.99513c6.27911,8.35744 10,18.74663 10,30.00487z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M10,0c16.35599,0 30.87771,7.85343 40,19.99513c-6.27911,8.35744 -10,18.74663 -10,30.00487c0,11.25825 3.72089,21.64743 10,30.00487c-9.12229,12.14169 -23.64401,19.99513 -40,19.99513zM60,50c0,11.25825 -3.72089,21.64743 -10,30.00487c9.12229,12.14169 23.64401,19.99513 40,19.99513v-100c-16.35599,0 -30.87771,7.85343 -40,19.99513c6.27911,8.35744 10,18.74663 10,30.00487z'/%3E%3C/svg%3E") center/contain no-repeat;background:currentColor}
+.s-pattern{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,50c0,-13.80712 11.19288,-25 25,-25c13.80712,0 25,11.19288 25,25zM50,0c13.80712,0 25,11.19288 25,25c0,13.80712 -11.19288,25 -25,25zM100,50c0,13.80712 -11.19288,25 -25,25c-13.80712,0 -25,-11.19288 -25,-25zM50,100c-13.80712,0 -25,-11.19288 -25,-25c0,-13.80712 11.19288,-25 25,-25z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,50c0,-13.80712 11.19288,-25 25,-25c13.80712,0 25,11.19288 25,25zM50,0c13.80712,0 25,11.19288 25,25c0,13.80712 -11.19288,25 -25,25zM100,50c0,13.80712 -11.19288,25 -25,25c-13.80712,0 -25,-11.19288 -25,-25zM50,100c-13.80712,0 -25,-11.19288 -25,-25c0,-13.80712 11.19288,-25 25,-25z'/%3E%3C/svg%3E") center/contain no-repeat;background:currentColor}
+.s-step{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,10c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176zM30,23.54176l0,-13.54176c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176v-13.54176c6.22363,-7.05133 10,-16.31378 10,-26.45824c0,-10.14446 -3.77637,-19.40691 -10,-26.45824zM70,50c0,10.14446 -3.77637,19.40691 -10,26.45824v13.54176c22.09139,0 40,-17.90861 40,-40c0,-22.09139 -17.90861,-40 -40,-40v13.54176c6.22363,7.05133 10,16.31378 10,26.45824z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,10c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176zM30,23.54176l0,-13.54176c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176v-13.54176c6.22363,-7.05133 10,-16.31378 10,-26.45824c0,-10.14446 -3.77637,-19.40691 -10,-26.45824zM70,50c0,10.14446 -3.77637,19.40691 -10,26.45824v13.54176c22.09139,0 40,-17.90861 40,-40c0,-22.09139 -17.90861,-40 -40,-40v13.54176c6.22363,7.05133 10,16.31378 10,26.45824z'/%3E%3C/svg%3E") center/contain no-repeat;background:currentColor}
+.mod.act:hover .s-step,.lnk:hover .s-step{translate:6px 0}
+/* format modules: shape choreography by state (sizes from the module's own box) */
+.fmt .sh{--s:min(52cqw,44cqh);width:var(--s);height:var(--s);left:var(--cell-padding);top:calc(50% - var(--s) / 2 - 4%)}
+.st-explore .fmt .sh{--s:min(58cqw,62cqh);left:calc(100% - var(--s) * .86);top:calc(var(--s) * -.14)}
+.st-explore .k-fk .sh{--s:min(80cqw,64cqh)}
+.fmt:hover .sh{translate:0 -6%}
+.st-partner .k-fs .sh{--s:min(34cqw,52cqh);left:auto;right:7%;top:12%}
+.card .ci .sh{left:0;top:0;width:100%;height:100%;translate:none}
+@container mod (max-height: 125px){ .fmt .sh{--s:min(40cqw,46cqh)} }
+/* graphic-only */
+/* portraits */
+.pt{position:absolute;overflow:hidden;z-index:1;transition:all var(--motion-layout) var(--ease-io)}
+.pt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06)}
+.m-d{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25,0c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25,0c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50z'/%3E%3C/svg%3E") center/contain no-repeat}.m-dl{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M75,0c-27.61424,0 -50,22.38576 -50,50c0,27.61424 22.38576,50 50,50z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M75,0c-27.61424,0 -50,22.38576 -50,50c0,27.61424 22.38576,50 50,50z'/%3E%3C/svg%3E") center/contain no-repeat}.m-du{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0,75c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0,75c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50z'/%3E%3C/svg%3E") center/contain no-repeat}.m-db{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0,25c0,27.61424 22.38576,50 50,50c27.61424,0 50,-22.38576 50,-50z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0,25c0,27.61424 22.38576,50 50,50c27.61424,0 50,-22.38576 50,-50z'/%3E%3C/svg%3E") center/contain no-repeat}
+.spk .pt{left:var(--cell-padding);right:var(--cell-padding);top:var(--cell-padding);bottom:calc(var(--cell-padding) + 44px);width:auto;height:auto}
+.spk .nm{position:absolute;left:var(--cell-padding);right:var(--cell-padding);bottom:var(--content-baseline);display:flex;flex-direction:column;gap:2px;z-index:2}
+.spk .nm b{font-size:clamp(13px,7cqw,17px);line-height:1.15}
+.spk.sel{box-shadow:inset 0 0 0 4px var(--d3-yellow)}
+.k-hero .msk{position:absolute;left:var(--cell-padding);right:var(--cell-padding);top:var(--cell-padding);bottom:calc(var(--cell-padding) + 46px);overflow:hidden;clip-path:circle(0% at 50% 50%);transition:clip-path var(--m-reveal) var(--ease-io)}
+.k-hero .msk img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06)}
+.k-hero.on-fk .h-fk,.k-hero.on-fc .h-fc,.k-hero.on-fm .h-fm,.k-hero.on-fn .h-fn,.k-hero.on-fs .h-fs{clip-path:circle(75% at 50% 50%)}
+.h-fk{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25,0c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25,0c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50z'/%3E%3C/svg%3E") center/contain no-repeat}
+.h-fc{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M12.5,0c9.10718,0 17.64567,2.43486 25,6.68911v-6.68911c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50v-6.68911c-7.35433,4.25425 -15.89282,6.68911 -25,6.68911z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M12.5,0c9.10718,0 17.64567,2.43486 25,6.68911v-6.68911c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50v-6.68911c-7.35433,4.25425 -15.89282,6.68911 -25,6.68911z'/%3E%3C/svg%3E") center/contain no-repeat}
+.h-fm{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25,0c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25,0c27.61424,0 50,22.38576 50,50c0,27.61424 -22.38576,50 -50,50z'/%3E%3C/svg%3E") center/contain no-repeat}
+.h-fn{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10,0c16.35599,0 30.87771,7.85343 40,19.99513c9.12229,-12.14169 23.64401,-19.99513 40,-19.99513v100c-16.35599,0 -30.87771,-7.85343 -40,-19.99513c-9.12229,12.14169 -23.64401,19.99513 -40,19.99513z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10,0c16.35599,0 30.87771,7.85343 40,19.99513c9.12229,-12.14169 23.64401,-19.99513 40,-19.99513v100c-16.35599,0 -30.87771,-7.85343 -40,-19.99513c-9.12229,12.14169 -23.64401,19.99513 -40,19.99513z'/%3E%3C/svg%3E") center/contain no-repeat}
+.h-fs{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0,75c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0,75c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50z'/%3E%3C/svg%3E") center/contain no-repeat}
+
+@media (prefers-reduced-motion: reduce){ .mod,.sh,.du,.k-hero .msk,.L{transition-duration:.01s !important;transition-delay:0s !important} }
+@container mod (max-width: 560px){ .hide-w{display:none !important} }
+.par-n{display:none}
+/* du */
+.du{position:absolute;z-index:15;width:58px;height:58px;transition:left 1s var(--ease-io),top 1s var(--ease-io),opacity var(--motion-ui);pointer-events:none}
+.du .av{position:absolute;inset:0;border-radius:50%;overflow:hidden;box-shadow:0 0 0 3px var(--d3-black),0 0 0 6px var(--d3-bg)}
+.du .av img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
+.du .tag{position:absolute;right:66px;top:16px;background:var(--d3-black);color:var(--d3-bg);padding:5px 8px 4px;white-space:nowrap}
+.du.hide{opacity:0}
+/* program board */
+.board{display:grid;grid-template-columns:clamp(220px,22cqw,300px) minmax(0,1fr);height:100%}
+.b-side{display:flex;flex-direction:column;gap:18px;padding:22px 20px;border-right:1px solid var(--d3-black);overflow:auto;background:var(--d3-bg)}
+.b-title{font-size:clamp(28px,2.6cqw,40px)}
+.chips{display:flex;flex-direction:column;gap:2px}
+.chip{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border:1px solid transparent;transition:background var(--motion-fast)}
+.chip:hover{background:var(--d3-bg-2)}
+.chip.on{background:var(--d3-black);color:var(--d3-bg)}
+.chip .ic{position:relative;width:20px;height:20px;flex-shrink:0;color:var(--d3-black)}
+.chip.on .ic{color:var(--d3-bg)}
+.ic .sh{inset:0;width:100%;height:100%;translate:none;left:0;top:0}
+.tchips{display:flex;flex-wrap:wrap;gap:6px}
+.tchip{padding:7px 9px 6px;border:1px solid var(--d3-black);min-height:32px;box-sizing:border-box}
+.tchip.on{background:var(--d3-black);color:var(--d3-bg)}
+.b-main{position:relative;overflow:auto;background:var(--d3-white)}
+.b-rooms,.slot{display:grid;grid-template-columns:78px repeat(4,minmax(0,1fr))}
+.b-rooms{position:sticky;top:0;z-index:3;background:var(--d3-black);color:var(--d3-bg)}
+.b-rooms > *{padding:10px 12px;border-right:1px solid rgba(238,237,228,.2)}
+.slot{border-bottom:1px solid var(--d3-line)}
+.b-time{padding:14px 12px;font-weight:850;font-size:20px;letter-spacing:-.02em;border-right:1px solid var(--d3-line)}
+.cards{display:contents}
+.card{position:relative;display:flex;flex-direction:column;gap:6px;padding:12px 14px 14px;min-height:118px;border-right:1px solid var(--d3-line);transition:background var(--motion-fast),opacity var(--motion-ui)}
+.card:hover{background:var(--d3-bg)}
+.card .ci{position:relative;width:26px;height:26px}
+.card b{font-size:16px;line-height:1.22}
+.card .who{font-size:14px;color:var(--d3-mute)}
+.card .tp{align-self:flex-start;margin-top:auto;padding:3px 6px 2px;border:1px solid currentColor}
+.card .rm{display:none}
+.card.sel{background:var(--d3-yellow);color:var(--d3-black)}
+
+.card.dim{opacity:.22}
+.card.cont{cursor:default;background:repeating-linear-gradient(135deg,transparent 0 7px,rgba(8,8,8,.07) 7px 8px);justify-content:center}
+.card.end{cursor:default;justify-content:center}
+.card .mini{position:absolute;right:10px;top:10px;width:30px;height:30px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 2px var(--d3-black)}
+.card .mini img{width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
+.b-detail{position:absolute;right:0;top:0;bottom:0;width:min(440px,100%);z-index:6;background:var(--d3-bg);border-left:1px solid var(--d3-black);transform:translateX(102%);transition:transform var(--motion-layout) var(--ease-io);overflow:auto;padding:22px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px}
+.b-detail.open{transform:none}
+.xbtn{align-self:flex-end;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--d3-black);font-size:22px;flex-shrink:0}
+.lnk{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:0 14px;border:1px solid var(--d3-black);text-decoration:none;font-weight:700}
+.lnk:hover{background:var(--d3-black);color:var(--d3-bg)}
+@container mod (max-width: 860px){
+  .board{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+  .b-side{border-right:0;border-bottom:1px solid var(--d3-black);padding:14px 14px 12px;gap:10px}
+  .b-side .p{display:none}
+  .chips,.tchips{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .chip{flex-shrink:0;border:1px solid var(--d3-black)}
+  .tchip{flex-shrink:0}
+  .b-rooms{display:none}
+  .slot{display:block;padding:12px 0 14px}
+  .b-time{border:0;padding:0 14px 8px}
+  .cards{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 14px;scrollbar-width:none}
+  .card{flex:0 0 78%;scroll-snap-align:start;border:1px solid var(--d3-black);min-height:132px}
+  .card.cont{display:none}
+  .card .rm{display:inline}
+  .par-n{display:inline}
+}
+/* Modul-Typen: Text sitzt immer oben (Label) oder unten (Inhalt), nie mittig */
+.tA,.tB,.tC,.tD{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:8px;text-align:left}
+.lab{font-family:var(--f-sys);font-size:var(--t-label);letter-spacing:.05em;text-transform:uppercase;line-height:1.4;min-height:15px}
+.btm{display:flex;flex-direction:column;gap:4px;width:100%}
+.t-mod{font-weight:850;font-stretch:var(--f-wide);letter-spacing:-.025em;line-height:.98;text-transform:uppercase;font-size:var(--t-mod);margin:0}
+.t-time{font-weight:850;font-size:clamp(18px,min(13cqw,20cqh),34px);letter-spacing:-.02em;line-height:1}
+.t-body{margin:0;font-size:var(--t-body);line-height:1.3;font-weight:700;letter-spacing:-.01em;max-width:30ch}
+.ctaRow{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;width:100%}
+.ctaRow .s-step{display:block;width:clamp(26px,9cqw,44px);aspect-ratio:1;flex-shrink:0}
+.vis .sh{position:absolute}
+.dataRow{display:grid;grid-template-columns:auto auto 1fr;gap:clamp(14px,5cqw,40px);width:100%;height:100%}
+.dataRow > div{display:flex;flex-direction:column;justify-content:space-between}
+.dataRow b{font-size:clamp(13px,4.2cqw,20px);line-height:1.1;white-space:nowrap}
+.logos > *:first-child{align-items:flex-start;justify-content:flex-start;text-align:left;padding:var(--cell-padding)}
+.dark .lab,.dark .t-meta{color:#B4B3AA}
+/* lists in modules */
+.why ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(6px,2.4cqh,12px)}
+.why li{display:grid;grid-template-columns:28px 1fr;gap:6px;font-size:clamp(14px,3.7cqw,17px);line-height:1.3;font-weight:600}
+.why li .sys{padding-top:3px}
+.faq details{border-top:1px solid var(--d3-line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;padding:12px 0;font-weight:800;font-size:clamp(15px,3.4cqw,19px);text-transform:uppercase;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq p{margin:0 0 12px;font-size:15px;line-height:1.45}
+.eds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));height:100%}
+@container mod (max-width: 520px){ .eds{grid-template-columns:minmax(0,1fr)} }
+.eds > *{display:flex;flex-direction:column;justify-content:space-between;gap:10px;padding:16px;box-sizing:border-box;min-height:0}
+.logos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:1fr;height:100%}
+.logos > *{display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 .5px var(--d3-line);text-align:center;padding:6px}
+@container mod (max-height: 130px){ .hide-s{display:none !important} }
+@container mod (max-width: 150px){ .hide-n{display:none !important} }
+.grain{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:multiply;opacity:.14;z-index:30}
+</style>
+</helmet>
+<div class="app st-{{st}} bp-{{bp}}" ref="{{rootRef}}" onWheel="{{onWheel}}" onMouseMove="{{onMove}}" style="--mx: {{mx}}; --my: {{my}}; --cols: {{cols}}">
+
+<header class="bar" aria-label="Systemleiste">
+<a href="#" class="lock" onClick="{{nav.home}}" aria-label="Deep Dive Day by Amtshelden, Home" style="grid-column: span {{lockSpan}}">
+<svg class="only-mob" viewBox="0 0 10.14 10.12" style="height: 30px; width: auto; flex-shrink: 0" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg>
+<svg viewBox="0 0 38.9 14.42" class="hide-mob-txt" style="height: 40px; width: auto; flex-shrink: 0" role="img" aria-label="Deep Dive Day by Amtshelden"><g fill="currentColor"><path d="M14.05,5.43V1.99h1.49c.39,0,.72.06.99.18s.47.31.61.57c.14.25.21.58.21.97s-.07.71-.21.97c-.14.25-.34.44-.61.57s-.6.18-.99.18h-1.49ZM15.16,4.61h.36c.12,0,.22-.02.31-.05.09-.03.16-.08.22-.14s.1-.14.12-.24c.03-.09.04-.2.04-.31v-.3c0-.12-.01-.22-.04-.31-.03-.09-.07-.17-.12-.24s-.13-.11-.22-.14c-.09-.03-.19-.05-.31-.05h-.36v1.79Z"/><path d="M17.96,5.43V1.99h2.97v.82h-1.87v.48h1.6v.79h-1.6v.52h1.9v.83h-3.01Z"/><path d="M21.57,5.43V1.99h2.98v.82h-1.87v.48h1.6v.79h-1.6v.52h1.91v.83h-3.01Z"/><path d="M25.16,5.43V1.99h2.03c.22,0,.41.05.57.15.17.1.29.23.39.41.09.17.14.38.14.61s-.05.44-.14.62-.23.31-.39.41c-.16.1-.35.15-.57.15h-.92v1.11h-1.1ZM26.27,3.52h.55c.12,0,.21-.03.26-.09.06-.06.09-.15.09-.26,0-.08-.01-.15-.04-.2-.02-.05-.06-.09-.11-.12-.05-.03-.12-.04-.2-.04h-.55v.71Z"/><path d="M14.05,10.43v-3.44h1.49c.39,0,.72.06.99.18s.47.31.61.57c.14.25.21.58.21.97s-.07.71-.21.97c-.14.25-.34.44-.61.57s-.6.18-.99.18h-1.49ZM15.16,9.61h.36c.12,0,.22-.02.31-.05.09-.03.16-.08.22-.14s.1-.14.12-.24c.03-.09.04-.2.04-.31v-.3c0-.12-.01-.22-.04-.31-.03-.09-.07-.17-.12-.24s-.13-.11-.22-.14c-.09-.03-.19-.05-.31-.05h-.36v1.79Z"/><path d="M17.94,10.43v-3.44h1.1v3.44h-1.1Z"/><path d="M20.72,10.43l-1.22-3.44h1.18l.48,1.59s.03.11.05.19c.02.08.05.17.08.27.03.09.05.18.07.25h.04c.02-.07.04-.15.07-.24s.05-.18.08-.26c.03-.08.04-.15.06-.21l.48-1.59h1.13l-1.21,3.44h-1.28Z"/><path d="M23.69,10.43v-3.44h2.98v.82h-1.87v.48h1.6v.79h-1.6v.52h1.91v.83h-3.01Z"/><path d="M28.19,10.43v-3.44h1.49c.39,0,.72.06.99.18s.47.31.61.57c.14.25.21.58.21.97s-.07.71-.21.97c-.14.25-.34.44-.61.57s-.6.18-.99.18h-1.49ZM29.29,9.61h.36c.12,0,.22-.02.31-.05.09-.03.16-.08.22-.14s.1-.14.12-.24c.03-.09.04-.2.04-.31v-.3c0-.12-.01-.22-.04-.31-.03-.09-.07-.17-.12-.24s-.13-.11-.22-.14c-.09-.03-.19-.05-.31-.05h-.36v1.79Z"/><path d="M31.66,10.43l1.26-3.44h1.28l1.26,3.44h-1.17l-.14-.48h-1.21l-.14.48h-1.13ZM33.16,9.18h.75l-.17-.55s-.03-.09-.04-.15c-.02-.06-.03-.12-.05-.18s-.03-.13-.05-.19-.03-.12-.04-.16h-.04c-.01.06-.03.13-.05.21-.02.08-.04.16-.07.24s-.05.16-.07.23l-.17.55Z"/><path d="M36.45,10.43v-1.33l-1.37-2.1h1.27l.66,1.14h.02l.66-1.14h1.21l-1.35,2.1v1.33h-1.1Z"/><path d="M21.51,12.74v.46h-.25v-1.56h-4.74c-.2,0-.37.16-.37.37v1.23c0,.2.16.37.37.37h4.5l.96.81v-1.68h-.47ZM17.47,13.2l-.11-.26h-.49l-.11.26h-.26l.49-1.16h.23l.49,1.16h-.26,0ZM19.02,13.2h-.25v-.75l-.32.49h0l-.32-.49v.74h-.25v-1.15h.27l.3.49.3-.49h.27v1.15h0ZM20.12,12.29h-.35v.92h-.25v-.92h-.35v-.23h.95v.23h0ZM21.08,12.86c0,.23-.17.36-.42.36s-.35-.06-.49-.18l.15-.18c.1.09.21.14.34.14s.17-.04.17-.11h0c0-.07-.04-.1-.23-.15-.23-.06-.38-.12-.38-.35h0c0-.21.17-.35.4-.35s.31.05.43.15l-.13.19c-.1-.07-.2-.11-.3-.11s-.15.04-.15.1h0c0,.08.05.1.25.15.23.06.36.14.36.34h0s0,0,0,0Z"/><polygon points="16.97 12.72 17.27 12.72 17.12 12.35 16.97 12.72"/><path d="M24.94,12.28h-.2v.69h.2c.21,0,.35-.14.35-.34h0c0-.21-.14-.35-.35-.35Z"/><path d="M27.81,11.65h-6.31v.86h.47v-.45h.25v1.56h5.59c.2,0,.37-.16.37-.37v-1.23c0-.2-.16-.37-.37-.37h0ZM23.33,13.2h-.87v-1.15h.87v.22h-.61v.23h.54v.22h-.54v.24h.62v.22h0ZM24.34,13.2h-.82v-1.15h.25v.92h.57v.23h0ZM25.55,12.63c0,.32-.25.57-.61.57h-.45v-1.15h.45c.36,0,.61.25.61.57h0ZM26.6,13.2h-.87v-1.15h.87v.22h-.61v.23h.54v.22h-.54v.24h.62v.22h0ZM27.81,13.2h-.21l-.56-.73v.73h-.25v-1.15h.23l.54.71v-.71h.25v1.15h0Z"/><path d="M14.42,13.21c-.13,0-.2-.06-.26-.13v.11h-.24v-1.14h.24v.42c.06-.08.14-.14.26-.14.2,0,.38.15.38.43h0c0,.28-.18.44-.38.44ZM14.56,12.78c0-.14-.09-.23-.2-.23s-.2.09-.2.23h0c0,.14.09.23.2.23s.2-.09.2-.23h0Z"/><path d="M15.41,13.22c-.06.17-.13.23-.27.23-.09,0-.15-.02-.21-.06l.08-.17s.07.03.1.03c.04,0,.06-.01.08-.05l-.33-.84h.25l.19.57.18-.57h.25l-.32.86Z"/><polygon points="6.07 12.07 6.07 12.07 6.07 12.07 6.07 12.07 6.07 12.07"/><path d="M12.11,6.04c0-3.33-2.7-6.04-6.04-6.04v2.81c1.04.49,1.94,1.32,2.47,2.44,1.2,2.56.1,5.62-2.46,6.82,0,0,0,0,0,0,3.33,0,6.03-2.7,6.03-6.04Z"/><path d="M5.97,6.1s.06.08.1.11v-3.4c-1.33-.63-2.92-.7-4.36-.03.3.64.64,1.37,1.01,2.15,1.16-.09,2.35.29,3.25,1.16Z"/><polygon points="6.07 12.07 6.07 12.07 6.07 12.07 6.07 12.07 6.07 12.07"/><polygon points="6.07 12.07 6.07 12.07 6.07 12.07 6.07 12.07"/><path d="M0,6.2c1.52,1.47,3.79,3.67,6.07,5.87-1.19-2.53-2.37-5.05-3.34-7.13-1,.07-1.97.48-2.73,1.26Z"/><path d="M6.07,6.21v5.86s0,0,0,0c0,0,0,0,0,0,1.59-1.64,1.57-4.23,0-5.86Z"/></g></svg>
+<svg class="only-mob" viewBox="0 0 108.61 20.95" style="height: 19px; width: auto; flex-shrink: 0; color: #080808" role="img" aria-label="by Amtshelden"><g fill="currentColor"><path d="M58.16,8.28v3.48h-1.91V0H20.39c-1.54,0-2.78,1.24-2.78,2.78v9.3c0,1.54,1.25,2.78,2.78,2.78h34.01l7.28,6.1v-12.67h-3.52ZM27.64,11.77l-.79-1.94h-3.67l-.79,1.94h-1.94l3.71-8.74h1.76l3.71,8.74h-2,0ZM39.33,11.77h-1.9v-5.66l-2.44,3.7h-.05l-2.42-3.67v5.62h-1.87V3.08h2.050l2.28,3.67,2.28-3.67h2.05v8.68h.01ZM47.67,4.85h-2.64v6.92h-1.91v-6.92h-2.64v-1.76h7.19v1.76h0ZM54.91,9.2c0,1.72-1.31,2.69-3.18,2.69s-2.64-.46-3.68-1.38l1.13-1.35c.78.64,1.59,1.06,2.59,1.06s1.25-.31,1.25-.82v-.03c0-.49-.3-.73-1.75-1.1-1.75-.45-2.87-.93-2.87-2.65v-.03c0-1.58,1.27-2.61,3.04-2.61s2.34.39,3.22,1.1l-.99,1.44c-.77-.53-1.52-.85-2.26-.85s-1.12.33-1.12.75v.03c0,.57.37.75,1.87,1.14,1.76.46,2.75,1.09,2.75,2.6v.03h0Z"></path><polygon points="23.86 8.13 26.16 8.13 25.01 5.32 23.86 8.13"></polygon><path d="M84.09,4.81h-1.48v5.23h1.48c1.56,0,2.61-1.06,2.61-2.59v-.03c0-1.54-1.06-2.61-2.61-2.61Z"></path><path d="M105.83,0h-47.67v6.52h3.52v-3.43h1.91v11.77h42.25c1.54,0,2.78-1.24,2.78-2.78V2.78c0-1.54-1.24-2.78-2.78-2.78h0ZM71.96,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM79.58,11.77h-6.23V3.09h1.91v6.94h4.33v1.73h0ZM88.7,7.43c0,2.44-1.88,4.34-4.61,4.34h-3.38V3.09h3.38c2.72,0,4.61,1.87,4.61,4.31v.03ZM96.69,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM105.78,11.77h-1.62l-4.2-5.51v5.51h-1.88V3.09h1.76l4.06,5.34V3.09h1.88v8.68h0Z"></path><text transform="translate(0 11.75)" style="font-family: Gotham, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 11.82px"><tspan x="0" y="0" style="letter-spacing: -0.03em">b</tspan><tspan x="7.68" y="0">y</tspan></text></g></svg>
+</a>
+<a href="#" class="nv sys {{on.explore}}" onClick="{{nav.explore}}">Formate</a>
+<a href="#" class="nv sys {{on.program}}" onClick="{{nav.program}}">Programm</a>
+<a href="#" class="nv sys {{on.speaker}}" onClick="{{nav.speaker}}">Speaker*innen</a>
+<a href="#" class="nv sys {{on.partner}}" onClick="{{nav.partner}}">Mitmachen</a>
+<a href="#" class="nv sys" onClick="{{nav.partner}}">Über D3</a>
+<span class="sys idx" style="grid-column: span {{idxSpan}}; justify-content: center">{{stNo}} / 05</span>
+<a href="#" class="cta-b" onClick="{{ctaBar.go}}" style="grid-column: span {{ctaSpan}}">{{ctaBarLabel}} <span>→</span></a>
+</header>
+
+<main class="stage" ref="{{stageRef}}">
+<div class="canvas" style="--cols: {{cols}}; --rows: {{rows}}; --base: {{base}}; --minrow: {{minrow}}">
+
+<div class="mod dark k-d3 {{P.d3.cls}}" style="left: calc({{P.d3.c}} * 100% / var(--cols)); top: calc({{P.d3.r}} * var(--rowh)); width: calc({{P.d3.w}} * 100% / var(--cols)); height: calc({{P.d3.h}} * var(--rowh)); transition-delay: {{P.d3.d}}">
+<div class="L l-home fill pad"><svg viewBox="0 0 10.14 10.12" style="height: min(30cqh, 26cqw); width: auto; align-self: flex-start" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg><h1 class="big" style="font-size: min(52cqh, 52cqw); letter-spacing: -0.06em; line-height: 0.86; display: inline-flex; isolation: isolate" aria-label="D3"><span aria-hidden="true">D</span><span aria-hidden="true" style="margin-left: -0.22em; mix-blend-mode: difference; color: #EEEDE4">3</span></h1></div>
+</div>
+
+<div class="mod k-brand {{P.brand.cls}}" style="background: var(--d3-white); left: calc({{P.brand.c}} * 100% / var(--cols)); top: calc({{P.brand.r}} * var(--rowh)); width: calc({{P.brand.w}} * 100% / var(--cols)); height: calc({{P.brand.h}} * var(--rowh)); transition-delay: {{P.brand.d}}">
+<div class="L l-home tA pad"><span class="lab">Digitales B2G-Event von Amtshelden</span><span class="big" style="font-size: var(--t-head); line-height: 0.92">Deep Dive Day</span></div>
+</div>
+
+<div class="mod k-theme {{P.theme.cls}}" style="background: var(--d3-orange); left: calc({{P.theme.c}} * 100% / var(--cols)); top: calc({{P.theme.r}} * var(--rowh)); width: calc({{P.theme.w}} * 100% / var(--cols)); height: calc({{P.theme.h}} * var(--rowh)); transition-delay: {{P.theme.d}}">
+<div class="L l-home tA pad"><span class="lab">D3 · Ausgabe 01 · 4 Räume · 8 Themen</span><span class="t-mod">KI + Transformation</span></div>
+</div>
+
+<div class="mod k-why why {{P.why.cls}}" style="background: var(--d3-white); left: calc({{P.why.c}} * 100% / var(--cols)); top: calc({{P.why.r}} * var(--rowh)); width: calc({{P.why.w}} * 100% / var(--cols)); height: calc({{P.why.h}} * var(--rowh)); transition-delay: {{P.why.d}}">
+<div class="L l-home tA pad"><span class="lab">Für wen</span><p class="t-body">Für Menschen aus Behörden und öffentlichen Organisationen, die Verwaltung mit KI verändern wollen.</p></div>
+</div>
+
+<div class="mod k-hero on-{{heroPlace}} {{P.hero.cls}}" style="background: var(--d3-yellow); left: calc({{P.hero.c}} * 100% / var(--cols)); top: calc({{P.hero.r}} * var(--rowh)); width: calc({{P.hero.w}} * 100% / var(--cols)); height: calc({{P.hero.h}} * var(--rowh)); transition-delay: {{P.hero.d}}">
+<div class="msk h-fk"><img src="/_blob/9313403364efa784c3d646ede2eb7604" alt=""></div>
+<div class="msk h-fc"><img src="/_blob/9313403364efa784c3d646ede2eb7604" alt=""></div>
+<div class="msk h-fm"><img src="/_blob/9313403364efa784c3d646ede2eb7604" alt=""></div>
+<div class="msk h-fn"><img src="/_blob/9313403364efa784c3d646ede2eb7604" alt=""></div>
+<div class="msk h-fs"><img src="/_blob/9313403364efa784c3d646ede2eb7604" alt=""></div>
+<div class="L l-all tD pad" style="justify-content: flex-end"><div class="btm"><span class="lab">{{heroMeta}}</span><b style="font-size: clamp(14px, 6cqw, 18px); line-height: 1.1">{{heroVerb}}</b></div></div>
+</div>
+
+<div class="mod k-pc spk {{P.pc.cls}} {{spkSel.0}}" style="background: var(--d3-yellow); left: calc({{P.pc.c}} * 100% / var(--cols)); top: calc({{P.pc.r}} * var(--rowh)); width: calc({{P.pc.w}} * 100% / var(--cols)); height: calc({{P.pc.h}} * var(--rowh)); transition-delay: {{P.pc.d}}">
+<button class="hit" onClick="{{spkPick.0}}" aria-label="Speaker*in Keynote"></button>
+<div class="pt m-d"><img src="/_blob/9decf5a8e398cd0dc5fd92a958984bea" alt="Platzhalter-Porträt"></div>
+<div class="nm"><b>[Name Nachname]</b><span class="sys">Keynote · 09:40</span></div>
+</div>
+
+<div class="mod k-s2 spk {{P.s2.cls}} {{spkSel.1}}" style="background: var(--d3-bg-2); left: calc({{P.s2.c}} * 100% / var(--cols)); top: calc({{P.s2.r}} * var(--rowh)); width: calc({{P.s2.w}} * 100% / var(--cols)); height: calc({{P.s2.h}} * var(--rowh)); transition-delay: {{P.s2.d}}">
+<button class="hit" onClick="{{spkPick.1}}" aria-label="Speaker*in Case"></button>
+<div class="pt m-dl"><img src="/_blob/c111eb0a0ddd902b6e60881bcca3f4f8" alt="Platzhalter-Porträt"></div>
+<div class="nm"><b>[Name Nachname]</b><span class="sys">Case · 10:30</span></div>
+</div>
+
+<div class="mod k-s3 spk {{P.s3.cls}} {{spkSel.2}}" style="background: var(--d3-white); left: calc({{P.s3.c}} * 100% / var(--cols)); top: calc({{P.s3.r}} * var(--rowh)); width: calc({{P.s3.w}} * 100% / var(--cols)); height: calc({{P.s3.h}} * var(--rowh)); transition-delay: {{P.s3.d}}">
+<button class="hit" onClick="{{spkPick.2}}" aria-label="Speaker*in Masterclass"></button>
+<div class="pt m-du"><img src="/_blob/98e908777a6ce188713344468d23a9bd" alt="Platzhalter-Porträt"></div>
+<div class="nm"><b>[Name Nachname]</b><span class="sys">Masterclass · 10:30</span></div>
+</div>
+
+<div class="mod dark k-s4 spk {{P.s4.cls}} {{spkSel.3}}" style="background: var(--d3-black); left: calc({{P.s4.c}} * 100% / var(--cols)); top: calc({{P.s4.r}} * var(--rowh)); width: calc({{P.s4.w}} * 100% / var(--cols)); height: calc({{P.s4.h}} * var(--rowh)); transition-delay: {{P.s4.d}}">
+<button class="hit" onClick="{{spkPick.3}}" aria-label="Speaker*in Panel"></button>
+<div class="pt m-d"><img src="/_blob/ed54bddf64811e958622c804c955b3d3" alt="Platzhalter-Porträt"></div>
+<div class="nm"><b>[Name Nachname]</b><span class="sys">Panel · 11:15</span></div>
+</div>
+
+<div class="mod k-s5 spk {{P.s5.cls}} {{spkSel.4}}" style="background: var(--d3-white); left: calc({{P.s5.c}} * 100% / var(--cols)); top: calc({{P.s5.r}} * var(--rowh)); width: calc({{P.s5.w}} * 100% / var(--cols)); height: calc({{P.s5.h}} * var(--rowh)); transition-delay: {{P.s5.d}}">
+<button class="hit" onClick="{{spkPick.4}}" aria-label="Speaker*in Fachvortrag"></button>
+<div class="pt m-db"><img src="/_blob/3c130c3512412f2f7ef3681f6b8c0092" alt="Platzhalter-Porträt"></div>
+<div class="nm"><b>[Name Nachname]</b><span class="sys">Vortrag · 10:30</span></div>
+</div>
+
+<div class="mod k-s6 spk {{P.s6.cls}} {{spkSel.5}}" style="background: var(--d3-orange); left: calc({{P.s6.c}} * 100% / var(--cols)); top: calc({{P.s6.r}} * var(--rowh)); width: calc({{P.s6.w}} * 100% / var(--cols)); height: calc({{P.s6.h}} * var(--rowh)); transition-delay: {{P.s6.d}}">
+<button class="hit" onClick="{{spkPick.5}}" aria-label="Speaker*in Abschluss-Keynote"></button>
+<div class="pt m-dl"><img src="/_blob/5319da926d88bc3da618a5548c1a7e2f" alt="Platzhalter-Porträt"></div>
+<div class="nm"><b>[Name Nachname]</b><span class="sys">Keynote · 15:00</span></div>
+</div>
+
+<sc-for list="{{fmts}}" as="f" hint-placeholder-count="5">
+<div class="mod fmt act k-{{f.k}} {{f.dark}} {{f.P.cls}} {{f.st0}}" style="background: {{f.bg}}; left: calc({{f.P.c}} * 100% / var(--cols)); top: calc({{f.P.r}} * var(--rowh)); width: calc({{f.P.w}} * 100% / var(--cols)); height: calc({{f.P.h}} * var(--rowh)); transition-delay: {{f.P.d}}" onMouseEnter="{{f.hover}}">
+<button class="hit" onClick="{{f.tap}}" aria-label="{{f.aria}}"></button>
+<span class="sh {{f.sh}}" style="color: {{f.ink}}"></span>
+<div class="L l-home tB pad"><span class="lab">{{f.short}}</span><div class="btm"><span class="t-time hide-s">{{f.time}}</span><span class="lab">{{f.verb}}</span></div></div>
+<div class="L l-explore tB pad"><span class="lab">{{f.short}}</span><div class="btm"><span class="t-mod">{{f.name}}</span><p class="p hide-s">{{f.desc}}</p></div></div>
+<div class="L l-partner tC pad"><span class="lab">Stände</span><div class="ctaRow"><span class="t-mod">Aussteller werden</span><span class="s-step"></span></div></div>
+</div>
+</sc-for>
+
+<div class="mod vis k-v1 {{P.v1.cls}}" aria-hidden="true" style="background: var(--d3-bg-2); left: calc({{P.v1.c}} * 100% / var(--cols)); top: calc({{P.v1.r}} * var(--rowh)); width: calc({{P.v1.w}} * 100% / var(--cols)); height: calc({{P.v1.h}} * var(--rowh)); transition-delay: {{P.v1.d}}">
+<span class="sh s-pattern" style="width: 150cqh; height: 150cqh; right: -40cqh; top: -25cqh; left: auto"></span>
+</div>
+
+<div class="mod vis dark k-v2 {{P.v2.cls}}" aria-hidden="true" style="left: calc({{P.v2.c}} * 100% / var(--cols)); top: calc({{P.v2.r}} * var(--rowh)); width: calc({{P.v2.w}} * 100% / var(--cols)); height: calc({{P.v2.h}} * var(--rowh)); transition-delay: {{P.v2.d}}">
+<span class="sh s-d" style="width: 200cqh; height: 200cqh; left: -60cqh; top: -50cqh; color: var(--d3-yellow)"></span>
+</div>
+
+<div class="mod k-date {{P.date.cls}}" style="background: var(--d3-white); left: calc({{P.date.c}} * 100% / var(--cols)); top: calc({{P.date.r}} * var(--rowh)); width: calc({{P.date.w}} * 100% / var(--cols)); height: calc({{P.date.h}} * var(--rowh)); transition-delay: {{P.date.d}}">
+<div class="L l-all pad"><div class="dataRow"><div><span class="lab">Datum</span><b>[TT.MM.2027]</b></div><div><span class="lab">Zeit</span><b>09:00–15:30</b></div><div><span class="lab">Ort</span><b>Digital</b></div></div></div>
+</div>
+
+<div class="mod dark act k-cta {{P.cta.cls}}" style="background: var(--d3-black); left: calc({{P.cta.c}} * 100% / var(--cols)); top: calc({{P.cta.r}} * var(--rowh)); width: calc({{P.cta.w}} * 100% / var(--cols)); height: calc({{P.cta.h}} * var(--rowh)); transition-delay: {{P.cta.d}}">
+<button class="hit" onClick="{{cta.go}}" aria-label="{{cta.label}}"></button>
+<div class="L l-all tC pad"><span class="lab">{{cta.note}}</span><div class="ctaRow"><span class="t-mod">{{cta.label}}</span><span class="s-step"></span></div></div>
+</div>
+
+<div class="mod act k-cta2 {{P.cta2.cls}}" style="background: var(--d3-white); left: calc({{P.cta2.c}} * 100% / var(--cols)); top: calc({{P.cta2.r}} * var(--rowh)); width: calc({{P.cta2.w}} * 100% / var(--cols)); height: calc({{P.cta2.h}} * var(--rowh)); transition-delay: {{P.cta2.d}}">
+<button class="hit" onClick="{{cta2.go}}" aria-label="{{cta2.label}}"></button>
+<div class="L l-all tC pad"><span class="lab">{{cta2.note}}</span><div class="ctaRow"><span class="t-mod">{{cta2.label}}</span><span class="s-step"></span></div></div>
+</div>
+
+<div class="mod act k-hint {{P.hint.cls}}" style="background: var(--d3-white); left: calc({{P.hint.c}} * 100% / var(--cols)); top: calc({{P.hint.r}} * var(--rowh)); width: calc({{P.hint.w}} * 100% / var(--cols)); height: calc({{P.hint.h}} * var(--rowh)); transition-delay: {{P.hint.d}}">
+<button class="hit" onClick="{{hint.go}}" aria-label="{{hint.label}}"></button>
+<div class="L l-all tC pad"><span class="lab">Weiter · {{stNo}} / 05</span><div class="ctaRow"><span class="t-mod">{{hint.label}}</span><span class="s-step"></span></div></div>
+</div>
+
+<div class="mod k-xhead {{P.xhead.cls}}" style="left: calc({{P.xhead.c}} * 100% / var(--cols)); top: calc({{P.xhead.r}} * var(--rowh)); width: calc({{P.xhead.w}} * 100% / var(--cols)); height: calc({{P.xhead.h}} * var(--rowh)); transition-delay: {{P.xhead.d}}">
+<div class="L l-explore end pad"><h2 class="big" style="font-size: min(15cqh, 10.4cqw)">Ein Tag.<br>Viele Räume.<br>Ein Deep Dive.</h2></div>
+</div>
+
+<div class="mod k-board {{P.board.cls}}" style="left: calc({{P.board.c}} * 100% / var(--cols)); top: calc({{P.board.r}} * var(--rowh)); width: calc({{P.board.w}} * 100% / var(--cols)); height: calc({{P.board.h}} * var(--rowh)); transition-delay: {{P.board.d}}">
+<div class="L l-program board">
+<aside class="b-side">
+<h2 class="big b-title">Programm</h2>
+<p class="p" style="font-size: 15px">{{progNote}}</p>
+<div class="chips" role="group" aria-label="Format filtern">
+<sc-for list="{{fFilters}}" as="c" hint-placeholder-count="8">
+<button class="chip sys {{c.on}}" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}"><span class="ic"><span class="sh {{c.sh}}"></span></span>{{c.label}}</button>
+</sc-for>
+</div>
+<div class="tchips" role="group" aria-label="Thema filtern">
+<sc-for list="{{tFilters}}" as="t" hint-placeholder-count="9">
+<button class="tchip sys {{t.on}}" onClick="{{t.pick}}" aria-pressed="{{t.pressed}}">{{t.label}}</button>
+</sc-for>
+</div>
+</aside>
+<div class="b-main" onWheel="{{stopWheel}}">
+<div class="b-rooms sys"><span>Zeit</span><span>Main Stage</span><span>Raum 2</span><span>Werkstatt</span><span>Lounge</span></div>
+<sc-for list="{{slots}}" as="sl" hint-placeholder-count="9">
+<div class="slot">
+<div class="b-time">{{sl.time}}<sc-if value="{{sl.par}}" hint-placeholder-val="{{false}}"><span class="sys par-n" style="font-weight: 400; margin-left: 10px; color: var(--d3-mute)">{{sl.par}}</span></sc-if></div>
+<div class="cards">
+<sc-for list="{{sl.items}}" as="it" hint-placeholder-count="2">
+<button class="card {{it.cls}}" style="grid-column: {{it.col}}" onClick="{{it.pick}}" aria-label="{{it.aria}}">
+<sc-if value="{{it.real}}" hint-placeholder-val="{{true}}">
+<span class="ci"><span class="sh {{it.sh}}"></span></span>
+<span class="sys">{{it.fmtLabel}}<span class="rm"> · {{it.room}}</span></span>
+<b>{{it.title}}</b>
+<span class="who">{{it.who}}</span>
+<sc-if value="{{it.topic}}" hint-placeholder-val="{{false}}"><span class="tp sys">{{it.topic}}</span></sc-if>
+<sc-if value="{{it.isSel}}" hint-placeholder-val="{{false}}"><span class="mini"><img src="/_blob/9313403364efa784c3d646ede2eb7604" alt=""></span></sc-if>
+</sc-if>
+<sc-if value="{{it.note}}" hint-placeholder-val="{{false}}"><span class="sys" style="color: var(--d3-mute)">{{it.note}}</span></sc-if>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+<div class="b-detail {{det.cls}}" aria-hidden="{{det.hidden}}">
+<button class="xbtn" onClick="{{det.close}}" aria-label="Details schließen">×</button>
+<span class="sys">{{det.meta}}</span>
+<h3 class="big" style="font-size: clamp(28px, 5cqw, 44px)">{{det.title}}</h3>
+<sc-if value="{{det.topic}}" hint-placeholder-val="{{false}}"><span class="sys" style="align-self: flex-start; border: 1px solid currentColor; padding: 3px 6px 2px">{{det.topic}}</span></sc-if>
+<p style="margin: 0; font-size: 16px; line-height: 1.5">{{det.desc}}</p>
+<div style="display: flex; flex-direction: column; gap: 4px"><b>{{det.who}}</b><span style="color: var(--d3-mute); font-size: 14px">{{det.role}}</span></div>
+<sc-if value="{{det.hasSpk}}" hint-placeholder-val="{{false}}"><button class="lnk sys" onClick="{{det.toSpk}}">Zur Speaker*in <span>→</span></button></sc-if>
+<a class="lnk sys" href="https://amtshelden.de">{{det.rel}} <span>↗</span></a>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto"><button class="lnk sys" onClick="{{det.prev}}" aria-label="Vorheriger Programmpunkt">← Vorher</button><button class="lnk sys" onClick="{{det.next}}" aria-label="Nächster Programmpunkt" style="justify-content: flex-end">Danach →</button></div>
+</div>
+</div>
+</div>
+
+<div class="mod k-spkhead {{P.spkhead.cls}}" style="left: calc({{P.spkhead.c}} * 100% / var(--cols)); top: calc({{P.spkhead.r}} * var(--rowh)); width: calc({{P.spkhead.w}} * 100% / var(--cols)); height: calc({{P.spkhead.h}} * var(--rowh)); transition-delay: {{P.spkhead.d}}">
+<div class="L l-speaker end pad"><h2 class="big" style="font-size: min(30cqh, 10cqw)">Speaker*innen</h2><p class="p hide-s">{{spkNote}}</p></div>
+</div>
+
+<div class="mod dark k-sdetail {{P.sdetail.cls}}" style="left: calc({{P.sdetail.c}} * 100% / var(--cols)); top: calc({{P.sdetail.r}} * var(--rowh)); width: calc({{P.sdetail.w}} * 100% / var(--cols)); height: calc({{P.sdetail.h}} * var(--rowh)); transition-delay: {{P.sdetail.d}}">
+<div class="L l-speaker fill pad" style="gap: 12px; overflow: auto">
+<div style="display: flex; flex-direction: column; gap: 8px"><span class="sys" style="color: var(--d3-mute)">{{sd.no}} / 06</span><span class="big" style="font-size: clamp(24px, 8cqw, 40px)">[Name Nachname]</span><span style="font-size: 15px; color: var(--d3-mute)">[Funktion · Organisation]</span></div>
+<p class="p hide-s" style="font-size: 15px">[Kurzbio in zwei Sätzen.]</p>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<button class="lnk sys" onClick="{{sd.toProg}}" style="border-color: var(--d3-bg)">{{sd.session}} <span>→</span></button>
+<a class="lnk sys hide-s" href="https://amtshelden.de" style="border-color: var(--d3-bg)">Interview auf amtshelden.de <span>↗</span></a>
+</div>
+</div>
+</div>
+
+<div class="mod k-phead2 {{P.phead2.cls}}" style="left: calc({{P.phead2.c}} * 100% / var(--cols)); top: calc({{P.phead2.r}} * var(--rowh)); width: calc({{P.phead2.w}} * 100% / var(--cols)); height: calc({{P.phead2.h}} * var(--rowh)); transition-delay: {{P.phead2.d}}">
+<div class="L l-partner end pad"><h2 class="big" style="font-size: min(30cqh, 13cqw)">Mitmachen</h2><p class="p">{{partnerNote}}</p></div>
+</div>
+
+<div class="mod k-logos {{P.logos.cls}}" style="background: var(--d3-white); left: calc({{P.logos.c}} * 100% / var(--cols)); top: calc({{P.logos.r}} * var(--rowh)); width: calc({{P.logos.w}} * 100% / var(--cols)); height: calc({{P.logos.h}} * var(--rowh)); transition-delay: {{P.logos.d}}">
+<div class="L l-partner logos">
+<sc-for list="{{logos}}" as="l" hint-placeholder-count="8"><div class="sys" style="color: var(--d3-mute); background: {{l.bg}}">{{l.label}}</div></sc-for>
+</div>
+</div>
+
+<div class="mod k-editions {{P.editions.cls}}" style="left: calc({{P.editions.c}} * 100% / var(--cols)); top: calc({{P.editions.r}} * var(--rowh)); width: calc({{P.editions.w}} * 100% / var(--cols)); height: calc({{P.editions.h}} * var(--rowh)); transition-delay: {{P.editions.d}}">
+<div class="L l-partner eds">
+<div style="background: var(--d3-orange)"><div style="display: flex; justify-content: space-between; align-items: flex-start"><svg viewBox="0 0 10.14 10.12" style="height: 44px; width: auto" aria-hidden="true"><path fill="#080808" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg><span class="sys">Aktuell</span></div><div style="display: flex; flex-direction: column; gap: 4px"><span class="sys">Ausgabe 01 · [Datum]</span><b style="font-size: clamp(15px, 2.6cqw, 20px); line-height: 1.1; text-transform: uppercase">KI + Transformation</b></div></div>
+<div class="dark" style="background: var(--d3-black)"><div style="display: flex; justify-content: space-between; align-items: flex-start"><svg viewBox="0 0 10.14 10.12" style="height: 44px; width: auto" aria-hidden="true"><path fill="#080808" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg><span class="sys">Vormerken</span></div><div style="display: flex; flex-direction: column; gap: 4px"><span class="sys">Ausgabe 02 · [Datum]</span><b style="font-size: clamp(15px, 2.6cqw, 20px); line-height: 1.1; text-transform: uppercase">Kommunikation</b></div></div>
+<div style="background: var(--d3-white)"><span class="sys">Archiv</span><p style="margin: 0; font-size: 14px; line-height: 1.4">Nach jeder Ausgabe wird das Programm zur Mediathek. Cases erscheinen als Artikel auf amtshelden.de.</p></div>
+</div>
+</div>
+
+<div class="mod k-about {{P.about.cls}}" style="background: var(--d3-white); left: calc({{P.about.c}} * 100% / var(--cols)); top: calc({{P.about.r}} * var(--rowh)); width: calc({{P.about.w}} * 100% / var(--cols)); height: calc({{P.about.h}} * var(--rowh)); transition-delay: {{P.about.d}}">
+<div class="L l-partner fill pad" style="gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 10px"><h2 class="big" style="font-size: clamp(24px, 6cqw, 40px)">Über D3</h2><p class="p">D3 ist das digitale Veranstaltungsformat von Amtshelden. Jede Ausgabe hat ein Schwerpunktthema: ein Tag, viele Räume, ein Deep Dive.</p></div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap"><span style="display: flex; align-items: center; gap: 8px"><svg viewBox="0 0 108.61 20.95" style="height: 22px; width: auto; flex-shrink: 0; color: #080808" role="img" aria-label="by Amtshelden"><g fill="currentColor"><path d="M58.16,8.28v3.48h-1.91V0H20.39c-1.54,0-2.78,1.24-2.78,2.78v9.3c0,1.54,1.25,2.78,2.78,2.78h34.01l7.28,6.1v-12.67h-3.52ZM27.64,11.77l-.79-1.94h-3.67l-.79,1.94h-1.94l3.71-8.74h1.76l3.71,8.74h-2,0ZM39.33,11.77h-1.9v-5.66l-2.44,3.7h-.05l-2.42-3.67v5.62h-1.87V3.08h2.050l2.28,3.67,2.28-3.67h2.05v8.68h.01ZM47.67,4.85h-2.64v6.92h-1.91v-6.92h-2.64v-1.76h7.19v1.76h0ZM54.91,9.2c0,1.72-1.31,2.69-3.18,2.69s-2.64-.46-3.68-1.38l1.13-1.35c.78.64,1.59,1.06,2.59,1.06s1.25-.31,1.25-.82v-.03c0-.49-.3-.73-1.75-1.1-1.75-.45-2.87-.93-2.87-2.65v-.03c0-1.58,1.27-2.61,3.04-2.61s2.34.39,3.22,1.1l-.99,1.44c-.77-.53-1.52-.85-2.26-.85s-1.12.33-1.12.75v.03c0,.57.37.75,1.87,1.14,1.76.46,2.75,1.09,2.75,2.6v.03h0Z"></path><polygon points="23.86 8.13 26.16 8.13 25.01 5.32 23.86 8.13"></polygon><path d="M84.09,4.81h-1.48v5.23h1.48c1.56,0,2.61-1.06,2.61-2.59v-.03c0-1.54-1.06-2.61-2.61-2.61Z"></path><path d="M105.83,0h-47.67v6.52h3.52v-3.43h1.91v11.77h42.25c1.54,0,2.78-1.24,2.78-2.78V2.78c0-1.54-1.24-2.78-2.78-2.78h0ZM71.96,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM79.58,11.77h-6.23V3.09h1.91v6.94h4.33v1.73h0ZM88.7,7.43c0,2.44-1.88,4.34-4.61,4.34h-3.38V3.09h3.38c2.72,0,4.61,1.87,4.61,4.31v.03ZM96.69,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM105.78,11.77h-1.62l-4.2-5.51v5.51h-1.88V3.09h1.76l4.06,5.34V3.09h1.88v8.68h0Z"></path><text transform="translate(0 11.75)" style="font-family: Gotham, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 11.82px"><tspan x="0" y="0" style="letter-spacing: -0.03em">b</tspan><tspan x="7.68" y="0">y</tspan></text></g></svg></span><a class="sys" href="https://amtshelden.de">amtshelden.de ↗</a></div>
+</div>
+</div>
+
+<div class="mod k-faq faq {{P.faq.cls}}" style="background: var(--d3-white); left: calc({{P.faq.c}} * 100% / var(--cols)); top: calc({{P.faq.r}} * var(--rowh)); width: calc({{P.faq.w}} * 100% / var(--cols)); height: calc({{P.faq.h}} * var(--rowh)); transition-delay: {{P.faq.d}}">
+<div class="L l-partner pad" style="overflow: auto" onWheel="{{stopWheel}}">
+<details><summary>Für wen ist D3? <span>+</span></summary><p>Für Menschen aus Behörden und öffentlichen Organisationen.</p></details>
+<details><summary>Wie läuft der Tag ab? <span>+</span></summary><p>Von 09:00 bis 15:30 wechselst du digital zwischen Keynotes, Vorträgen, Cases, Masterclasses, Networking und Ständen.</p></details>
+<details><summary>Wie melde ich mich an? <span>+</span></summary><p>{{faqReg}}</p></details>
+</div>
+</div>
+
+<div class="du {{du.cls}}" style="left: calc({{du.c}} * 100% / var(--cols) - 70px); top: calc({{du.r}} * var(--rowh) + 12px)" aria-hidden="true">
+<span class="av"><img src="/_blob/9313403364efa784c3d646ede2eb7604" alt=""></span>
+<span class="tag sys">Du</span>
+</div>
+
+</div>
+</main>
+
+<nav class="bot sys" aria-label="Navigation">
+<a href="#" class="{{on.home}}" onClick="{{nav.home}}">Home</a>
+<a href="#" class="{{on.explore}}" onClick="{{nav.explore}}">Formate</a>
+<a href="#" class="{{on.program}}" onClick="{{nav.program}}">Programm</a>
+<a href="#" class="{{on.speaker}}" onClick="{{nav.speaker}}">Speaker</a>
+<a href="#" class="{{on.partner}}" onClick="{{nav.partner}}">Mitmachen</a>
+</nav>
+
+<svg class="grain" aria-hidden="true" style="display: {{grainDisplay}}"><filter id="d3g5"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#d3g5)"></rect></svg>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;phase&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Phase 1&quot;,&quot;Phase 2&quot;],&quot;default&quot;:&quot;Phase 1&quot;},&quot;tour&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true},&quot;grain&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, ffmt: 'all', ftopic: 'all', spk: 0 };
+    this._last = {};
+    this._lock = 0;
+    var self = this;
+    this._rootRef = function (el) {
+      if (self._ro) { self._ro.disconnect(); self._ro = null; }
+      if (!el || typeof ResizeObserver === 'undefined') return;
+      self._ro = new ResizeObserver(function (en) {
+        var w = en[0].contentRect.width;
+        var bp = w < 640 ? 'mob' : (w < 1100 ? 'tab' : 'desk');
+        if (bp !== self.state.bp) self.setState({ bp: bp });
+      });
+      self._ro.observe(el);
+    };
+    this._stageRef = function (el) { self._stage = el; };
+  }
+  componentDidMount() {
+    var self = this;
+    this._t = setInterval(function () {
+      var rm = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!rm && (self.props.tour ?? true) && self.state.st === 'home' && !self.state.hover) self.setState({ tour: self.state.tour + 1 });
+    }, 2800);
+  }
+  componentDidUpdate(pp, ps) { if (ps.st !== this.state.st && this._stage) this._stage.scrollTop = 0; }
+  componentWillUnmount() { clearInterval(this._t); if (this._ro) this._ro.disconnect(); if (this._raf) cancelAnimationFrame(this._raf); }
+  lay() {
+    return {
+      desk: {
+        home: { d3: [0, 0, 4, 4], brand: [4, 0, 6, 2], hero: [10, 0, 2, 2], theme: [4, 2, 6, 1], fk: [10, 2, 2, 2], why: [4, 3, 4, 2], fm: [8, 3, 2, 2], date: [0, 4, 4, 1], fc: [10, 4, 2, 2], hint: [0, 5, 4, 1], cta: [4, 5, 4, 1], v1: [8, 5, 2, 1] },
+        explore: { xhead: [0, 0, 4, 3], fk: [4, 0, 4, 3], hero: [8, 0, 2, 2], v2: [10, 0, 2, 2], fc: [8, 2, 4, 2], fm: [0, 3, 4, 3], fn: [4, 3, 4, 2], fs: [8, 4, 4, 1], date: [4, 5, 4, 1], hint: [8, 5, 4, 1] },
+        program: { board: [0, 0, 12, 6] },
+        speaker: { spkhead: [0, 0, 3, 2], pc: [3, 0, 2, 2], s2: [5, 0, 2, 2], s3: [7, 0, 2, 2], sdetail: [9, 0, 3, 4], cta2: [0, 2, 3, 2], s4: [3, 2, 2, 2], s5: [5, 2, 2, 2], s6: [7, 2, 2, 2], hint: [0, 4, 3, 2], v1: [3, 4, 6, 2], cta: [9, 4, 3, 2] },
+        partner: { phead2: [0, 0, 4, 2], logos: [4, 0, 5, 2], fs: [9, 0, 3, 2], cta: [0, 2, 3, 1], cta2: [3, 2, 3, 1], editions: [6, 2, 6, 2], about: [0, 3, 6, 2], faq: [6, 4, 6, 2], date: [0, 5, 3, 1], hint: [3, 5, 3, 1] }
+      },
+      tab: {
+        home: { d3: [0, 0, 4, 3], brand: [4, 0, 4, 2], theme: [4, 2, 4, 1], why: [0, 3, 5, 2], hero: [5, 3, 3, 2], date: [0, 5, 5, 1], cta: [5, 5, 3, 1], fk: [0, 6, 3, 2], fc: [3, 6, 2, 2], fm: [5, 6, 3, 2], hint: [0, 8, 5, 1], v1: [5, 8, 3, 1] },
+        explore: { xhead: [0, 0, 5, 2], hero: [5, 0, 3, 2], fk: [0, 2, 5, 2], v2: [5, 2, 3, 2], fc: [0, 4, 4, 2], fm: [4, 4, 4, 2], fn: [0, 6, 4, 2], fs: [4, 6, 4, 1], hint: [4, 7, 4, 1] },
+        program: { board: [0, 0, 8, 8] },
+        speaker: { spkhead: [0, 0, 4, 2], sdetail: [4, 0, 4, 4], pc: [0, 2, 2, 2], s2: [2, 2, 2, 2], s3: [0, 4, 2, 2], s4: [2, 4, 2, 2], s5: [4, 4, 2, 2], s6: [6, 4, 2, 2], cta2: [0, 6, 4, 1], cta: [4, 6, 4, 1], hint: [0, 7, 8, 1] },
+        partner: { phead2: [0, 0, 5, 2], fs: [5, 0, 3, 2], logos: [0, 2, 8, 2], cta: [0, 4, 4, 1], cta2: [4, 4, 4, 1], editions: [0, 5, 8, 2], about: [0, 7, 4, 3], faq: [4, 7, 4, 3] }
+      },
+      mob: {
+        home: { d3: [0, 0, 4, 2], brand: [0, 2, 4, 1], theme: [0, 3, 4, 1], why: [0, 4, 4, 2], date: [0, 6, 4, 1], cta: [0, 7, 4, 1], hero: [0, 8, 2, 2], fk: [2, 8, 2, 2], fc: [0, 10, 2, 2], fm: [2, 10, 2, 2], hint: [0, 12, 4, 1] },
+        explore: { xhead: [0, 0, 4, 2], fk: [0, 2, 4, 2], fc: [0, 4, 2, 2], fm: [2, 4, 2, 2], fn: [0, 6, 2, 2], fs: [2, 6, 2, 2], hint: [0, 8, 4, 1] },
+        program: { board: [0, 0, 4, 8] },
+        speaker: { spkhead: [0, 0, 4, 1], pc: [0, 1, 2, 2], s2: [2, 1, 2, 2], s3: [0, 3, 2, 2], s4: [2, 3, 2, 2], s5: [0, 5, 2, 2], s6: [2, 5, 2, 2], sdetail: [0, 7, 4, 3], cta2: [0, 10, 4, 1], hint: [0, 11, 4, 1] },
+        partner: { phead2: [0, 0, 4, 2], cta: [0, 2, 2, 1], cta2: [2, 2, 2, 1], fs: [0, 3, 4, 1], logos: [0, 4, 4, 2], editions: [0, 6, 4, 4], about: [0, 10, 4, 3], faq: [0, 13, 4, 4] }
+      }
+    };
+  }
+  edPath(angs) {
+    return angs.map(function (a) {
+      var r = a * Math.PI / 180;
+      var x = (0.16 + 10.06 * Math.sin(r)).toFixed(3), y = (10.05 - 10.06 * Math.cos(r)).toFixed(3);
+      return 'M0.160,10.050 L' + x + ',' + y + ' A5.030,5.030 0 0 1 0.160,10.050 Z';
+    }).join(' ');
+  }
+  go(st, extra) {
+    var s = { st: st, hover: null };
+    if (extra) for (var k in extra) s[k] = extra[k];
+    this.setState(s);
+  }
+  renderVals() {
+    var self = this, s = this.state, bp = s.bp;
+    var p2 = (this.props.phase ?? 'Phase 1') === 'Phase 2';
+    var cols = { desk: 12, tab: 8, mob: 4 }[bp], base = { desk: 6, tab: 8, mob: 8 }[bp], minrow = { desk: '104px', tab: '96px', mob: '86px' }[bp];
+    var L = this.lay()[bp][s.st];
+    var rows = 0;
+    Object.keys(L).forEach(function (k) { rows = Math.max(rows, L[k][1] + L[k][3]); });
+    var keys = ['d3', 'brand', 'theme', 'why', 'hero', 'pc', 's2', 's3', 's4', 's5', 's6', 'fk', 'fc', 'fm', 'fn', 'fs', 'v1', 'v2', 'date', 'cta', 'cta2', 'hint', 'xhead', 'board', 'spkhead', 'sdetail', 'phead2', 'logos', 'editions', 'about', 'faq'];
+    var P = {};
+    keys.forEach(function (k) {
+      var p = L[k], vis = !!p;
+      if (vis) self._last[k] = p; else p = self._last[k] || [0, 0, 1, 1];
+      P[k] = { c: p[0], r: p[1], w: p[2], h: p[3], cls: vis ? '' : 'off', d: vis ? ((p[0] + p[1]) * 30) + 'ms' : '0ms' };
+    });
+    var order = ['home', 'explore', 'program', 'speaker', 'partner'];
+    var names = { home: 'Home', explore: 'Formate', program: 'Programm', speaker: 'Speaker*innen', partner: 'Mitmachen' };
+    var idx = order.indexOf(s.st);
+    var navTo = function (st, extra) { return function (e) { if (e && e.preventDefault) e.preventDefault(); self.go(st, extra); }; };
+
+    /* sessions */
+    var SP = ['/_blob/9decf5a8e398cd0dc5fd92a958984bea', '/_blob/c111eb0a0ddd902b6e60881bcca3f4f8', '/_blob/98e908777a6ce188713344468d23a9bd', '/_blob/ed54bddf64811e958622c804c955b3d3', '/_blob/3c130c3512412f2f7ef3681f6b8c0092', '/_blob/5319da926d88bc3da618a5548c1a7e2f'];
+    var F = {
+      keynote: ['Keynote', 's-d'], vortrag: ['Vortrag', 's-d'], panel: ['Panel', 's-dd'], case: ['Case', 's-dd'],
+      master: ['Masterclass', 's-open'], net: ['Networking', 's-pair'], stand: ['Stände', 's-pattern']
+    };
+    var R = ['Main Stage', 'Raum 2', 'Werkstatt', 'Lounge'];
+    var S = [
+      { id: 'a', t: '09:00', e: '09:30', f: 'net', room: 3, title: 'Get-together', who: 'Ankommen, Technik testen, Leute treffen', topic: '' },
+      { id: 'b', t: '09:30', e: '09:40', f: 'keynote', room: 0, title: 'Welcome', who: 'Amtshelden', topic: '' },
+      { id: 'c', t: '09:40', e: '10:20', f: 'keynote', room: 0, title: '[Titel der Keynote]', who: '[Speaker*in]', topic: 'KI', spk: 0 },
+      { id: 'd', t: '10:30', e: '11:10', f: 'case', room: 0, title: '[Case-Titel]', who: '[Behörde]', topic: 'Prozesse', spk: 1 },
+      { id: 'e', t: '10:30', e: '11:10', f: 'vortrag', room: 1, title: '[Vortragstitel]', who: '[Speaker*in]', topic: 'Cybersecurity', spk: 4 },
+      { id: 'f', t: '10:30', e: '12:00', f: 'master', room: 2, title: '[Titel der Masterclass]', who: '[Leitung]', topic: 'Tools', spk: 2 },
+      { id: 'g', t: '11:15', e: '11:55', f: 'vortrag', room: 0, title: '[Vortragstitel]', who: '[Speaker*in]', topic: 'Infrastruktur' },
+      { id: 'h', t: '11:15', e: '11:55', f: 'panel', room: 1, title: '[Panel-Titel]', who: '[Beteiligte]', topic: 'Führung', spk: 3 },
+      { id: 'i', t: '12:00', e: '13:00', f: 'net', room: 3, title: 'Themenräume & Stände', who: 'Alle', topic: '' },
+      { id: 'j', t: '13:00', e: '13:40', f: 'panel', room: 0, title: '[Panel-Titel]', who: '[Beteiligte]', topic: 'Datenschutz & Recht' },
+      { id: 'k', t: '13:00', e: '13:40', f: 'case', room: 1, title: '[Case-Titel]', who: '[Behörde]', topic: 'KI' },
+      { id: 'l', t: '13:00', e: '14:30', f: 'master', room: 2, title: '[Titel der Masterclass]', who: '[Leitung]', topic: 'Transformation & Kultur' },
+      { id: 'm', t: '14:00', e: '14:40', f: 'vortrag', room: 0, title: '[Vortragstitel]', who: '[Speaker*in]', topic: 'KI' },
+      { id: 'n', t: '15:00', e: '15:30', f: 'keynote', room: 0, title: 'Abschluss-Keynote', who: '[Speaker*in]', topic: 'Transformation & Kultur', spk: 5 }
+    ];
+    var times = ['09:00', '09:30', '09:40', '10:30', '11:15', '12:00', '13:00', '14:00', '15:00', '15:30'];
+    var cont = { '11:15': [[2, 'Masterclass läuft bis 12:00']], '14:00': [[2, 'Masterclass läuft bis 14:30']] };
+    var fam = { keynote: 'keynote', vortrag: 'keynote', case: 'case', panel: 'case', master: 'master', net: 'net' };
+    var match = function (x) { return (s.ffmt === 'all' || fam[x.f] === s.ffmt) && (s.ftopic === 'all' || x.topic === s.ftopic); };
+    var slots = times.map(function (t) {
+      var items = S.filter(function (x) { return x.t === t; }).map(function (x) {
+        var sel = s.sel === x.id;
+        return { real: true, note: '', col: String(x.room + 2), sh: F[x.f][1], fmtLabel: F[x.f][0], room: R[x.room], title: x.title, who: x.who, topic: x.topic,
+          isSel: sel, cls: (sel ? 'sel ' : '') + (match(x) ? '' : 'dim'), aria: t + ' ' + F[x.f][0] + ': ' + x.title,
+          pick: function () { self.setState({ sel: self.state.sel === x.id ? null : x.id }); } };
+      });
+      (cont[t] || []).forEach(function (c) { items.push({ real: false, note: c[1], col: String(c[0] + 2), cls: 'cont', aria: c[1], pick: null, isSel: false, topic: '' }); });
+      if (t === '15:30') items.push({ real: false, note: 'Ende des Tages', col: '2 / -1', cls: 'end', aria: 'Ende', pick: null, isSel: false, topic: '' });
+      items.sort(function (a, b) { return parseInt(a.col) - parseInt(b.col); });
+      var n = items.filter(function (x) { return x.real; }).length;
+      return { time: t, items: items, par: n > 1 ? n + ' parallel · wischen →' : '' };
+    });
+    var cur = S.filter(function (x) { return x.id === s.sel; })[0];
+    var det = cur ? {
+      cls: 'open', hidden: false, meta: cur.t + '–' + cur.e + ' · ' + F[cur.f][0] + ' · ' + R[cur.room], title: cur.title, topic: cur.topic,
+      desc: cur.f === 'net' ? 'Kleine Runden zu den Themen des Tages. Du wählst den Raum.' : '[Kurzbeschreibung: worum es geht, was du mitnimmst.]',
+      who: cur.who, role: cur.spk !== undefined ? '[Funktion · Organisation]' : '', hasSpk: cur.spk !== undefined,
+      toSpk: function () { self.go('speaker', { spk: cur.spk }); },
+      rel: cur.f === 'case' ? 'Artikel zum Case auf amtshelden.de' : 'Weiterführend auf amtshelden.de',
+      close: function () { self.setState({ sel: null }); },
+      prev: function () { var i = S.indexOf(cur); self.setState({ sel: S[(i - 1 + S.length) % S.length].id }); },
+      next: function () { var i = S.indexOf(cur); self.setState({ sel: S[(i + 1) % S.length].id }); }
+    } : { cls: '', hidden: true, meta: '', title: '', topic: '', desc: '', who: '', role: '', hasSpk: false, toSpk: null, rel: '', close: function () {}, prev: function () {}, next: function () {} };
+    var fList = [['all', 'Alle Formate', ''], ['keynote', 'Keynote & Vortrag', 's-d'], ['case', 'Case & Panel', 's-dd'], ['master', 'Masterclass', 's-open'], ['net', 'Networking', 's-pair']];
+    var tList = ['all', 'KI', 'Cybersecurity', 'Tools', 'Führung', 'Transformation & Kultur', 'Prozesse', 'Infrastruktur', 'Datenschutz & Recht'];
+
+    /* format modules */
+    var FM = [
+      { k: 'fk', verb: 'Vortrag ansehen', f: 'keynote', name: 'Keynotes & Vorträge', desc: 'Impulse für die Verwaltung von morgen.', time: '09:40', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-orange)' },
+      { k: 'fc', verb: 'Cases kennenlernen', f: 'case', name: 'Cases & Panels', desc: 'Echte Lösungen aus echten Behörden.', time: '10:30', bg: 'var(--d3-bg-2)', dark: '', ink: 'var(--d3-purple)' },
+      { k: 'fm', verb: 'Masterclass mitmachen', f: 'master', name: 'Master­classes', desc: 'Wissen vertiefen und anwenden.', time: '10:30', bg: 'var(--d3-white)', dark: '', ink: 'var(--d3-black)' },
+      { k: 'fn', verb: 'Leute treffen', f: 'net', name: 'Networking', desc: 'Menschen und Perspektiven verbinden.', time: '12:00', bg: 'var(--d3-yellow)', dark: '', ink: 'var(--d3-black)' },
+      { k: 'fs', verb: 'Stände besuchen', f: 'stand', name: 'Stände', desc: 'Technologien und Lösungen entdecken.', time: '12:00', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-bg)' }
+    ];
+    var fmts = FM.map(function (m) {
+      return { k: m.k, verb: m.verb, P: P[m.k], name: m.name, desc: m.desc, time: m.time, short: F[m.f][0], sh: F[m.f][1], bg: m.bg, dark: m.dark, ink: m.ink || 'inherit',
+        st0: (m.k === 'fk' && s.st === 'home') ? 'st0' : '', aria: F[m.f][0] + ': ' + m.name,
+        hover: function () { if (self.state.st !== 'program' && self.state.hover !== m.k) self.setState({ hover: m.k }); },
+        tap: function () {
+          var st = self.state.st;
+          if (m.f === 'stand') { if (st === 'partner') return; self.go('partner'); return; }
+          if (st === 'home') { self.go('explore', { hover: m.k }); return; }
+          self.go('program', { ffmt: m.f, sel: null });
+        } };
+    });
+
+    /* du */
+    var tourKeys = ['fk', 'fn', 'fm', 'fs', 'fc'].filter(function (k) { return !!L[k]; });
+    var spkKeys = ['pc', 's2', 's3', 's4', 's5', 's6'];
+    var tgt = null;
+    if (s.st === 'home') tgt = s.hover || tourKeys[s.tour % tourKeys.length];
+    else if (s.st === 'explore') tgt = s.hover || 'fk';
+    else if (s.st === 'speaker') tgt = spkKeys[s.spk];
+    else if (s.st === 'partner') tgt = 'fs';
+    var heroPlace = (s.st === 'home' || s.st === 'explore') && tgt && tgt.charAt(0) === 'f' ? tgt : 'fk';
+    var heroVerbs = { fk: 'Vortrag ansehen', fc: 'Cases kennenlernen', fm: 'Masterclass mitmachen', fn: 'Leute treffen', fs: 'Stände besuchen' };
+    var heroTimes = { fk: '09:40', fc: '10:30', fm: '10:30', fn: '12:00', fs: '12:00' };
+    var caps = { fk: '09:40 · Vortrag ansehen', fc: '10:30 · Cases kennenlernen', fm: '10:30 · Masterclass mitmachen', fn: '12:00 · Leute treffen', fs: '12:00 · Stände besuchen' };
+    var tp = tgt && L[tgt];
+    var duLabels = { fk: 'Vortrag', fc: 'Case', fm: 'Masterclass', fn: 'Austausch', fs: 'Stand', pc: 'Speaker*in', s2: 'Speaker*in', s3: 'Speaker*in', s4: 'Speaker*in', s5: 'Speaker*in', s6: 'Speaker*in' };
+    var du = tp ? { c: tp[0] + tp[2], r: tp[1], label: duLabels[tgt] || '', cls: '' } : { c: (this._du || [1, 0])[0], r: (this._du || [1, 0])[1], label: '', cls: 'hide' };
+    if (tp) this._du = [du.c, du.r];
+
+    /* ctas */
+    var ctaDefs = {
+      home: p2 ? ['Anmelden', 'Let’s Get Digital', null] : ['Speaker*in werden', 'Mitmachen', 'partner'],
+      explore: ['Programm ansehen', 'Alle Räume', 'program'],
+      speaker: p2 ? ['Anmelden', 'über Let’s Get Digital', null] : ['Partner werden', '', 'partner'],
+      partner: p2 ? ['Anmelden', 'über Let’s Get Digital', null] : ['Partner werden', '', null],
+      program: p2 ? ['Anmelden', 'über Let’s Get Digital', null] : ['Partner werden', '', 'partner']
+    };
+    var cta2Defs = {
+      home: p2 ? ['Programm', '', 'program'] : ['Speaker*in werden', '', 'partner'],
+      speaker: p2 ? ['Programm', '', 'program'] : ['Speaker*in werden', '', 'partner'],
+      partner: ['Speaker*in werden', '', null]
+    };
+    var mk = function (d) { d = d || ['', '', null]; return { label: d[0], note: d[1], go: function () { if (d[2]) self.go(d[2]); } }; };
+    var cta = mk(ctaDefs[s.st]), cta2 = mk(cta2Defs[s.st]);
+    var nxt = order[idx + 1];
+    var hint = nxt ? { label: names[nxt], go: function () { self.go(nxt); } } : { label: 'Zum Start', go: function () { self.go('home'); } };
+
+    var step = function (dir) {
+      var now = Date.now();
+      if (now < self._lock) return;
+      var i = order.indexOf(self.state.st) + dir;
+      if (i < 0 || i >= order.length) return;
+      self._lock = now + 1300;
+      self.go(order[i]);
+    };
+    var spkSel = {}, spkPick = {};
+    [0, 1, 2, 3, 4, 5].forEach(function (i) {
+      spkSel[i] = (s.st === 'speaker' && s.spk === i) ? 'sel' : '';
+      spkPick[i] = function () { if (self.state.st !== 'speaker') self.go('speaker', { spk: i }); else self.setState({ spk: i }); };
+    });
+    var spkSess = ['09:40 · Keynote', '10:30 · Case', '10:30 · Masterclass', '11:15 · Panel', '10:30 · Vortrag', '15:00 · Abschluss-Keynote'];
+    var spkSessId = ['c', 'd', 'f', 'h', 'e', 'n'];
+
+    return {
+      st: s.st, bp: bp, cols: cols, rows: rows, base: base, minrow: minrow,
+      rootRef: this._rootRef, stageRef: this._stageRef,
+      mx: s.mx.toFixed(3), my: s.my.toFixed(3),
+      lockSpan: bp === 'desk' ? 4 : (bp === 'tab' ? 5 : 3), ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: bp === 'mob' ? (p2 ? 'Anmelden' : 'Partner') : (p2 ? 'Anmelden' : 'Partner werden'), idxSpan: bp === 'desk' ? 1 : 1,
+      P: P, fmts: fmts, du: du, heroPlace: heroPlace, heroCap: 'Du · ' + caps[heroPlace], heroMeta: 'Du · ' + heroTimes[heroPlace], heroVerb: heroVerbs[heroPlace],
+      stNo: '0' + (idx + 1), stName: names[s.st],
+      on: { home: s.st === 'home' ? 'on' : '', explore: s.st === 'explore' ? 'on' : '', program: s.st === 'program' ? 'on' : '', speaker: s.st === 'speaker' ? 'on' : '', partner: s.st === 'partner' ? 'on' : '' },
+      nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner') },
+      ctaBar: p2 ? { label: 'Anmelden', go: function (e) { if (e && e.preventDefault) e.preventDefault(); } } : { label: 'Partner werden', go: navTo('partner') },
+      cta: cta, cta2: cta2, hint: hint,
+      progNote: p2 ? 'Das vollständige Programm. Tippe auf einen Programmpunkt für Details.' : 'Vorläufiger Ablauf. Weitere Programmpunkte folgen, Zeiten ab 10:30 und Themen sind exemplarisch.',
+      spkNote: p2 ? 'Alle Speaker*innen des Tages.' : 'Die ersten Stimmen. Weitere folgen.',
+      partnerNote: p2 ? 'Partner und Aussteller der Ausgabe 01.' : 'D3 sucht Partner, Aussteller und Speaker*innen für die erste Ausgabe.',
+      faqReg: p2 ? 'Über Let’s Get Digital. Dort bekommst du Bestätigung und Zugang.' : 'Die Anmeldung startet [Datum]. Organisiert wird sie über Let’s Get Digital.',
+      logos: [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) { return p2 ? { label: '[Partner-Logo]', bg: 'transparent' } : { label: i === 0 ? 'Hier entsteht der Partnerbereich der Ausgabe 01.' : '', bg: i === 0 ? 'var(--d3-white)' : (i % 3 === 1 ? 'var(--d3-bg)' : 'transparent') }; }),
+      slots: slots, det: det,
+      fFilters: fList.map(function (f) { var on = s.ffmt === f[0]; return { label: f[1], sh: f[2], on: on ? 'on' : '', pressed: on, pick: function () { self.setState({ ffmt: f[0] }); } }; }),
+      tFilters: tList.map(function (t) { var on = s.ftopic === t; return { label: t === 'all' ? 'Alle Themen' : t, on: on ? 'on' : '', pressed: on, pick: function () { self.setState({ ftopic: t }); } }; }),
+      spkSel: spkSel, spkPick: spkPick,
+      sd: { no: '0' + (s.spk + 1), session: spkSess[s.spk] + ' im Programm', toProg: function () { self.go('program', { sel: spkSessId[self.state.spk], ffmt: 'all', ftopic: 'all' }); } },
+      grainDisplay: (this.props.grain ?? true) ? 'block' : 'none',
+      stopWheel: function (e) {
+        var el = e.currentTarget, down = e.deltaY > 0;
+        if ((down && el.scrollTop + el.clientHeight < el.scrollHeight - 1) || (!down && el.scrollTop > 0)) e.stopPropagation();
+      },
+      onWheel: function (e) {
+        if (Math.abs(e.deltaY) < 30) return;
+        var st = self._stage, down = e.deltaY > 0;
+        if (st && ((down && st.scrollTop + st.clientHeight < st.scrollHeight - 2) || (!down && st.scrollTop > 2))) return;
+        step(down ? 1 : -1);
+      },
+      onMove: function (e) {
+        return;
+        var r = e.currentTarget.getBoundingClientRect();
+        var nx = ((e.clientX - r.left) / r.width) * 2 - 1, ny = ((e.clientY - r.top) / r.height) * 2 - 1;
+        if (self._raf) return;
+        self._raf = requestAnimationFrame(function () { self._raf = 0; self.setState({ mx: nx, my: ny }); });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

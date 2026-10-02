@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start -p 4320",
     "typecheck": "tsc --noEmit",
-    "build:prototype": "node scripts/prototype/gen.js design/canvas-v5/D3App2.dc.html public/prototype/mosaic-v5.html"
+    "build:prototype": "node scripts/prototype/gen.js design/canvas-v5/D3App2.dc.html public/prototype/mosaic-v5.html && node scripts/prototype/gen.js design/canvas-v6/D3App3.dc.html public/prototype/mosaic-v6.html && node scripts/prototype/gen.js design/canvas-v6/DesignSystem.dc.html public/prototype/design-system.html"
   },
   "dependencies": {
     "next": "^16.3.8",

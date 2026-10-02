@@ -1,5 +1,32 @@
 # Changelog
 
+## v6 – Refinement (Variante) · 2026-10-02
+
+Kein Redesign: dasselbe Vollbild-Mosaik, diszipliniert. Läuft parallel unter `/v6`, `/` bleibt v5.
+Interne Systemansicht unter `/design-system`.
+
+### Formensprache
+- D3 Shape Library: sechs Primitive aus dem D-Körper der Bildmarke – D (Keynote & Vortrag), Doppel-D (Case & Panel),
+  Offenes D (Masterclass), D-Paar (Networking), D-Rotation (Stände & Partner), D-Staffel (Weiter & CTA).
+- Entfernt: Burst, Punktraster, Venn-Kreise, freie Pfeile. Porträts in rotierten D-Masken.
+
+### Modul-Logik
+- Vier Modul-Typen: A Editorial, B Event, C Action, D Person. Text sitzt nur oben (Label) oder unten (Inhalt).
+- Gemeinsame Baselines: `--cell-padding`, `--label-position`, `--content-baseline`, `--meta-baseline`.
+- Eine Zelle, eine Botschaft: „Als Nächstes“-Modul und Aufzählung im Hero entfallen; reine Bildzellen (`v1`, `v2`).
+- Hero-Hierarchie: D3 (4×4) → Deep Dive Day → KI + Transformation → Positionierung → Formate.
+
+### Farbe
+- Amtshelden-Gelb `#FFE500` (aus `styles/tokens.css`) ersetzt Neon/Mint: Porträt-Zelle, Networking, aktiver Navi-Zustand,
+  gewählter Programmpunkt. Orange bleibt D3-Signal, Purple nur für Cases. CTA-Flächen schwarz statt orange.
+
+### Motion
+- Drei Verhalten: Shift (Raster), Reveal (Masken und Text), Expand (Zellen). Maus-Parallax und Rotation entfernt.
+
+### Responsive
+- Eigene Komposition für Tablet und Mobil: D3 → Deep Dive Day → Thema → Positionierung → Datum → CTA → Formate.
+
+
 ## v5.1 – Archivo, Icons, D3-Headline · 2026-10-02
 
 ### Geändert
