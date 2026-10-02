@@ -1,5 +1,16 @@
 # Changelog
 
+## v5.4 – Amtshelden-Nähe · 2026-10-02
+
+### Geändert
+- Grün = Akzentgrün von amtshelden.de `#009460`. Rot und Purple zurückgenommen: Thema-Kachel und Leisten-CTA grün,
+  „Partner werden“ gelb, Speaker- und Ausgaben-Kacheln gelb/grün/bone. Rot bleibt nur Keynote-Signal, Purple nur im Case-Icon.
+- „Was ist D3?“ als plakative Aussage in der Amtshelden-Headline-Stimme (fette Grotesk, Satzschreibung,
+  „für Behörden“ grün): „Die digitale Konferenz für Behörden, die neue Wege gehen.“ Mobil direkt unter dem Logo.
+- „by Amtshelden“ größer. Networking startet gelb, damit es nicht an die grüne Thema-Kachel stößt.
+- Preloader: Nach der Bildmarke laufen Schlagwörter im Takt (Digitale Konferenz · Für Behörden · KI in der Verwaltung ·
+  Ein Tag im Browser) und lösen sich in „Deep / Dive Day“ auf.
+
 ## v5.3 – Motion · 2026-10-02
 
 ### Neu
