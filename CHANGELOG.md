@@ -12,6 +12,7 @@ v6 (D-Körper als einzige Formlogik) ist verworfen – zu monoton. Übernommen w
 - Logo: In der Leiste steht nur die Bildmarke. Im Hero-Feld steht „D3“ ausgeschrieben, ohne zweite Bildmarke.
 - „Deep Dive Day“ immer zweizeilig wie im Logo: „Deep“ / „Dive Day“, mit „by Amtshelden“ als Label darüber.
 - Kleine Format-Zellen (Tablet/Mobil) zeigen nur Icon + Aktion.
+- Wandernder „Du“-Avatar entfernt. Die Porträt-Zelle mit wechselnder Maske bleibt.
 
 ### Entfernt
 - Routen `/v6` und `/design-system` samt generierten Dateien. Quellen bleiben unter `design/canvas-v6/` als Archiv.
