@@ -1,5 +1,19 @@
 # Changelog
 
+## v5.6 – Programm als Tagesreise · 2026-10-02
+
+### Neu
+- Programm als horizontale Strecke: links nach rechts die Zeit (09:00–15:30), untereinander die Räume als Bahnen.
+  Steht ein Punkt allein, belegt er alle Bahnen (Plenum: Get-together, Keynotes, Themenräume).
+- Jetzt / Als Nächstes: grüne Jetzt-Linie auf der Zeitachse, oben „Läuft gerade“ (grün) und „Als Nächstes · in x min“ (gelb).
+  In Phase 1 als Vorschau mit Uhr-Regler; Laufendes bekommt eine grüne Kante, Vergangenes nur noch Kontur.
+- Aufklappbare Zelle: Ein Programmpunkt wächst aus seiner eigenen Zelle auf die volle Fläche (Shared-Element-Übergang per clip-path)
+  und fällt beim Schließen dorthin zurück. Keynote in Tinte, Networking grün, sonst gelb; Porträt in der Format-Maske. Esc schließt.
+- Aufbau beim Betreten: Zellen wischen entlang der Zeitachse ein, danach fällt die Jetzt-Linie.
+
+### Entfernt
+- Zeit-×-Raum-Tabelle und seitliches Detail-Panel des Programms.
+
 ## v5.5 – 3D-Körper · 2026-10-02
 
 ### Neu

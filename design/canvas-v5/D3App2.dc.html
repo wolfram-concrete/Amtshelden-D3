@@ -75,7 +75,6 @@ a{color:inherit}
 .st-explore .fmt .sh{--s:min(58cqw,62cqh);left:calc(100% - var(--s) * .86);top:calc(var(--s) * -.14)}
 .st-explore .k-fk .sh{--s:min(80cqw,64cqh)}
 .st-partner .k-fs .sh{--s:min(34cqw,52cqh);left:auto;right:7%;top:12%}
-.card .ci .sh{left:0;top:0;width:100%;height:100%;translate:none}
 @container mod (max-height: 125px){ .fmt .sh{--s:min(40cqw,40cqh);top:calc(var(--cell-padding) - 2px)} .tB > .lab{display:none} }
 @container mod (max-width: 150px){ .tB > .lab{display:none} .fmt .sh{--s:min(46cqw,40cqh);top:var(--cell-padding)} .tB .btm .lab{font-size:10px;letter-spacing:.02em} }
 /* graphic-only */
@@ -115,27 +114,7 @@ a{color:inherit}
 .tchips{display:flex;flex-wrap:wrap;gap:6px}
 .tchip{padding:7px 9px 6px;border:1px solid var(--d3-black);min-height:32px;box-sizing:border-box}
 .tchip.on{background:var(--d3-black);color:var(--d3-bg)}
-.b-main{position:relative;overflow:auto;background:var(--d3-white)}
-.b-rooms,.slot{display:grid;grid-template-columns:78px repeat(4,minmax(0,1fr))}
-.b-rooms{position:sticky;top:0;z-index:3;background:var(--d3-black);color:var(--d3-bg)}
-.b-rooms > *{padding:10px 12px;border-right:1px solid rgba(238,237,228,.2)}
-.slot{border-bottom:1px solid var(--d3-line)}
-.b-time{padding:14px 12px;font-weight:850;font-size:20px;letter-spacing:-.02em;border-right:1px solid var(--d3-line)}
-.cards{display:contents}
-.card{position:relative;display:flex;flex-direction:column;gap:6px;padding:12px 14px 14px;min-height:118px;border-right:1px solid var(--d3-line);transition:background var(--motion-fast),opacity var(--motion-ui)}
-.card:hover{background:var(--d3-bg)}
-.card .ci{position:relative;width:26px;height:26px}
-.card b{font-size:16px;line-height:1.22}
-.card .who{font-size:14px;color:var(--d3-mute)}
-.card .tp{align-self:flex-start;margin-top:auto;padding:3px 6px 2px;border:1px solid currentColor}
-.card .rm{display:none}
-.card.sel{background:var(--d3-yellow);color:var(--d3-black)}
 
-.card.dim{opacity:.22}
-.card.cont{cursor:default;background:repeating-linear-gradient(135deg,transparent 0 7px,rgba(30,27,54,.07) 7px 8px);justify-content:center}
-.card.end{cursor:default;justify-content:center}
-.b-detail{position:absolute;right:0;top:0;bottom:0;width:min(440px,100%);z-index:6;background:var(--d3-bg);border-left:1px solid var(--d3-black);transform:translateX(102%);transition:transform var(--motion-layout) var(--ease-io);overflow:auto;padding:22px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px}
-.b-detail.open{transform:none}
 .xbtn{align-self:flex-end;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--d3-black);font-size:22px;flex-shrink:0}
 .lnk{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:0 14px;border:1px solid var(--d3-black);text-decoration:none;font-weight:700}
 .lnk:hover{background:var(--d3-black);color:var(--d3-bg)}
@@ -146,15 +125,112 @@ a{color:inherit}
   .chips,.tchips{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
   .chip{flex-shrink:0;border:1px solid var(--d3-black)}
   .tchip{flex-shrink:0}
-  .b-rooms{display:none}
-  .slot{display:block;padding:12px 0 14px}
-  .b-time{border:0;padding:0 14px 8px}
-  .cards{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 14px;scrollbar-width:none}
-  .card{flex:0 0 78%;scroll-snap-align:start;border:1px solid var(--d3-black);min-height:132px}
-  .card.cont{display:none}
-  .card .rm{display:inline}
-  .par-n{display:inline}
 }
+
+/* Programm als Tagesreise: Zeit läuft horizontal, Räume sind Bahnen. Steht ein Punkt allein, belegt er alle Bahnen (Plenum). */
+.jr{--ppm:4px;--axh:30px;--gut:34px;position:relative;display:flex;flex-direction:column;overflow:hidden;background:var(--d3-bg)}
+.j-now{display:grid;grid-template-columns:minmax(170px,.75fr) 1fr 1fr;border-bottom:1px solid var(--d3-black);flex-shrink:0}
+.jn-clock{display:flex;flex-direction:column;justify-content:space-between;gap:8px;padding:12px 16px 12px;background:var(--d3-white);border-right:1px solid var(--d3-black)}
+.jn-time{font-weight:850;font-stretch:var(--f-wide);font-size:clamp(30px,3.2cqw,46px);line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.jn-range{width:100%;margin:0;height:18px;accent-color:var(--d3-black);cursor:ew-resize}
+.jn-c{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:8px;padding:12px 16px 14px;min-height:104px;min-width:0;border-right:1px solid var(--d3-black)}
+.jn-c:last-child{border-right:0}
+.jn-b{display:flex;flex-direction:column;gap:4px;min-width:0;max-width:100%}
+.jn-c b{font-size:clamp(17px,1.6cqw,22px);line-height:1.12;letter-spacing:-.01em;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jn-m{opacity:.75}
+.jn-live{background:var(--d3-green);color:var(--d3-white)}
+.jn-next{background:var(--d3-yellow);color:var(--d3-black)}
+.jn-c.idle{background:var(--d3-bg-2);color:var(--d3-black);cursor:default}
+.jn-c:not(.idle):hover b{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.jn-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:8px;vertical-align:0;animation:jDot 1.6s steps(1,end) infinite}
+.jn-c.idle .jn-dot{display:none}
+@keyframes jDot{50%{opacity:.15}}
+.j-body{flex:1;min-height:0;display:grid;grid-template-columns:var(--gut) minmax(0,1fr)}
+.j-rooms{display:grid;grid-template-rows:repeat(4,minmax(0,1fr));padding-top:var(--axh);border-right:1px solid var(--d3-black);background:var(--d3-bg)}
+.j-rooms span{writing-mode:vertical-rl;transform:rotate(180deg);text-align:right;padding:10px 0;margin:0 auto;font-size:10px;letter-spacing:.06em;white-space:nowrap;overflow:hidden}
+.j-scroll{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--d3-black) transparent}
+.j-track{position:relative;height:100%;width:calc(390 * var(--ppm) + 28px);display:flex;flex-direction:column}
+.j-axis{position:relative;height:var(--axh);flex-shrink:0;border-bottom:1px solid var(--d3-black);background:var(--d3-bg)}
+.j-tk{position:absolute;top:0;bottom:0;display:flex;align-items:center;padding-left:6px;border-left:1px solid var(--d3-black);font-size:11px;white-space:nowrap}
+.j-tk.half{color:var(--d3-mute);border-left-color:var(--d3-line)}
+.j-lanes{position:relative;flex:1;min-height:0;background-image:repeating-linear-gradient(90deg,var(--d3-line) 0 1px,transparent 1px calc(30 * var(--ppm))),linear-gradient(transparent calc(25% - 1px),var(--d3-line) calc(25% - 1px) 25%,transparent 25% calc(50% - 1px),var(--d3-line) calc(50% - 1px) 50%,transparent 50% calc(75% - 1px),var(--d3-line) calc(75% - 1px) 75%,transparent 75%)}
+.jc{position:absolute;display:flex;flex-direction:column;justify-content:space-between;gap:6px;padding:10px 12px 12px;box-sizing:border-box;overflow:hidden;background:var(--d3-white);color:var(--d3-black);box-shadow:inset 0 0 0 1px var(--d3-black);transition:opacity var(--motion-ui) var(--ease-out),background var(--motion-fast)}
+.jc:hover{background:var(--d3-bg-2)}
+.jc .ci{position:relative;width:22px;height:22px;flex-shrink:0}
+.jc .ci .sh,.jx-f .ci .sh{left:0;top:0;width:100%;height:100%;translate:none}
+.jc-top{display:flex;align-items:center;gap:8px;width:100%;min-width:0}
+.jc-btm{display:flex;flex-direction:column;gap:3px;min-width:0}
+.jc b{font-size:15px;line-height:1.16;font-weight:750;hyphens:auto;overflow-wrap:break-word}
+.jc-t{white-space:nowrap}
+.jc .who{font-size:13px;opacity:.72}
+.jc-f{opacity:.72}
+.jc-live{margin-left:auto;padding:2px 6px 1px;background:var(--d3-green);color:var(--d3-white)}
+.jc.f-keynote{background:var(--d3-black);color:var(--d3-bg)}
+.jc.f-keynote:hover{background:#2D2950}
+.jc.f-case,.jc.f-panel{background:var(--d3-bg-2)}
+.jc.f-case:hover,.jc.f-panel:hover{background:#D8D7CB}
+.jc.f-net{background:var(--d3-yellow)}
+.jc.f-net:hover{background:#F2D900}
+.jc.plen b{font-size:clamp(18px,1.8cqw,26px);font-stretch:var(--f-wide);font-weight:850;letter-spacing:-.02em;line-height:1;max-width:12ch}
+.jc.plen .ci{width:clamp(30px,3.2cqw,48px);height:clamp(30px,3.2cqw,48px)}
+.jc.thin{padding:10px 0;align-items:center}
+.jc.thin .jc-t,.jc.thin .who,.jc.thin .jc-f,.jc.thin .jc-live{display:none}
+.jc.thin .jc-top{justify-content:center}
+.jc.thin .ci{width:18px;height:18px}
+.jc.thin .jc-btm{writing-mode:vertical-rl;transform:rotate(180deg)}
+.jc.thin b{font-size:14px;font-stretch:100%;max-width:none}
+/* vorbei: nur noch Kontur, Farbe weicht */
+.jc.past{background:var(--d3-bg);color:var(--d3-mute);box-shadow:inset 0 0 0 1px var(--d3-line)}
+.jc.past:hover{background:var(--d3-bg-2)}
+.jc.past .ci{filter:grayscale(1);opacity:.45}
+.jc.live{box-shadow:inset 0 0 0 1px var(--d3-black),inset 0 5px 0 var(--d3-green)}
+.jc.dim{opacity:.13}
+.j-nowline{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--d3-green);z-index:4;pointer-events:none;transition:left .32s var(--ease-io)}
+.j-nowline span{position:absolute;top:0;left:0;white-space:nowrap;padding:3px 6px 2px;background:var(--d3-green);color:var(--d3-white);font-size:10px}
+/* Aufbau beim Betreten: Zellen wischen entlang der Zeitachse ein, dann fällt die Jetzt-Linie */
+.st-program .jc{animation:jIn .5s cubic-bezier(.7,0,.2,1) both;animation-delay:calc(var(--i) * 42ms + 280ms)}
+.st-program .j-nowline{animation:jLine .45s cubic-bezier(.7,0,.2,1) .95s both}
+@keyframes jIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes jLine{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+/* Aufgeklappter Programmpunkt: wächst aus seiner Zelle (clip-path, per WAAPI) */
+.j-exp{position:absolute;inset:0;z-index:8;visibility:hidden;background:var(--d3-yellow);color:var(--d3-black)}
+.j-exp.open{visibility:visible}
+.j-exp.tone-k{background:var(--d3-black);color:var(--d3-bg)}
+.j-exp.tone-n{background:var(--d3-green);color:var(--d3-white)}
+.jx-in{height:100%;overflow:auto;box-sizing:border-box;padding:var(--cell-padding) clamp(18px,3cqw,40px) clamp(18px,3cqw,32px);display:flex;flex-direction:column;gap:clamp(16px,2.6cqh,28px)}
+.jx-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.tone-k .xbtn,.tone-k .lnk,.tone-n .xbtn,.tone-n .lnk{border-color:currentColor}
+.tone-k .lnk:hover{background:var(--d3-bg);color:var(--d3-black)}
+.tone-n .lnk:hover{background:var(--d3-white);color:var(--d3-black)}
+.jx-grid{flex:1;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(220px,1fr);gap:clamp(20px,4cqw,64px);align-items:end}
+.jx-text{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.jx-f{display:flex;align-items:center;gap:10px}
+.jx-f .ci{position:relative;width:36px;height:36px}
+.jx-title{font-size:clamp(36px,min(6.4cqw,11cqh),104px);line-height:.92;max-width:13ch;text-wrap:balance;margin:0}
+.jx-desc{font-size:clamp(16px,1.5cqw,20px);max-width:44ch}
+.jx-tp{padding:3px 6px 2px;border:1px solid currentColor}
+.jx-side{display:flex;flex-direction:column;gap:10px;min-width:0}
+.jx-pt{position:relative;width:min(100%,36cqh);aspect-ratio:1/1;overflow:hidden}
+.jx-pt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06)}
+.jx-who{display:flex;flex-direction:column;gap:2px;margin-bottom:4px}
+.jx-who span{opacity:.72;font-size:14px}
+.jx-nav{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@container mod (max-width: 860px){
+  .jr{--ppm:3px;--axh:26px;--gut:26px}
+  .j-now{grid-template-columns:1fr 1fr}
+  .jn-clock{grid-column:1/-1;flex-direction:row;align-items:center;gap:14px;border-right:0;border-bottom:1px solid var(--d3-black);padding:8px 14px}
+  .jn-clock .lab{flex-shrink:0}
+  .jn-time{font-size:26px}
+  .jn-c{min-height:84px;padding:10px 14px 12px}
+  .jn-c b{font-size:16px}
+  .jc{padding:8px 9px 10px}
+  .jc b{font-size:13px}
+  .jc .who{display:none}
+  .jc-live{display:none}
+  .jx-grid{grid-template-columns:1fr;align-items:start}
+  .jx-pt{width:min(56%,200px)}
+}
+@media (prefers-reduced-motion: reduce){.st-program .jc,.st-program .j-nowline{animation:none}.jn-dot{animation:none}}
 /* Modul-Ausrichtung: Label oben, Inhalt unten, nie mittig */
 .tA,.tB,.tC,.tD{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:8px;text-align:left}
 .lab{font-family:var(--f-sys);font-size:11px;letter-spacing:.05em;text-transform:uppercase;line-height:1.4;min-height:15px}
@@ -438,38 +514,50 @@ a{color:inherit}
 </sc-for>
 </div>
 </aside>
-<div class="b-main" onWheel="{{stopWheel}}">
-<div class="b-rooms sys"><span>Zeit</span><span>Main Stage</span><span>Raum 2</span><span>Werkstatt</span><span>Lounge</span></div>
-<sc-for list="{{slots}}" as="sl" hint-placeholder-count="9">
-<div class="slot">
-<div class="b-time">{{sl.time}}<sc-if value="{{sl.par}}" hint-placeholder-val="{{false}}"><span class="sys par-n" style="font-weight: 400; margin-left: 10px; color: var(--d3-mute)">{{sl.par}}</span></sc-if></div>
-<div class="cards">
-<sc-for list="{{sl.items}}" as="it" hint-placeholder-count="2">
-<button class="card {{it.cls}}" style="grid-column: {{it.col}}" onClick="{{it.pick}}" aria-label="{{it.aria}}">
-<sc-if value="{{it.real}}" hint-placeholder-val="{{true}}">
-<span class="ci"><span class="sh {{it.sh}}"></span></span>
-<span class="sys">{{it.fmtLabel}}<span class="rm"> · {{it.room}}</span></span>
-<b>{{it.title}}</b>
-<span class="who">{{it.who}}</span>
-<sc-if value="{{it.topic}}" hint-placeholder-val="{{false}}"><span class="tp sys">{{it.topic}}</span></sc-if>
-</sc-if>
-<sc-if value="{{it.note}}" hint-placeholder-val="{{false}}"><span class="sys" style="color: var(--d3-mute)">{{it.note}}</span></sc-if>
+<div class="b-main jr" ref="{{jrRef}}">
+<div class="j-now">
+<div class="jn-clock"><span class="lab">{{jn.clockLab}}</span><b class="jn-time">{{jn.time}}</b><input class="jn-range" type="range" min="540" max="930" step="5" value="{{jn.val}}" onInput="{{jn.set}}" aria-label="Uhrzeit für die Vorschau"></div>
+<button class="jn-c jn-live {{jn.liveCls}}" onClick="{{jn.liveGo}}"><span class="lab"><i class="jn-dot"></i>{{jn.liveLab}}</span><span class="jn-b"><b>{{jn.liveTitle}}</b><span class="sys jn-m">{{jn.liveMeta}}</span></span></button>
+<button class="jn-c jn-next {{jn.nextCls}}" onClick="{{jn.nextGo}}"><span class="lab">{{jn.nextLab}}</span><span class="jn-b"><b>{{jn.nextTitle}}</b><span class="sys jn-m">{{jn.nextMeta}}</span></span></button>
+</div>
+<div class="j-body">
+<div class="j-rooms sys" aria-hidden="true"><span>Main Stage</span><span>Raum 2</span><span>Werkstatt</span><span>Lounge</span></div>
+<div class="j-scroll" ref="{{jScrollRef}}" onWheel="{{jWheel}}">
+<div class="j-track">
+<div class="j-axis sys" aria-hidden="true">
+<sc-for list="{{jTicks}}" as="tk" hint-placeholder-count="14"><span class="j-tk {{tk.cls}}" style="left: {{tk.l}}">{{tk.label}}</span></sc-for>
+</div>
+<div class="j-lanes">
+<sc-for list="{{jItems}}" as="it" hint-placeholder-count="14">
+<button class="jc {{it.cls}}" data-id="{{it.id}}" style="left: {{it.l}}; width: {{it.w}}; top: {{it.t}}; height: {{it.h}}; --i: {{it.i}}" onClick="{{it.pick}}" aria-label="{{it.aria}}">
+<span class="jc-top"><span class="ci"><span class="sh {{it.sh}}"></span></span><span class="sys jc-t">{{it.time}}</span><sc-if value="{{it.live}}" hint-placeholder-val="{{false}}"><span class="jc-live sys">Läuft</span></sc-if></span>
+<span class="jc-btm"><span class="sys jc-f">{{it.fmtLabel}}</span><b>{{it.title}}</b><span class="who">{{it.who}}</span></span>
 </button>
 </sc-for>
+<div class="j-nowline" style="left: {{jn.l}}"><span class="sys">{{jn.time}}</span></div>
 </div>
 </div>
-</sc-for>
 </div>
-<div class="b-detail {{det.cls}}" aria-hidden="{{det.hidden}}">
-<button class="xbtn" onClick="{{det.close}}" aria-label="Details schließen">×</button>
-<span class="sys">{{det.meta}}</span>
-<h3 class="big" style="font-size: clamp(28px, 5cqw, 44px)">{{det.title}}</h3>
-<sc-if value="{{det.topic}}" hint-placeholder-val="{{false}}"><span class="sys" style="align-self: flex-start; border: 1px solid currentColor; padding: 3px 6px 2px">{{det.topic}}</span></sc-if>
-<p style="margin: 0; font-size: 16px; line-height: 1.5">{{det.desc}}</p>
-<div style="display: flex; flex-direction: column; gap: 4px"><b>{{det.who}}</b><span style="color: var(--d3-mute); font-size: 14px">{{det.role}}</span></div>
-<sc-if value="{{det.hasSpk}}" hint-placeholder-val="{{false}}"><button class="lnk sys" onClick="{{det.toSpk}}">Zur Speaker*in <span>→</span></button></sc-if>
-<a class="lnk sys" href="https://amtshelden.de">{{det.rel}} <span>↗</span></a>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto"><button class="lnk sys" onClick="{{det.prev}}" aria-label="Vorheriger Programmpunkt">← Vorher</button><button class="lnk sys" onClick="{{det.next}}" aria-label="Nächster Programmpunkt" style="justify-content: flex-end">Danach →</button></div>
+</div>
+<div class="j-exp {{ex.cls}} {{ex.tone}}" aria-hidden="{{ex.hidden}}" role="dialog" aria-label="{{ex.title}}">
+<div class="jx-in">
+<div class="jx-head"><span class="sys">{{ex.meta}}</span><button class="xbtn" onClick="{{ex.close}}" aria-label="Schließen">×</button></div>
+<div class="jx-grid">
+<div class="jx-text">
+<span class="jx-f"><span class="ci"><span class="sh {{ex.sh}}"></span></span><span class="sys">{{ex.fmt}}</span></span>
+<h3 class="big jx-title">{{ex.title}}</h3>
+<p class="p jx-desc">{{ex.desc}}</p>
+<sc-if value="{{ex.topic}}" hint-placeholder-val="{{false}}"><span class="sys jx-tp">{{ex.topic}}</span></sc-if>
+</div>
+<div class="jx-side">
+<sc-if value="{{ex.img}}" hint-placeholder-val="{{false}}"><div class="jx-pt {{ex.mask}}"><img src="{{ex.img}}" alt=""></div></sc-if>
+<div class="jx-who"><b>{{ex.who}}</b><span>{{ex.role}}</span></div>
+<sc-if value="{{ex.hasSpk}}" hint-placeholder-val="{{false}}"><button class="lnk sys" onClick="{{ex.toSpk}}">Zur Speaker*in <span>→</span></button></sc-if>
+<a class="lnk sys" href="https://amtshelden.de" target="_blank" rel="noopener">{{ex.rel}} <span>↗</span></a>
+</div>
+</div>
+<div class="jx-nav"><button class="lnk sys" onClick="{{ex.prev}}" aria-label="Vorheriger Programmpunkt">← Vorher</button><button class="lnk sys" onClick="{{ex.next}}" aria-label="Nächster Programmpunkt" style="justify-content: flex-end">Danach →</button></div>
+</div>
 </div>
 </div>
 </div>
@@ -543,7 +631,7 @@ a{color:inherit}
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { intro: 0, st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, ffmt: 'all', ftopic: 'all', spk: 0 };
+    this.state = { intro: 0, st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, now: 645, ffmt: 'all', ftopic: 'all', spk: 0 };
     this._last = {};
     this._lock = 0;
     var self = this;
@@ -560,10 +648,14 @@ class Component extends DCLogic {
     };
     this._stageRef = function (el) { self._stage = el; };
     this._ilogoRef = function (el) { self._ilogo = el; };
+    this._jrRef = function (el) { self._jr = el; };
+    this._jScrollRef = function (el) { self._js = el; };
   }
   componentDidMount() {
     var self = this;
     try { this.init3D(); } catch (e) {}
+    this._key = function (e) { if (e.key === 'Escape' && self.state.sel) self.closeExp(); };
+    if (typeof document !== 'undefined') document.addEventListener('keydown', this._key);
     var rmI = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if ((this.props.intro ?? true) && !rmI) {
       this._it1 = setTimeout(function () { self.endIntro(); }, 4700);
@@ -573,7 +665,64 @@ class Component extends DCLogic {
       if (!rm && (self.props.tour ?? true) && self.state.st === 'home' && !self.state.hover) self.setState({ tour: self.state.tour + 1 });
     }, 2800);
   }
-  componentDidUpdate(pp, ps) { if (ps.st !== this.state.st) { if (this._stage) this._stage.scrollTop = 0; if (this._3d && this._3d.release) this._3d.release(); } }
+  componentDidUpdate(pp, ps) {
+    var self = this;
+    if (ps.st !== this.state.st) {
+      if (this._stage) this._stage.scrollTop = 0;
+      if (this._3d && this._3d.release) this._3d.release();
+      if (this.state.st === 'program') setTimeout(function () { self.scrollToNow(!self.state.sel); }, 380);
+    }
+    if (ps.sel !== this.state.sel && this.state.sel && !this._closing) {
+      var inn = this._jr && this._jr.querySelector('.jx-in'); if (inn) inn.scrollTop = 0;
+      this.animExp(ps.sel ? 'swap' : 'open');
+    }
+    if (ps.now !== this.state.now && this._js) {
+      var el = this._js, x = (this.state.now - 540) * this.ppm();
+      if (x < el.scrollLeft + el.clientWidth * 0.12 || x > el.scrollLeft + el.clientWidth * 0.88) el.scrollLeft = Math.max(0, x - el.clientWidth * 0.5);
+    }
+  }
+  rm() { return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  ppm() { var el = this._js; if (!el) return 4; var v = parseFloat(getComputedStyle(el).getPropertyValue('--ppm')); return v || 4; }
+  scrollToNow(smooth) {
+    var el = this._js; if (!el) return;
+    var x = (this.state.now - 540) * this.ppm() - el.clientWidth * 0.3;
+    if (el.scrollTo) el.scrollTo({ left: Math.max(0, x), behavior: smooth && !this.rm() ? 'smooth' : 'auto' }); else el.scrollLeft = x;
+  }
+  /* Shared Element: Der Programmpunkt wächst aus seiner Zelle auf die volle Fläche – und fällt beim Schließen dorthin zurück */
+  expFrom(id) {
+    var jr = this._jr; if (!jr) return null;
+    var c = jr.querySelector('.jc[data-id="' + id + '"]'); if (!c) return null;
+    var m = jr.getBoundingClientRect(), r = c.getBoundingClientRect();
+    var cl = function (v, max) { return Math.max(0, Math.min(max, v)); };
+    return 'inset(' + cl(r.top - m.top, m.height) + 'px ' + cl(m.right - r.right, m.width) + 'px ' + cl(m.bottom - r.bottom, m.height) + 'px ' + cl(r.left - m.left, m.width) + 'px)';
+  }
+  animExp(mode) {
+    var jr = this._jr; if (!jr || this.rm()) return;
+    var ex = jr.querySelector('.j-exp'), inn = jr.querySelector('.jx-in');
+    if (!ex || !ex.animate) return;
+    if (mode === 'swap') { inn.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'cubic-bezier(.2,.7,.1,1)' }); return; }
+    var from = this.expFrom(this.state.sel) || 'inset(50% 50% 50% 50%)';
+    ex.animate([{ clipPath: from }, { clipPath: 'inset(0px 0px 0px 0px)' }], { duration: 560, easing: 'cubic-bezier(.75,0,.2,1)' });
+    inn.animate([{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 0, transform: 'translateY(18px)', offset: 0.5 }, { opacity: 1, transform: 'none' }], { duration: 760, easing: 'ease-out' });
+  }
+  closeExp() {
+    var self = this, jr = this._jr, id = this.state.sel;
+    if (!id) return;
+    var done = function () { self._closing = false; self.setState({ sel: null }); };
+    var ex = jr && jr.querySelector('.j-exp');
+    if (!ex || !ex.animate || this.rm()) { done(); return; }
+    /* Zielzelle sichtbar machen, damit der Rückweg dort landet */
+    var c = jr.querySelector('.jc[data-id="' + id + '"]'), el = this._js;
+    if (c && el) {
+      var l = c.offsetLeft, w = c.offsetWidth;
+      if (l < el.scrollLeft || l + w > el.scrollLeft + el.clientWidth) el.scrollLeft = Math.max(0, l - el.clientWidth * 0.3);
+    }
+    this._closing = true;
+    var to = this.expFrom(id) || 'inset(50% 50% 50% 50%)';
+    jr.querySelector('.jx-in').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: 'forwards' });
+    var a = ex.animate([{ clipPath: 'inset(0px 0px 0px 0px)' }, { clipPath: to }], { duration: 460, easing: 'cubic-bezier(.75,0,.2,1)', fill: 'forwards' });
+    a.onfinish = function () { done(); setTimeout(function () { ex.getAnimations && ex.getAnimations().forEach(function (x) { x.cancel(); }); var i = jr.querySelector('.jx-in'); i.getAnimations && i.getAnimations().forEach(function (x) { x.cancel(); }); }, 30); };
+  }
   init3D() {
     var self = this, root = this._root;
     if (!root || this._3d || typeof window === 'undefined') return;
@@ -690,6 +839,7 @@ class Component extends DCLogic {
     this._it2 = setTimeout(function () { self.setState({ intro: 3 }); }, 900);
   }
   componentWillUnmount() {
+    if (this._key && typeof document !== 'undefined') document.removeEventListener('keydown', this._key);
     clearTimeout(this._it1); clearTimeout(this._it2); clearInterval(this._t); if (this._ro) this._ro.disconnect(); if (this._raf) cancelAnimationFrame(this._raf); }
   lay() {
     return {
@@ -774,30 +924,59 @@ class Component extends DCLogic {
     var cont = { '11:15': [[2, 'Masterclass läuft bis 12:00']], '14:00': [[2, 'Masterclass läuft bis 14:30']] };
     var fam = { keynote: 'keynote', vortrag: 'keynote', case: 'case', panel: 'case', master: 'master', net: 'net' };
     var match = function (x) { return (s.ffmt === 'all' || fam[x.f] === s.ffmt) && (s.ftopic === 'all' || x.topic === s.ftopic); };
-    var slots = times.map(function (t) {
-      var items = S.filter(function (x) { return x.t === t; }).map(function (x) {
-        var sel = s.sel === x.id;
-        return { real: true, note: '', col: String(x.room + 2), sh: F[x.f][1], fmtLabel: F[x.f][0], room: R[x.room], title: x.title, who: x.who, topic: x.topic,
-          isSel: sel, cls: (sel ? 'sel ' : '') + (match(x) ? '' : 'dim'), aria: t + ' ' + F[x.f][0] + ': ' + x.title,
-          pick: function () { self.setState({ sel: self.state.sel === x.id ? null : x.id }); } };
-      });
-      (cont[t] || []).forEach(function (c) { items.push({ real: false, note: c[1], col: String(c[0] + 2), cls: 'cont', aria: c[1], pick: null, isSel: false, topic: '' }); });
-      if (t === '15:30') items.push({ real: false, note: 'Ende des Tages', col: '2 / -1', cls: 'end', aria: 'Ende', pick: null, isSel: false, topic: '' });
-      items.sort(function (a, b) { return parseInt(a.col) - parseInt(b.col); });
-      var n = items.filter(function (x) { return x.real; }).length;
-      return { time: t, items: items, par: n > 1 ? n + ' parallel · wischen →' : '' };
+    var mins = function (t) { var q = t.split(':'); return +q[0] * 60 + +q[1]; };
+    var hhmm = function (m) { return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + (m % 60)).slice(-2); };
+    var T0 = 540, T1 = 930, now = s.now;
+    var SM = S.map(function (x) { return { x: x, a: mins(x.t), b: mins(x.e) }; });
+    var open = function (id) { return function () { if (self.state.sel === id) self.closeExp(); else self.setState({ sel: id }); }; };
+    var jItems = SM.map(function (o, i) {
+      var x = o.x, alone = !SM.some(function (y) { return y !== o && y.a < o.b && y.b > o.a; });
+      var live = o.a <= now && now < o.b, past = o.b <= now, d = o.b - o.a;
+      return {
+        id: x.id, i: i, sh: F[x.f][1], fmtLabel: F[x.f][0], title: x.title, who: x.who, time: x.t, live: live,
+        l: 'calc(' + (o.a - T0) + ' * var(--ppm) + 2px)', w: 'calc(' + d + ' * var(--ppm) - 4px)',
+        t: alone ? '2px' : 'calc(' + (x.room * 25) + '% + 2px)', h: alone ? 'calc(100% - 4px)' : 'calc(25% - 4px)',
+        cls: ['f-' + x.f, alone ? 'plen' : '', d <= 15 ? 'thin' : '', live ? 'live' : '', past ? 'past' : '', match(x) ? '' : 'dim'].join(' '),
+        aria: x.t + ' bis ' + x.e + ', ' + F[x.f][0] + ', ' + (alone ? 'alle Räume' : R[x.room]) + ': ' + x.title,
+        pick: open(x.id)
+      };
     });
+    var jTicks = [];
+    for (var m = T0; m <= T1; m += 30) jTicks.push({ l: 'calc(' + (m - T0) + ' * var(--ppm))', label: hhmm(m), cls: m % 60 ? 'half' : '' });
+    var liveL = SM.filter(function (o) { return o.a <= now && now < o.b; });
+    var upA = SM.filter(function (o) { return o.a > now; }).map(function (o) { return o.a; }).sort(function (p, q) { return p - q; })[0];
+    var nextL = SM.filter(function (o) { return o.a === upA; });
+    var where = function (o) { return SM.some(function (y) { return y !== o && y.a < o.b && y.b > o.a; }) ? R[o.x.room] : 'Alle Räume'; };
+    var inMin = function (d) { return d < 60 ? 'in ' + d + ' min' : 'in ' + Math.floor(d / 60) + ' h' + (d % 60 ? ' ' + (d % 60) + ' min' : ''); };
+    var jn = {
+      time: hhmm(now), val: now, l: 'calc(' + (now - T0) + ' * var(--ppm))',
+      clockLab: p2 ? 'Jetzt' : 'Jetzt · Vorschau',
+      set: function (e) { self.setState({ now: +e.target.value }); },
+      liveCls: liveL.length ? '' : 'idle',
+      liveLab: liveL.length ? (liveL.length > 1 ? 'Läuft · ' + liveL.length + ' parallel' : 'Läuft gerade') : (now < T0 ? 'Noch nicht gestartet' : now >= T1 ? 'Vorbei' : 'Pause'),
+      liveTitle: liveL.length ? liveL[0].x.title + (liveL.length > 1 ? ' + ' + (liveL.length - 1) + ' weitere' : '') : (now >= T1 ? 'Bis zur nächsten Ausgabe' : 'Gleich geht es weiter'),
+      liveMeta: liveL.length ? F[liveL[0].x.f][0] + ' · ' + where(liveL[0]) + ' · bis ' + liveL[0].x.e : '',
+      liveGo: function () { if (liveL.length) self.setState({ sel: liveL[0].x.id }); },
+      nextCls: nextL.length ? '' : 'idle',
+      nextLab: nextL.length ? 'Als Nächstes · ' + inMin(upA - now) : 'Als Nächstes',
+      nextTitle: nextL.length ? nextL[0].x.title + (nextL.length > 1 ? ' + ' + (nextL.length - 1) + ' weitere' : '') : 'Ende des Tages',
+      nextMeta: nextL.length ? nextL[0].x.t + ' · ' + F[nextL[0].x.f][0] + ' · ' + where(nextL[0]) : '',
+      nextGo: function () { if (nextL.length) self.setState({ sel: nextL[0].x.id }); }
+    };
     var cur = S.filter(function (x) { return x.id === s.sel; })[0];
-    var det = cur ? {
-      cls: 'open', hidden: false, meta: cur.t + '–' + cur.e + ' · ' + F[cur.f][0] + ' · ' + R[cur.room], title: cur.title, topic: cur.topic,
-      desc: cur.f === 'net' ? 'Kleine Runden zu den Themen des Tages. Du wählst den Raum.' : '[Kurzbeschreibung: worum es geht, was du mitnimmst.]',
+    var MASK = { keynote: 'h-fk', vortrag: 'h-fk', case: 'h-fc', panel: 'h-fc', master: 'h-fm', net: 'h-fn' };
+    var ex = cur ? {
+      cls: 'open', hidden: false, tone: fam[cur.f] === 'keynote' && cur.f === 'keynote' ? 'tone-k' : (cur.f === 'net' ? 'tone-n' : ''),
+      meta: cur.t + '–' + cur.e + ' · ' + where(SM[S.indexOf(cur)]), title: cur.title, topic: cur.topic, sh: F[cur.f][1], fmt: F[cur.f][0],
+      desc: cur.f === 'net' ? 'Kleine Runden zu den Themen des Tages. Du wählst den Raum und bleibst, so lange du willst.' : '[Kurzbeschreibung: worum es geht, was du mitnimmst.]',
+      img: cur.spk !== undefined ? SP[cur.spk] : '', mask: MASK[cur.f],
       who: cur.who, role: cur.spk !== undefined ? '[Funktion · Organisation]' : '', hasSpk: cur.spk !== undefined,
-      toSpk: function () { self.go('speaker', { spk: cur.spk }); },
+      toSpk: function () { self.go('speaker', { spk: cur.spk, sel: null }); },
       rel: cur.f === 'case' ? 'Artikel zum Case auf amtshelden.de' : 'Weiterführend auf amtshelden.de',
-      close: function () { self.setState({ sel: null }); },
+      close: function () { self.closeExp(); },
       prev: function () { var i = S.indexOf(cur); self.setState({ sel: S[(i - 1 + S.length) % S.length].id }); },
       next: function () { var i = S.indexOf(cur); self.setState({ sel: S[(i + 1) % S.length].id }); }
-    } : { cls: '', hidden: true, meta: '', title: '', topic: '', desc: '', who: '', role: '', hasSpk: false, toSpk: null, rel: '', close: function () {}, prev: function () {}, next: function () {} };
+    } : { cls: '', hidden: true, tone: '', meta: '', title: '', topic: '', sh: '', fmt: '', desc: '', img: '', mask: '', who: '', role: '', hasSpk: false, toSpk: null, rel: '', close: function () {}, prev: function () {}, next: function () {} };
     var fList = [['all', 'Alle Formate', ''], ['keynote', 'Keynote & Vortrag', 's-circle'], ['case', 'Case & Panel', 's-burst'], ['master', 'Masterclass', 's-diag'], ['net', 'Networking', 's-net']];
     var tList = ['all', 'KI', 'Cybersecurity', 'Tools', 'Führung', 'Transformation & Kultur', 'Prozesse', 'Infrastruktur', 'Datenschutz & Recht'];
 
@@ -885,12 +1064,16 @@ class Component extends DCLogic {
       nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner') },
       ctaBar: p2 ? { label: 'Anmelden', go: function (e) { if (e && e.preventDefault) e.preventDefault(); } } : { label: 'Partner werden', go: navTo('partner') },
       cta: cta, cta2: cta2, hint: hint,
-      progNote: p2 ? 'Das vollständige Programm. Tippe auf einen Programmpunkt für Details.' : 'Vorläufiger Ablauf. Weitere Programmpunkte folgen, Zeiten ab 10:30 und Themen sind exemplarisch.',
+      progNote: p2 ? 'Der Tag als Strecke: links nach rechts die Zeit, untereinander die Räume. Tippe auf einen Programmpunkt.' : 'Vorläufiger Ablauf, Zeiten ab 10:30 und Themen sind exemplarisch. Schieb die Uhr, um den Tag live zu sehen.',
       spkNote: p2 ? 'Alle Speaker*innen des Tages.' : 'Die ersten Stimmen. Weitere folgen.',
       partnerNote: p2 ? 'Partner und Aussteller der Ausgabe 01.' : 'D3 sucht Partner, Aussteller und Speaker*innen für die erste Ausgabe.',
       faqReg: p2 ? 'Über Let’s Get Digital. Dort bekommst du Bestätigung und Zugang.' : 'Die Anmeldung startet [Datum]. Organisiert wird sie über Let’s Get Digital.',
       logos: [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) { return p2 ? { label: '[Partner-Logo]', bg: 'transparent' } : { label: i === 0 ? 'Hier entsteht der Partnerbereich der Ausgabe 01.' : '', bg: i === 0 ? 'var(--d3-white)' : (i % 3 === 1 ? 'var(--d3-bg)' : 'transparent') }; }),
-      slots: slots, det: det,
+      jItems: jItems, jTicks: jTicks, jn: jn, ex: ex, jrRef: this._jrRef, jScrollRef: this._jScrollRef,
+      jWheel: function (e) {
+        var el = e.currentTarget, ax = Math.abs(e.deltaX) > Math.abs(e.deltaY), d = ax ? e.deltaX : e.deltaY, max = el.scrollWidth - el.clientWidth;
+        if ((d > 0 && el.scrollLeft < max - 1) || (d < 0 && el.scrollLeft > 0)) { if (!ax) el.scrollLeft += d; e.stopPropagation(); }
+      },
       fFilters: fList.map(function (f) { var on = s.ffmt === f[0]; return { label: f[1], sh: f[2], on: on ? 'on' : '', pressed: on, pick: function () { self.setState({ ffmt: f[0] }); } }; }),
       tFilters: tList.map(function (t) { var on = s.ftopic === t; return { label: t === 'all' ? 'Alle Themen' : t, on: on ? 'on' : '', pressed: on, pick: function () { self.setState({ ftopic: t }); } }; }),
       spkSel: spkSel, spkPick: spkPick,
