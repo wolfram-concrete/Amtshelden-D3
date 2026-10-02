@@ -7,11 +7,13 @@
 - Hero: „D3“ als Headline-Schreibweise – die 3 rückt 0,22 em ins D, die Überlappung kehrt sich per `mix-blend-mode: difference` um.
   Kein zweites Logo; die Bildmarke bleibt `D3-final.svg`.
 - „by Amtshelden“ immer als Original-SVG, „by“ auf der Grundlinie des Blockkastens.
+- Bildmarke + Name + Amtshelden-Zusatz immer als Komplett-Logo `SVG/SVG/D3 lOGO.svg` (Leiste Desktop/Tablet, Icon-Board).
+  Mobil bleibt Bildmarke + „by Amtshelden“ ohne Namen.
 
 ### Neu
 - Icon-Set aus der Bildmarke (`SVG/icons/`, 100er-Raster, echte Boolesche Flächen, ab 16 px):
   Keynote & Vortrag (geteilter Ring, oben/unten invertiert), Case & Panel (Burst + D-Körper),
-  Masterclass (Kuppel aus D-Bögen), Aussteller (Scheibe mit Wellen), Networking (zwei Kreise),
+  Masterclass (Kuppel aus D-Bögen), Aussteller (Kopf über einer Schale aus D-Körpern), Networking (zwei Kreise),
   Weiter (drei Spitzen, Überlappungen negativ).
 
 ### Entfernt
