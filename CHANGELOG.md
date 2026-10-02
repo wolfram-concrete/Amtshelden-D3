@@ -7,6 +7,7 @@
   „Partner werden“ gelb, Speaker- und Ausgaben-Kacheln gelb/grün/bone. Rot bleibt nur Keynote-Signal, Purple nur im Case-Icon.
 - „Was ist D3?“ als plakative Aussage in der Amtshelden-Headline-Stimme (fette Grotesk, Satzschreibung,
   „für Behörden“ grün): „Die digitale Konferenz für Behörden, die neue Wege gehen.“ Mobil direkt unter dem Logo.
+- Schrift (Variante C): Headlines Archivo, Fließtext Georgia wie auf amtshelden.de – linksbündig mit Silbentrennung; Labels Martian Mono. Die „Was ist D3?“-Aussage in Archivo.
 - „by Amtshelden“ größer. Networking startet gelb, damit es nicht an die grüne Thema-Kachel stößt.
 - Preloader: Nach der Bildmarke laufen Schlagwörter im Takt (Digitale Konferenz · Für Behörden · KI in der Verwaltung ·
   Ein Tag im Browser) und lösen sich in „Deep / Dive Day“ auf.

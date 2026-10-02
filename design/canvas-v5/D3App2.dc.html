@@ -14,7 +14,7 @@ body{margin:0}
 :root{
 --d3-bg:#EEEDE4;--d3-bg-2:#E3E2D7;--d3-white:#F8F7F2;--d3-black:#1E1B36;--d3-orange:#FF4B23;--d3-purple:#7861D7;--d3-yellow:#FFE500;--d3-green:#009460;
 --d3-line:rgba(30,27,54,.14);--d3-mute:#56554F;
---f-text:'Archivo','Helvetica Neue',Arial,sans-serif;--f-sys:'Martian Mono',ui-monospace,monospace;--f-wide:108%;
+--f-text:'Archivo','Helvetica Neue',Arial,sans-serif;--f-sys:'Martian Mono',ui-monospace,monospace;--f-body:Georgia,'Times New Roman',serif;--f-wide:108%;
 --motion-fast:.16s;--motion-ui:.3s;--motion-layout:.75s;--motion-in:.42s;
 --ease-out:cubic-bezier(.2,.7,.1,1);--ease-io:cubic-bezier(.75,0,.2,1);
 /* Text dockt oben (Label) oder unten (Inhalt) an – gleiche Werte in allen Zellen */
@@ -277,6 +277,10 @@ a{color:inherit}
 .intro.out .iwords{opacity:0;transition:opacity .3s}
 @media (max-width:640px){.ilock{flex-direction:column;align-items:flex-start}.iwords{width:86vw}}
 @media (prefers-reduced-motion: reduce){.iw{animation:none !important;clip-path:none}.iw:not(.iwf){display:none}}
+/* Fließtext wie auf amtshelden.de: Georgia, linksbündig, mit Silbentrennung */
+.p,.ah-sub,.faq p,.b-detail p,.eds p{font-family:var(--f-body);hyphens:auto;-webkit-hyphens:auto;letter-spacing:0}
+.p{line-height:1.45}
+.ah-claim{font-family:var(--f-text);font-weight:800;font-stretch:100%;letter-spacing:-.02em}
 /* lists in modules */
 .why ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(6px,2.4cqh,12px)}
 .why li{display:grid;grid-template-columns:28px 1fr;gap:6px;font-size:clamp(14px,3.7cqw,17px);line-height:1.3;font-weight:600}
