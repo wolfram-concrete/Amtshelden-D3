@@ -1,5 +1,14 @@
 # Changelog
 
+## v5.5 – 3D-Körper · 2026-10-02
+
+### Neu
+- Format-Kacheln auf Home und Formate: Im Ruhezustand flaches SVG-Icon mit Ambient-Motion; bei Hover (Touch: erster Tap)
+  wird das Icon zum extrudierten WebGL-Körper, Material B „beschichtet“. Teile liegen auf eigenen Ebenen,
+  Aussparungen bleiben offen. Neigung 11–14° plus höchstens ±4°/±6° zur Maus.
+- Ein gemeinsamer Renderer für alle Kacheln, Three.js wird erst beim ersten Hover nachgeladen (cdnjs/jsdelivr),
+  gerendert wird nur während einer Bewegung. Bei reduzierter Bewegung oder Ladefehler bleibt alles flach.
+
 ## v5.4 – Amtshelden-Nähe · 2026-10-02
 
 ### Geändert
