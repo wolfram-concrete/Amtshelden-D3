@@ -16,6 +16,9 @@
   Masterclass (vier Punkte über gekreuzten Bögen), Aussteller (Kopf über einer Schale aus D-Körpern), Networking (zwei Kreise),
   Weiter (drei Halbkreise hintereinander, Überlappungen negativ).
 
+- Interface nutzt das Icon-Set: alle Zeichen (`.s-*`) als SVG-Masken, flache Flächen statt Verläufe;
+  Hero-Porträt in den Silhouetten der Icons.
+
 ### Entfernt
 - `SVG/d3-wortmarke.svg` – verworfen.
 
