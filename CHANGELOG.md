@@ -18,6 +18,7 @@
 
 - Interface nutzt das Icon-Set: alle Zeichen (`.s-*`) als SVG-Masken, flache Flächen statt Verläufe;
   Hero-Porträt in den Silhouetten der Icons.
+- Farbe: Neongelb `--d3-neon: #D7FF1F` ersetzt Mint (Hero-Porträt, Networking, „Als Nächstes“). Neon nur als Fläche mit schwarzem Inhalt.
 
 ### Entfernt
 - `SVG/d3-wortmarke.svg` – verworfen.
