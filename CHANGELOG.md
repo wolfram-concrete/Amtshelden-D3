@@ -11,6 +11,11 @@
   und fällt beim Schließen dorthin zurück. Keynote in Tinte, Networking grün, sonst gelb; Porträt in der Format-Maske. Esc schließt.
 - Aufbau beim Betreten: Zellen wischen entlang der Zeitachse ein, danach fällt die Jetzt-Linie.
 
+### Design-System
+- Neues Board „Design System · Stand v5.6“ unter `/design-system` und im Canvas (Seite v5): Farbe, Marke, Zeichen,
+  Typografie, Raster & Module, Motion, Programm, Verworfenes. Tokens, Zeichen und Motion kommen direkt aus der App-Quelle.
+  Das v6-Board bleibt als Archiv.
+
 ### Entfernt
 - Zeit-×-Raum-Tabelle und seitliches Detail-Panel des Programms.
 
