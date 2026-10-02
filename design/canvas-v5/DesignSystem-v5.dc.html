@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<title>D3 – Design System v5.6</title>
+<title>D3 – Design System v5.7</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -90,9 +90,9 @@ a{color:inherit}
 .spk .nm b{font-size:clamp(13px,7cqw,17px);line-height:1.15}
 .spk.sel{box-shadow:inset 0 0 0 3px var(--d3-black)}
 .badge{position:absolute;right:6%;top:5%;width:24%;aspect-ratio:1/1;z-index:2}
-.k-hero .msk{position:absolute;left:var(--cell-padding);right:var(--cell-padding);top:var(--cell-padding);bottom:calc(var(--cell-padding) + 46px);overflow:hidden;z-index:1;clip-path:circle(0% at 50% 100%);transition:clip-path .55s cubic-bezier(.7,0,.2,1)}
-.k-hero .msk img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06)}
-.k-hero.on-fk .h-fk,.k-hero.on-fc .h-fc,.k-hero.on-fm .h-fm,.k-hero.on-fn .h-fn,.k-hero.on-fs .h-fs{clip-path:circle(150% at 50% 100%);z-index:2}
+.k-hero .msk{position:absolute;inset:0;overflow:hidden;z-index:1;clip-path:circle(0% at 50% 100%);transition:clip-path .55s cubic-bezier(.7,0,.2,1)}
+.k-hero .msk img{width:100%;height:100%}
+.k-hero.on-fk .hp-fk,.k-hero.on-fc .hp-fc,.k-hero.on-fm .hp-fm,.k-hero.on-fn .hp-fn,.k-hero.on-fs .hp-fs{clip-path:circle(150% at 50% 100%);z-index:2}
 .h-fk{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,58c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50h-16c0,18.77768 -15.22232,34 -34,34c-18.77768,0 -34,-15.22232 -34,-34z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,58c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50h-16c0,18.77768 -15.22232,34 -34,34c-18.77768,0 -34,-15.22232 -34,-34z'/%3E%3C/svg%3E") center/contain no-repeat}
 .h-fc{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M50,0L59.95,25.98L85.36,14.64L74.02,40.05L100,50L74.02,59.95L85.36,85.36L59.95,74.02L50,100L40.05,74.02L14.64,85.36L25.98,59.95L0,50L25.98,40.05L14.64,14.64L40.05,25.98Z M50,84 L50,16 A34,34 0 0 1 50,84 Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M50,0L59.95,25.98L85.36,14.64L74.02,40.05L100,50L74.02,59.95L85.36,85.36L59.95,74.02L50,100L40.05,74.02L14.64,85.36L25.98,59.95L0,50L25.98,40.05L14.64,14.64L40.05,25.98Z M50,84 L50,16 A34,34 0 0 1 50,84 Z'/%3E%3C/svg%3E") center/contain no-repeat}
 .h-fm{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,99.5v-66c19.98585,0 37.89689,8.88336 50,22.91698c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698v66zM50,0.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM37.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM62.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM50,25.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,99.5v-66c19.98585,0 37.89689,8.88336 50,22.91698c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698v66zM50,0.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM37.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM62.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM50,25.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7z'/%3E%3C/svg%3E") center/contain no-repeat}
@@ -232,6 +232,38 @@ a{color:inherit}
   .jx-pt{width:min(56%,200px)}
 }
 @media (prefers-reduced-motion: reduce){.st-program .jc,.st-program .j-nowline{animation:none}.jn-dot{animation:none}}
+
+/* Bildwelt: Foto füllt die Zelle, Ausschnitt auf die Person (--fx/--fy, Zoom --z um --ox/--oy).
+   Darüber genau eine Fläche aus dem Zeichensystem; sie trägt den Text. */
+.ph{position:absolute;inset:0;overflow:hidden;z-index:0;background:var(--d3-black)}
+.ph img,.k-hero .msk img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:var(--fx,50%) var(--fy,40%);transform:scale(var(--z,1.15));transform-origin:var(--ox,50%) var(--oy,40%)}
+.geo{position:absolute;z-index:1;pointer-events:none;--r:min(92cqh,74cqw)}
+.g-qbl{left:0;bottom:0;width:var(--r);height:var(--r);border-top-right-radius:100%;transform-origin:0% 100%}
+.g-db{left:50%;bottom:0;width:calc(var(--r) * 2);height:var(--r);margin-left:calc(var(--r) * -1);border-radius:var(--r) var(--r) 0 0;transform-origin:50% 100%}
+.g-dl{left:0;top:50%;width:var(--r);height:calc(var(--r) * 2);margin-top:calc(var(--r) * -1);border-radius:0 var(--r) var(--r) 0;transform-origin:0% 50%}
+.k-hero .geo{--r:min(50cqw,56cqh);z-index:3}
+.k-hero .L{z-index:4}
+.k-hero .L .btm{max-width:calc(100% - 4px)}
+.k-spkhead .geo{--r:min(96cqh,82cqw)}
+.k-phead2 .geo{--r:min(94cqh,60cqw)}
+.k-xhead .geo{--r:min(77cqh,82cqw)}
+@container mod (max-height: 300px){ .k-xhead .geo{--r:min(94cqh,84cqw)} .k-phead2 .geo{--r:min(100cqh,70cqw)} }
+.phw{position:absolute;top:0;right:0;bottom:0;width:44%;overflow:hidden;z-index:0}
+.phw .geo{--r:40cqh}
+.k-about .L{right:44%}
+@container mod (aspect-ratio < 1.6){ .phw{display:none} .k-about .L{right:0} }
+/* Tiefe: Bild gegen die Maus, Fläche und Text mit ihr */
+.depth .ph img,.depth .k-hero .msk img{translate:calc(var(--mx) * -5px) calc(var(--my) * -5px)}
+.depth .geo{translate:calc(var(--mx) * 2px) calc(var(--my) * 2px)}
+/* Betreten: Bild öffnet sich, Fläche wächst aus ihrer Ecke; danach atmet sie in Stufen */
+.st-explore .k-xhead .ph,.st-speaker .k-spkhead .ph,.st-partner .k-phead2 .ph,.st-partner .k-about .ph{animation:phIn .7s cubic-bezier(.7,0,.2,1) .2s both}
+.st-explore .k-xhead .geo,.st-speaker .k-spkhead .geo,.st-partner .k-phead2 .geo,.st-partner .k-about .geo{animation:geoIn .6s cubic-bezier(.7,0,.2,1) .55s both,geoStep 12s cubic-bezier(.7,0,.2,1) 3s infinite}
+.k-hero .geo{animation:geoStep 11s cubic-bezier(.7,0,.2,1) 5s infinite}
+@keyframes phIn{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes geoIn{from{transform:scale(0)}to{transform:none}}
+@keyframes geoStep{0%,40%{transform:none}44%,70%{transform:scale(1.07)}74%,100%{transform:none}}
+.booting .ph,.booting .geo{animation:none !important}
+@media (prefers-reduced-motion: reduce){.ph,.geo{animation:none !important}}
 /* Modul-Ausrichtung: Label oben, Inhalt unten, nie mittig */
 .tA,.tB,.tC,.tD{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:8px;text-align:left}
 .lab{font-family:var(--f-sys);font-size:11px;letter-spacing:.05em;text-transform:uppercase;line-height:1.4;min-height:15px}
@@ -465,6 +497,12 @@ code{font-family:var(--f-sys);font-size:12px}
 .pd-ex-in > div:first-child{display:flex;flex-direction:column;gap:10px}
 .pd-pt{position:relative;width:110px;height:110px;flex-shrink:0}
 .pd-pt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06)}
+.bwrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.bwc{display:flex;flex-direction:column;gap:10px;padding:16px 18px 18px;box-shadow:inset -1px 0 0 var(--d3-line)}
+.mod.bwm{position:relative;left:auto;top:auto;width:100%;height:260px}
+.bwm .geo{--r:min(84cqh,80cqw)}
+.bwm .g-db{--r:min(50cqw,52cqh)}
+.bwt{position:absolute;left:14px;bottom:14px;z-index:2;right:14px}
 .nogo{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
 .nogo > div{display:flex;flex-direction:column;gap:6px;padding:18px;box-shadow:inset -1px 0 0 var(--d3-line);background:repeating-linear-gradient(135deg,transparent 0 9px,var(--d3-line) 9px 10px)}
 .nogo b{font-size:18px;text-decoration:line-through;text-decoration-thickness:2px}
@@ -472,7 +510,7 @@ code{font-family:var(--f-sys);font-size:12px}
 </style>
 </helmet>
 <div class="ds">
-<div class="ds-top"><span class="mk"><svg class="lock-mark" viewBox="0 0 10.14 10.12" style="height: 100%; width: auto; display: block" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg></span><h1>D3 Design System</h1><div class="meta"><span class="lab">Stand v5.6 · 02.10.2026</span><br><span class="lab" style="color: var(--d3-mute)">Quelle: D3App2 · intern</span></div></div>
+<div class="ds-top"><span class="mk"><svg class="lock-mark" viewBox="0 0 10.14 10.12" style="height: 100%; width: auto; display: block" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg></span><h1>D3 Design System</h1><div class="meta"><span class="lab">Stand v5.7 · 02.10.2026</span><br><span class="lab" style="color: var(--d3-mute)">Quelle: D3App2 · intern</span></div></div>
 <section class="ds-sec">
 <header class="ds-h"><span class="lab">01</span><h2 class="ds-t">Farbe</h2><p class="ds-lead">Bone und Tinte tragen. Gelb und Grün verbinden D3 mit Amtshelden. Infrarot und Purple bleiben Gewürz.</p></header>
 <div class="ds-b"><div class="swrow">
@@ -553,7 +591,16 @@ code{font-family:var(--f-sys);font-size:12px}
 </ul></div>
 </section>
 <section class="ds-sec">
-<header class="ds-h"><span class="lab">06</span><h2 class="ds-t">Motion</h2><p class="ds-lead">Gerastert statt geschmeidig: Schritt, Halt, Schritt. Abgeleitet aus dem 9-Square- und dem Poster-Raster.</p></header>
+<header class="ds-h"><span class="lab">06</span><h2 class="ds-t">Bildwelt</h2><p class="ds-lead">Menschen in einer gebauten Raumlandschaft aus unseren Farben und Formen. Darüber immer genau eine Fläche aus dem Zeichensystem.</p></header>
+<div class="ds-b"><div class="bwrow"><div class="bwc"><div class="mod bwm" style="color: var(--d3-black)"><div class="ph"><img src="/_blob/ecb49eb6cc82e70c748f1beb7843cdd2" alt="" style="--fx: 92%; --fy: 40%; --z: 1.1; --ox: 72%; --oy: 40%"></div><span class="geo g-qbl" style="background: var(--d3-bg)"></span><div class="bwt"><div class="big" style="font-size: 26px">Ein Tag.<br>Viele Räume.</div></div></div><span class="lab">Viertelkreis · Bone · trägt die Headline</span></div><div class="bwc"><div class="mod bwm" style="color: var(--d3-bg)"><div class="ph"><img src="/_blob/cda17e779e11afd463a480aaee19badb" alt="" style="--fx: 6%; --fy: 22%; --z: 1.2; --ox: 66%; --oy: 26%"></div><span class="geo g-qbl" style="background: var(--d3-black)"></span><div class="bwt"><div class="big" style="font-size: 24px">Speaker*innen</div></div></div><span class="lab">Viertelkreis · Tinte</span></div><div class="bwc"><div class="mod bwm" style="color: var(--d3-black)"><div class="ph"><img src="/_blob/93ceb67090ec6804918b62b94f9f9cfd" alt="" style="--fx: 50%; --fy: 34%; --z: 1.3; --ox: 50%; --oy: 36%"></div><span class="geo g-db" style="background: var(--d3-yellow)"></span><div class="bwt"><span class="lab">09:40 · Keynote</span><b style="display: block; font-size: 16px">Vortrag ansehen</b></div></div><span class="lab">Halbkreis · Gelb · Porträt-Zelle</span></div><div class="bwc"><div class="mod bwm" style="color: var(--d3-black)"><div class="ph"><img src="/_blob/0982c5a62984084b65b5b9e8f2148afd" alt="" style="--fx: 60%; --fy: 28%; --z: 1.15; --ox: 65%; --oy: 30%"></div><span class="geo g-qbl" style="background: var(--d3-yellow)"></span><div class="bwt"><div class="big" style="font-size: 26px">Mitmachen</div></div></div><span class="lab">Viertelkreis · Gelb</span></div></div><ul class="rules">
+<li><b>Ausschnitt auf die Person.</b> Das Foto füllt die Zelle; Fokus und Zoom sitzen auf Gesicht und Haltung, nie das ganze Motiv als Postkarte.</li>
+<li><b>Eine Fläche pro Bild.</b> Viertel- oder Halbkreis aus dem Zeichensystem, an einer Zellkante verankert. Die Fläche trägt den Text – nie Text direkt aufs Foto.</li>
+<li><b>Farbe bleibt.</b> Die Motive sind in Tinte, Bone, Gelb und Grün gebaut, deshalb farbig. Speaker*innen-Porträts bleiben schwarzweiß.</li>
+<li><b>Bewegung:</b> Beim Betreten öffnet sich das Bild, die Fläche wächst aus ihrer Ecke und atmet danach in Stufen. Maus: Bild −5 px, Fläche +2 px.</li>
+</ul></div>
+</section>
+<section class="ds-sec">
+<header class="ds-h"><span class="lab">07</span><h2 class="ds-t">Motion</h2><p class="ds-lead">Gerastert statt geschmeidig: Schritt, Halt, Schritt. Abgeleitet aus dem 9-Square- und dem Poster-Raster.</p></header>
 <div class="ds-b"><div class="mrow">
 <div class="mc"><span class="lab">01 · Stufe</span><div class="ms"><div class="mgrid"></div><div class="m-step"></div></div><p class="cap">Bewegung 18 % der Zeit, dann Halt. Rotation nur in 22,5°/90°-Schritten.</p></div>
 <div class="mc"><span class="lab">02 · D-Wischer</span><div class="ms m-wipe"><span class="w1"></span><span class="w2"></span><span class="w3"></span></div><p class="cap">Ein Halbkreis wächst von der Kante und bringt die nächste Farbe.</p></div>
@@ -573,7 +620,7 @@ code{font-family:var(--f-sys);font-size:12px}
 </ul></div>
 </section>
 <section class="ds-sec">
-<header class="ds-h"><span class="lab">07</span><h2 class="ds-t">Programm</h2><p class="ds-lead">Der Tag als Strecke. Was läuft, ist grün; was kommt, ist gelb.</p></header>
+<header class="ds-h"><span class="lab">08</span><h2 class="ds-t">Programm</h2><p class="ds-lead">Der Tag als Strecke. Was läuft, ist grün; was kommt, ist gelb.</p></header>
 <div class="ds-b"><div class="jr pdemo">
 <div class="j-now">
 <div class="jn-clock"><span class="lab">Jetzt · Vorschau</span><b class="jn-time">10:45</b><div class="jn-fake"><i></i></div></div>
@@ -597,19 +644,19 @@ code{font-family:var(--f-sys);font-size:12px}
 </ul></div>
 </section>
 <section class="ds-sec">
-<header class="ds-h"><span class="lab">08</span><h2 class="ds-t">Raus</h2><p class="ds-lead">Was wir ausprobiert und verworfen haben.</p></header>
+<header class="ds-h"><span class="lab">09</span><h2 class="ds-t">Raus</h2><p class="ds-lead">Was wir ausprobiert und verworfen haben.</p></header>
 <div class="ds-b"><div class="nogo">
 <div><b>Schwarz</b><span class="lab">#000 / #080808 → Tinte</span></div>
 <div><b>Nur-D-Formen</b><span class="lab">v6 · zu monoton</span></div>
 <div><b>„Du“-Figur</b><span class="lab">Avatar, Label, Mini-Avatar</span></div>
 <div><b>Schwenk-Hover</b><span class="lab">Drehen, Wackeln</span></div>
 <div><b>Verläufe, Glas</b><span class="lab">flache Flächen only</span></div>
-<div><b>Stockfotos</b><span class="lab">nur echte Speaker*innen</span></div>
+<div><b>Stockfotos</b><span class="lab">eigene Bildwelt statt Archiv</span></div>
 </div></div>
 </section>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3913}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4373}}'>
 class Component extends DCLogic {
   renderVals() { return {}; }
 }

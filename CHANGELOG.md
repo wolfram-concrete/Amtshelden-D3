@@ -1,5 +1,22 @@
 # Changelog
 
+## v5.7 – Bildwelt · 2026-10-02
+
+### Neu
+- Eigene Bildwelt (8 Motive aus `people/`, Web-Versionen in `public/bildwelt/`, 1800 px): Menschen in einer gebauten
+  Raumlandschaft aus Tinte, Bone, Gelb und Grün.
+- Prinzip: Foto füllt die Zelle, Ausschnitt und Zoom sitzen auf der Person (`--fx/--fy/--z/--ox/--oy`). Darüber genau eine
+  Fläche aus dem Zeichensystem (Viertel- oder Halbkreis an einer Zellkante), die den Text trägt.
+- Einsatz: Porträt-Zelle wechselt je Format das Motiv (Moment, Porträt, Fokus, Austausch, Entdecker) unter gelbem Halbkreis ·
+  „Ein Tag. Viele Räume.“ (Verbindung, Bone) · Speaker*innen-Kopf (Speaker, Tinte) · Mitmachen-Kopf (Raum, Gelb) ·
+  Über D3 auf Desktop (Austausch, grüner Halbkreis an der Bildkante).
+- Motion: Beim Betreten öffnet sich das Bild, die Fläche wächst aus ihrer Ecke und atmet danach in Stufen.
+  Maus-Tiefe: Bild −5 px, Fläche und Text +2 px.
+- Mobil: Speaker*innen-Kopf zweizeilig. Design-System-Board um Abschnitt „Bildwelt“ ergänzt.
+
+### Behoben
+- v5.6: Fehlendes `</div>` im Programm-Board versteckte Zellen auf Speaker*innen und Mitmachen.
+
 ## v5.6 – Programm als Tagesreise · 2026-10-02
 
 ### Neu

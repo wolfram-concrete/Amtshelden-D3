@@ -6,7 +6,9 @@ let tpl=src.match(/<x-dc>([\s\S]*?)<\/x-dc>/)[1].replace(/<helmet>[\s\S]*?<\/hel
 const sm=src.match(/<script type="text\/x-dc" data-dc-script data-props=(?:'([^']*)'|"([^"]*)")>([\s\S]*?)<\/script>/);
 const props=JSON.parse((sm[1]??sm[2]).replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,'&'));const code=sm[3];
 const map={'98e908777a6ce188713344468d23a9bd':'p01','9decf5a8e398cd0dc5fd92a958984bea':'p02','c111eb0a0ddd902b6e60881bcca3f4f8':'p03','3c130c3512412f2f7ef3681f6b8c0092':'p04','5319da926d88bc3da618a5548c1a7e2f':'p05','9313403364efa784c3d646ede2eb7604':'p06','ed54bddf64811e958622c804c955b3d3':'p07'};
-const fix=s=>s.replace(/\/_blob\/([0-9a-f]{32})/g,(m,id)=>'/people/'+map[id]+'.jpg');
+// Bildwelt (Canvas-Assets) -> public/bildwelt/
+const bild={'93ceb67090ec6804918b62b94f9f9cfd':'moment','25fae1ee7b4e2360f82780ef92474e94':'portrait','4cc6fa87aa6da5b3530e1849c20493a8':'focus','1903b319b4944cc7b79dc47efe2d2c7c':'exchange','22f1fd011889ce9a747c17d63deadb30':'explorer','ecb49eb6cc82e70c748f1beb7843cdd2':'connection','cda17e779e11afd463a480aaee19badb':'speaker','0982c5a62984084b65b5b9e8f2148afd':'space'};
+const fix=s=>s.replace(/\/_blob\/([0-9a-f]{32})/g,(m,id)=>bild[id]?'/bildwelt/d3-'+bild[id]+'.jpg':'/people/'+map[id]+'.jpg');
 tpl=fix(tpl); const code2=fix(code);
 const defaults={};for(const k in props){if(k[0]!=='$')defaults[k]=props[k].default;}
 const runtime=fs.readFileSync(__dirname+'/runtime.js','utf8');

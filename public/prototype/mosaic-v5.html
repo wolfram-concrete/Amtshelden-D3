@@ -87,9 +87,9 @@ a{color:inherit}
 .spk .nm b{font-size:clamp(13px,7cqw,17px);line-height:1.15}
 .spk.sel{box-shadow:inset 0 0 0 3px var(--d3-black)}
 .badge{position:absolute;right:6%;top:5%;width:24%;aspect-ratio:1/1;z-index:2}
-.k-hero .msk{position:absolute;left:var(--cell-padding);right:var(--cell-padding);top:var(--cell-padding);bottom:calc(var(--cell-padding) + 46px);overflow:hidden;z-index:1;clip-path:circle(0% at 50% 100%);transition:clip-path .55s cubic-bezier(.7,0,.2,1)}
-.k-hero .msk img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06)}
-.k-hero.on-fk .h-fk,.k-hero.on-fc .h-fc,.k-hero.on-fm .h-fm,.k-hero.on-fn .h-fn,.k-hero.on-fs .h-fs{clip-path:circle(150% at 50% 100%);z-index:2}
+.k-hero .msk{position:absolute;inset:0;overflow:hidden;z-index:1;clip-path:circle(0% at 50% 100%);transition:clip-path .55s cubic-bezier(.7,0,.2,1)}
+.k-hero .msk img{width:100%;height:100%}
+.k-hero.on-fk .hp-fk,.k-hero.on-fc .hp-fc,.k-hero.on-fm .hp-fm,.k-hero.on-fn .hp-fn,.k-hero.on-fs .hp-fs{clip-path:circle(150% at 50% 100%);z-index:2}
 .h-fk{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,58c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50h-16c0,18.77768 -15.22232,34 -34,34c-18.77768,0 -34,-15.22232 -34,-34z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,58c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50h-16c0,18.77768 -15.22232,34 -34,34c-18.77768,0 -34,-15.22232 -34,-34z'/%3E%3C/svg%3E") center/contain no-repeat}
 .h-fc{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M50,0L59.95,25.98L85.36,14.64L74.02,40.05L100,50L74.02,59.95L85.36,85.36L59.95,74.02L50,100L40.05,74.02L14.64,85.36L25.98,59.95L0,50L25.98,40.05L14.64,14.64L40.05,25.98Z M50,84 L50,16 A34,34 0 0 1 50,84 Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M50,0L59.95,25.98L85.36,14.64L74.02,40.05L100,50L74.02,59.95L85.36,85.36L59.95,74.02L50,100L40.05,74.02L14.64,85.36L25.98,59.95L0,50L25.98,40.05L14.64,14.64L40.05,25.98Z M50,84 L50,16 A34,34 0 0 1 50,84 Z'/%3E%3C/svg%3E") center/contain no-repeat}
 .h-fm{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,99.5v-66c19.98585,0 37.89689,8.88336 50,22.91698c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698v66zM50,0.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM37.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM62.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM50,25.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,99.5v-66c19.98585,0 37.89689,8.88336 50,22.91698c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698v66zM50,0.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM37.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM62.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM50,25.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7z'/%3E%3C/svg%3E") center/contain no-repeat}
@@ -229,6 +229,38 @@ a{color:inherit}
   .jx-pt{width:min(56%,200px)}
 }
 @media (prefers-reduced-motion: reduce){.st-program .jc,.st-program .j-nowline{animation:none}.jn-dot{animation:none}}
+
+/* Bildwelt: Foto füllt die Zelle, Ausschnitt auf die Person (--fx/--fy, Zoom --z um --ox/--oy).
+   Darüber genau eine Fläche aus dem Zeichensystem; sie trägt den Text. */
+.ph{position:absolute;inset:0;overflow:hidden;z-index:0;background:var(--d3-black)}
+.ph img,.k-hero .msk img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:var(--fx,50%) var(--fy,40%);transform:scale(var(--z,1.15));transform-origin:var(--ox,50%) var(--oy,40%)}
+.geo{position:absolute;z-index:1;pointer-events:none;--r:min(92cqh,74cqw)}
+.g-qbl{left:0;bottom:0;width:var(--r);height:var(--r);border-top-right-radius:100%;transform-origin:0% 100%}
+.g-db{left:50%;bottom:0;width:calc(var(--r) * 2);height:var(--r);margin-left:calc(var(--r) * -1);border-radius:var(--r) var(--r) 0 0;transform-origin:50% 100%}
+.g-dl{left:0;top:50%;width:var(--r);height:calc(var(--r) * 2);margin-top:calc(var(--r) * -1);border-radius:0 var(--r) var(--r) 0;transform-origin:0% 50%}
+.k-hero .geo{--r:min(50cqw,56cqh);z-index:3}
+.k-hero .L{z-index:4}
+.k-hero .L .btm{max-width:calc(100% - 4px)}
+.k-spkhead .geo{--r:min(96cqh,82cqw)}
+.k-phead2 .geo{--r:min(94cqh,60cqw)}
+.k-xhead .geo{--r:min(77cqh,82cqw)}
+@container mod (max-height: 300px){ .k-xhead .geo{--r:min(94cqh,84cqw)} .k-phead2 .geo{--r:min(100cqh,70cqw)} }
+.phw{position:absolute;top:0;right:0;bottom:0;width:44%;overflow:hidden;z-index:0}
+.phw .geo{--r:40cqh}
+.k-about .L{right:44%}
+@container mod (aspect-ratio < 1.6){ .phw{display:none} .k-about .L{right:0} }
+/* Tiefe: Bild gegen die Maus, Fläche und Text mit ihr */
+.depth .ph img,.depth .k-hero .msk img{translate:calc(var(--mx) * -5px) calc(var(--my) * -5px)}
+.depth .geo{translate:calc(var(--mx) * 2px) calc(var(--my) * 2px)}
+/* Betreten: Bild öffnet sich, Fläche wächst aus ihrer Ecke; danach atmet sie in Stufen */
+.st-explore .k-xhead .ph,.st-speaker .k-spkhead .ph,.st-partner .k-phead2 .ph,.st-partner .k-about .ph{animation:phIn .7s cubic-bezier(.7,0,.2,1) .2s both}
+.st-explore .k-xhead .geo,.st-speaker .k-spkhead .geo,.st-partner .k-phead2 .geo,.st-partner .k-about .geo{animation:geoIn .6s cubic-bezier(.7,0,.2,1) .55s both,geoStep 12s cubic-bezier(.7,0,.2,1) 3s infinite}
+.k-hero .geo{animation:geoStep 11s cubic-bezier(.7,0,.2,1) 5s infinite}
+@keyframes phIn{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes geoIn{from{transform:scale(0)}to{transform:none}}
+@keyframes geoStep{0%,40%{transform:none}44%,70%{transform:scale(1.07)}74%,100%{transform:none}}
+.booting .ph,.booting .geo{animation:none !important}
+@media (prefers-reduced-motion: reduce){.ph,.geo{animation:none !important}}
 /* Modul-Ausrichtung: Label oben, Inhalt unten, nie mittig */
 .tA,.tB,.tC,.tD{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:8px;text-align:left}
 .lab{font-family:var(--f-sys);font-size:11px;letter-spacing:.05em;text-transform:uppercase;line-height:1.4;min-height:15px}
@@ -418,11 +450,12 @@ a{color:inherit}
 </div>
 
 <div class="mod k-hero on-{{heroPlace}} {{P.hero.cls}}" style="background: var(--d3-yellow); left: calc({{P.hero.c}} * 100% / var(--cols)); top: calc({{P.hero.r}} * var(--rowh)); width: calc({{P.hero.w}} * 100% / var(--cols)); height: calc({{P.hero.h}} * var(--rowh)); transition-delay: {{P.hero.d}}">
-<span class="wipe"></span><div class="msk h-fk"><img src="/people/p06.jpg" alt=""></div>
-<div class="msk h-fc"><img src="/people/p06.jpg" alt=""></div>
-<div class="msk h-fm"><img src="/people/p06.jpg" alt=""></div>
-<div class="msk h-fn"><img src="/people/p06.jpg" alt=""></div>
-<div class="msk h-fs"><img src="/people/p06.jpg" alt=""></div>
+<span class="wipe"></span><div class="msk hp-fk"><img src="/bildwelt/d3-moment.jpg" alt="Teilnehmerin im gelben Bogen" style="--fx: 50%; --fy: 34%; --z: 1.3; --ox: 50%; --oy: 36%"></div>
+<div class="msk hp-fc"><img src="/bildwelt/d3-portrait.jpg" alt="Porträt einer Teilnehmerin" style="--fx: 49%; --fy: 22%; --z: 1.25; --ox: 50%; --oy: 26%"></div>
+<div class="msk hp-fm"><img src="/bildwelt/d3-focus.jpg" alt="Teilnehmerin mit Laptop" style="--fx: 21%; --fy: 20%; --z: 1.2; --ox: 50%; --oy: 24%"></div>
+<div class="msk hp-fn"><img src="/bildwelt/d3-exchange.jpg" alt="Zwei Menschen im Gespräch" style="--fx: 51%; --fy: 26%; --z: 1.1; --ox: 50%; --oy: 30%"></div>
+<div class="msk hp-fs"><img src="/bildwelt/d3-explorer.jpg" alt="Teilnehmer auf dem Weg durch die Räume" style="--fx: 48%; --fy: 28%; --z: 1.3; --ox: 50%; --oy: 30%"></div>
+<span class="geo g-db" style="background: var(--d3-yellow)"></span>
 <div class="L l-all tD pad" style="justify-content: flex-end"><div class="btm"><span class="lab">{{heroMeta}}</span><b style="font-size: clamp(14px, 6cqw, 18px); line-height: 1.1">{{heroVerb}}</b></div></div>
 </div>
 
@@ -499,7 +532,8 @@ a{color:inherit}
 </div>
 
 <div class="mod k-xhead {{P.xhead.cls}}" style="left: calc({{P.xhead.c}} * 100% / var(--cols)); top: calc({{P.xhead.r}} * var(--rowh)); width: calc({{P.xhead.w}} * 100% / var(--cols)); height: calc({{P.xhead.h}} * var(--rowh)); transition-delay: {{P.xhead.d}}">
-<div class="L l-explore end pad"><h2 class="big" style="font-size: min(15cqh, 10.4cqw)">Ein Tag.<br>Viele Räume.<br>Ein Deep Dive.</h2></div>
+<div class="ph"><img src="/bildwelt/d3-connection.jpg" alt="Menschen in einer Raumlandschaft aus Bögen und Flächen" style="--fx: 92%; --fy: 40%; --z: 1.1; --ox: 72%; --oy: 40%"></div><span class="geo g-qbl" style="background: var(--d3-bg)"></span>
+<div class="L l-explore end pad"><h2 class="big" style="font-size: min(9.4cqh, 7cqw)">Ein Tag.<br>Viele Räume.<br>Ein Deep Dive.</h2></div>
 </div>
 
 <div class="mod k-board {{P.board.cls}}" style="left: calc({{P.board.c}} * 100% / var(--cols)); top: calc({{P.board.r}} * var(--rowh)); width: calc({{P.board.w}} * 100% / var(--cols)); height: calc({{P.board.h}} * var(--rowh)); transition-delay: {{P.board.d}}">
@@ -565,9 +599,11 @@ a{color:inherit}
 </div>
 </div>
 </div>
+</div>
 
 <div class="mod k-spkhead {{P.spkhead.cls}}" style="left: calc({{P.spkhead.c}} * 100% / var(--cols)); top: calc({{P.spkhead.r}} * var(--rowh)); width: calc({{P.spkhead.w}} * 100% / var(--cols)); height: calc({{P.spkhead.h}} * var(--rowh)); transition-delay: {{P.spkhead.d}}">
-<div class="L l-speaker end pad"><h2 class="big" style="font-size: min(30cqh, 10cqw)">Speaker*innen</h2><p class="p hide-s">{{spkNote}}</p></div>
+<div class="ph"><img src="/bildwelt/d3-speaker.jpg" alt="Speaker mit Headset" style="--fx: 6%; --fy: 22%; --z: 1.2; --ox: 66%; --oy: 26%"></div><span class="geo g-qbl" style="background: var(--d3-black)"></span>
+<div class="L l-speaker end pad" style="color: var(--d3-bg)"><h2 class="big" style="font-size: min(11cqh, 7.2cqw)">Speaker*innen</h2><p class="p hide-s" style="max-width: min(24ch, 52cqw); font-size: clamp(13px, 3.4cqw, 15px); color: #CFCBE0">{{spkNote}}</p></div>
 </div>
 
 <div class="mod dark k-sdetail {{P.sdetail.cls}}" style="left: calc({{P.sdetail.c}} * 100% / var(--cols)); top: calc({{P.sdetail.r}} * var(--rowh)); width: calc({{P.sdetail.w}} * 100% / var(--cols)); height: calc({{P.sdetail.h}} * var(--rowh)); transition-delay: {{P.sdetail.d}}">
@@ -582,7 +618,8 @@ a{color:inherit}
 </div>
 
 <div class="mod k-phead2 {{P.phead2.cls}}" style="left: calc({{P.phead2.c}} * 100% / var(--cols)); top: calc({{P.phead2.r}} * var(--rowh)); width: calc({{P.phead2.w}} * 100% / var(--cols)); height: calc({{P.phead2.h}} * var(--rowh)); transition-delay: {{P.phead2.d}}">
-<div class="L l-partner end pad"><h2 class="big" style="font-size: min(30cqh, 13cqw)">Mitmachen</h2><p class="p">{{partnerNote}}</p></div>
+<div class="ph"><img src="/bildwelt/d3-space.jpg" alt="Teilnehmerin in einer hellen Raumlandschaft" style="--fx: 60%; --fy: 28%; --z: 1.15; --ox: 65%; --oy: 30%"></div><span class="geo g-qbl" style="background: var(--d3-yellow)"></span>
+<div class="L l-partner end pad"><h2 class="big" style="font-size: min(12cqh, 6cqw)">Mitmachen</h2><p class="p" style="max-width: min(30ch, 44cqw); font-size: clamp(13px, 3cqw, 15px)">{{partnerNote}}</p></div>
 </div>
 
 <div class="mod k-logos {{P.logos.cls}}" style="background: var(--d3-white); left: calc({{P.logos.c}} * 100% / var(--cols)); top: calc({{P.logos.r}} * var(--rowh)); width: calc({{P.logos.w}} * 100% / var(--cols)); height: calc({{P.logos.h}} * var(--rowh)); transition-delay: {{P.logos.d}}">
@@ -600,6 +637,7 @@ a{color:inherit}
 </div>
 
 <div class="mod k-about {{P.about.cls}}" style="background: var(--d3-white); left: calc({{P.about.c}} * 100% / var(--cols)); top: calc({{P.about.r}} * var(--rowh)); width: calc({{P.about.w}} * 100% / var(--cols)); height: calc({{P.about.h}} * var(--rowh)); transition-delay: {{P.about.d}}">
+<div class="phw"><div class="ph"><img src="/bildwelt/d3-exchange.jpg" alt="Zwei Menschen im Gespräch" style="--fx: 32%; --fy: 26%; --z: 1.12; --ox: 62%; --oy: 30%"></div><span class="geo g-dl" style="background: var(--d3-green)"></span></div>
 <div class="L l-partner fill pad" style="gap: 12px">
 <div style="display: flex; flex-direction: column; gap: 10px"><h2 class="big" style="font-size: clamp(24px, 6cqw, 40px)">Über D3</h2><p class="p">D3 ist das digitale Veranstaltungsformat von Amtshelden. Jede Ausgabe hat ein Schwerpunktthema: ein Tag, viele Räume, ein Deep Dive.</p></div>
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap"><span style="display: flex; align-items: center; gap: 8px"><svg viewBox="0 0 108.61 20.95" style="height: 22px; width: auto; flex-shrink: 0; color: var(--d3-black)" role="img" aria-label="by Amtshelden"><g fill="currentColor"><path d="M58.16,8.28v3.48h-1.91V0H20.39c-1.54,0-2.78,1.24-2.78,2.78v9.3c0,1.54,1.25,2.78,2.78,2.78h34.01l7.28,6.1v-12.67h-3.52ZM27.64,11.77l-.79-1.94h-3.67l-.79,1.94h-1.94l3.71-8.74h1.76l3.71,8.74h-2,0ZM39.33,11.77h-1.9v-5.66l-2.44,3.7h-.05l-2.42-3.67v5.62h-1.87V3.08h2.050l2.28,3.67,2.28-3.67h2.05v8.68h.01ZM47.67,4.85h-2.64v6.92h-1.91v-6.92h-2.64v-1.76h7.19v1.76h0ZM54.91,9.2c0,1.72-1.31,2.69-3.18,2.69s-2.64-.46-3.68-1.38l1.13-1.35c.78.64,1.59,1.06,2.59,1.06s1.25-.31,1.25-.82v-.03c0-.49-.3-.73-1.75-1.1-1.75-.45-2.87-.93-2.87-2.65v-.03c0-1.58,1.27-2.61,3.04-2.61s2.34.39,3.22,1.1l-.99,1.44c-.77-.53-1.52-.85-2.26-.85s-1.12.33-1.12.75v.03c0,.57.37.75,1.87,1.14,1.76.46,2.75,1.09,2.75,2.6v.03h0Z"></path><polygon points="23.86 8.13 26.16 8.13 25.01 5.32 23.86 8.13"></polygon><path d="M84.09,4.81h-1.48v5.23h1.48c1.56,0,2.61-1.06,2.61-2.59v-.03c0-1.54-1.06-2.61-2.61-2.61Z"></path><path d="M105.83,0h-47.67v6.52h3.52v-3.43h1.91v11.77h42.25c1.54,0,2.78-1.24,2.78-2.78V2.78c0-1.54-1.24-2.78-2.78-2.78h0ZM71.96,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM79.58,11.77h-6.23V3.09h1.91v6.94h4.33v1.73h0ZM88.7,7.43c0,2.44-1.88,4.34-4.61,4.34h-3.38V3.09h3.38c2.72,0,4.61,1.87,4.61,4.31v.03ZM96.69,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM105.78,11.77h-1.62l-4.2-5.51v5.51h-1.88V3.09h1.76l4.06,5.34V3.09h1.88v8.68h0Z"></path><text transform="translate(0 11.75)" style="font-family: Gotham, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 11.82px"><tspan x="0" y="0" style="letter-spacing: -0.03em">b</tspan><tspan x="7.68" y="0">y</tspan></text></g></svg></span><a class="sys" href="https://amtshelden.de">amtshelden.de ↗</a></div>
@@ -935,7 +973,7 @@ class Component extends DCLogic {
         home: { d3: [0, 0, 2, 2], hero: [2, 0, 2, 2], brand: [0, 2, 4, 2], why: [0, 4, 4, 3], theme: [0, 7, 4, 1], date: [0, 8, 4, 1], cta: [0, 9, 2, 1], cta2: [2, 9, 2, 1], fk: [0, 10, 2, 2], fc: [2, 10, 1, 1], fm: [3, 10, 1, 1], fn: [2, 11, 1, 1], fs: [3, 11, 1, 1], next: [0, 12, 4, 1], hint: [0, 13, 4, 1] },
         explore: { xhead: [0, 0, 4, 2], fk: [0, 2, 4, 2], fc: [0, 4, 2, 2], fm: [2, 4, 2, 2], fn: [0, 6, 2, 2], fs: [2, 6, 2, 2], cta: [0, 8, 4, 1], hint: [0, 9, 4, 1] },
         program: { board: [0, 0, 4, 8] },
-        speaker: { spkhead: [0, 0, 4, 1], pc: [0, 1, 2, 2], s2: [2, 1, 2, 2], s3: [0, 3, 2, 2], s4: [2, 3, 2, 2], s5: [0, 5, 2, 2], s6: [2, 5, 2, 2], sdetail: [0, 7, 4, 3], cta2: [0, 10, 4, 1], hint: [0, 11, 4, 1] },
+        speaker: { spkhead: [0, 0, 4, 2], pc: [0, 2, 2, 2], s2: [2, 2, 2, 2], s3: [0, 4, 2, 2], s4: [2, 4, 2, 2], s5: [0, 6, 2, 2], s6: [2, 6, 2, 2], sdetail: [0, 8, 4, 3], cta2: [0, 11, 4, 1], hint: [0, 12, 4, 1] },
         partner: { phead2: [0, 0, 4, 2], cta: [0, 2, 2, 1], cta2: [2, 2, 2, 1], fs: [0, 3, 4, 1], logos: [0, 4, 4, 2], editions: [0, 6, 4, 4], about: [0, 10, 4, 3], faq: [0, 13, 4, 4] }
       }
     };
