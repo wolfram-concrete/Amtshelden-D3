@@ -43,7 +43,7 @@ a{color:inherit}
 /* stage */
 .stage{position:relative;min-height:0;overflow-y:auto;overflow-x:hidden;container-type:size;scrollbar-width:thin}
 .canvas{position:relative;--rowh:max(calc(100cqh / var(--base)),var(--minrow));height:calc(var(--rows) * var(--rowh));background-image:linear-gradient(90deg,var(--d3-line) 1px,transparent 1px),linear-gradient(var(--d3-line) 1px,transparent 1px);background-size:calc(100% / var(--cols)) var(--rowh)}
-.mod{position:absolute;box-sizing:border-box;overflow:hidden;container-type:size;container-name:mod;transition:left var(--motion-layout) var(--ease-io),top var(--motion-layout) var(--ease-io),width var(--motion-layout) var(--ease-io),height var(--motion-layout) var(--ease-io),opacity var(--motion-ui) var(--ease-out),visibility 0s linear 0s;box-shadow:inset 0 0 0 .5px var(--d3-line)}
+.mod{position:absolute;box-sizing:border-box;overflow:hidden;container-type:size;container-name:mod;transition:transform var(--motion-layout) var(--ease-out),left var(--motion-layout) var(--ease-io),top var(--motion-layout) var(--ease-io),width var(--motion-layout) var(--ease-io),height var(--motion-layout) var(--ease-io),opacity var(--motion-ui) var(--ease-out),visibility 0s linear 0s;box-shadow:inset 0 0 0 .5px var(--d3-line)}
 .mod.off{opacity:0;visibility:hidden;pointer-events:none;transition:opacity var(--motion-fast) var(--ease-out),visibility 0s linear var(--motion-fast)}
 .mod.act{cursor:pointer}
 .dark{background:var(--d3-black);color:var(--d3-bg);--d3-mute:#B9B5CF;--d3-line:rgba(238,237,228,.16)}
@@ -71,8 +71,6 @@ a{color:inherit}
 .fmt .sh{--s:min(56cqw,46cqh);width:var(--s);height:var(--s);left:calc(50% - var(--s) / 2);top:calc(50% - var(--s) / 2 - 5%)}
 .st-explore .fmt .sh{--s:min(58cqw,62cqh);left:calc(100% - var(--s) * .86);top:calc(var(--s) * -.14)}
 .st-explore .k-fk .sh{--s:min(80cqw,64cqh)}
-.st-explore .fmt:hover .sh{rotate:12deg}
-.st-explore .k-fk:hover .sh,.st-explore .k-fn:hover .sh{rotate:0deg;scale:1.04}
 .st-partner .k-fs .sh{--s:min(34cqw,52cqh);left:auto;right:7%;top:12%}
 .card .ci .sh{left:0;top:0;width:100%;height:100%;translate:none}
 @container mod (max-height: 125px){ .fmt .sh{--s:min(40cqw,40cqh);top:calc(var(--cell-padding) - 2px)} .tB > .lab{display:none} }
@@ -167,6 +165,95 @@ a{color:inherit}
 .dataRow b{font-size:clamp(13px,4.2cqw,20px);line-height:1.1;white-space:nowrap}
 .dark .lab{color:#B9B5CF}
 .logos > *:first-child{align-items:flex-start;justify-content:flex-start;text-align:left;padding:var(--cell-padding)}
+
+/* ===== Motion v5.3 ===== */
+.app{--mx:0;--my:0}
+/* Tiefe: Ebenen reagieren minimal unterschiedlich auf die Maus (nur Desktop, nicht bei reduzierter Bewegung) */
+.sh{translate:none}
+.depth .mod .L{translate:calc(var(--mx) * 2px) calc(var(--my) * 2px)}
+.depth .sh{translate:calc(var(--mx) * 6px) calc(var(--my) * 6px)}
+.depth .k-hero .msk,.depth .pt{translate:calc(var(--mx) * 4px) calc(var(--my) * 4px)}
+/* Format-Icons aus Teilen */
+.sh .mo{display:block;width:100%;height:100%;overflow:visible}
+.mo path{transform-box:fill-box}
+.mo-keynote path{fill:var(--d3-orange)}
+.mo-keynote .p-top{transform-origin:50% 100%;animation:kTopIn 1.1s var(--ease-out) both,kShift 11s var(--ease-io) 1.6s infinite}
+.mo-keynote .p-bot{transform-origin:50% 0%;animation:kBotIn 1.1s var(--ease-out) .15s both}
+.mo-keynote .p-kern{transform-origin:50% 100%;animation:kKernIn .9s var(--ease-out) .45s both,kKern 11s var(--ease-io) 1.6s infinite}
+@keyframes kTopIn{from{transform:translateY(-55%);opacity:0}to{transform:none;opacity:1}}
+@keyframes kBotIn{from{transform:translateY(70%);opacity:0}to{transform:none;opacity:1}}
+@keyframes kKernIn{from{transform:scaleY(0)}to{transform:none}}
+@keyframes kShift{0%,58%,100%{transform:none}66%,84%{transform:translateX(22%)}}
+@keyframes kKern{0%,58%,100%{fill:var(--d3-orange)}66%,84%{fill:var(--d3-yellow)}}
+.mo-case .p-star{fill:var(--d3-purple);transform-origin:50% 50%;mix-blend-mode:multiply;animation:cStarIn 1.2s var(--ease-out) .1s both,cStar 13s var(--ease-io) 2.4s infinite}
+.mo-case .p-d{fill:var(--d3-orange);mix-blend-mode:multiply;animation:cDIn 1.1s var(--ease-out) .35s both,cD 13s var(--ease-io) 2.4s infinite}
+@keyframes cStarIn{from{transform:rotate(-90deg) scale(.3);opacity:0}to{transform:none;opacity:1}}
+@keyframes cDIn{from{transform:translateX(-120%)}to{transform:none}}
+@keyframes cStar{0%,50%{transform:none}64%,100%{transform:rotate(22.5deg)}}
+@keyframes cD{0%,50%,100%{transform:none}60%,86%{transform:translateX(-46%)}}
+.mo-master path{fill:currentColor}
+.mo-master .p-ol,.mo-master .p-il{transform-origin:0% 100%;animation:mArcL 1s var(--ease-out) both}
+.mo-master .p-or,.mo-master .p-ir{transform-origin:100% 100%;animation:mArcR 1s var(--ease-out) both}
+.mo-master .p-il,.mo-master .p-ir{animation-delay:.15s}
+.mo-master .p-dots path{transform-origin:50% 50%;animation:mDot .6s var(--ease-out) both}
+.mo-master .p-d1{animation-delay:.7s !important}.mo-master .p-d2{animation-delay:.8s !important}.mo-master .p-d3{animation-delay:.9s !important}
+.mo-master .p-cross{fill:var(--d3-white);animation:mCrossIn .4s linear .9s both,mCross 12s var(--ease-io) 3.2s infinite}
+@keyframes mCrossIn{from{opacity:0}to{opacity:1}}
+@keyframes mCross{0%,30%,62%,100%{fill:var(--d3-white)}38%,54%{fill:var(--d3-purple)}}
+.mo-master .p-dots{transform-box:fill-box;transform-origin:50% 50%;animation:mDots 12s var(--ease-io) 3.2s infinite}
+.mo-master .p-d4{animation:mDot .6s var(--ease-out) 1s both,mDotC 12s var(--ease-io) 3.2s infinite}
+@keyframes mArcL{from{transform:rotate(-90deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes mArcR{from{transform:rotate(90deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes mDot{from{transform:translateY(-140%) scale(.4);opacity:0}to{transform:none;opacity:1}}
+@keyframes mDots{0%,55%{transform:none}70%,100%{transform:rotate(90deg)}}
+@keyframes mDotC{0%,55%,100%{fill:currentColor}66%,92%{fill:var(--d3-purple)}}
+.mo-net .p-a,.mo-net .p-b{fill:var(--d3-black)}
+.mo-net .p-a{animation:nA 1.2s var(--ease-out) both,nAx 12s var(--ease-io) 1.8s infinite}
+.mo-net .p-b{animation:nB 1.2s var(--ease-out) both,nBx 12s var(--ease-io) 1.8s infinite}
+.mo-net .p-lens{fill:var(--d3-green);animation:nLens 1.2s var(--ease-out) both,nLensx 12s var(--ease-io) 1.8s infinite}
+@keyframes nA{from{transform:translateX(-45%)}to{transform:none}}
+@keyframes nB{from{transform:translateX(45%)}to{transform:none}}
+@keyframes nLens{0%,80%{opacity:0}100%{opacity:1}}
+@keyframes nAx{0%,70%,96%,100%{transform:none}78%,88%{transform:translateX(-22%)}}
+@keyframes nBx{0%,70%,96%,100%{transform:none}78%,88%{transform:translateX(22%)}}
+@keyframes nLensx{0%,40%,70%,100%{fill:var(--d3-green)}48%,64%{fill:var(--d3-yellow)}}
+.mo-expo path{fill:currentColor}
+.mo-expo .p-head{transform-origin:50% 50%;animation:eHead .9s var(--ease-out) .5s both}
+.mo-expo .p-bowl{transform-origin:50% 0%;animation:eBowl 1s var(--ease-out) both}
+.mo-expo .p-dome{transform-origin:50% 100%;animation:eDome .8s var(--ease-out) .3s both,eDomeC 14s var(--ease-io) 2.8s infinite}
+@keyframes eHead{from{transform:translateY(-60%);opacity:0}to{transform:none;opacity:1}}
+@keyframes eBowl{from{transform:scaleY(0)}to{transform:none}}
+@keyframes eDome{from{transform:translateY(60%);opacity:0}to{transform:none;opacity:1}}
+@keyframes eDomeC{0%,60%,100%{fill:currentColor;transform:none}68%,88%{fill:var(--d3-yellow);transform:translateY(-14%)}}
+/* Weiter-/CTA-Pfeil: D-Staffel fährt beim Hover aus */
+.s-arrow-w{display:block;width:clamp(26px,9cqw,44px);aspect-ratio:1;flex-shrink:0}
+.mo-next{display:block;width:100%;height:100%;overflow:visible}
+.mo-next path{fill:currentColor;transition:transform var(--motion-ui) var(--ease-out)}
+.mod.act:hover .mo-next .p-b,.lnk:hover .mo-next .p-b{transform:translateX(9%)}
+.mod.act:hover .mo-next .p-c,.lnk:hover .mo-next .p-c{transform:translateX(18%)}
+/* Preloader */
+.intro{position:absolute;inset:0;z-index:60;background:var(--d3-black);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .55s var(--ease-out) .1s,visibility 0s linear .7s}
+.intro.out{opacity:0;visibility:hidden;pointer-events:none}
+.intro.gone{display:none}
+.ilogo{width:min(30vmin,240px);height:auto;overflow:visible;isolation:isolate}
+.ip path{fill:var(--d3-bg);mix-blend-mode:difference;transform-box:view-box;transform-origin:50% 100%}
+.ip .i0{animation:i0 .7s var(--ease-out) .15s both}
+.ip .i1{animation:i1 .9s var(--ease-io) .45s both}
+.ip .i2{animation:i2 .9s var(--ease-io) .7s both}
+.ip{animation:ipOut .3s linear 1.6s both}
+.ireal{fill:var(--d3-bg);opacity:0;animation:ipIn .3s linear 1.6s both}
+@keyframes i0{from{transform:scaleX(0)}to{transform:none}}
+@keyframes i1{from{transform:translateX(-62%) rotate(25deg);opacity:0}30%{opacity:1}to{transform:none;opacity:1}}
+@keyframes i2{from{transform:translateX(-124%) rotate(45deg);opacity:0}30%{opacity:1}to{transform:none;opacity:1}}
+@keyframes ipOut{to{opacity:0}}
+@keyframes ipIn{to{opacity:1}}
+/* Kacheln wachsen nach dem Preloader aus der linken oberen Ecke heraus */
+.mod{transform-origin:0 0}
+.booting .mod{opacity:0;transform:scale(.88);transition:none}
+.booting .mo *{animation:none !important}
+.booting .bar > *{opacity:0}
+.bar > *{transition:opacity .5s var(--ease-out) .2s}
+@media (prefers-reduced-motion: reduce){ .mo *,.ip *,.ip,.ireal{animation:none !important} .ip{opacity:0}.ireal{opacity:1} }
 /* lists in modules */
 .why ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(6px,2.4cqh,12px)}
 .why li{display:grid;grid-template-columns:28px 1fr;gap:6px;font-size:clamp(14px,3.7cqw,17px);line-height:1.3;font-weight:600}
@@ -191,11 +278,11 @@ a{color:inherit}
 <!-- Generiert aus dem Design-Canvas (D3App2.dc.html). Nicht von Hand bearbeiten: scripts/prototype/gen.js -->
 <div id="root"></div>
 <template id="tpl">
-<div class="app st-{{st}} bp-{{bp}}" ref="{{rootRef}}" onWheel="{{onWheel}}" onMouseMove="{{onMove}}" style="--mx: {{mx}}; --my: {{my}}; --cols: {{cols}}">
+<div class="app st-{{st}} bp-{{bp}} {{bootCls}} {{depthCls}}" ref="{{rootRef}}" onWheel="{{onWheel}}" onMouseMove="{{onMove}}" style="--cols: {{cols}}">
 
 <header class="bar" aria-label="Systemleiste">
 <a href="#" class="lock" onClick="{{nav.home}}" aria-label="D3 Deep Dive Day, Home" style="grid-column: span {{lockSpan}}">
-<svg viewBox="0 0 10.14 10.12" style="height: 34px; width: auto; flex-shrink: 0" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg>
+<svg class="lock-mark" viewBox="0 0 10.14 10.12" style="height: 34px; width: auto; flex-shrink: 0" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg>
 </a>
 <a href="#" class="nv sys {{on.explore}}" onClick="{{nav.explore}}">Formate</a>
 <a href="#" class="nv sys {{on.program}}" onClick="{{nav.program}}">Programm</a>
@@ -278,10 +365,10 @@ a{color:inherit}
 <sc-for list="{{fmts}}" as="f" hint-placeholder-count="5">
 <div class="mod fmt act k-{{f.k}} {{f.dark}} {{f.P.cls}} {{f.st0}}" style="background: {{f.bg}}; left: calc({{f.P.c}} * 100% / var(--cols)); top: calc({{f.P.r}} * var(--rowh)); width: calc({{f.P.w}} * 100% / var(--cols)); height: calc({{f.P.h}} * var(--rowh)); transition-delay: {{f.P.d}}" onMouseEnter="{{f.hover}}">
 <button class="hit" onClick="{{f.tap}}" aria-label="{{f.aria}}"></button>
-<span class="sh {{f.sh}}" style="color: {{f.ink}}"></span>
+<span class="sh" style="color: {{f.ink}}"><sc-if value="{{f.is.fk}}" hint-placeholder-val="{{false}}"><svg class="mo mo-keynote " viewBox="0 0 100 100" aria-hidden="true"><path class="p-top" d="M0,50c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50h-20c0,-16.56854 -13.43146,-30 -30,-30c-16.56854,0 -30,13.43146 -30,30z"></path><path class="p-bot" d="M16,50c0,18.77768 15.22232,34 34,34c18.77768,0 34,-15.22232 34,-34h-16c0,9.94113 -8.05887,18 -18,18c-9.94113,0 -18,-8.05887 -18,-18z"></path><path class="p-kern" d="M32,50c0,-9.94113 8.05887,-18 18,-18c9.94113,0 18,8.05887 18,18z"></path></svg></sc-if><sc-if value="{{f.is.fc}}" hint-placeholder-val="{{false}}"><svg class="mo mo-case " viewBox="0 0 100 100" aria-hidden="true"><path class="p-star" d="M50,0l9.95,25.98l25.41,-11.34l-11.34,25.41l25.98,9.95l-25.98,9.95l11.34,25.41l-25.41,-11.34l-9.95,25.98l-9.95,-25.98l-25.41,11.34l11.34,-25.41l-25.98,-9.95l25.98,-9.95l-11.34,-25.41l25.41,11.34z"></path><path class="p-d" d="M50,84v-68c18.77768,0 34,15.22232 34,34c0,18.77768 -15.22232,34 -34,34z"></path></svg></sc-if><sc-if value="{{f.is.fm}}" hint-placeholder-val="{{false}}"><svg class="mo mo-master" viewBox="0 0 100 100" aria-hidden="true"><path class="p-ol" d="M0,33.5c36.45079,0 66,29.54921 66,66h-19c0,-25.95738 -21.04262,-47 -47,-47z"></path><path class="p-il" d="M0,65.5c18.77768,0 34,15.22232 34,34h-16c0,-9.94113 -8.05887,-18 -18,-18z"></path><path class="p-or" d="M100,33.5c-36.45079,0 -66,29.54921 -66,66h19c0,-25.95738 21.04262,-47 47,-47z"></path><path class="p-ir" d="M100,65.5c-18.77768,0 -34,15.22232 -34,34h16c0,-9.94113 8.05887,-18 18,-18z"></path><path class="p-cross" d="M50,56.41698c4.41417,5.11825 8.05579,10.92157 10.74376,17.22884c-4.89468,7.41695 -7.74376,16.30285 -7.74376,25.85418h-6c0,-9.55133 -2.84909,-18.43722 -7.74376,-25.85418c2.68797,-6.30728 6.3296,-12.11059 10.74376,-17.22884z"></path><g class="p-dots"><path class="p-d1" d="M43,7.5c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z"></path><path class="p-d2" d="M30.5,20c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z"></path><path class="p-d3" d="M55.5,20c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z"></path><path class="p-d4" d="M43,32.5c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z"></path></g></svg></sc-if><sc-if value="{{f.is.fn}}" hint-placeholder-val="{{false}}"><svg class="mo mo-net " viewBox="0 0 100 100" aria-hidden="true"><path class="p-a" d="M0,50c0,17.67311 14.32689,32 32,32c17.67311,0 32,-14.32689 32,-32c0,-17.67311 -14.32689,-32 -32,-32c-17.67311,0 -32,14.32689 -32,32z"></path><path class="p-b" d="M36,50c0,17.67311 14.32689,32 32,32c17.67311,0 32,-14.32689 32,-32c0,-17.67311 -14.32689,-32 -32,-32c-17.67311,0 -32,14.32689 -32,32z"></path><path class="p-lens" d="M64,50c0,10.9987 -5.54892,20.70137 -14,26.46128c-8.45108,-5.75991 -14,-15.46258 -14,-26.46128c0,-10.9987 5.54892,-20.70137 14,-26.46128c8.45108,5.75991 14,15.46258 14,26.46128z"></path></svg></sc-if><sc-if value="{{f.is.fs}}" hint-placeholder-val="{{false}}"><svg class="mo mo-expo " viewBox="0 0 100 100" aria-hidden="true"><path class="p-bowl" d="M100,49.5c0,11.38476 -3.80499,21.88082 -10.21265,30.28585c-4.85334,-17.41119 -20.82851,-30.18585 -39.78735,-30.18585c-18.95884,0 -34.93401,12.77466 -39.78735,30.18585c-6.40766,-8.40503 -10.21265,-18.90109 -10.21265,-30.28585z"></path><path class="p-dome" d="M50,68.8c13.46316,0 24.38999,10.85935 24.49917,24.29676c-7.24004,4.07728 -15.59798,6.40324 -24.49917,6.40324c-8.90119,0 -17.25913,-2.32596 -24.49917,-6.40324c0.10919,-13.4374 11.03601,-24.29676 24.49917,-24.29676z"></path><path class="p-head" d="M27.4,22.6c0,12.48164 10.11836,22.6 22.6,22.6c12.48164,0 22.6,-10.11836 22.6,-22.6c0,-12.48164 -10.11836,-22.6 -22.6,-22.6c-12.48164,0 -22.6,10.11836 -22.6,22.6z"></path></svg></sc-if></span>
 <div class="L l-home tB pad"><span class="lab">{{f.short}}</span><div class="btm"><sc-if value="{{f.time}}" hint-placeholder-val="{{false}}"><span class="t-time hide-s">{{f.time}}</span></sc-if><span class="lab">{{f.verb}}</span></div></div>
 <div class="L l-explore tB pad"><span class="lab">{{f.short}}</span><div class="btm"><span class="big" style="font-size: clamp(20px, min(13cqw, 15cqh), 64px)">{{f.name}}</span><p class="p hide-s">{{f.desc}}</p></div></div>
-<div class="L l-partner tC pad"><span class="lab">Stände</span><div class="ctaRow"><span class="t-mod">Aussteller werden</span><span class="s-arrow"></span></div></div>
+<div class="L l-partner tC pad"><span class="lab">Stände</span><div class="ctaRow"><span class="t-mod">Aussteller werden</span><span class="s-arrow-w"><svg class="mo-next" viewBox="0 0 100 100" aria-hidden="true"><path class="p-a" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path><path class="p-b" d="M30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path><path class="p-c" d="M60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path></svg></span></div></div>
 </div>
 </sc-for>
 
@@ -296,17 +383,17 @@ a{color:inherit}
 
 <div class="mod act k-cta {{P.cta.cls}}" style="background: var(--d3-orange); left: calc({{P.cta.c}} * 100% / var(--cols)); top: calc({{P.cta.r}} * var(--rowh)); width: calc({{P.cta.w}} * 100% / var(--cols)); height: calc({{P.cta.h}} * var(--rowh)); transition-delay: {{P.cta.d}}">
 <button class="hit" onClick="{{cta.go}}" aria-label="{{cta.label}}"></button>
-<div class="L l-all tC pad"><span class="lab">{{cta.note}}</span><div class="ctaRow"><span class="t-mod">{{cta.label}}</span><span class="s-arrow"></span></div></div>
+<div class="L l-all tC pad"><span class="lab">{{cta.note}}</span><div class="ctaRow"><span class="t-mod">{{cta.label}}</span><span class="s-arrow-w"><svg class="mo-next" viewBox="0 0 100 100" aria-hidden="true"><path class="p-a" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path><path class="p-b" d="M30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path><path class="p-c" d="M60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path></svg></span></div></div>
 </div>
 
 <div class="mod dark act k-cta2 {{P.cta2.cls}}" style="left: calc({{P.cta2.c}} * 100% / var(--cols)); top: calc({{P.cta2.r}} * var(--rowh)); width: calc({{P.cta2.w}} * 100% / var(--cols)); height: calc({{P.cta2.h}} * var(--rowh)); transition-delay: {{P.cta2.d}}">
 <button class="hit" onClick="{{cta2.go}}" aria-label="{{cta2.label}}"></button>
-<div class="L l-all tC pad"><span class="lab">{{cta2.note}}</span><div class="ctaRow"><span class="t-mod">{{cta2.label}}</span><span class="s-arrow"></span></div></div>
+<div class="L l-all tC pad"><span class="lab">{{cta2.note}}</span><div class="ctaRow"><span class="t-mod">{{cta2.label}}</span><span class="s-arrow-w"><svg class="mo-next" viewBox="0 0 100 100" aria-hidden="true"><path class="p-a" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path><path class="p-b" d="M30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path><path class="p-c" d="M60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path></svg></span></div></div>
 </div>
 
 <div class="mod act k-hint {{P.hint.cls}}" style="background: var(--d3-white); left: calc({{P.hint.c}} * 100% / var(--cols)); top: calc({{P.hint.r}} * var(--rowh)); width: calc({{P.hint.w}} * 100% / var(--cols)); height: calc({{P.hint.h}} * var(--rowh)); transition-delay: {{P.hint.d}}">
 <button class="hit" onClick="{{hint.go}}" aria-label="{{hint.label}}"></button>
-<div class="L l-all tC pad"><span class="lab">Weiter · {{stNo}} / 05</span><div class="ctaRow"><span class="t-mod">{{hint.label}}</span><span class="s-arrow"></span></div></div>
+<div class="L l-all tC pad"><span class="lab">Weiter · {{stNo}} / 05</span><div class="ctaRow"><span class="t-mod">{{hint.label}}</span><span class="s-arrow-w"><svg class="mo-next" viewBox="0 0 100 100" aria-hidden="true"><path class="p-a" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path><path class="p-b" d="M30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path><path class="p-c" d="M60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path></svg></span></div></div>
 </div>
 
 <div class="mod k-xhead {{P.xhead.cls}}" style="left: calc({{P.xhead.c}} * 100% / var(--cols)); top: calc({{P.xhead.r}} * var(--rowh)); width: calc({{P.xhead.w}} * 100% / var(--cols)); height: calc({{P.xhead.h}} * var(--rowh)); transition-delay: {{P.xhead.d}}">
@@ -415,6 +502,9 @@ a{color:inherit}
 
 </div>
 </main>
+<div class="intro {{introCls}}" onClick="{{skipIntro}}" aria-hidden="true">
+<svg class="ilogo" ref="{{ilogoRef}}" viewBox="0 0 100 100"><g class="ip"><path class="i0" d="M50,100 L50,0 A50,50 0 0 1 50,100 Z"></path><path class="i1" d="M50,100 L14.08,22.96 A42.5,42.5 0 0 1 50,100 Z"></path><path class="i2" d="M50,100 L0.01,50.01 A35.35,35.35 0 0 1 50,100 Z"></path></g><path class="ireal" transform="scale(9.88)" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg>
+</div>
 
 <nav class="bot sys" aria-label="Navigation">
 <a href="#" class="{{on.home}}" onClick="{{nav.home}}">Home</a>
@@ -428,7 +518,7 @@ a{color:inherit}
 </div>
 </template>
 <script>
-window.__DC_DEFAULTS__={"phase":"Phase 1","tour":true,"grain":true};
+window.__DC_DEFAULTS__={"phase":"Phase 1","tour":true,"grain":true,"intro":true};
 /* Minimaler Renderer für das .dc.html-Template-Format (Holes, sc-for, sc-if) auf React. */
 (function(){
   var h=React.createElement;
@@ -501,7 +591,7 @@ window.__DC_DEFAULTS__={"phase":"Phase 1","tour":true,"grain":true};
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, ffmt: 'all', ftopic: 'all', spk: 0 };
+    this.state = { intro: 0, st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, ffmt: 'all', ftopic: 'all', spk: 0 };
     this._last = {};
     this._lock = 0;
     var self = this;
@@ -514,18 +604,39 @@ class Component extends DCLogic {
         if (bp !== self.state.bp) self.setState({ bp: bp });
       });
       self._ro.observe(el);
+      self._root = el;
     };
     this._stageRef = function (el) { self._stage = el; };
+    this._ilogoRef = function (el) { self._ilogo = el; };
   }
   componentDidMount() {
     var self = this;
+    var rmI = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if ((this.props.intro ?? true) && !rmI) {
+      this._it1 = setTimeout(function () { self.endIntro(); }, 2100);
+    } else { this.setState({ intro: 3 }); }
     this._t = setInterval(function () {
       var rm = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!rm && (self.props.tour ?? true) && self.state.st === 'home' && !self.state.hover) self.setState({ tour: self.state.tour + 1 });
     }, 2800);
   }
   componentDidUpdate(pp, ps) { if (ps.st !== this.state.st && this._stage) this._stage.scrollTop = 0; }
-  componentWillUnmount() { clearInterval(this._t); if (this._ro) this._ro.disconnect(); if (this._raf) cancelAnimationFrame(this._raf); }
+  endIntro() {
+    var self = this;
+    if (this.state.intro >= 2) return;
+    clearTimeout(this._it1);
+    var lg = this._ilogo, root = this._root;
+    var mark = root && root.querySelector('.lock-mark');
+    if (lg && mark && lg.animate) {
+      var a = lg.getBoundingClientRect(), b = mark.getBoundingClientRect();
+      var sc = b.height / a.height, dx = (b.left + b.width / 2) - (a.left + a.width / 2), dy = (b.top + b.height / 2) - (a.top + a.height / 2);
+      lg.animate([{ transform: 'none' }, { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ')' }], { duration: 700, easing: 'cubic-bezier(.75,0,.2,1)', fill: 'forwards' });
+    }
+    this.setState({ intro: 2 });
+    this._it2 = setTimeout(function () { self.setState({ intro: 3 }); }, 900);
+  }
+  componentWillUnmount() {
+    clearTimeout(this._it1); clearTimeout(this._it2); clearInterval(this._t); if (this._ro) this._ro.disconnect(); if (this._raf) cancelAnimationFrame(this._raf); }
   lay() {
     return {
       desk: {
@@ -575,7 +686,7 @@ class Component extends DCLogic {
     keys.forEach(function (k) {
       var p = L[k], vis = !!p;
       if (vis) self._last[k] = p; else p = self._last[k] || [0, 0, 1, 1];
-      P[k] = { c: p[0], r: p[1], w: p[2], h: p[3], cls: vis ? '' : 'off', d: vis ? ((p[0] + p[1]) * 30) + 'ms' : '0ms' };
+      P[k] = { c: p[0], r: p[1], w: p[2], h: p[3], cls: vis ? '' : 'off', d: vis ? ((p[0] + p[1]) * (s.intro === 2 ? 70 : 30) + (s.intro === 2 ? 350 : 0)) + 'ms' : '0ms' };
     });
     var order = ['home', 'explore', 'program', 'speaker', 'partner'];
     var names = { home: 'Home', explore: 'Formate', program: 'Programm', speaker: 'Speaker*innen', partner: 'Mitmachen' };
@@ -645,7 +756,8 @@ class Component extends DCLogic {
       { k: 'fs', verb: 'Stände besuchen', f: 'stand', name: 'Stände', desc: 'Technologien und Lösungen entdecken.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-bg)' }
     ];
     var fmts = FM.map(function (m) {
-      return { k: m.k, verb: m.verb, P: P[m.k], name: m.name, desc: m.desc, time: m.time, short: F[m.f][0], sh: F[m.f][1], bg: m.bg, dark: m.dark, ink: m.ink || 'inherit',
+      var is = {}; is[m.k] = true;
+      return { is: is, k: m.k, verb: m.verb, P: P[m.k], name: m.name, desc: m.desc, time: m.time, short: F[m.f][0], sh: F[m.f][1], bg: m.bg, dark: m.dark, ink: m.ink || 'inherit',
         st0: (m.k === 'fk' && s.st === 'home') ? 'st0' : '', aria: F[m.f][0] + ': ' + m.name,
         hover: function () { if (self.state.st !== 'program' && self.state.hover !== m.k) self.setState({ hover: m.k }); },
         tap: function () {
@@ -707,7 +819,8 @@ class Component extends DCLogic {
     return {
       st: s.st, bp: bp, cols: cols, rows: rows, base: base, minrow: minrow,
       rootRef: this._rootRef, stageRef: this._stageRef,
-      mx: s.mx.toFixed(3), my: s.my.toFixed(3),
+      introCls: s.intro === 0 ? '' : (s.intro === 2 ? 'out' : 'out gone'), bootCls: s.intro < 2 ? 'booting' : '', skipIntro: function () { self.endIntro(); }, ilogoRef: this._ilogoRef,
+      depthCls: (bp === 'desk' && !(typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) ? 'depth' : '',
       lockSpan: bp === 'desk' ? 4 : (bp === 'tab' ? 5 : 3), ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: bp === 'mob' ? (p2 ? 'Anmelden' : 'Partner') : (p2 ? 'Anmelden' : 'Partner werden'), idxSpan: bp === 'desk' ? 1 : 1,
       P: P, fmts: fmts, heroPlace: heroPlace, heroMeta: heroTimes[heroPlace] + ' · ' + { fk: 'Keynote', fc: 'Case', fm: 'Masterclass', fn: 'Networking', fs: 'Stände' }[heroPlace], heroVerb: heroVerbs[heroPlace],
       stNo: '0' + (idx + 1), stName: names[s.st],
@@ -740,8 +853,9 @@ class Component extends DCLogic {
         if (self.state.bp === 'mob') return;
         var r = e.currentTarget.getBoundingClientRect();
         var nx = ((e.clientX - r.left) / r.width) * 2 - 1, ny = ((e.clientY - r.top) / r.height) * 2 - 1;
+        self._nx = nx; self._ny = ny;
         if (self._raf) return;
-        self._raf = requestAnimationFrame(function () { self._raf = 0; self.setState({ mx: nx, my: ny }); });
+        self._raf = requestAnimationFrame(function () { self._raf = 0; if (self._root) { self._root.style.setProperty('--mx', self._nx.toFixed(3)); self._root.style.setProperty('--my', self._ny.toFixed(3)); } });
       }
     };
   }

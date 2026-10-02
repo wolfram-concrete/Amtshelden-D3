@@ -1,5 +1,19 @@
 # Changelog
 
+## v5.3 – Motion · 2026-10-02
+
+### Neu
+- Preloader: Die drei D-Körper der Bildmarke schieben sich ineinander, die fertige Marke fliegt in die Leiste,
+  danach bauen sich die Kacheln von links oben auf. Klick überspringt, `intro` in den Props schaltet ab.
+- Ambient-Motion in den Format-Kacheln: Die Icons bauen sich aus ihren Teilen auf und verschieben sich in
+  langen, versetzten Schleifen; aus Überlagerungen entsteht eine zweite Farbe (Keynote-Kern gelb, Case-Überlappung,
+  Masterclass-Kreuzung purple, Networking-Schnittmenge gelb).
+- Maus-Tiefe: Text 2 px, Porträts 4 px, Icons 6 px – per CSS-Variable, ohne Neu-Rendern. Nur Desktop.
+- Weiter-/CTA-Pfeil: Die D-Staffel fährt beim Hover aus.
+
+### Entfernt
+- Schwenk-/Dreh-Hover der Icons.
+
 ## v5.2 – Ausrichtung, Amtshelden-Gelb, Logo-Regeln · 2026-10-02
 
 v6 (D-Körper als einzige Formlogik) ist verworfen – zu monoton. Übernommen wird nur die Text-Ausrichtung.
