@@ -1,13 +1,25 @@
 # Changelog
 
+## v5.1 – Archivo, Icons, D3-Headline · 2026-10-02
+
+### Geändert
+- Schrift: Archivo statt Schibsted Grotesk für Headlines und Text. Headlines (`.big`) mit `font-stretch: var(--f-wide)` = 108 %.
+- Hero: „D3“ als Headline-Schreibweise – die 3 rückt 0,22 em ins D, die Überlappung kehrt sich per `mix-blend-mode: difference` um.
+  Kein zweites Logo; die Bildmarke bleibt `D3-final.svg`.
+- „by Amtshelden“ immer als Original-SVG, „by“ auf der Grundlinie des Blockkastens.
+
+### Neu
+- Icon-Set aus der Bildmarke (`SVG/icons/`, 100er-Raster, echte Boolesche Flächen, ab 16 px):
+  Keynote & Vortrag (geteilter Ring, oben/unten invertiert), Case & Panel (Burst + D-Körper),
+  Masterclass (Kuppel aus D-Bögen), Aussteller (Scheibe mit Wellen), Networking (zwei Kreise),
+  Weiter (drei Spitzen, Überlappungen negativ).
+
+### Entfernt
+- `SVG/d3-wortmarke.svg` – verworfen.
+
 ## v5 – Mosaic Interface · 2026-10-02
 
 Neuer Hauptstand. `/` zeigt nur noch v5.
-
-### Nachtrag · Icons & Wortmarke
-- Sechs Orts-Icons nach der Logik der Bildmarke (Grundform + D-Körper, Schnittmenge negativ): `SVG/icons/`.
-- D3-Wortmarke: 3 überlappt das D anteilig, Schnittmenge negativ: `SVG/d3-wortmarke.svg`.
-- „by Amtshelden“ im Lockup jetzt 1:1 aus `SVG/by Amtshelden logo.svg`, „by“ auf der Grundlinie des Schriftzugs.
 
 ### Neu
 - Vollbild-Interface statt Sections: fünf Zustände (Home, Formate, Programm, Speaker*innen, Mitmachen) im selben Raster.

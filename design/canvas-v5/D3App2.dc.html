@@ -8,20 +8,20 @@
 <body>
 <x-dc>
 <helmet>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&amp;family=Martian+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Martian+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0}
 :root{
 --d3-bg:#EEEDE4;--d3-bg-2:#E3E2D7;--d3-white:#F8F7F2;--d3-black:#080808;--d3-orange:#FF4B23;--d3-purple:#7861D7;--d3-mint:#A8CDBA;
 --d3-line:rgba(8,8,8,.14);--d3-mute:#56554F;
---f-text:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;--f-sys:'Martian Mono',ui-monospace,monospace;
+--f-text:'Archivo','Helvetica Neue',Arial,sans-serif;--f-sys:'Martian Mono',ui-monospace,monospace;--f-wide:108%;
 --motion-fast:.16s;--motion-ui:.3s;--motion-layout:.75s;--motion-in:.42s;
 --ease-out:cubic-bezier(.2,.7,.1,1);--ease-io:cubic-bezier(.75,0,.2,1)}
 .evo{fill-rule:evenodd}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left}
 a{color:inherit}
 .sys{font-family:var(--f-sys);font-size:11px;letter-spacing:.05em;text-transform:uppercase;line-height:1.4}
-.big{font-weight:850;letter-spacing:-.035em;line-height:.95;text-transform:uppercase;margin:0}
+.big{font-weight:850;font-stretch:var(--f-wide);letter-spacing:-.035em;line-height:.95;text-transform:uppercase;margin:0}
 .app{position:relative;width:100%;height:100vh;overflow:hidden;background:var(--d3-bg);color:var(--d3-black);font-family:var(--f-text);display:grid;grid-template-rows:56px minmax(0,1fr);grid-template-columns:minmax(0,1fr)}
 .app.bp-tab,.app.bp-mob{grid-template-rows:56px minmax(0,1fr) 60px}
 /* top bar */
@@ -204,7 +204,7 @@ a{color:inherit}
 <div class="canvas" style="--cols: {{cols}}; --rows: {{rows}}; --base: {{base}}; --minrow: {{minrow}}">
 
 <div class="mod dark k-d3 {{P.d3.cls}}" style="left: calc({{P.d3.c}} * 100% / var(--cols)); top: calc({{P.d3.r}} * var(--rowh)); width: calc({{P.d3.w}} * 100% / var(--cols)); height: calc({{P.d3.h}} * var(--rowh)); transition-delay: {{P.d3.d}}">
-<div class="L l-home fill pad"><svg viewBox="0 0 10.14 10.12" style="height: min(30cqh, 26cqw); width: auto; align-self: flex-start" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg><h1 class="big" style="font-size: min(52cqh, 52cqw); letter-spacing: -0.06em; line-height: 0.86">D3</h1></div>
+<div class="L l-home fill pad"><svg viewBox="0 0 10.14 10.12" style="height: min(30cqh, 26cqw); width: auto; align-self: flex-start" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg><h1 class="big" style="font-size: min(52cqh, 52cqw); letter-spacing: -0.06em; line-height: 0.86; display: inline-flex; isolation: isolate" aria-label="D3"><span aria-hidden="true">D</span><span aria-hidden="true" style="margin-left: -0.22em; mix-blend-mode: difference; color: #EEEDE4">3</span></h1></div>
 </div>
 
 <div class="mod k-brand {{P.brand.cls}}" style="background: var(--d3-white); left: calc({{P.brand.c}} * 100% / var(--cols)); top: calc({{P.brand.r}} * var(--rowh)); width: calc({{P.brand.w}} * 100% / var(--cols)); height: calc({{P.brand.h}} * var(--rowh)); transition-delay: {{P.brand.d}}">
