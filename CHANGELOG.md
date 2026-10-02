@@ -1,6 +1,22 @@
 # Changelog
 
-## v6 – Refinement (Variante) · 2026-10-02
+## v5.2 – Ausrichtung, Amtshelden-Gelb, Logo-Regeln · 2026-10-02
+
+v6 (D-Körper als einzige Formlogik) ist verworfen – zu monoton. Übernommen wird nur die Text-Ausrichtung.
+
+### Geändert
+- Text dockt in jeder Zelle oben (Label) oder unten (Inhalt) an, nie mittig. Gemeinsame Abstände:
+  `--cell-padding` (18/16/12 px), `--label-position`, `--content-baseline`, `--meta-baseline`.
+  Betrifft Thema, Formate, Porträt-Zelle, „Als Nächstes“, Datum, CTAs, Weiter.
+- Amtshelden-Gelb `#FFE500` ersetzt Neon: Porträt-Zelle, Networking, Speaker*in-Zelle, aktiver Navi-Zustand, gewählter Programmpunkt.
+- Logo: In der Leiste steht nur die Bildmarke. Im Hero-Feld steht „D3“ ausgeschrieben, ohne zweite Bildmarke.
+- „Deep Dive Day“ immer zweizeilig wie im Logo: „Deep“ / „Dive Day“, mit „by Amtshelden“ als Label darüber.
+- Kleine Format-Zellen (Tablet/Mobil) zeigen nur Icon + Aktion.
+
+### Entfernt
+- Routen `/v6` und `/design-system` samt generierten Dateien. Quellen bleiben unter `design/canvas-v6/` als Archiv.
+
+## v6 – Refinement (Variante, verworfen) · 2026-10-02
 
 Kein Redesign: dasselbe Vollbild-Mosaik, diszipliniert. Läuft parallel unter `/v6`, `/` bleibt v5.
 Interne Systemansicht unter `/design-system`.

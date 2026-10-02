@@ -51,11 +51,10 @@ npm run dev   # http://localhost:4320
 Datum, Titel, Namen, Behörden und Partner stehen in eckigen Klammern. Zeiten ab 10:30, die vier Räume und
 die Themenzuordnung sind exemplarisch. Porträts sind Unsplash-Platzhalter (`public/people/CREDITS.md`).
 
-## Variante v6 Refinement
+## Archiv: Variante v6
 
-`/v6` zeigt die disziplinierte Variante des Mosaiks (Shape Library aus dem D, Modul-Typen A–D, gemeinsame Baselines,
-Amtshelden-Gelb). `/design-system` ist die interne Systemansicht: Farben, Shapes, Typografie, Modul-Typen, Motion.
-Quellen: `design/canvas-v6/`. `npm run build:prototype` baut v5, v6 und die Systemansicht.
+Die Variante „v6 Refinement“ (D-Körper als einzige Formlogik) ist verworfen. Die Quellen liegen unter
+`design/canvas-v6/`; übernommen wurde nur die Text-Ausrichtung (siehe CHANGELOG v5.2).
 
 ## Frühere Stände
 

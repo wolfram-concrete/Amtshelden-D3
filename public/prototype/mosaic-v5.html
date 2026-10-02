@@ -10,11 +10,14 @@
 <style>
 body{margin:0}
 :root{
---d3-bg:#EEEDE4;--d3-bg-2:#E3E2D7;--d3-white:#F8F7F2;--d3-black:#080808;--d3-orange:#FF4B23;--d3-purple:#7861D7;--d3-neon:#D7FF1F;
+--d3-bg:#EEEDE4;--d3-bg-2:#E3E2D7;--d3-white:#F8F7F2;--d3-black:#080808;--d3-orange:#FF4B23;--d3-purple:#7861D7;--d3-yellow:#FFE500;
 --d3-line:rgba(8,8,8,.14);--d3-mute:#56554F;
 --f-text:'Archivo','Helvetica Neue',Arial,sans-serif;--f-sys:'Martian Mono',ui-monospace,monospace;--f-wide:108%;
 --motion-fast:.16s;--motion-ui:.3s;--motion-layout:.75s;--motion-in:.42s;
---ease-out:cubic-bezier(.2,.7,.1,1);--ease-io:cubic-bezier(.75,0,.2,1)}
+--ease-out:cubic-bezier(.2,.7,.1,1);--ease-io:cubic-bezier(.75,0,.2,1);
+/* Text dockt oben (Label) oder unten (Inhalt) an – gleiche Werte in allen Zellen */
+--cell-padding:18px;--label-position:var(--cell-padding);--content-baseline:var(--cell-padding);--meta-baseline:calc(var(--cell-padding) + 2px)}
+.bp-tab{--cell-padding:16px}.bp-mob{--cell-padding:12px}
 .evo{fill-rule:evenodd}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left}
 a{color:inherit}
@@ -26,7 +29,7 @@ a{color:inherit}
 .bar{position:relative;z-index:20;display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));border-bottom:1px solid var(--d3-black);background:var(--d3-bg)}
 .bar > *{display:flex;align-items:center;padding:0 10px;border-right:1px solid var(--d3-line);min-width:0;text-decoration:none;white-space:nowrap;overflow:hidden}
 .bar .nv{letter-spacing:.02em;transition:background var(--motion-fast),color var(--motion-fast)}
-.bar .nv:hover,.bar .nv.on{background:var(--d3-black);color:var(--d3-bg)}
+.bar .nv:hover{background:var(--d3-bg-2)}.bar .nv.on{background:var(--d3-yellow);color:var(--d3-black);box-shadow:inset 0 -3px 0 var(--d3-black)}
 .lock{gap:10px}
 .lock .by{font-weight:800;font-size:12px;letter-spacing:-.01em;margin-left:2px}
 .bar .cta-b{background:var(--d3-orange);justify-content:space-between;font-weight:800;font-size:14px;text-transform:uppercase;border-right:0}
@@ -36,7 +39,7 @@ a{color:inherit}
 .bot{display:none}
 .bp-tab .bot,.bp-mob .bot{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--d3-black);background:var(--d3-bg);z-index:20}
 .bot > *{display:flex;align-items:center;justify-content:center;border-right:1px solid var(--d3-line);text-decoration:none;font-size:11px;padding:0 4px;text-align:center}
-.bot .on{background:var(--d3-black);color:var(--d3-bg)}
+.bot .on{background:var(--d3-yellow);color:var(--d3-black);box-shadow:inset 0 3px 0 var(--d3-black)}
 /* stage */
 .stage{position:relative;min-height:0;overflow-y:auto;overflow-x:hidden;container-type:size;scrollbar-width:thin}
 .canvas{position:relative;--rowh:max(calc(100cqh / var(--base)),var(--minrow));height:calc(var(--rows) * var(--rowh));background-image:linear-gradient(90deg,var(--d3-line) 1px,transparent 1px),linear-gradient(var(--d3-line) 1px,transparent 1px);background-size:calc(100% / var(--cols)) var(--rowh)}
@@ -49,7 +52,7 @@ a{color:inherit}
 .L{position:absolute;inset:0;z-index:2;opacity:0;visibility:hidden;pointer-events:none;box-sizing:border-box;transition:opacity var(--motion-fast) var(--ease-out),visibility 0s linear var(--motion-fast)}
 .L a,.L button,.L details,.L summary{pointer-events:auto}
 .st-home .l-home,.st-explore .l-explore,.st-program .l-program,.st-speaker .l-speaker,.st-partner .l-partner,.l-all{opacity:1;visibility:visible;transition:opacity var(--motion-ui) var(--ease-out) var(--motion-in),visibility 0s linear 0s}
-.pad{padding:clamp(10px,6cqmin,22px)}
+.pad{padding:var(--label-position) var(--cell-padding) var(--content-baseline)}
 .fill{display:flex;flex-direction:column;justify-content:space-between;height:100%;box-sizing:border-box}
 .end{display:flex;flex-direction:column;justify-content:flex-end;height:100%;box-sizing:border-box;gap:8px}
 .p{margin:0;font-size:clamp(14px,4.2cqw,18px);line-height:1.38;max-width:34ch}
@@ -60,22 +63,20 @@ a{color:inherit}
 .s-burst{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M50,0L59.95,25.98L85.36,14.64L74.02,40.05L100,50L74.02,59.95L85.36,85.36L59.95,74.02L50,100L40.05,74.02L14.64,85.36L25.98,59.95L0,50L25.98,40.05L14.64,14.64L40.05,25.98Z M50,84 L50,16 A34,34 0 0 1 50,84 Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M50,0L59.95,25.98L85.36,14.64L74.02,40.05L100,50L74.02,59.95L85.36,85.36L59.95,74.02L50,100L40.05,74.02L14.64,85.36L25.98,59.95L0,50L25.98,40.05L14.64,14.64L40.05,25.98Z M50,84 L50,16 A34,34 0 0 1 50,84 Z'/%3E%3C/svg%3E") center/contain no-repeat;background:var(--d3-purple,#7861D7)}
 .s-diag{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,33.5c19.98585,0 37.89689,8.88336 50,22.91698c-4.41417,5.11825 -8.05579,10.92157 -10.74376,17.22884c-8.40745,-12.73989 -22.85018,-21.14582 -39.25624,-21.14582zM66,99.5h-13c0,-9.55133 2.84909,-18.43722 7.74376,-25.85418c3.38373,7.93986 5.25624,16.67835 5.25624,25.85418zM0,65.5c18.77768,0 34,15.22232 34,34h-16c0,-9.94113 -8.05887,-18 -18,-18zM100,52.5c-16.40605,0 -30.84879,8.40593 -39.25624,21.14582c-2.68797,-6.30728 -6.3296,-12.11059 -10.74376,-17.22884c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698zM39.25624,73.64582c4.89468,7.41695 7.74376,16.30285 7.74376,25.85418h-13c0,-9.17583 1.8725,-17.91431 5.25624,-25.85418zM100,81.5c-9.94113,0 -18,8.05887 -18,18h-16c0,-18.77768 15.22232,-34 34,-34zM50,0.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM37.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM62.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM50,25.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,33.5c19.98585,0 37.89689,8.88336 50,22.91698c-4.41417,5.11825 -8.05579,10.92157 -10.74376,17.22884c-8.40745,-12.73989 -22.85018,-21.14582 -39.25624,-21.14582zM66,99.5h-13c0,-9.55133 2.84909,-18.43722 7.74376,-25.85418c3.38373,7.93986 5.25624,16.67835 5.25624,25.85418zM0,65.5c18.77768,0 34,15.22232 34,34h-16c0,-9.94113 -8.05887,-18 -18,-18zM100,52.5c-16.40605,0 -30.84879,8.40593 -39.25624,21.14582c-2.68797,-6.30728 -6.3296,-12.11059 -10.74376,-17.22884c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698zM39.25624,73.64582c4.89468,7.41695 7.74376,16.30285 7.74376,25.85418h-13c0,-9.17583 1.8725,-17.91431 5.25624,-25.85418zM100,81.5c-9.94113,0 -18,8.05887 -18,18h-16c0,-18.77768 15.22232,-34 34,-34zM50,0.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM37.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM62.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM50,25.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7z'/%3E%3C/svg%3E") center/contain no-repeat;background:currentColor}
 .s-net{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,50 A32,32 0 1 0 64,50 A32,32 0 1 0 0,50 Z M36,50 A32,32 0 1 0 100,50 A32,32 0 1 0 36,50 Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,50 A32,32 0 1 0 64,50 A32,32 0 1 0 0,50 Z M36,50 A32,32 0 1 0 100,50 A32,32 0 1 0 36,50 Z'/%3E%3C/svg%3E") center/contain no-repeat;background:var(--d3-black)}
-.dark .s-net{background:var(--d3-neon)}
+.dark .s-net{background:var(--d3-yellow)}
 .s-grid{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M50,0c12.48164,0 22.6,10.11836 22.6,22.6c0,12.48164 -10.11836,22.6 -22.6,22.6c-12.48164,0 -22.6,-10.11836 -22.6,-22.6c0,-12.48164 10.11836,-22.6 22.6,-22.6zM100,49.5c0,11.38476 -3.80499,21.88082 -10.21265,30.28585c-4.85334,-17.41119 -20.82851,-30.18585 -39.78735,-30.18585c-18.95884,0 -34.93401,12.77466 -39.78735,30.18585c-6.40766,-8.40503 -10.21265,-18.90109 -10.21265,-30.28585zM50,68.8c13.46316,0 24.38999,10.85935 24.49917,24.29676c-7.24004,4.07728 -15.59798,6.40324 -24.49917,6.40324c-8.90119,0 -17.25913,-2.32596 -24.49917,-6.40324c0.10919,-13.4374 11.03601,-24.29676 24.49917,-24.29676z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M50,0c12.48164,0 22.6,10.11836 22.6,22.6c0,12.48164 -10.11836,22.6 -22.6,22.6c-12.48164,0 -22.6,-10.11836 -22.6,-22.6c0,-12.48164 10.11836,-22.6 22.6,-22.6zM100,49.5c0,11.38476 -3.80499,21.88082 -10.21265,30.28585c-4.85334,-17.41119 -20.82851,-30.18585 -39.78735,-30.18585c-18.95884,0 -34.93401,12.77466 -39.78735,30.18585c-6.40766,-8.40503 -10.21265,-18.90109 -10.21265,-30.28585zM50,68.8c13.46316,0 24.38999,10.85935 24.49917,24.29676c-7.24004,4.07728 -15.59798,6.40324 -24.49917,6.40324c-8.90119,0 -17.25913,-2.32596 -24.49917,-6.40324c0.10919,-13.4374 11.03601,-24.29676 24.49917,-24.29676z'/%3E%3C/svg%3E") center/contain no-repeat;background:currentColor}
 .s-arrow{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,10c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176zM30,23.54176l0,-13.54176c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176v-13.54176c6.22363,-7.05133 10,-16.31378 10,-26.45824c0,-10.14446 -3.77637,-19.40691 -10,-26.45824zM70,50c0,10.14446 -3.77637,19.40691 -10,26.45824v13.54176c22.09139,0 40,-17.90861 40,-40c0,-22.09139 -17.90861,-40 -40,-40v13.54176c6.22363,7.05133 10,16.31378 10,26.45824z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,10c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176zM30,23.54176l0,-13.54176c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176v-13.54176c6.22363,-7.05133 10,-16.31378 10,-26.45824c0,-10.14446 -3.77637,-19.40691 -10,-26.45824zM70,50c0,10.14446 -3.77637,19.40691 -10,26.45824v13.54176c22.09139,0 40,-17.90861 40,-40c0,-22.09139 -17.90861,-40 -40,-40v13.54176c6.22363,7.05133 10,16.31378 10,26.45824z'/%3E%3C/svg%3E") center/contain no-repeat;background:currentColor;transition:transform var(--motion-ui) var(--ease-out)}
 .mod.act:hover .s-arrow,.chip:hover .s-arrow{transform:translateX(6px)}
 /* format modules: shape choreography by state (sizes from the module's own box) */
-.fmt .sh{--s:min(56cqw,56cqh);width:var(--s);height:var(--s);left:calc(50% - var(--s) / 2);top:calc(44% - var(--s) / 2)}
+.fmt .sh{--s:min(56cqw,46cqh);width:var(--s);height:var(--s);left:calc(50% - var(--s) / 2);top:calc(50% - var(--s) / 2 - 5%)}
 .st-explore .fmt .sh{--s:min(58cqw,62cqh);left:calc(100% - var(--s) * .86);top:calc(var(--s) * -.14)}
 .st-explore .k-fk .sh{--s:min(80cqw,64cqh)}
 .st-explore .fmt:hover .sh{rotate:12deg}
 .st-explore .k-fk:hover .sh,.st-explore .k-fn:hover .sh{rotate:0deg;scale:1.04}
 .st-partner .k-fs .sh{--s:min(34cqw,52cqh);left:auto;right:7%;top:12%}
-.k-fk.st0 .sh{--s:min(80cqw,80cqh);top:calc(50% - var(--s) / 2)}
-.k-fk.st0 .s-circle{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0,58c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50h-16c0,18.77768 -15.22232,34 -34,34c-18.77768,0 -34,-15.22232 -34,-34z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0,58c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50h-16c0,18.77768 -15.22232,34 -34,34c-18.77768,0 -34,-15.22232 -34,-34z'/%3E%3C/svg%3E")}
-.st-home .k-fk .l-home{justify-content:center !important;color:var(--d3-black)}
 .card .ci .sh{left:0;top:0;width:100%;height:100%;translate:none}
-@container mod (max-height: 125px){ .fmt .sh{--s:min(42cqw,42cqh);top:12%} }
+@container mod (max-height: 125px){ .fmt .sh{--s:min(40cqw,40cqh);top:calc(var(--cell-padding) - 2px)} .tB > .lab{display:none} }
+@container mod (max-width: 150px){ .tB > .lab{display:none} .fmt .sh{--s:min(46cqw,40cqh);top:var(--cell-padding)} .tB .btm .lab{font-size:10px;letter-spacing:.02em} }
 /* graphic-only */
 /* portraits */
 .pt{position:absolute;overflow:hidden;z-index:1;transition:all var(--motion-layout) var(--ease-io)}
@@ -83,12 +84,12 @@ a{color:inherit}
 .m-circle{clip-path:circle(closest-side at 50% 50%)}
 .m-cut{clip-path:polygon(0 0,100% 0,100% 70%,70% 100%,0 100%)}
 .m-sq{}
-.spk .pt{left:8%;top:7%;width:84%;height:64%}
-.spk .nm{position:absolute;left:8%;right:8%;bottom:6%;display:flex;flex-direction:column;gap:2px;z-index:2}
+.spk .pt{left:var(--cell-padding);right:var(--cell-padding);top:var(--cell-padding);bottom:calc(var(--cell-padding) + 44px);width:auto;height:auto}
+.spk .nm{position:absolute;left:var(--cell-padding);right:var(--cell-padding);bottom:var(--content-baseline);display:flex;flex-direction:column;gap:2px;z-index:2}
 .spk .nm b{font-size:clamp(13px,7cqw,17px);line-height:1.15}
 .spk.sel{box-shadow:inset 0 0 0 3px var(--d3-black)}
 .badge{position:absolute;right:6%;top:5%;width:24%;aspect-ratio:1/1;z-index:2}
-.k-hero .msk{position:absolute;inset:6% 6% 16%;overflow:hidden;opacity:0;transform:scale(.9);transition:opacity var(--motion-ui) var(--ease-out),transform var(--motion-layout) var(--ease-io)}
+.k-hero .msk{position:absolute;left:var(--cell-padding);right:var(--cell-padding);top:var(--cell-padding);bottom:calc(var(--cell-padding) + 46px);overflow:hidden;opacity:0;transform:scale(.9);transition:opacity var(--motion-ui) var(--ease-out),transform var(--motion-layout) var(--ease-io)}
 .k-hero .msk img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06)}
 .k-hero.on-fk .h-fk,.k-hero.on-fc .h-fc,.k-hero.on-fm .h-fm,.k-hero.on-fn .h-fn,.k-hero.on-fs .h-fs{opacity:1;transform:none}
 .h-fk{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,58c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50h-16c0,18.77768 -15.22232,34 -34,34c-18.77768,0 -34,-15.22232 -34,-34z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,58c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50h-16c0,18.77768 -15.22232,34 -34,34c-18.77768,0 -34,-15.22232 -34,-34z'/%3E%3C/svg%3E") center/contain no-repeat}
@@ -96,8 +97,6 @@ a{color:inherit}
 .h-fm{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,99.5v-66c19.98585,0 37.89689,8.88336 50,22.91698c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698v66zM50,0.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM37.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM62.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM50,25.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,99.5v-66c19.98585,0 37.89689,8.88336 50,22.91698c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698v66zM50,0.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM37.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM62.5,13c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7zM50,25.5c3.86599,0 7,3.13401 7,7c0,3.86599 -3.13401,7 -7,7c-3.86599,0 -7,-3.13401 -7,-7c0,-3.86599 3.13401,-7 7,-7z'/%3E%3C/svg%3E") center/contain no-repeat}
 .h-fn{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,50 A32,32 0 1 0 64,50 A32,32 0 1 0 0,50 Z M36,50 A32,32 0 1 0 100,50 A32,32 0 1 0 36,50 Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M0,50 A32,32 0 1 0 64,50 A32,32 0 1 0 0,50 Z M36,50 A32,32 0 1 0 100,50 A32,32 0 1 0 36,50 Z'/%3E%3C/svg%3E") center/contain no-repeat}
 .h-fs{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M50,0.25c12.48164,0 22.6,10.11836 22.6,22.6c0,12.48164 -10.11836,22.6 -22.6,22.6c-12.48164,0 -22.6,-10.11836 -22.6,-22.6c0,-12.48164 10.11836,-22.6 22.6,-22.6zM100,49.75c0,27.61424 -22.38576,50 -50,50c-27.61424,0 -50,-22.38576 -50,-50z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M50,0.25c12.48164,0 22.6,10.11836 22.6,22.6c0,12.48164 -10.11836,22.6 -22.6,22.6c-12.48164,0 -22.6,-10.11836 -22.6,-22.6c0,-12.48164 10.11836,-22.6 22.6,-22.6zM100,49.75c0,27.61424 -22.38576,50 -50,50c-27.61424,0 -50,-22.38576 -50,-50z'/%3E%3C/svg%3E") center/contain no-repeat}
-.k-hero .cap{position:absolute;left:6%;right:6%;bottom:4%;z-index:3;display:flex;align-items:center;gap:8px;min-height:22px}
-.k-hero .cap .sys{background:var(--d3-black);color:var(--d3-bg);padding:4px 7px 3px;line-height:1.35}
 @media (prefers-reduced-motion: reduce){ .mod,.sh,.du,.k-hero .msk,.L{transition-duration:.01s !important;transition-delay:0s !important} }
 @container mod (max-width: 560px){ .hide-w{display:none !important} }
 .par-n{display:none}
@@ -135,8 +134,8 @@ a{color:inherit}
 .card .who{font-size:14px;color:var(--d3-mute)}
 .card .tp{align-self:flex-start;margin-top:auto;padding:3px 6px 2px;border:1px solid currentColor}
 .card .rm{display:none}
-.card.sel{background:var(--d3-black);color:var(--d3-bg);--d3-mute:#B4B3AA}
-.card.sel .ci{color:var(--d3-bg)}
+.card.sel{background:var(--d3-yellow);color:var(--d3-black)}
+
 .card.dim{opacity:.22}
 .card.cont{cursor:default;background:repeating-linear-gradient(135deg,transparent 0 7px,rgba(8,8,8,.07) 7px 8px);justify-content:center}
 .card.end{cursor:default;justify-content:center}
@@ -163,6 +162,19 @@ a{color:inherit}
   .card .rm{display:inline}
   .par-n{display:inline}
 }
+/* Modul-Ausrichtung: Label oben, Inhalt unten, nie mittig */
+.tA,.tB,.tC,.tD{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:8px;text-align:left}
+.lab{font-family:var(--f-sys);font-size:11px;letter-spacing:.05em;text-transform:uppercase;line-height:1.4;min-height:15px}
+.btm{display:flex;flex-direction:column;gap:4px;width:100%;margin-top:auto}
+.t-mod{font-weight:850;font-stretch:var(--f-wide);letter-spacing:-.025em;line-height:.98;text-transform:uppercase;font-size:clamp(20px,min(9cqw,30cqh),46px);margin:0}
+.t-time{font-weight:850;font-size:clamp(18px,min(13cqw,20cqh),34px);letter-spacing:-.02em;line-height:1}
+.ctaRow{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;width:100%}
+.ctaRow .s-arrow{display:block;width:clamp(26px,9cqw,44px);aspect-ratio:1;flex-shrink:0}
+.dataRow{display:grid;grid-template-columns:auto auto 1fr;gap:clamp(14px,5cqw,40px);width:100%;height:100%}
+.dataRow > div{display:flex;flex-direction:column;justify-content:space-between}
+.dataRow b{font-size:clamp(13px,4.2cqw,20px);line-height:1.1;white-space:nowrap}
+.dark .lab{color:#B4B3AA}
+.logos > *:first-child{align-items:flex-start;justify-content:flex-start;text-align:left;padding:var(--cell-padding)}
 /* lists in modules */
 .why ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(6px,2.4cqh,12px)}
 .why li{display:grid;grid-template-columns:28px 1fr;gap:6px;font-size:clamp(14px,3.7cqw,17px);line-height:1.3;font-weight:600}
@@ -190,10 +202,8 @@ a{color:inherit}
 <div class="app st-{{st}} bp-{{bp}}" ref="{{rootRef}}" onWheel="{{onWheel}}" onMouseMove="{{onMove}}" style="--mx: {{mx}}; --my: {{my}}; --cols: {{cols}}">
 
 <header class="bar" aria-label="Systemleiste">
-<a href="#" class="lock" onClick="{{nav.home}}" aria-label="Deep Dive Day by Amtshelden, Home" style="grid-column: span {{lockSpan}}">
-<svg class="only-mob" viewBox="0 0 10.14 10.12" style="height: 30px; width: auto; flex-shrink: 0" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg>
-<svg viewBox="0 0 38.9 14.42" class="hide-mob-txt" style="height: 40px; width: auto; flex-shrink: 0" role="img" aria-label="Deep Dive Day by Amtshelden"><g fill="currentColor"><path d="M14.05,5.43V1.99h1.49c.39,0,.72.06.99.18s.47.31.61.57c.14.25.21.58.21.97s-.07.71-.21.97c-.14.25-.34.44-.61.57s-.6.18-.99.18h-1.49ZM15.16,4.61h.36c.12,0,.22-.02.31-.05.09-.03.16-.08.22-.14s.1-.14.12-.24c.03-.09.04-.2.04-.31v-.3c0-.12-.01-.22-.04-.31-.03-.09-.07-.17-.12-.24s-.13-.11-.22-.14c-.09-.03-.19-.05-.31-.05h-.36v1.79Z"/><path d="M17.96,5.43V1.99h2.97v.82h-1.87v.48h1.6v.79h-1.6v.52h1.9v.83h-3.01Z"/><path d="M21.57,5.43V1.99h2.98v.82h-1.87v.48h1.6v.79h-1.6v.52h1.91v.83h-3.01Z"/><path d="M25.16,5.43V1.99h2.03c.22,0,.41.05.57.15.17.1.29.23.39.41.09.17.14.38.14.61s-.05.44-.14.62-.23.31-.39.41c-.16.1-.35.15-.57.15h-.92v1.11h-1.1ZM26.27,3.52h.55c.12,0,.21-.03.26-.09.06-.06.09-.15.09-.26,0-.08-.01-.15-.04-.2-.02-.05-.06-.09-.11-.12-.05-.03-.12-.04-.2-.04h-.55v.71Z"/><path d="M14.05,10.43v-3.44h1.49c.39,0,.72.06.99.18s.47.31.61.57c.14.25.21.58.21.97s-.07.71-.21.97c-.14.25-.34.44-.61.57s-.6.18-.99.18h-1.49ZM15.16,9.61h.36c.12,0,.22-.02.31-.05.09-.03.16-.08.22-.14s.1-.14.12-.24c.03-.09.04-.2.04-.31v-.3c0-.12-.01-.22-.04-.31-.03-.09-.07-.17-.12-.24s-.13-.11-.22-.14c-.09-.03-.19-.05-.31-.05h-.36v1.79Z"/><path d="M17.94,10.43v-3.44h1.1v3.44h-1.1Z"/><path d="M20.72,10.43l-1.22-3.44h1.18l.48,1.59s.03.11.05.19c.02.08.05.17.08.27.03.09.05.18.07.25h.04c.02-.07.04-.15.07-.24s.05-.18.08-.26c.03-.08.04-.15.06-.21l.48-1.59h1.13l-1.21,3.44h-1.28Z"/><path d="M23.69,10.43v-3.44h2.98v.82h-1.87v.48h1.6v.79h-1.6v.52h1.91v.83h-3.01Z"/><path d="M28.19,10.43v-3.44h1.49c.39,0,.72.06.99.18s.47.31.61.57c.14.25.21.58.21.97s-.07.71-.21.97c-.14.25-.34.44-.61.57s-.6.18-.99.18h-1.49ZM29.29,9.61h.36c.12,0,.22-.02.31-.05.09-.03.16-.08.22-.14s.1-.14.12-.24c.03-.09.04-.2.04-.31v-.3c0-.12-.01-.22-.04-.31-.03-.09-.07-.17-.12-.24s-.13-.11-.22-.14c-.09-.03-.19-.05-.31-.05h-.36v1.79Z"/><path d="M31.66,10.43l1.26-3.44h1.28l1.26,3.44h-1.17l-.14-.48h-1.21l-.14.48h-1.13ZM33.16,9.18h.75l-.17-.55s-.03-.09-.04-.15c-.02-.06-.03-.12-.05-.18s-.03-.13-.05-.19-.03-.12-.04-.16h-.04c-.01.06-.03.13-.05.21-.02.08-.04.16-.07.24s-.05.16-.07.23l-.17.55Z"/><path d="M36.45,10.43v-1.33l-1.37-2.1h1.27l.66,1.14h.02l.66-1.14h1.21l-1.35,2.1v1.33h-1.1Z"/><path d="M21.51,12.74v.46h-.25v-1.56h-4.74c-.2,0-.37.16-.37.37v1.23c0,.2.16.37.37.37h4.5l.96.81v-1.68h-.47ZM17.47,13.2l-.11-.26h-.49l-.11.26h-.26l.49-1.16h.23l.49,1.16h-.26,0ZM19.02,13.2h-.25v-.75l-.32.49h0l-.32-.49v.74h-.25v-1.15h.27l.3.49.3-.49h.27v1.15h0ZM20.12,12.29h-.35v.92h-.25v-.92h-.35v-.23h.95v.23h0ZM21.08,12.86c0,.23-.17.36-.42.36s-.35-.06-.49-.18l.15-.18c.1.09.21.14.34.14s.17-.04.17-.11h0c0-.07-.04-.1-.23-.15-.23-.06-.38-.12-.38-.35h0c0-.21.17-.35.4-.35s.31.05.43.15l-.13.19c-.1-.07-.2-.11-.3-.11s-.15.04-.15.1h0c0,.08.05.1.25.15.23.06.36.14.36.34h0s0,0,0,0Z"/><polygon points="16.97 12.72 17.27 12.72 17.12 12.35 16.97 12.72"/><path d="M24.94,12.28h-.2v.69h.2c.21,0,.35-.14.35-.34h0c0-.21-.14-.35-.35-.35Z"/><path d="M27.81,11.65h-6.31v.86h.47v-.45h.25v1.56h5.59c.2,0,.37-.16.37-.37v-1.23c0-.2-.16-.37-.37-.37h0ZM23.33,13.2h-.87v-1.15h.87v.22h-.61v.23h.54v.22h-.54v.24h.62v.22h0ZM24.34,13.2h-.82v-1.15h.25v.92h.57v.23h0ZM25.55,12.63c0,.32-.25.57-.61.57h-.45v-1.15h.45c.36,0,.61.25.61.57h0ZM26.6,13.2h-.87v-1.15h.87v.22h-.61v.23h.54v.22h-.54v.24h.62v.22h0ZM27.81,13.2h-.21l-.56-.73v.73h-.25v-1.15h.23l.54.71v-.71h.25v1.15h0Z"/><path d="M14.42,13.21c-.13,0-.2-.06-.26-.13v.11h-.24v-1.14h.24v.42c.06-.08.14-.14.26-.14.2,0,.38.15.38.43h0c0,.28-.18.44-.38.44ZM14.56,12.78c0-.14-.09-.23-.2-.23s-.2.09-.2.23h0c0,.14.09.23.2.23s.2-.09.2-.23h0Z"/><path d="M15.41,13.22c-.06.17-.13.23-.27.23-.09,0-.15-.02-.21-.06l.08-.17s.07.03.1.03c.04,0,.06-.01.08-.05l-.33-.84h.25l.19.57.18-.57h.25l-.32.86Z"/><polygon points="6.07 12.07 6.07 12.07 6.07 12.07 6.07 12.07 6.07 12.07"/><path d="M12.11,6.04c0-3.33-2.7-6.04-6.04-6.04v2.81c1.04.49,1.94,1.32,2.47,2.44,1.2,2.56.1,5.62-2.46,6.82,0,0,0,0,0,0,3.33,0,6.03-2.7,6.03-6.04Z"/><path d="M5.97,6.1s.06.08.1.11v-3.4c-1.33-.63-2.92-.7-4.36-.03.3.64.64,1.37,1.01,2.15,1.16-.09,2.35.29,3.25,1.16Z"/><polygon points="6.07 12.07 6.07 12.07 6.07 12.07 6.07 12.07 6.07 12.07"/><polygon points="6.07 12.07 6.07 12.07 6.07 12.07 6.07 12.07"/><path d="M0,6.2c1.52,1.47,3.79,3.67,6.07,5.87-1.19-2.53-2.37-5.05-3.34-7.13-1,.07-1.97.48-2.73,1.26Z"/><path d="M6.07,6.21v5.86s0,0,0,0c0,0,0,0,0,0,1.59-1.64,1.57-4.23,0-5.86Z"/></g></svg>
-<svg class="only-mob" viewBox="0 0 108.61 20.95" style="height: 19px; width: auto; flex-shrink: 0; color: #080808" role="img" aria-label="by Amtshelden"><g fill="currentColor"><path d="M58.16,8.28v3.48h-1.91V0H20.39c-1.54,0-2.78,1.24-2.78,2.78v9.3c0,1.54,1.25,2.78,2.78,2.78h34.01l7.28,6.1v-12.67h-3.52ZM27.64,11.77l-.79-1.94h-3.67l-.79,1.94h-1.94l3.71-8.74h1.76l3.71,8.74h-2,0ZM39.33,11.77h-1.9v-5.66l-2.44,3.7h-.05l-2.42-3.67v5.62h-1.87V3.08h2.050l2.28,3.67,2.28-3.67h2.05v8.68h.01ZM47.67,4.85h-2.64v6.92h-1.91v-6.92h-2.64v-1.76h7.19v1.76h0ZM54.91,9.2c0,1.72-1.31,2.69-3.18,2.69s-2.64-.46-3.68-1.38l1.13-1.35c.78.64,1.59,1.06,2.59,1.06s1.25-.31,1.25-.82v-.03c0-.49-.3-.73-1.75-1.1-1.75-.45-2.87-.93-2.87-2.65v-.03c0-1.58,1.27-2.61,3.04-2.61s2.34.39,3.22,1.1l-.99,1.44c-.77-.53-1.52-.85-2.26-.85s-1.12.33-1.12.75v.03c0,.57.37.75,1.87,1.14,1.76.46,2.75,1.09,2.75,2.6v.03h0Z"></path><polygon points="23.86 8.13 26.16 8.13 25.01 5.32 23.86 8.13"></polygon><path d="M84.09,4.81h-1.48v5.23h1.48c1.56,0,2.61-1.06,2.61-2.59v-.03c0-1.54-1.06-2.61-2.61-2.61Z"></path><path d="M105.83,0h-47.67v6.52h3.52v-3.43h1.91v11.77h42.25c1.54,0,2.78-1.24,2.78-2.78V2.78c0-1.54-1.24-2.78-2.78-2.78h0ZM71.96,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM79.58,11.77h-6.23V3.09h1.91v6.94h4.33v1.73h0ZM88.7,7.43c0,2.44-1.88,4.34-4.61,4.34h-3.38V3.09h3.38c2.72,0,4.61,1.87,4.61,4.31v.03ZM96.69,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM105.78,11.77h-1.62l-4.2-5.51v5.51h-1.88V3.09h1.76l4.06,5.34V3.09h1.88v8.68h0Z"></path><text transform="translate(0 11.75)" style="font-family: Gotham, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 11.82px"><tspan x="0" y="0" style="letter-spacing: -0.03em">b</tspan><tspan x="7.68" y="0">y</tspan></text></g></svg>
+<a href="#" class="lock" onClick="{{nav.home}}" aria-label="D3 Deep Dive Day, Home" style="grid-column: span {{lockSpan}}">
+<svg viewBox="0 0 10.14 10.12" style="height: 34px; width: auto; flex-shrink: 0" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg>
 </a>
 <a href="#" class="nv sys {{on.explore}}" onClick="{{nav.explore}}">Formate</a>
 <a href="#" class="nv sys {{on.program}}" onClick="{{nav.program}}">Programm</a>
@@ -208,15 +218,15 @@ a{color:inherit}
 <div class="canvas" style="--cols: {{cols}}; --rows: {{rows}}; --base: {{base}}; --minrow: {{minrow}}">
 
 <div class="mod dark k-d3 {{P.d3.cls}}" style="left: calc({{P.d3.c}} * 100% / var(--cols)); top: calc({{P.d3.r}} * var(--rowh)); width: calc({{P.d3.w}} * 100% / var(--cols)); height: calc({{P.d3.h}} * var(--rowh)); transition-delay: {{P.d3.d}}">
-<div class="L l-home fill pad"><svg viewBox="0 0 10.14 10.12" style="height: min(30cqh, 26cqw); width: auto; align-self: flex-start" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg><h1 class="big" style="font-size: min(52cqh, 52cqw); letter-spacing: -0.06em; line-height: 0.86; display: inline-flex; isolation: isolate" aria-label="D3"><span aria-hidden="true">D</span><span aria-hidden="true" style="margin-left: -0.22em; mix-blend-mode: difference; color: #EEEDE4">3</span></h1></div>
+<div class="L l-home end pad"><h1 class="big" style="font-size: min(70cqh, 56cqw); letter-spacing: -0.06em; line-height: 0.86; display: inline-flex; isolation: isolate" aria-label="D3"><span aria-hidden="true">D</span><span aria-hidden="true" style="margin-left: -0.22em; mix-blend-mode: difference; color: #EEEDE4">3</span></h1></div>
 </div>
 
 <div class="mod k-brand {{P.brand.cls}}" style="background: var(--d3-white); left: calc({{P.brand.c}} * 100% / var(--cols)); top: calc({{P.brand.r}} * var(--rowh)); width: calc({{P.brand.w}} * 100% / var(--cols)); height: calc({{P.brand.h}} * var(--rowh)); transition-delay: {{P.brand.d}}">
-<div class="L l-home end pad"><span class="big" style="font-size: min(36cqh, 12.5cqw); line-height: 0.96">Deep Dive Day</span></div>
+<div class="L l-home tA pad"><svg viewBox="0 0 108.61 20.95" style="height: 20px; width: auto; flex-shrink: 0; color: #080808" role="img" aria-label="by Amtshelden"><g fill="currentColor"><path d="M58.16,8.28v3.48h-1.91V0H20.39c-1.54,0-2.78,1.24-2.78,2.78v9.3c0,1.54,1.25,2.78,2.78,2.78h34.01l7.28,6.1v-12.67h-3.52ZM27.64,11.77l-.79-1.94h-3.67l-.79,1.94h-1.94l3.71-8.74h1.76l3.71,8.74h-2,0ZM39.33,11.77h-1.9v-5.66l-2.44,3.7h-.05l-2.42-3.67v5.62h-1.87V3.08h2.050l2.28,3.67,2.28-3.67h2.05v8.68h.01ZM47.67,4.85h-2.64v6.92h-1.91v-6.92h-2.64v-1.76h7.19v1.76h0ZM54.91,9.2c0,1.72-1.31,2.69-3.18,2.69s-2.64-.46-3.68-1.38l1.13-1.35c.78.64,1.59,1.06,2.59,1.06s1.25-.31,1.25-.82v-.03c0-.49-.3-.73-1.75-1.1-1.75-.45-2.87-.93-2.87-2.65v-.03c0-1.58,1.27-2.61,3.04-2.61s2.34.39,3.22,1.1l-.99,1.44c-.77-.53-1.52-.85-2.26-.85s-1.12.33-1.12.75v.03c0,.57.37.75,1.87,1.14,1.76.46,2.75,1.09,2.75,2.6v.03h0Z"></path><polygon points="23.86 8.13 26.16 8.13 25.01 5.32 23.86 8.13"></polygon><path d="M84.09,4.81h-1.48v5.23h1.48c1.56,0,2.61-1.06,2.61-2.59v-.03c0-1.54-1.06-2.61-2.61-2.61Z"></path><path d="M105.83,0h-47.67v6.52h3.52v-3.43h1.91v11.77h42.25c1.54,0,2.78-1.24,2.78-2.78V2.78c0-1.54-1.24-2.78-2.78-2.78h0ZM71.96,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM79.58,11.77h-6.23V3.09h1.91v6.94h4.33v1.73h0ZM88.7,7.43c0,2.44-1.88,4.34-4.61,4.34h-3.38V3.09h3.38c2.72,0,4.61,1.87,4.61,4.31v.03ZM96.69,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM105.78,11.77h-1.62l-4.2-5.51v5.51h-1.88V3.09h1.76l4.06,5.34V3.09h1.88v8.68h0Z"></path><text transform="translate(0 11.75)" style="font-family: Gotham, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 11.82px"><tspan x="0" y="0" style="letter-spacing: -0.03em">b</tspan><tspan x="7.68" y="0">y</tspan></text></g></svg><span class="big" style="font-size: min(40cqh, 13cqw); line-height: 0.9">Deep<br>Dive Day</span></div>
 </div>
 
 <div class="mod k-theme {{P.theme.cls}}" style="background: var(--d3-orange); left: calc({{P.theme.c}} * 100% / var(--cols)); top: calc({{P.theme.r}} * var(--rowh)); width: calc({{P.theme.w}} * 100% / var(--cols)); height: calc({{P.theme.h}} * var(--rowh)); transition-delay: {{P.theme.d}}">
-<div class="L l-home pad" style="display: flex; align-items: center; justify-content: space-between; gap: 12px"><span class="big" style="font-size: min(36cqh, 6cqw); letter-spacing: -0.025em; line-height: 1">KI + Transformation</span><span class="sys hide-w" style="text-align: right; flex-shrink: 0">D3 · Ausgabe 01<br>4 Räume · 8 Themen</span></div>
+<div class="L l-home tA pad"><span class="lab">D3 · Ausgabe 01 · 4 Räume · 8 Themen</span><span class="big" style="font-size: min(40cqh, 6cqw); letter-spacing: -0.025em; line-height: 1">KI + Transformation</span></div>
 </div>
 
 <div class="mod k-why why {{P.why.cls}}" style="background: var(--d3-white); left: calc({{P.why.c}} * 100% / var(--cols)); top: calc({{P.why.r}} * var(--rowh)); width: calc({{P.why.w}} * 100% / var(--cols)); height: calc({{P.why.h}} * var(--rowh)); transition-delay: {{P.why.d}}">
@@ -226,16 +236,16 @@ a{color:inherit}
 </div>
 </div>
 
-<div class="mod k-hero on-{{heroPlace}} {{P.hero.cls}}" style="background: var(--d3-neon); left: calc({{P.hero.c}} * 100% / var(--cols)); top: calc({{P.hero.r}} * var(--rowh)); width: calc({{P.hero.w}} * 100% / var(--cols)); height: calc({{P.hero.h}} * var(--rowh)); transition-delay: {{P.hero.d}}">
+<div class="mod k-hero on-{{heroPlace}} {{P.hero.cls}}" style="background: var(--d3-yellow); left: calc({{P.hero.c}} * 100% / var(--cols)); top: calc({{P.hero.r}} * var(--rowh)); width: calc({{P.hero.w}} * 100% / var(--cols)); height: calc({{P.hero.h}} * var(--rowh)); transition-delay: {{P.hero.d}}">
 <div class="msk h-fk"><img src="/people/p06.jpg" alt=""></div>
 <div class="msk h-fc"><img src="/people/p06.jpg" alt=""></div>
 <div class="msk h-fm"><img src="/people/p06.jpg" alt=""></div>
 <div class="msk h-fn"><img src="/people/p06.jpg" alt=""></div>
 <div class="msk h-fs"><img src="/people/p06.jpg" alt=""></div>
-<div class="cap"><span class="sys">{{heroCap}}</span></div>
+<div class="L l-all tD pad" style="justify-content: flex-end"><div class="btm"><span class="lab">{{heroMeta}}</span><b style="font-size: clamp(14px, 6cqw, 18px); line-height: 1.1">{{heroVerb}}</b></div></div>
 </div>
 
-<div class="mod k-pc spk {{P.pc.cls}} {{spkSel.0}}" style="background: var(--d3-neon); left: calc({{P.pc.c}} * 100% / var(--cols)); top: calc({{P.pc.r}} * var(--rowh)); width: calc({{P.pc.w}} * 100% / var(--cols)); height: calc({{P.pc.h}} * var(--rowh)); transition-delay: {{P.pc.d}}">
+<div class="mod k-pc spk {{P.pc.cls}} {{spkSel.0}}" style="background: var(--d3-yellow); left: calc({{P.pc.c}} * 100% / var(--cols)); top: calc({{P.pc.r}} * var(--rowh)); width: calc({{P.pc.w}} * 100% / var(--cols)); height: calc({{P.pc.h}} * var(--rowh)); transition-delay: {{P.pc.d}}">
 <button class="hit" onClick="{{spkPick.0}}" aria-label="Speaker*in Keynote"></button>
 <div class="pt m-circle"><img src="/people/p02.jpg" alt="Platzhalter-Porträt"></div>
 <div class="nm"><b>[Name Nachname]</b><span class="sys">Keynote · 09:40</span></div>
@@ -277,41 +287,34 @@ a{color:inherit}
 <div class="mod fmt act k-{{f.k}} {{f.dark}} {{f.P.cls}} {{f.st0}}" style="background: {{f.bg}}; left: calc({{f.P.c}} * 100% / var(--cols)); top: calc({{f.P.r}} * var(--rowh)); width: calc({{f.P.w}} * 100% / var(--cols)); height: calc({{f.P.h}} * var(--rowh)); transition-delay: {{f.P.d}}" onMouseEnter="{{f.hover}}">
 <button class="hit" onClick="{{f.tap}}" aria-label="{{f.aria}}"></button>
 <span class="sh {{f.sh}}" style="color: {{f.ink}}"></span>
-<div class="L l-home pad" style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; text-align: center; gap: 2px">
-<sc-if value="{{f.time}}" hint-placeholder-val="{{false}}"><span class="hide-s" style="font-weight: 850; font-size: clamp(14px, 11cqmin, 30px); letter-spacing: -0.02em; line-height: 1">{{f.time}}</span></sc-if>
-<span class="sys" style="line-height: 1.25">{{f.verb}}</span>
-</div>
-<div class="L l-explore end pad"><span class="big" style="font-size: clamp(20px, min(13cqw, 15cqh), 64px)">{{f.name}}</span><p class="p">{{f.desc}}</p></div>
-<div class="L l-partner end pad"><span class="big" style="font-size: clamp(20px, min(10cqw, 18cqh), 44px)">Aussteller werden</span><p class="p hide-s">Ein eigener Stand am Veranstaltungstag.</p><span class="sys">Kontakt →</span></div>
+<div class="L l-home tB pad"><span class="lab">{{f.short}}</span><div class="btm"><sc-if value="{{f.time}}" hint-placeholder-val="{{false}}"><span class="t-time hide-s">{{f.time}}</span></sc-if><span class="lab">{{f.verb}}</span></div></div>
+<div class="L l-explore tB pad"><span class="lab">{{f.short}}</span><div class="btm"><span class="big" style="font-size: clamp(20px, min(13cqw, 15cqh), 64px)">{{f.name}}</span><p class="p hide-s">{{f.desc}}</p></div></div>
+<div class="L l-partner tC pad"><span class="lab">Stände</span><div class="ctaRow"><span class="t-mod">Aussteller werden</span><span class="s-arrow"></span></div></div>
 </div>
 </sc-for>
 
-<div class="mod k-next act {{P.next.cls}}" style="background: var(--d3-neon); left: calc({{P.next.c}} * 100% / var(--cols)); top: calc({{P.next.r}} * var(--rowh)); width: calc({{P.next.w}} * 100% / var(--cols)); height: calc({{P.next.h}} * var(--rowh)); transition-delay: {{P.next.d}}">
+<div class="mod k-next act {{P.next.cls}}" style="background: var(--d3-white); left: calc({{P.next.c}} * 100% / var(--cols)); top: calc({{P.next.r}} * var(--rowh)); width: calc({{P.next.w}} * 100% / var(--cols)); height: calc({{P.next.h}} * var(--rowh)); transition-delay: {{P.next.d}}">
 <button class="hit" onClick="{{nav.partner}}" aria-label="Nächste Ausgabe ansehen"></button>
-<div class="L l-home pad" style="display: flex; align-items: center; gap: 12px"><svg viewBox="0 0 10.14 10.12" style="height: min(56cqh, 42px); width: auto; flex-shrink: 0; color: var(--d3-purple)" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg><div style="display: flex; flex-direction: column; gap: 3px; min-width: 0"><span class="sys" style="color: var(--d3-mute)">Als Nächstes</span><b style="font-size: clamp(14px, 6.5cqw, 17px); line-height: 1.15">D3 · 02 Kommunikation</b><span class="sys">[Datum]</span></div></div>
+<div class="L l-home tA pad"><span class="lab">Als Nächstes · [Datum]</span><b style="font-size: clamp(14px, 6.5cqw, 18px); line-height: 1.15">D3 · 02 Kommunikation</b></div>
 </div>
 
 <div class="mod k-date {{P.date.cls}}" style="background: var(--d3-white); left: calc({{P.date.c}} * 100% / var(--cols)); top: calc({{P.date.r}} * var(--rowh)); width: calc({{P.date.w}} * 100% / var(--cols)); height: calc({{P.date.h}} * var(--rowh)); transition-delay: {{P.date.d}}">
-<div class="L l-all pad" style="display: grid; grid-template-columns: 1.25fr 1.2fr 0.9fr; align-items: center; gap: 10px">
-<div style="display: flex; flex-direction: column; gap: 3px"><span class="sys hide-s" style="color: var(--d3-mute)">Datum</span><b style="font-size: clamp(13px, 4.8cqw, 18px)">[TT.MM.2027]</b></div>
-<div style="display: flex; flex-direction: column; gap: 3px"><span class="sys hide-s" style="color: var(--d3-mute)">Zeit</span><b style="font-size: clamp(13px, 4.8cqw, 18px)">09:00–15:30</b></div>
-<div style="display: flex; flex-direction: column; gap: 3px"><span class="sys hide-s" style="color: var(--d3-mute)">Ort</span><b style="font-size: clamp(13px, 4.8cqw, 18px)">Digital</b></div>
-</div>
+<div class="L l-all pad"><div class="dataRow"><div><span class="lab">Datum</span><b>[TT.MM.2027]</b></div><div><span class="lab">Zeit</span><b>09:00–15:30</b></div><div><span class="lab">Ort</span><b>Digital</b></div></div></div>
 </div>
 
 <div class="mod act k-cta {{P.cta.cls}}" style="background: var(--d3-orange); left: calc({{P.cta.c}} * 100% / var(--cols)); top: calc({{P.cta.r}} * var(--rowh)); width: calc({{P.cta.w}} * 100% / var(--cols)); height: calc({{P.cta.h}} * var(--rowh)); transition-delay: {{P.cta.d}}">
 <button class="hit" onClick="{{cta.go}}" aria-label="{{cta.label}}"></button>
-<div class="L l-all pad" style="display: flex; flex-direction: column; justify-content: space-between"><span class="sys hide-s">{{cta.note}}</span><div style="display: flex; align-items: center; justify-content: space-between; gap: 10px"><span class="big" style="font-size: clamp(16px, min(9cqw, 30cqh), 34px); letter-spacing: -0.02em">{{cta.label}}</span><span class="s-arrow" style="display: block; width: clamp(22px, 9cqw, 40px); aspect-ratio: 1.5 / 1; flex-shrink: 0"></span></div></div>
+<div class="L l-all tC pad"><span class="lab">{{cta.note}}</span><div class="ctaRow"><span class="t-mod">{{cta.label}}</span><span class="s-arrow"></span></div></div>
 </div>
 
 <div class="mod dark act k-cta2 {{P.cta2.cls}}" style="left: calc({{P.cta2.c}} * 100% / var(--cols)); top: calc({{P.cta2.r}} * var(--rowh)); width: calc({{P.cta2.w}} * 100% / var(--cols)); height: calc({{P.cta2.h}} * var(--rowh)); transition-delay: {{P.cta2.d}}">
 <button class="hit" onClick="{{cta2.go}}" aria-label="{{cta2.label}}"></button>
-<div class="L l-all pad" style="display: flex; flex-direction: column; justify-content: space-between"><span class="sys hide-s">{{cta2.note}}</span><div style="display: flex; align-items: center; justify-content: space-between; gap: 10px"><span class="big" style="font-size: clamp(16px, min(9cqw, 30cqh), 34px); letter-spacing: -0.02em">{{cta2.label}}</span><span class="s-arrow" style="display: block; width: clamp(22px, 9cqw, 40px); aspect-ratio: 1.5 / 1; flex-shrink: 0"></span></div></div>
+<div class="L l-all tC pad"><span class="lab">{{cta2.note}}</span><div class="ctaRow"><span class="t-mod">{{cta2.label}}</span><span class="s-arrow"></span></div></div>
 </div>
 
 <div class="mod act k-hint {{P.hint.cls}}" style="background: var(--d3-white); left: calc({{P.hint.c}} * 100% / var(--cols)); top: calc({{P.hint.r}} * var(--rowh)); width: calc({{P.hint.w}} * 100% / var(--cols)); height: calc({{P.hint.h}} * var(--rowh)); transition-delay: {{P.hint.d}}">
 <button class="hit" onClick="{{hint.go}}" aria-label="{{hint.label}}"></button>
-<span class="sh s-arrow" style="--dp: 6px; right: 8%; top: 14%; width: min(44cqw, 66cqh); aspect-ratio: 1.5 / 1; color: var(--d3-black)"></span><div class="L l-all pad" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px"><span class="sys">{{hint.label}}</span><span class="sys" style="color: var(--d3-mute)">{{stNo}} / 05</span></div>
+<div class="L l-all tC pad"><span class="lab">Weiter · {{stNo}} / 05</span><div class="ctaRow"><span class="t-mod">{{hint.label}}</span><span class="s-arrow"></span></div></div>
 </div>
 
 <div class="mod k-xhead {{P.xhead.cls}}" style="left: calc({{P.xhead.c}} * 100% / var(--cols)); top: calc({{P.xhead.r}} * var(--rowh)); width: calc({{P.xhead.w}} * 100% / var(--cols)); height: calc({{P.xhead.h}} * var(--rowh)); transition-delay: {{P.xhead.d}}">
@@ -554,7 +557,7 @@ class Component extends DCLogic {
         partner: { phead2: [0, 0, 5, 2], fs: [5, 0, 3, 2], logos: [0, 2, 8, 2], cta: [0, 4, 4, 1], cta2: [4, 4, 4, 1], editions: [0, 5, 8, 2], about: [0, 7, 4, 3], faq: [4, 7, 4, 3] }
       },
       mob: {
-        home: { d3: [0, 0, 2, 2], hero: [2, 0, 2, 2], brand: [0, 2, 4, 1], theme: [0, 3, 4, 1], date: [0, 4, 4, 1], cta: [0, 5, 2, 1], cta2: [2, 5, 2, 1], fk: [0, 6, 2, 2], fc: [2, 6, 1, 1], fm: [3, 6, 1, 1], fn: [2, 7, 1, 1], fs: [3, 7, 1, 1], why: [0, 8, 4, 3], next: [0, 11, 4, 1], hint: [0, 12, 4, 1] },
+        home: { d3: [0, 0, 2, 2], hero: [2, 0, 2, 2], brand: [0, 2, 4, 2], theme: [0, 4, 4, 1], date: [0, 5, 4, 1], cta: [0, 6, 2, 1], cta2: [2, 6, 2, 1], fk: [0, 7, 2, 2], fc: [2, 7, 1, 1], fm: [3, 7, 1, 1], fn: [2, 8, 1, 1], fs: [3, 8, 1, 1], why: [0, 9, 4, 3], next: [0, 12, 4, 1], hint: [0, 13, 4, 1] },
         explore: { xhead: [0, 0, 4, 2], fk: [0, 2, 4, 2], fc: [0, 4, 2, 2], fm: [2, 4, 2, 2], fn: [0, 6, 2, 2], fs: [2, 6, 2, 2], cta: [0, 8, 4, 1], hint: [0, 9, 4, 1] },
         program: { board: [0, 0, 4, 8] },
         speaker: { spkhead: [0, 0, 4, 1], pc: [0, 1, 2, 2], s2: [2, 1, 2, 2], s3: [0, 3, 2, 2], s4: [2, 3, 2, 2], s5: [0, 5, 2, 2], s6: [2, 5, 2, 2], sdetail: [0, 7, 4, 3], cta2: [0, 10, 4, 1], hint: [0, 11, 4, 1] },
@@ -652,7 +655,7 @@ class Component extends DCLogic {
       { k: 'fk', verb: 'Vortrag ansehen', f: 'keynote', name: 'Keynotes & Vorträge', desc: 'Impulse für die Verwaltung von morgen.', time: '09:40', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-orange)' },
       { k: 'fc', verb: 'Cases kennenlernen', f: 'case', name: 'Cases & Panels', desc: 'Echte Lösungen aus echten Behörden.', time: '10:30', bg: 'var(--d3-bg-2)', dark: '', ink: '' },
       { k: 'fm', verb: 'Masterclass mitmachen', f: 'master', name: 'Master­classes', desc: 'Wissen vertiefen und anwenden.', time: '', bg: 'var(--d3-white)', dark: '', ink: 'var(--d3-black)' },
-      { k: 'fn', verb: 'Leute treffen', f: 'net', name: 'Networking', desc: 'Menschen und Perspektiven verbinden.', time: '', bg: 'var(--d3-neon)', dark: '', ink: '' },
+      { k: 'fn', verb: 'Leute treffen', f: 'net', name: 'Networking', desc: 'Menschen und Perspektiven verbinden.', time: '', bg: 'var(--d3-yellow)', dark: '', ink: '' },
       { k: 'fs', verb: 'Stände besuchen', f: 'stand', name: 'Stände', desc: 'Technologien und Lösungen entdecken.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-bg)' }
     ];
     var fmts = FM.map(function (m) {
@@ -676,6 +679,8 @@ class Component extends DCLogic {
     else if (s.st === 'speaker') tgt = spkKeys[s.spk];
     else if (s.st === 'partner') tgt = 'fs';
     var heroPlace = (s.st === 'home' || s.st === 'explore') && tgt && tgt.charAt(0) === 'f' ? tgt : 'fk';
+    var heroVerbs = { fk: 'Vortrag ansehen', fc: 'Cases kennenlernen', fm: 'Masterclass mitmachen', fn: 'Leute treffen', fs: 'Stände besuchen' };
+    var heroTimes = { fk: '09:40', fc: '10:30', fm: '10:30', fn: '12:00', fs: '12:00' };
     var caps = { fk: '09:40 · Vortrag ansehen', fc: '10:30 · Cases kennenlernen', fm: '10:30 · Masterclass mitmachen', fn: '12:00 · Leute treffen', fs: '12:00 · Stände besuchen' };
     var tp = tgt && L[tgt];
     var duLabels = { fk: 'Vortrag', fc: 'Case', fm: 'Masterclass', fn: 'Austausch', fs: 'Stand', pc: 'Speaker*in', s2: 'Speaker*in', s3: 'Speaker*in', s4: 'Speaker*in', s5: 'Speaker*in', s6: 'Speaker*in' };
@@ -698,7 +703,7 @@ class Component extends DCLogic {
     var mk = function (d) { d = d || ['', '', null]; return { label: d[0], note: d[1], go: function () { if (d[2]) self.go(d[2]); } }; };
     var cta = mk(ctaDefs[s.st]), cta2 = mk(cta2Defs[s.st]);
     var nxt = order[idx + 1];
-    var hint = nxt ? { label: 'Weiter: ' + names[nxt] + ' →', go: function () { self.go(nxt); } } : { label: 'Zurück zum Start ↑', go: function () { self.go('home'); } };
+    var hint = nxt ? { label: names[nxt], go: function () { self.go(nxt); } } : { label: 'Zum Start', go: function () { self.go('home'); } };
 
     var step = function (dir) {
       var now = Date.now();
@@ -721,7 +726,7 @@ class Component extends DCLogic {
       rootRef: this._rootRef, stageRef: this._stageRef,
       mx: s.mx.toFixed(3), my: s.my.toFixed(3),
       lockSpan: bp === 'desk' ? 4 : (bp === 'tab' ? 5 : 3), ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: bp === 'mob' ? (p2 ? 'Anmelden' : 'Partner') : (p2 ? 'Anmelden' : 'Partner werden'), idxSpan: bp === 'desk' ? 1 : 1,
-      P: P, fmts: fmts, du: du, heroPlace: heroPlace, heroCap: 'Du · ' + caps[heroPlace],
+      P: P, fmts: fmts, du: du, heroPlace: heroPlace, heroCap: 'Du · ' + caps[heroPlace], heroMeta: 'Du · ' + heroTimes[heroPlace], heroVerb: heroVerbs[heroPlace],
       stNo: '0' + (idx + 1), stName: names[s.st],
       on: { home: s.st === 'home' ? 'on' : '', explore: s.st === 'explore' ? 'on' : '', program: s.st === 'program' ? 'on' : '', speaker: s.st === 'speaker' ? 'on' : '', partner: s.st === 'partner' ? 'on' : '' },
       nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner') },
