@@ -13,6 +13,7 @@ export function FormatTiles({ v }: { v: V }) {
             <span className="wipe" />
             <button className="hit" onClick={f.tap} aria-label={f.aria} />
             <span className="sh" style={{ color: f.ink } as Css}>
+              <img className="st3d" src={f.still} alt="" aria-hidden="true" />
               {f.is.fk ? (
                 <>
                   <svg className="mo mo-keynote" viewBox="0 0 100 100" aria-hidden="true">

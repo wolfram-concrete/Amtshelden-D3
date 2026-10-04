@@ -1,18 +1,19 @@
 // Einmaliger Port: Canvas-Quelle (D3App2.dc.html) -> Next.js/React-Komponenten unter components/d3/.
 // Nach dem Port ist der TSX-Code die Quelle; dieses Skript bleibt als Dokumentation, wie der Port entstanden ist.
-// Aufruf: node scripts/port/dc2react.js design/canvas-v5/D3App2.dc.html
+// Aufruf: node scripts/port/dc2react.js design/canvas-v7/D3App4.dc.html
 const fs = require('fs');
 const path = require('path');
 const { parseDocument } = require('htmlparser2');
 
-const SRC = process.argv[2] || 'design/canvas-v5/D3App2.dc.html';
+const SRC = process.argv[2] || 'design/canvas-v7/D3App4.dc.html';
 const OUT = path.join(process.cwd(), 'components/d3');
 const src = fs.readFileSync(SRC, 'utf8');
 
 // ---------- Bild-Referenzen (Canvas-Blobs -> public/) ----------
 const PEOPLE = { '98e908777a6ce188713344468d23a9bd': 'p01', '9decf5a8e398cd0dc5fd92a958984bea': 'p02', 'c111eb0a0ddd902b6e60881bcca3f4f8': 'p03', '3c130c3512412f2f7ef3681f6b8c0092': 'p04', '5319da926d88bc3da618a5548c1a7e2f': 'p05', '9313403364efa784c3d646ede2eb7604': 'p06', 'ed54bddf64811e958622c804c955b3d3': 'p07' };
 const BILD = { '93ceb67090ec6804918b62b94f9f9cfd': 'moment', '25fae1ee7b4e2360f82780ef92474e94': 'portrait', '4cc6fa87aa6da5b3530e1849c20493a8': 'focus', '1903b319b4944cc7b79dc47efe2d2c7c': 'exchange', '22f1fd011889ce9a747c17d63deadb30': 'explorer', 'ecb49eb6cc82e70c748f1beb7843cdd2': 'connection', 'cda17e779e11afd463a480aaee19badb': 'speaker', '0982c5a62984084b65b5b9e8f2148afd': 'space' };
-const fixBlobs = (s) => s.replace(/\/_blob\/([0-9a-f]{32})/g, (m, id) => BILD[id] ? `/bildwelt/d3-${BILD[id]}.jpg` : PEOPLE[id] ? `/people/${PEOPLE[id]}.jpg` : m);
+const STILL = { '77542a5ba9e2905b7b2303a3e2893565': 'fk', 'cfa84faf8f69e4d49a592d82fe4a5dbc': 'fc', '40ab1d1779ad2efc608a76382e97cb6a': 'fm', '9e09a49ab311ce9a4f7433ae507becf5': 'fn', '39688cdf81f0f3dd6c2b57f86d2ea5eb': 'fs' };
+const fixBlobs = (s) => s.replace(/\/_blob\/([0-9a-f]{32})/g, (m, id) => STILL[id] ? `/bildwelt/d3-3d-${STILL[id]}.png` : BILD[id] ? `/bildwelt/d3-${BILD[id]}.jpg` : PEOPLE[id] ? `/people/${PEOPLE[id]}.jpg` : m);
 
 // ---------- Teile der Quelle ----------
 const helmet = src.match(/<helmet>([\s\S]*?)<\/helmet>/)[1];
@@ -184,7 +185,7 @@ export type V = Record<string, any>;
 /** Inline-Stile mit Custom Properties (--cols, --i …) */
 export type Css = import('react').CSSProperties & Record<\`--\${string}\`, string | number | undefined>;
 `);
-fs.writeFileSync(path.join(OUT, 'd3.css'), '/* D3 Mosaic Interface – Stile (portiert aus der Canvas-Quelle, Stand v5.8) */\n' + css + '\n');
+fs.writeFileSync(path.join(OUT, 'd3.css'), '/* D3 Mosaic Interface – Stile (portiert aus der Canvas-Quelle, Stand v7) */\n' + css + '\n');
 
 // ---------- Logik ----------
 let logic = code.trim().replace(/^class Component extends DCLogic \{/, 'export default class D3App extends Component<D3Props, any> {');

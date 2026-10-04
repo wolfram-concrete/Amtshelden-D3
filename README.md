@@ -6,15 +6,16 @@ Ausgabe 01: **D3 · KI + Transformation**. Anmeldung später über Let's Get Dig
 - Briefing: https://docs.google.com/document/d/1grwTioy0KYaqkIG4jyswoq4MoUHnkSsbOVQYmfsstwM
 - Live (intern, noindex): https://amtshelden-d3.vercel.app
 
-## Aktueller Stand: Mosaic Interface v5.8 als Next.js-App
+## Aktueller Stand: v7 „Amtshelden vorn“ als Next.js-App
 
-D3 ist das Interface. Ein Vollbild-Raster (Desktop 12, Tablet 8, Mobil 4 Spalten) wechselt seinen
+Der Amtshelden Deep Dive Day ist das digitale Konferenzformat von Amtshelden – Amtshelden ist die Marke, der Deep Dive Day
+ein Format davon, D3 nur das Formatzeichen. Das Interface ist ein Vollbild-Raster (Desktop 12, Tablet 8, Mobil 4 Spalten) wechselt seinen
 Zustand statt klassischer Sections: **Home → Formate → Programm → Speaker*innen → Mitmachen**.
 Scrollen, Navigation oder die Pfeil-Felder lösen den Wechsel aus.
 
-**Bausteine:** Zeichensystem aus der Bildmarke (Keynote, Case, Masterclass, Networking, Stände, Weiter),
-3D-Körper bei Hover (WebGL), eigene Bildwelt mit geometrischer Fläche, Programm als Tagesreise
-(Zeitachse, vier Räume, Jetzt/Als Nächstes, aufklappende Programmpunkte), Frag D3 (FAQ ohne KI),
+**Bausteine:** Amtshelden-Logo als Absender (Leiste, Preloader, erste Zelle), einfarbige 3D-Zeichen in den
+Format-Kacheln (Standbild, bei Hover live WebGL), eigene Bildwelt mit geometrischer Fläche, Programm als Tagesreise
+(Zeitachse, vier Räume, Jetzt/Als Nächstes, aufklappende Programmpunkte), Frag Amtshelden (FAQ ohne KI),
 Ausgaben-Logik, Phase 1/Phase 2 als Schalter (`phase`). Regeln: `/design-system`.
 
 ### Lokal starten
@@ -38,14 +39,15 @@ npm run dev   # http://localhost:4320
 | `lib/d3/program.ts` | Programm, Formate, Räume, Porträts |
 | `public/bildwelt/`, `public/people/` | Bildwelt, Porträt-Platzhalter |
 
-Änderungen passieren ab jetzt im Next.js-Code. Der Design-Canvas (`design/canvas-v5/`) bleibt Werkbank für
+Änderungen passieren ab jetzt im Next.js-Code. Der Design-Canvas (`design/canvas-v7/`, früher `canvas-v5/`) bleibt Werkbank für
 Entwürfe; `scripts/port/dc2react.js` dokumentiert, wie der Port entstanden ist, und überschreibt beim erneuten
 Ausführen `components/d3/` und `lib/d3/`.
 
 ### Prototyp und Design-System
 
 - `/prototype/mosaic-v5.html` – der Prototyp aus dem Canvas als Referenz (`npm run build:prototype`).
-- `/design-system` – Regeln und Bausteine (Board aus `design/canvas-v5/DesignSystem-v5.dc.html`).
+- `/design-system` – Regeln und Bausteine, Stand v7 (Board aus `design/canvas-v7/DesignSystem-v7.dc.html`).
+- `/v7` – der Entwurf v7 als Prototyp-HTML; `/prototype/mosaic-v5.html` bleibt als Archiv.
 
 ### Platzhalter
 

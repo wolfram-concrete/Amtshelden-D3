@@ -1,5 +1,14 @@
 # Changelog
 
+## v7 – freigegeben und umgezogen · 2026-10-04
+
+- `/` (Next.js-App) läuft jetzt auf v7 „Amtshelden vorn“: Port aus `design/canvas-v7/D3App4.dc.html`, pixelgleich zum Prototyp `/v7`.
+- Design System auf v7 umgestellt (`/design-system`, Quelle `design/canvas-v7/DesignSystem-v7.dc.html`): neue Sektion
+  „Absender“ (Amtshelden-Logo, Lockup, Sprachregel), Farbe mit Grün als Absenderfarbe, Marke mit D3 als Formatzeichen,
+  Zeichen als einfarbige 3D-Körper, Typografie und Module ohne „D3“, „die D3“ und bunte Icons unter „Raus“.
+- Programm: Networking-Punkte grün statt gelb.
+- v5.8 bleibt als Archiv (`/prototype/mosaic-v5.html`, Design System v5 im Canvas).
+
 ## v7 – Entwurf „Amtshelden vorn“ · 2026-10-04
 
 Eigener Entwurf unter `/v7` (Quelle `design/canvas-v7/D3App4.dc.html`), `/` bleibt v5.8. Grundlage: Feedback Christian –

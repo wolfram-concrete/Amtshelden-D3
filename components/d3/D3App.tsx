@@ -111,11 +111,11 @@ export default class D3App extends Component<D3Props, any> {
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var P3 = {"keynote":{"top":"M0,50c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50h-20c0,-16.56854 -13.43146,-30 -30,-30c-16.56854,0 -30,13.43146 -30,30z","kern":"M32,50c0,-9.94113 8.05887,-18 18,-18c9.94113,0 18,8.05887 18,18z","bot":"M16,50c0,18.77768 15.22232,34 34,34c18.77768,0 34,-15.22232 34,-34h-16c0,9.94113 -8.05887,18 -18,18c-9.94113,0 -18,-8.05887 -18,-18z"},"case":{"starx":"M50,0l6.35485,16.59287c-2.05869,-0.38923 -4.18299,-0.59287 -6.35485,-0.59287v68c2.17186,0 4.29616,-0.20364 6.35485,-0.59287l-6.35485,16.59287l-9.95,-25.98l-25.41,11.34l11.34,-25.41l-25.98,-9.95l25.98,-9.95l-11.34,-25.41l25.41,11.34zM85.36,14.64l-7.24518,16.23457c-2.40598,-3.53 -5.4594,-6.58341 -8.98939,-8.98939zM100,50l-16.59287,6.35485c0.38923,-2.05869 0.59287,-4.18299 0.59287,-6.35485c0,-2.17186 -0.20364,-4.29616 -0.59287,-6.35485zM85.36,85.36l-16.23457,-7.24518c3.53,-2.40598 6.58341,-5.4594 8.98939,-8.98939z","dx":"M59.95,74.02l9.17543,4.09482c-3.78026,2.57655 -8.10707,4.41061 -12.77058,5.29231zM74.02,59.95l9.38713,-3.59515c-0.88171,4.66351 -2.71576,8.99032 -5.29231,12.77058zM74.02,40.05l4.09482,-9.17543c2.57655,3.78026 4.41061,8.10707 5.29231,12.77058zM59.95,25.98l-3.59515,-9.38713c4.66351,0.88171 8.99032,2.71576 12.77058,5.29231z"},"master":{"olx":"M0,33.5c19.98585,0 37.89689,8.88336 50,22.91698c-4.41417,5.11825 -8.05579,10.92157 -10.74376,17.22884c-8.40745,-12.73989 -22.85018,-21.14582 -39.25624,-21.14582zM66,99.5h-13c0,-9.55133 2.84909,-18.43722 7.74376,-25.85418c3.38373,7.93986 5.25624,16.67835 5.25624,25.85418z","il":"M0,65.5c18.77768,0 34,15.22232 34,34h-16c0,-9.94113 -8.05887,-18 -18,-18z","orx":"M100,52.5c-16.40605,0 -30.84879,8.40593 -39.25624,21.14582c-2.68797,-6.30728 -6.3296,-12.11059 -10.74376,-17.22884c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698zM34,99.5c0,-9.17583 1.8725,-17.91431 5.25624,-25.85418c4.89468,7.41695 7.74376,16.30285 7.74376,25.85418z","ir":"M100,65.5c-18.77768,0 -34,15.22232 -34,34h16c0,-9.94113 8.05887,-18 18,-18z","d1":"M43,7.5c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z","d2":"M30.5,20c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z","d3":"M55.5,20c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z","d4":"M43,32.5c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z"},"net":{"ax":"M32,18c6.67442,0 12.87157,2.04339 18,5.53872c-8.45108,5.75991 -14,15.46258 -14,26.46128c0,10.9987 5.54892,20.70137 14,26.46128c-5.12843,3.49532 -11.32558,5.53872 -18,5.53872c-17.67311,0 -32,-14.32689 -32,-32c0,-17.67311 14.32689,-32 32,-32z","bx":"M68,18c17.67311,0 32,14.32689 32,32c0,17.67311 -14.32689,32 -32,32c-6.67442,0 -12.87157,-2.04339 -18,-5.53872c8.45108,-5.75991 14,-15.46258 14,-26.46128c0,-10.9987 -5.54892,-20.70137 -14,-26.46128c5.12843,-3.49532 11.32558,-5.53872 18,-5.53872z"},"expo":{"bowl":"M100,49.5c0,11.38476 -3.80499,21.88082 -10.21265,30.28585c-4.85334,-17.41119 -20.82851,-30.18585 -39.78735,-30.18585c-18.95884,0 -34.93401,12.77466 -39.78735,30.18585c-6.40766,-8.40503 -10.21265,-18.90109 -10.21265,-30.28585z","dome":"M50,68.8c13.46316,0 24.38999,10.85935 24.49917,24.29676c-7.24004,4.07728 -15.59798,6.40324 -24.49917,6.40324c-8.90119,0 -17.25913,-2.32596 -24.49917,-6.40324c0.10919,-13.4374 11.03601,-24.29676 24.49917,-24.29676z","head":"M27.4,22.6c0,12.48164 10.11836,22.6 22.6,22.6c12.48164,0 22.6,-10.11836 22.6,-22.6c0,-12.48164 -10.11836,-22.6 -22.6,-22.6c-12.48164,0 -22.6,10.11836 -22.6,22.6z"}};
     var SPEC = {
-      fk: ['keynote', [['top', '--d3-orange', 0], ['bot', '--d3-orange', -1], ['kern', '--d3-yellow', 1]]],
-      fc: ['case', [['starx', '--d3-purple', 0], ['dx', '--d3-orange', 1.2]]],
-      fm: ['master', [['olx', '--d3-black', 0], ['il', '--d3-black', 0], ['orx', '--d3-black', 1], ['ir', '--d3-black', 1], ['d1', '--d3-purple', 2], ['d2', '--d3-black', 2], ['d3', '--d3-black', 2], ['d4', '--d3-black', 2]]],
-      fn: ['net', [['ax', '--d3-black', 0], ['bx', '--d3-black', 1.3]]],
-      fs: ['expo', [['bowl', '--d3-bg', 0], ['dome', '--d3-yellow', 1], ['head', '--d3-bg', 2]]]
+      fk: ['keynote', [['top', '--d3-bg', 0], ['bot', '--d3-bg', -1], ['kern', '--d3-green', 1]]],
+      fc: ['case', [['starx', '--d3-black', 0], ['dx', '--d3-black', 1.2]]],
+      fm: ['master', [['olx', '--d3-black', 0], ['il', '--d3-black', 0], ['orx', '--d3-black', 1], ['ir', '--d3-black', 1], ['d1', '--d3-green', 2], ['d2', '--d3-black', 2], ['d3', '--d3-black', 2], ['d4', '--d3-black', 2]]],
+      fn: ['net', [['ax', '--d3-white', 0], ['bx', '--d3-white', 1.3]]],
+      fs: ['expo', [['bowl', '--d3-bg', 0], ['dome', '--d3-bg', 1], ['head', '--d3-bg', 2]]]
     };
     var DEPTH = 15, LAYER = 9;
     var S = this._3d = { cur: null, t: { d: 0, rx: 0, ry: 0 }, g: { d: 0, rx: 0, ry: 0 }, mx: 0, my: 0, raf: 0 };
@@ -150,7 +150,7 @@ export default class D3App extends Component<D3Props, any> {
       return (geo[id] = new THREE.ExtrudeGeometry(shapes, { depth: 1, bevelEnabled: false, curveSegments: 28 }));
     }
     function col(v) { var c = new THREE.Color(getComputedStyle(root).getPropertyValue(v).trim() || '#1E1B36'); c.convertSRGBToLinear(); return c; }
-    function side(c) { var h = {}; var s = c.clone(); s.getHSL(h); s.offsetHSL(0, 0, h.l < .08 ? .16 : -.1); return s; }
+    function side(c) { var h = {}; var s = c.clone(); s.getHSL(h); if (h.l < .08) s.offsetHSL(0, -h.s * .6, .09); else s.offsetHSL(0, 0, -.1); return s; }
     function mat(c) {   // Material B: beschichtet, leicht reflektierend, nicht glänzend
       return new THREE.MeshPhysicalMaterial({ color: c, roughness: .5, clearcoat: .5, clearcoatRoughness: .35, envMap: S.env, envMapIntensity: .22, side: THREE.DoubleSide });
     }
@@ -176,11 +176,11 @@ export default class D3App extends Component<D3Props, any> {
       (S.meshes || []).forEach(function (m) { m.scale.z = dz; m.position.z = m.userData.lvl * LAYER * S.g.d; });
       S.root.rotation.set(S.g.rx * Math.PI / 180, S.g.ry * Math.PI / 180, 0);
       S.renderer.render(S.scene, S.cam);
-      if (S.g.d < .015 && S.t.d === 0 && S.cur) { S.cur.classList.remove('is3d'); if (S.canvas.parentNode) S.canvas.parentNode.removeChild(S.canvas); S.cur = null; return; }
+      if (!S.want && !moving && S.cur) { S.cur.classList.remove('is3d'); if (S.canvas.parentNode) S.canvas.parentNode.removeChild(S.canvas); S.cur = null; return; }
       if (moving) S.raf = requestAnimationFrame(frame);
     }
     function kick() { if (!S.raf) S.raf = requestAnimationFrame(frame); }
-    function aim() { var on = !!S.want; S.t.d = on ? 1 : 0; S.t.rx = on ? 11 + S.my * 4 : 0; S.t.ry = on ? -14 + S.mx * 6 : 0; kick(); }
+    function aim() { var on = !!S.want; S.t.d = 1; S.t.rx = 11 + (on ? S.my * 4 : 0); S.t.ry = -14 + (on ? S.mx * 6 : 0); kick(); }
     S.activate = function (mod) {
       var k = (mod.className.match(/\bk-(f[kcmns])\b/) || [])[1]; if (!k) return;
       S.want = mod;
@@ -188,7 +188,7 @@ export default class D3App extends Component<D3Props, any> {
         if (S.want !== mod) return;
         if (S.cur && S.cur !== mod) { S.cur.classList.remove('is3d'); }
         if (!place(mod)) return;
-        if (S.cur !== mod) { build(k); S.g = { d: 0, rx: 0, ry: 0 }; }
+        if (S.cur !== mod) { build(k); S.g = { d: 1, rx: 11, ry: -14 }; }
         S.cur = mod; mod.classList.add('is3d'); aim();
       }).catch(function () { S.failed = true; });
     };
@@ -341,12 +341,13 @@ export default class D3App extends Component<D3Props, any> {
       { k: 'fk', verb: 'Vortrag ansehen', f: 'keynote', name: 'Keynotes & Vorträge', desc: 'Impulse für die Verwaltung von morgen.', time: '09:40', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-orange)' },
       { k: 'fc', verb: 'Cases kennenlernen', f: 'case', name: 'Cases & Panels', desc: 'Echte Lösungen aus echten Behörden.', time: '10:30', bg: 'var(--d3-bg-2)', dark: '', ink: '' },
       { k: 'fm', verb: 'Masterclass mitmachen', f: 'master', name: 'Master­classes', desc: 'Wissen vertiefen und anwenden.', time: '', bg: 'var(--d3-white)', dark: '', ink: 'var(--d3-black)' },
-      { k: 'fn', verb: 'Leute treffen', f: 'net', name: 'Networking', desc: 'Menschen und Perspektiven verbinden.', time: '', bg: 'var(--d3-yellow)', dark: '', ink: '' },
+      { k: 'fn', verb: 'Leute treffen', f: 'net', name: 'Networking', desc: 'Menschen und Perspektiven verbinden.', time: '', bg: 'var(--d3-green)', dark: 'dark', ink: 'var(--d3-white)' },
       { k: 'fs', verb: 'Stände besuchen', f: 'stand', name: 'Stände', desc: 'Technologien und Lösungen entdecken.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-bg)' }
     ];
+    var STILL = {"fk": "/bildwelt/d3-3d-fk.png", "fc": "/bildwelt/d3-3d-fc.png", "fm": "/bildwelt/d3-3d-fm.png", "fn": "/bildwelt/d3-3d-fn.png", "fs": "/bildwelt/d3-3d-fs.png"};
     var fmts = FM.map(function (m) {
       var is = {}; is[m.k] = true;
-      return { is: is, k: m.k, verb: m.verb, P: P[m.k], name: m.name, desc: m.desc, time: m.time, short: F[m.f][0], sh: F[m.f][1], bg: m.bg, dark: m.dark, ink: m.ink || 'inherit',
+      return { still: STILL[m.k], is: is, k: m.k, verb: m.verb, P: P[m.k], name: m.name, desc: m.desc, time: m.time, short: F[m.f][0], sh: F[m.f][1], bg: m.bg, dark: m.dark, ink: m.ink || 'inherit',
         st0: (m.k === 'fk' && s.st === 'home') ? 'st0' : '', aria: F[m.f][0] + ': ' + m.name,
         hover: function () { if (self.state.st !== 'program' && self.state.hover !== m.k) self.setState({ hover: m.k }); },
         tap: function (e) {
@@ -391,20 +392,20 @@ export default class D3App extends Component<D3Props, any> {
 
     /* Frag D3: fester Katalog, Stichwort-Abgleich. [Klammern] = Platzhalter wie im Rest der Seite. */
     var KB = [
-      { k: ['wer', 'für wen', 'zielgruppe', 'behörde', 'verwaltung', 'kommune', 'teilnehm', 'mitarbeit'], q: 'Für wen ist D3?', a: 'Für Menschen aus Behörden und öffentlichen Organisationen, die die Verwaltung mit KI und neuen Arbeitsweisen verändern wollen.' },
+      { k: ['wer', 'für wen', 'zielgruppe', 'behörde', 'verwaltung', 'kommune', 'teilnehm', 'mitarbeit'], q: 'Für wen ist der Deep Dive Day?', a: 'Für Menschen aus Behörden und öffentlichen Organisationen, die die Verwaltung mit KI und neuen Arbeitsweisen verändern wollen.' },
       { k: ['ablauf', 'läuft', 'tag ab', 'uhr', 'uhrzeit', 'dauer', 'wie lange', 'beginn', 'ende'], q: 'Wie läuft der Tag ab?', a: 'Von 09:00 bis 15:30, komplett im Browser. Du wechselst zwischen Keynotes, Vorträgen, Cases, Masterclasses, Networking und Ständen.', act: ['Programm ansehen', 'program'] },
       { k: ['anmeld', 'registr', 'ticket', 'let’s get digital', "let's get digital", 'teilnahme sichern', 'platz'], q: 'Wie melde ich mich an?', a: faqReg },
       { k: ['kost', 'preis', 'gebühr', 'kostenlos', 'bezahl', 'euro', '€'], q: 'Was kostet die Teilnahme?', a: '[Antwort folgt: Kosten der Teilnahme.] Alles Weitere zur Anmeldung läuft über Let’s Get Digital.' },
-      { k: ['technik', 'software', 'browser', 'install', 'app', 'zoom', 'teams', 'kamera', 'mikro'], q: 'Brauche ich Software?', a: 'Nein. D3 läuft im Browser, du brauchst nur einen aktuellen Browser und eine stabile Verbindung. [Plattform wird ergänzt.]' },
+      { k: ['technik', 'software', 'browser', 'install', 'app', 'zoom', 'teams', 'kamera', 'mikro'], q: 'Brauche ich Software?', a: 'Nein. Der Deep Dive Day läuft im Browser, du brauchst nur einen aktuellen Browser und eine stabile Verbindung. [Plattform wird ergänzt.]' },
       { k: ['aufzeichn', 'mediathek', 'nachschau', 'später', 'video', 'verpass'], q: 'Gibt es Aufzeichnungen?', a: 'Nach jeder Ausgabe wird das Programm zur Mediathek. Cases erscheinen zusätzlich als Artikel auf amtshelden.de.' },
       { k: ['raum', 'räume', 'parallel', 'wechsel', 'gleichzeitig'], q: 'Was heißt viele Räume?', a: 'Vier Räume laufen parallel: Main Stage, Raum 2, Werkstatt und Lounge. Du wechselst, wann du willst.', act: ['Zur Tagesstrecke', 'program'] },
       { k: ['format', 'keynote', 'vortrag', 'case', 'panel', 'masterclass', 'workshop'], q: 'Welche Formate gibt es?', a: 'Keynotes und Vorträge für Impulse, Cases und Panels mit echten Lösungen aus Behörden, Masterclasses zum Vertiefen, dazu Networking und Stände.', act: ['Formate ansehen', 'explore'] },
       { k: ['netzwerk', 'networking', 'kennenlern', 'leute', 'austausch', 'kontakt knüpf'], q: 'Kann ich Leute treffen?', a: 'Ja. In den Networking-Runden und Themenräumen sprichst du in kleinen Gruppen mit anderen aus der Verwaltung.' },
-      { k: ['partner', 'sponsor', 'ausstell', 'stand ', 'stände', 'unternehmen'], q: 'Wie werde ich Partner?', a: 'D3 sucht Partner und Aussteller für die erste Ausgabe. Melde dich über Mitmachen.', act: ['Partner werden', 'partner'] },
+      { k: ['partner', 'sponsor', 'ausstell', 'stand ', 'stände', 'unternehmen'], q: 'Wie werde ich Partner?', a: 'Amtshelden sucht Partner und Aussteller für die erste Ausgabe. Melde dich über Mitmachen.', act: ['Partner werden', 'partner'] },
       { k: ['speaker', 'sprech', 'einreich', 'call for', 'vortragen', 'referent'], q: 'Kann ich sprechen?', a: 'Ja, wir suchen Speaker*innen mit echten Erfahrungen aus der Verwaltung. Einreichen über Mitmachen.', act: ['Speaker*in werden', 'partner'] },
       { k: ['thema', 'themen', ' ki', 'ki ', 'künstlich', 'transformation', 'ausgabe'], q: 'Worum geht es?', a: 'Ausgabe 01 heißt KI + Transformation. Ausgabe 02 widmet sich der Kommunikation [Datum].' },
-      { k: ['wann', 'datum', 'termin', 'findet'], q: 'Wann ist D3?', a: '[TT.MM.2027], 09:00 bis 15:30, digital.' },
-      { k: ['amtshelden', 'veranstalt', 'wer steckt', 'organisier'], q: 'Wer steckt dahinter?', a: 'D3 ist das digitale Veranstaltungsformat von Amtshelden.', act: ['Über D3', 'partner'] }
+      { k: ['wann', 'datum', 'termin', 'findet'], q: 'Wann ist der Deep Dive Day?', a: '[TT.MM.2027], 09:00 bis 15:30, digital.' },
+      { k: ['amtshelden', 'veranstalt', 'wer steckt', 'organisier'], q: 'Wer steckt dahinter?', a: 'Der Deep Dive Day ist das digitale Konferenzformat von Amtshelden.', act: ['Über den Deep Dive Day', 'partner'] }
     ];
     var norm = function (t) { return (' ' + String(t || '').toLowerCase().replace(/[?!.,;:„“"()]/g, ' ').replace(/\s+/g, ' ') + ' '); };
     var ask = function (text) {
@@ -458,7 +459,7 @@ export default class D3App extends Component<D3Props, any> {
       cta: cta, cta2: cta2, hint: hint,
       progNote: p2 ? 'Der Tag als Strecke: links nach rechts die Zeit, untereinander die Räume. Tippe auf einen Programmpunkt.' : 'Vorläufiger Ablauf, Zeiten ab 10:30 und Themen sind exemplarisch. Schieb die Uhr, um den Tag live zu sehen.',
       spkNote: p2 ? 'Alle Speaker*innen des Tages.' : 'Die ersten Stimmen. Weitere folgen.',
-      partnerNote: p2 ? 'Partner und Aussteller der Ausgabe 01.' : 'D3 sucht Partner, Aussteller und Speaker*innen für die erste Ausgabe.',
+      partnerNote: p2 ? 'Partner und Aussteller der Ausgabe 01.' : 'Amtshelden sucht Partner, Aussteller und Speaker*innen für die erste Ausgabe.',
       faqReg: faqReg, bot: bot,
       logos: [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) { return p2 ? { label: '[Partner-Logo]', bg: 'transparent' } : { label: i === 0 ? 'Hier entsteht der Partnerbereich der Ausgabe 01.' : '', bg: i === 0 ? 'var(--d3-white)' : (i % 3 === 1 ? 'var(--d3-bg)' : 'transparent') }; }),
       jItems: jItems, jTicks: jTicks, jn: jn, ex: ex, jrRef: this._jrRef, jScrollRef: this._jScrollRef,

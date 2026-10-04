@@ -4,11 +4,11 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   async rewrites() {
     return {
-      // "/" ist die React-App (app/page.tsx). Der Prototyp bleibt als Referenz unter /prototype/mosaic-v5.html.
+      // "/" ist die React-App (app/page.tsx), Stand v7 „Amtshelden vorn“. v5.8 bleibt als Archiv unter /prototype/mosaic-v5.html.
       beforeFiles: [
-        // Design-System-Board, Stand v5.8 (intern)
+        // Design-System-Board, Stand v7 (intern)
         { source: "/design-system", destination: "/prototype/design-system.html" },
-        // Entwurf v7 „Amtshelden vorn“ (Feedback Christian)
+        // v7 als Prototyp-HTML (Referenz zur App unter /)
         { source: "/v7", destination: "/prototype/v7.html" },
       ],
       afterFiles: [],

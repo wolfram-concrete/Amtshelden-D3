@@ -4,16 +4,38 @@ import type { V, Css } from '../types';
 
 export function D3Cell({ v }: { v: V }) {
   return (
-    <div className={`mod dark k-d3 ${v.P.d3.cls ?? ""}`} style={{ left: `calc(${v.P.d3.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.d3.r ?? ""} * var(--rowh))`, width: `calc(${v.P.d3.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.d3.h ?? ""} * var(--rowh))`, transitionDelay: v.P.d3.d } as Css}>
-      <div className="L l-home end pad">
-        <h1 className="big" style={{ fontSize: "min(70cqh, 56cqw)", letterSpacing: "-0.06em", lineHeight: "0.86", display: "inline-flex", isolation: "isolate" } as Css} aria-label="D3">
-          <span aria-hidden="true">
-            D
+    <div className={`mod k-d3 k-ah ${v.P.d3.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.d3.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.d3.r ?? ""} * var(--rowh))`, width: `calc(${v.P.d3.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.d3.h ?? ""} * var(--rowh))`, transitionDelay: v.P.d3.d } as Css}>
+      <div className="L l-home tA pad">
+        <span className="lab">
+          Die Konferenz von
+        </span>
+        <svg className="ah-logo" viewBox="0 0 1386.5 319.2" style={{ width: "100%", height: "auto", display: "block" } as Css} role="img" aria-label="Amtshelden">
+          <g className="ah-a" fill="#0D9D69">
+            <path d="M617.8,126.2v53.1h-29.1V0H42.3C18.9,0,0,18.9,0,42.3v141.7c0,23.4,19,42.3,42.3,42.3h518.2l111,92.9V126.2h-53.7ZM152.7,179.3l-12.1-29.6h-55.9l-12.1,29.6h-29.6L99.6,46.2h26.8l56.6,133.1h-30.4.1ZM330.9,179.3h-28.9v-86.3l-37.2,56.4h-.8l-36.8-55.9v85.7h-28.5V47h31.3l34.7,55.9,34.7-55.9h31.3v132.2l.2.1h0ZM457.9,73.9h-40.2v105.4h-29.1v-105.4h-40.2v-26.8h109.5v26.8h0ZM568.2,140.2c0,26.2-20,41-48.5,41s-40.2-7-56.1-21.1l17.2-20.6c11.9,9.8,24.3,16.1,39.5,16.1s19.1-4.7,19.1-12.5v-.4c0-7.4-4.5-11.1-26.6-16.8-26.6-6.8-43.8-14.2-43.8-40.4v-.4c0-24,19.3-39.8,46.3-39.8s35.7,6,49.1,16.8l-15.1,21.9c-11.7-8.1-23.2-13-34.4-13s-17,5.1-17,11.5v.4c0,8.7,5.7,11.5,28.5,17.4,26.8,7,41.9,16.6,41.9,39.6v.4h0l-.1-.1h0Z" />
+            <polygon points="95.1 123.9 130.2 123.9 112.7 81.1 95.1 123.9" />
+          </g>
+          <g className="ah-b" fill="#333333">
+            <path d="M1012.9,73.3h-22.5v79.7h22.5c23.8,0,39.8-16.1,39.8-39.5v-.4c0-23.4-16.1-39.8-39.8-39.8Z" />
+            <path d="M1344.1,0h-726.3v99.4h53.6v-52.3h29.1v179.3h643.7c23.4,0,42.3-18.9,42.3-42.3V42.4c0-23.4-18.9-42.3-42.3-42.3h0l-.1-.1h0ZM828.1,179.3h-100.6V47.1h99.7v25.9h-70.8v26.8h62.3v25.9h-62.3v27.8h71.7v25.9h0v-.1h0ZM944.2,179.3h-95V47.1h29.1v105.7h65.9v26.5ZM1083.1,113.2c0,37.2-28.7,66.1-70.2,66.1h-51.5V47.1h51.5c41.5,0,70.2,28.5,70.2,65.7v.4ZM1204.8,179.3h-100.6V47.1h99.7v25.9h-70.8v26.8h62.3v25.9h-62.3v27.8h71.7v25.9h0v-.1h0ZM1343.4,179.3h-24.7l-64-84v84h-28.7V47.1h26.8l61.9,81.4V47.1h28.7v132.2h0Z" />
+          </g>
+        </svg>
+        <div className="btm ah-ddd">
+          <span className="big">
+            Deep
+            <br />
+            Dive Day
           </span>
-          <span aria-hidden="true" style={{ marginLeft: "-0.22em", mixBlendMode: "difference", color: "#EEEDE4" } as Css}>
-            3
+          <span className="ah-fz">
+            <span className="fzw">
+              <svg className="fz" viewBox="0 0 10.14 10.12" style={{ height: "100%", width: "auto", display: "block" } as Css} aria-hidden="true">
+                <path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z" />
+              </svg>
+            </span>
+            <span className="lab">
+              Ausgabe 01
+            </span>
           </span>
-        </h1>
+        </div>
       </div>
     </div>
   );
@@ -23,27 +45,16 @@ export function Brand({ v }: { v: V }) {
   return (
     <div className={`mod k-brand ${v.P.brand.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.brand.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.brand.r ?? ""} * var(--rowh))`, width: `calc(${v.P.brand.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.brand.h ?? ""} * var(--rowh))`, transitionDelay: v.P.brand.d } as Css}>
       <div className="L l-home tA pad">
-        <svg viewBox="0 0 108.61 20.95" style={{ height: "26px", width: "auto", flexShrink: "0", color: "var(--d3-black)" } as Css} role="img" aria-label="by Amtshelden">
-          <g fill="currentColor">
-            <path d="M58.16,8.28v3.48h-1.91V0H20.39c-1.54,0-2.78,1.24-2.78,2.78v9.3c0,1.54,1.25,2.78,2.78,2.78h34.01l7.28,6.1v-12.67h-3.52ZM27.64,11.77l-.79-1.94h-3.67l-.79,1.94h-1.94l3.71-8.74h1.76l3.71,8.74h-2,0ZM39.33,11.77h-1.9v-5.66l-2.44,3.7h-.05l-2.42-3.67v5.62h-1.87V3.08h2.050l2.28,3.67,2.28-3.67h2.05v8.68h.01ZM47.67,4.85h-2.64v6.92h-1.91v-6.92h-2.64v-1.76h7.19v1.76h0ZM54.91,9.2c0,1.72-1.31,2.69-3.18,2.69s-2.64-.46-3.68-1.38l1.13-1.35c.78.64,1.59,1.06,2.59,1.06s1.25-.31,1.25-.82v-.03c0-.49-.3-.73-1.75-1.1-1.75-.45-2.87-.93-2.87-2.65v-.03c0-1.58,1.27-2.61,3.04-2.61s2.34.39,3.22,1.1l-.99,1.44c-.77-.53-1.52-.85-2.26-.85s-1.12.33-1.12.75v.03c0,.57.37.75,1.87,1.14,1.76.46,2.75,1.09,2.75,2.6v.03h0Z" />
-            <polygon points="23.86 8.13 26.16 8.13 25.01 5.32 23.86 8.13" />
-            <path d="M84.09,4.81h-1.48v5.23h1.48c1.56,0,2.61-1.06,2.61-2.59v-.03c0-1.54-1.06-2.61-2.61-2.61Z" />
-            <path d="M105.83,0h-47.67v6.52h3.52v-3.43h1.91v11.77h42.25c1.54,0,2.78-1.24,2.78-2.78V2.78c0-1.54-1.24-2.78-2.78-2.78h0ZM71.96,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM79.58,11.77h-6.23V3.09h1.91v6.94h4.33v1.73h0ZM88.7,7.43c0,2.44-1.88,4.34-4.61,4.34h-3.38V3.09h3.38c2.72,0,4.61,1.87,4.61,4.31v.03ZM96.69,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM105.78,11.77h-1.62l-4.2-5.51v5.51h-1.88V3.09h1.76l4.06,5.34V3.09h1.88v8.68h0Z" />
-            <text transform="translate(0 11.75)" style={{ fontFamily: "Gotham, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif", fontWeight: "700", fontSize: "11.82px" } as Css}>
-              <tspan x="0" y="0" style={{ letterSpacing: "-0.03em" } as Css}>
-                b
-              </tspan>
-              <tspan x="7.68" y="0">
-                y
-              </tspan>
-            </text>
-          </g>
-        </svg>
-        <span className="big" style={{ fontSize: "min(40cqh, 13cqw)", lineHeight: "0.9" } as Css}>
-          Deep
-          <br />
-          Dive Day
+        <span className="lab">
+          Amtshelden Deep Dive Day · Ausgabe 01
         </span>
+        <p className="ah-claim ah-big">
+          {"Die digitale Konferenz von "}
+          <span>
+            Amtshelden
+          </span>
+          {" für Behörden, die neue Wege gehen."}
+        </p>
       </div>
     </div>
   );
@@ -51,10 +62,10 @@ export function Brand({ v }: { v: V }) {
 
 export function Theme({ v }: { v: V }) {
   return (
-    <div className={`mod k-theme ${v.P.theme.cls ?? ""}`} style={{ background: "var(--d3-green)", color: "var(--d3-white)", left: `calc(${v.P.theme.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.theme.r ?? ""} * var(--rowh))`, width: `calc(${v.P.theme.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.theme.h ?? ""} * var(--rowh))`, transitionDelay: v.P.theme.d } as Css}>
+    <div className={`mod k-theme ${v.P.theme.cls ?? ""}`} style={{ background: "var(--d3-black)", color: "var(--d3-bg)", left: `calc(${v.P.theme.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.theme.r ?? ""} * var(--rowh))`, width: `calc(${v.P.theme.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.theme.h ?? ""} * var(--rowh))`, transitionDelay: v.P.theme.d } as Css}>
       <div className="L l-home tA pad">
         <span className="lab">
-          D3 · Ausgabe 01 · 4 Räume · 8 Themen
+          Thema der Ausgabe 01 · 4 Räume · 8 Themen
         </span>
         <span className="big" style={{ fontSize: "min(40cqh, 6cqw)", letterSpacing: "-0.025em", lineHeight: "1" } as Css}>
           KI + Transformation
@@ -69,19 +80,18 @@ export function Why({ v }: { v: V }) {
     <div className={`mod k-why why ${v.P.why.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.why.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.why.r ?? ""} * var(--rowh))`, width: `calc(${v.P.why.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.why.h ?? ""} * var(--rowh))`, transitionDelay: v.P.why.d } as Css}>
       <div className="L l-home tA pad">
         <span className="lab">
-          Was ist D3?
+          Was ist der Deep Dive Day?
         </span>
         <div className="btm" style={{ gap: "12px" } as Css}>
-          <p className="ah-claim">
-            {"Die digitale Konferenz "}
-            <span>
-              für Behörden
-            </span>
-            , die neue Wege gehen.
+          <p className="ah-claim" style={{ fontSize: "clamp(18px, min(5.4cqw, 11cqh), 30px)" } as Css}>
+            Ein Tag im Browser. Keynotes, Cases, Masterclasses und Austausch.
           </p>
           <p className="ah-sub hide-s">
-            Ein Tag im Browser – Keynotes, Cases, Masterclasses und Austausch.
+            Das Konferenzformat von Amtshelden. Jede Ausgabe hat ein Schwerpunktthema – die erste: KI und Transformation.
           </p>
+          <a className="ah-link sys" href="https://amtshelden.de" target="_blank" rel="noopener">
+            amtshelden.de ↗
+          </a>
         </div>
       </div>
     </div>
@@ -132,7 +142,7 @@ export function NextEdition({ v }: { v: V }) {
           Als Nächstes · [Datum]
         </span>
         <b style={{ fontSize: "clamp(14px, 6.5cqw, 18px)", lineHeight: "1.15" } as Css}>
-          D3 · 02 Kommunikation
+          Ausgabe 02 · Kommunikation
         </b>
       </div>
     </div>

@@ -102,11 +102,11 @@ export function About({ v }: { v: V }) {
       </div>
       <div className="L l-partner fill pad" style={{ gap: "12px" } as Css}>
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" } as Css}>
-          <h2 className="big sc" style={{ fontSize: "clamp(26px, 6.4cqw, 44px)" } as Css}>
-            Über D3
+          <h2 className="big sc" style={{ fontSize: "clamp(24px, 5.6cqw, 40px)" } as Css}>
+            Über den Deep Dive Day
           </h2>
           <p className="p">
-            D3 ist das digitale Veranstaltungsformat von Amtshelden. Jede Ausgabe hat ein Schwerpunktthema: ein Tag, viele Räume, ein Deep Dive.
+            Der Deep Dive Day ist das digitale Konferenzformat von Amtshelden. Jede Ausgabe hat ein Schwerpunktthema: ein Tag, viele Räume, ein Deep Dive.
           </p>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", flexWrap: "wrap" } as Css}>
@@ -142,10 +142,10 @@ export function Faq({ v }: { v: V }) {
     <div className={`mod k-faq faq ${v.P.faq.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.faq.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.faq.r ?? ""} * var(--rowh))`, width: `calc(${v.P.faq.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.faq.h ?? ""} * var(--rowh))`, transitionDelay: v.P.faq.d } as Css}>
       <div className="L l-partner pad fq" style={{ overflow: "auto" } as Css} onWheel={v.stopWheel}>
         <span className="lab">
-          Frag D3
+          Frag Amtshelden
         </span>
         <form className="bot-f" onSubmit={v.bot.submit}>
-          <input className="bot-in" type="text" value={v.bot.q} onChange={v.bot.type} placeholder="Frag etwas zu D3 …" aria-label="Frage zu D3" autoComplete="off" />
+          <input className="bot-in" type="text" value={v.bot.q} onChange={v.bot.type} placeholder="Frag etwas zum Deep Dive Day …" aria-label="Frage an Amtshelden" autoComplete="off" />
           <button className="bot-go" type="submit" aria-label="Frage senden">
             <svg className="mo-next" viewBox="0 0 100 100" aria-hidden="true">
               <path className="p-a" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z" />
@@ -187,7 +187,7 @@ export function Faq({ v }: { v: V }) {
         </div>
         <details>
           <summary>
-            {"Für wen ist D3? "}
+            {"Für wen ist der Deep Dive Day? "}
             <span>
               +
             </span>

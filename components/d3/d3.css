@@ -1,4 +1,4 @@
-/* D3 Mosaic Interface – Stile (portiert aus der Canvas-Quelle, Stand v5.8) */
+/* D3 Mosaic Interface – Stile (portiert aus der Canvas-Quelle, Stand v7) */
 body{margin:0}
 :root{
 /* Farbhierarchie – Basis: Bone, Tinte · Primär (Amtshelden-Brücke): Gelb, Grün · Tertiär, nur punktuell: Infrarot (--d3-orange), Purple */
@@ -284,6 +284,43 @@ a{color:inherit}
 @keyframes phPar{from{translate:0 -5%}to{translate:0 5%}}
 @keyframes shPar{from{translate:0 10px}to{translate:0 -10px}}
 @media (prefers-reduced-motion: reduce){.bp-mob .ph img,.bp-tab .ph img,.bp-mob .k-hero .msk img,.bp-tab .k-hero .msk img,.bp-mob .fmt .sh,.bp-tab .fmt .sh,.bot-a{animation:none !important}}
+
+/* ===== v7 „Amtshelden vorn“ ===== */
+/* Leiste: Absender zuerst */
+.lock .lock-f{font-weight:800;letter-spacing:.02em;margin-left:4px;padding-left:12px;border-left:1px solid var(--d3-line);height:28px;display:flex;align-items:center}
+/* Absender-Zelle: Amtshelden-Logo groß, darunter das Format */
+.k-ah .L{gap:14px}
+.k-ah .ah-logo{max-width:min(100%,62cqh * 4.34)}
+.k-ah .ah-ddd{width:100%;display:flex;flex-direction:row;align-items:flex-end;justify-content:space-between;gap:12px}
+.ah-ddd .big{font-size:min(15cqh,11.5cqw);line-height:.9;white-space:nowrap}
+.ah-fz{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.ah-fz .fzw{display:block;height:min(14cqh,13cqw);color:var(--d3-black)}
+.ah-big{font-size:clamp(22px,min(6.4cqw,15cqh),54px) !important;max-width:22ch !important}
+.ah-claim span{color:var(--d3-green)}
+.ah-link{align-self:flex-start;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px}
+@container mod (max-width: 260px){ .ah-fz .lab{display:none} }
+/* Zeichen: einfarbig. Flach nur noch klein (UI); in den Format-Kacheln steht der 3D-Körper */
+.s-circle,.s-burst,.s-net{background:currentColor !important}
+.fmt .sh .mo{visibility:hidden}
+.fmt .sh .st3d{position:absolute;left:-40%;top:-40%;width:180%;height:180%;max-width:none;pointer-events:none;animation:stStep 10s cubic-bezier(.7,0,.2,1) 2.5s infinite}
+.k-fc .st3d{animation-delay:4s}.k-fm .st3d{animation-delay:5.5s}.k-fn .st3d{animation-delay:3.2s}.k-fs .st3d{animation-delay:6.4s}
+@keyframes stStep{0%,40%{transform:none}44%,70%{transform:translate(0,-3%) rotate(-3deg)}74%,100%{transform:none}}
+.booting .st3d{animation:none}
+.k-fn,.k-fn .wipe{animation:none !important}
+@media (prefers-reduced-motion: reduce){.st3d{animation:none !important}}
+/* Programm: Networking-Punkte in Grün */
+.jc.f-net:not(.past){background:var(--d3-green);color:var(--d3-white)}
+.jc.f-net:not(.past):hover{background:#00845A}
+/* Preloader: das Amtshelden-Logo setzt sich aus seinen zwei Sprechblasen zusammen */
+.ilock{flex-direction:column;align-items:flex-start;gap:clamp(18px,3vh,36px)}
+.intro .ilock .ilogo{width:min(68vw,560px);height:auto;overflow:visible}
+.ilogo .ah-a{animation:ahA .8s cubic-bezier(.7,0,.2,1) .15s both}
+.ilogo .ah-b{animation:ahB .8s cubic-bezier(.7,0,.2,1) .45s both}
+@keyframes ahA{from{transform:translateX(-14%);opacity:0}to{transform:none;opacity:1}}
+@keyframes ahB{from{transform:translateX(14%);opacity:0}to{transform:none;opacity:1}}
+.iwords{width:min(68vw,560px)}
+@media (max-width:640px){.intro .ilock .ilogo,.intro .iwords{width:86vw}}
+@media (prefers-reduced-motion: reduce){.ilogo .ah-a,.ilogo .ah-b{animation:none}}
 /* Modul-Ausrichtung: Label oben, Inhalt unten, nie mittig */
 .tA,.tB,.tC,.tD{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:8px;text-align:left}
 .lab{font-family:var(--f-sys);font-size:11px;letter-spacing:.05em;text-transform:uppercase;line-height:1.4;min-height:15px}
