@@ -25,6 +25,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cu
 a{color:inherit}
 .sys{font-family:var(--f-sys);font-size:11px;letter-spacing:.05em;text-transform:uppercase;line-height:1.4}
 .big{font-weight:850;font-stretch:var(--f-wide);letter-spacing:-.035em;line-height:.95;text-transform:uppercase;margin:0}
+/* Variante C: Versal nur für kurze Wörter ohne Umlaut (D3, Deep Dive Day, Programm). Ansagen und alles mit Ä/Ö/Ü in Satzschreibung. */
+.sc{text-transform:none;letter-spacing:-.03em;line-height:1}
 .app{position:relative;width:100%;height:100vh;overflow:hidden;background:var(--d3-bg);color:var(--d3-black);font-family:var(--f-text);display:grid;grid-template-rows:56px minmax(0,1fr);grid-template-columns:minmax(0,1fr)}
 .app.bp-tab,.app.bp-mob{grid-template-rows:56px minmax(0,1fr) 60px}
 /* top bar */
@@ -50,6 +52,8 @@ a{color:inherit}
 .mod.act{cursor:pointer}
 .dark{background:var(--d3-black);color:var(--d3-bg);--d3-mute:#B9B5CF;--d3-line:rgba(238,237,228,.16)}
 .hit{position:absolute;inset:0;z-index:0}
+/* Zeichen, Bilder und Flächen liegen über der Klickfläche, fangen aber keine Klicks ab */
+.mod .sh,.ph,.phw,.k-hero .msk{pointer-events:none}
 .hit:focus-visible{outline:3px solid var(--d3-orange);outline-offset:-3px}
 .L{position:absolute;inset:0;z-index:2;opacity:0;visibility:hidden;pointer-events:none;box-sizing:border-box;transition:opacity var(--motion-fast) var(--ease-out),visibility 0s linear var(--motion-fast)}
 .L a,.L button,.L details,.L summary{pointer-events:auto}
@@ -262,6 +266,34 @@ a{color:inherit}
 @keyframes geoStep{0%,40%{transform:none}44%,70%{transform:scale(1.07)}74%,100%{transform:none}}
 .booting .ph,.booting .geo{animation:none !important}
 @media (prefers-reduced-motion: reduce){.ph,.geo{animation:none !important}}
+
+/* Frag D3: Fragefeld mit festem Antwort-Katalog (kein KI-Dienst), Vorschläge als Chips */
+.fq{display:flex;flex-direction:column;gap:10px}
+.bot-f{display:flex;align-items:stretch;border:1px solid var(--d3-black);background:var(--d3-bg);flex-shrink:0}
+.bot-in{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:16px;padding:12px 14px;color:var(--d3-black);outline:none}
+.bot-in::placeholder{color:var(--d3-mute)}
+.bot-f:focus-within{box-shadow:0 0 0 2px var(--d3-green)}
+.bot-go{width:52px;display:flex;align-items:center;justify-content:center;background:var(--d3-black);color:var(--d3-yellow)}
+.bot-go .mo-next{width:26px;height:26px}
+.bot-go:hover .mo-next .p-b{transform:translateX(9%)}.bot-go:hover .mo-next .p-c{transform:translateX(18%)}
+.bot-a{display:flex;flex-direction:column;gap:8px;padding:12px 14px 14px;background:var(--d3-yellow);flex-shrink:0;animation:botIn .45s cubic-bezier(.7,0,.2,1) both}
+.bot-a.miss{background:var(--d3-bg-2)}
+.bot-a p{margin:0;font-family:var(--f-body);font-size:15.5px;line-height:1.45;hyphens:auto}
+.bot-a .lnk{align-self:flex-start;min-height:40px}
+@keyframes botIn{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.bot-chips{display:flex;flex-wrap:wrap;gap:6px;flex-shrink:0}
+.bot-chips .tchip{border:1px solid var(--d3-black);padding:7px 9px 6px}
+.bot-chips .tchip:hover{background:var(--d3-black);color:var(--d3-bg)}
+/* Shared Element: Die Fläche der geklickten Zelle wächst über die Bühne, darunter baut sich der neue Zustand auf */
+.ghost{position:fixed;z-index:30;pointer-events:none}
+/* Scroll-Parallax (Touch/Tablet, wo die Bühne scrollt): Bild gegen die Scrollrichtung, Zeichen mit ihr */
+@supports (animation-timeline: view()){
+  .bp-mob .ph img,.bp-tab .ph img,.bp-mob .k-hero .msk img,.bp-tab .k-hero .msk img{animation:phPar linear both;animation-timeline:view();animation-range:cover}
+  .bp-mob .fmt .sh,.bp-tab .fmt .sh{animation:shPar linear both;animation-timeline:view();animation-range:cover}
+}
+@keyframes phPar{from{translate:0 -5%}to{translate:0 5%}}
+@keyframes shPar{from{translate:0 10px}to{translate:0 -10px}}
+@media (prefers-reduced-motion: reduce){.bp-mob .ph img,.bp-tab .ph img,.bp-mob .k-hero .msk img,.bp-tab .k-hero .msk img,.bp-mob .fmt .sh,.bp-tab .fmt .sh,.bot-a{animation:none !important}}
 /* Modul-Ausrichtung: Label oben, Inhalt unten, nie mittig */
 .tA,.tB,.tC,.tD{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:8px;text-align:left}
 .lab{font-family:var(--f-sys);font-size:11px;letter-spacing:.05em;text-transform:uppercase;line-height:1.4;min-height:15px}
@@ -375,6 +407,7 @@ a{color:inherit}
 .iw b{font-weight:inherit}
 .iw b + b{color:var(--d3-yellow)}
 .iwf b + b{color:var(--d3-bg)}
+.iw:not(.iwf){text-transform:none;letter-spacing:-.03em;line-height:.98}
 .iw0{animation:iwStep .62s cubic-bezier(.7,0,.2,1) 1.45s both}
 .iw1{animation:iwStep .62s cubic-bezier(.7,0,.2,1) 2.07s both}
 .iw2{animation:iwStep .62s cubic-bezier(.7,0,.2,1) 2.69s both}
@@ -397,7 +430,7 @@ a{color:inherit}
 .why li{display:grid;grid-template-columns:28px 1fr;gap:6px;font-size:clamp(14px,3.7cqw,17px);line-height:1.3;font-weight:600}
 .why li .sys{padding-top:3px}
 .faq details{border-top:1px solid var(--d3-line)}
-.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;padding:12px 0;font-weight:800;font-size:clamp(15px,3.4cqw,19px);text-transform:uppercase;letter-spacing:-.01em}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;padding:12px 0;font-weight:800;font-size:clamp(15px,3.4cqw,19px);letter-spacing:-.01em}
 .faq summary::-webkit-details-marker{display:none}
 .faq p{margin:0 0 12px;font-size:15px;line-height:1.45}
 .eds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));height:100%}
@@ -514,7 +547,7 @@ code{font-family:var(--f-sys);font-size:12px}
 <div id="root"></div>
 <template id="tpl">
 <div class="ds">
-<div class="ds-top"><span class="mk"><svg class="lock-mark" viewBox="0 0 10.14 10.12" style="height: 100%; width: auto; display: block" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg></span><h1>D3 Design System</h1><div class="meta"><span class="lab">Stand v5.7 · 02.10.2026</span><br><span class="lab" style="color: var(--d3-mute)">Quelle: D3App2 · intern</span></div></div>
+<div class="ds-top"><span class="mk"><svg class="lock-mark" viewBox="0 0 10.14 10.12" style="height: 100%; width: auto; display: block" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg></span><h1>D3 Design System</h1><div class="meta"><span class="lab">Stand v5.8 · 02.10.2026</span><br><span class="lab" style="color: var(--d3-mute)">Quelle: D3App2 · intern</span></div></div>
 <section class="ds-sec">
 <header class="ds-h"><span class="lab">01</span><h2 class="ds-t">Farbe</h2><p class="ds-lead">Bone und Tinte tragen. Gelb und Grün verbinden D3 mit Amtshelden. Infrarot und Purple bleiben Gewürz.</p></header>
 <div class="ds-b"><div class="swrow">
@@ -571,13 +604,14 @@ code{font-family:var(--f-sys);font-size:12px}
 <header class="ds-h"><span class="lab">04</span><h2 class="ds-t">Typografie</h2><p class="ds-lead">Grotesk für die Ansage, Serife zum Lesen, Mono für Ordnung.</p></header>
 <div class="ds-b"><div class="trow"><span class="lab">Display · Archivo 850 · 108 %</span><div style="justify-self: start; background: var(--d3-black); padding: 18px 26px 14px"><div class="d3type" style="font-size: 150px" aria-label="D3"><span>D</span><span>3</span></div></div></div>
 <div class="trow"><span class="lab">Headline · Archivo 850 · 108 % · Versal</span><div class="big" style="font-size: 64px">Deep Dive Day</div></div>
+<div class="trow"><span class="lab">Ansage · Archivo 850 · Satzschreibung (.sc)</span><div class="big sc" style="font-size: 56px">Keynotes &amp; Vorträge</div></div>
 <div class="trow"><span class="lab">Aussage · Archivo 800 · Satzschreibung · Schlüsselwort grün</span><p class="ah-claim" style="font-size: 40px; max-width: 20ch">Die digitale Konferenz <span>für Behörden</span>, die neue Wege gehen.</p></div>
 <div class="trow"><span class="lab">Fließtext · Georgia · linksbündig · Silbentrennung</span><p class="p" style="font-family: var(--f-body); hyphens: auto; font-size: 18px; max-width: 52ch">Ein Tag im Browser – Keynotes, Cases, Masterclasses und Austausch. Wie auf amtshelden.de: die Serife trägt den Lesetext, die Grotesk die Ansage.</p></div>
 <div class="trow"><span class="lab">Zeit · Archivo 850 · Ziffern tabellarisch</span><div style="font-weight: 850; font-stretch: 108%; font-size: 64px; letter-spacing: -.03em; line-height: .9; font-variant-numeric: tabular-nums">09:40</div></div>
 <div class="trow"><span class="lab">Label · Martian Mono 400 · 11 px · Versal</span><span class="sys" style="font-size: 13px">D3 · Ausgabe 01 · Main Stage</span></div>
 <ul class="rules">
 <li><b>Variante C:</b> Archivo für Headlines und UI, Georgia für Fließtext, Martian Mono für Labels. Keine weiteren Schnitte.</li>
-<li><b>Offen:</b> Umlaute in Versal-Headlines (Ä, Ö, Ü stoßen an die Zeile darüber). Vorschlag: lange Ansagen in Satzschreibung.</li>
+<li><b>Umlaute (Variante C):</b> Versal nur für kurze Wörter ohne Umlaut – D3, Deep Dive Day, Programm, Mitmachen. Ansagen und alles mit Ä/Ö/Ü in Satzschreibung (Klasse <code>.sc</code>): „Ein Tag. Viele Räume.“, Formatnamen, „Über D3“, FAQ.</li>
 </ul></div>
 </section>
 <section class="ds-sec">

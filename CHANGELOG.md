@@ -1,5 +1,23 @@
 # Changelog
 
+## v5.8 – Next.js-App, Frag D3, Übergänge, Satzschreibung · 2026-10-02
+
+### Neu
+- `/` ist jetzt eine echte React-App (Next.js): `components/d3/` (Logik in `D3App.tsx`, Ansicht in `D3View.tsx`
+  und `modules/`), Daten in `lib/d3/` (Layout, Programm). Pixelgleich zum Prototyp; der bleibt unter
+  `/prototype/mosaic-v5.html`. Port-Skript: `scripts/port/dc2react.js`.
+- Frag D3: Fragefeld in der FAQ-Zelle mit festem Antwort-Katalog (14 Themen, kein KI-Dienst), Vorschläge als Chips,
+  Antworten mit Sprungziel. Unbelegtes steht als [Platzhalter].
+- Shared Element: Wechselt ein Klick den Zustand, wächst die Fläche der geklickten Zelle über die Bühne.
+- Scroll-Parallax auf Tablet/Mobil: Fotos gegen, Zeichen mit der Scrollrichtung.
+
+### Geändert
+- Umlaute, Variante C: Versal nur für kurze Wörter ohne Umlaut; Ansagen, Formatnamen, „Über D3“, Programmtitel,
+  FAQ und Preloader-Schlagwörter in Satzschreibung (`.sc`).
+
+### Behoben
+- Klicks auf Format-Zeichen gingen ins Leere (Zeichen lag über der Klickfläche).
+
 ## v5.7 – Bildwelt · 2026-10-02
 
 ### Neu

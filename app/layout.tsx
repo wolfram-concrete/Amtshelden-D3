@@ -1,41 +1,24 @@
-import type { Metadata, Viewport } from "next";
-import { Fragment_Mono, Hubot_Sans, Mona_Sans } from "next/font/google";
-import "@/styles/tokens.css";
-
-const hubot = Hubot_Sans({
-  subsets: ["latin"],
-  axes: ["wdth"],
-  variable: "--font-hubot",
-  display: "swap",
-});
-
-const mona = Mona_Sans({
-  subsets: ["latin"],
-  axes: ["wdth"],
-  variable: "--font-mona",
-  display: "swap",
-});
-
-const fragment = Fragment_Mono({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-fragment",
-  display: "swap",
-});
+import type { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
-  title: "D3 – Deep Dive Day · Design Exploration",
-  description: "D3 Deep Dive Day – das digitale B2G-Event von Amtshelden. Interne Designexploration.",
+  title: 'D3 Deep Dive Day – die digitale Konferenz für Behörden',
+  description: 'D3 Deep Dive Day – das digitale B2G-Event von Amtshelden. Ausgabe 01: KI + Transformation.',
   robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#080808",
+  themeColor: '#1E1B36',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de" className={`${hubot.variable} ${mona.variable} ${fragment.variable}`}>
+    <html lang="de">
+      <head>
+        {/* Archivo (Headlines, UI) und Martian Mono (Labels); Fließtext Georgia ist Systemschrift */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Martian+Mono:wght@400;500&display=swap" rel="stylesheet" />
+      </head>
       <body>{children}</body>
     </html>
   );
