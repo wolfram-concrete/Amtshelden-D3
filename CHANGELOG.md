@@ -1,5 +1,20 @@
 # Changelog
 
+## v7 – Entwurf „Amtshelden vorn“ · 2026-10-04
+
+Eigener Entwurf unter `/v7` (Quelle `design/canvas-v7/D3App4.dc.html`), `/` bleibt v5.8. Grundlage: Feedback Christian –
+Amtshelden ist die Marke, der Deep Dive Day ein Format davon; Icons nicht bunt; 3D-Versionen gefallen.
+
+### Geändert gegenüber v5.8
+- Leiste: Amtshelden-Logo (Originaldatei) vorn, daneben „Deep Dive Day“. Der Preloader setzt das Amtshelden-Logo aus
+  seinen zwei Sprechblasen zusammen und schickt es in die Leiste.
+- Home: Absender-Zelle „Die Konferenz von Amtshelden“ mit großem Logo, darunter „Deep / Dive Day“ und die D3-Bildmarke
+  klein als Formatzeichen. Aussage: „Die digitale Konferenz von Amtshelden für Behörden, die neue Wege gehen.“
+- Name: „D3“ verschwindet aus allen Texten (Navigation, FAQ, Frag Amtshelden, Über, Ausgaben).
+- Zeichen einfarbig (Tinte oder Bone, Grün als einziger Akzent). In den Format-Kacheln steht der 3D-Körper schon im
+  Ruhezustand (Standbilder `public/bildwelt/d3-3d-*.png`); bei Hover übernimmt Live-WebGL aus derselben Pose.
+- Grün wandert zu Networking und Amtshelden, die Thema-Zelle wird Tinte.
+
 ## v5.8 – Next.js-App, Frag D3, Übergänge, Satzschreibung · 2026-10-02
 
 ### Neu

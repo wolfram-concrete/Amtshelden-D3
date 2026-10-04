@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         // Design-System-Board, Stand v5.8 (intern)
         { source: "/design-system", destination: "/prototype/design-system.html" },
+        // Entwurf v7 „Amtshelden vorn“ (Feedback Christian)
+        { source: "/v7", destination: "/prototype/v7.html" },
       ],
       afterFiles: [],
       fallback: [],
