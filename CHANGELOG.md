@@ -10,6 +10,7 @@
 - Fokuspunkte (`--fx/--fy/--z/--ox/--oy`) je Zelle neu gesetzt und auf Desktop und Mobil geprüft: Gesichter liegen frei,
   nie unter der geometrischen Fläche.
 - Design System: Abschnitt Bildwelt mit den neuen Motiven und neuer Beschreibung.
+- Hinweis: Das Archiv `/prototype/mosaic-v5.html` nutzt dieselben Dateinamen und zeigt jetzt ebenfalls die neuen Motive.
 
 ## v7 – freigegeben und umgezogen · 2026-10-04
 
