@@ -9,6 +9,7 @@
   in der Porträt-Zelle: Keynote (erstes Bild nach dem Laden) und Masterclass. `moment` und `focus` liegen weiter in
   `public/bildwelt/`, sind auf der Seite aber nicht mehr im Einsatz.
 - Design System: Bildwelt-Beispiel der Porträt-Zelle mit Close-up.
+- Speaker*innen: Die schwarze Kontur um die gewählte Kachel ist raus. Wer gewählt ist, zeigt das Detailfeld.
 
 ## v7.3 – Ruhe · 2026-10-05
 
