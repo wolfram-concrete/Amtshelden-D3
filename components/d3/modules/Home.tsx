@@ -103,25 +103,27 @@ export function Hero({ v }: { v: V }) {
     <div className={`mod k-hero on-${v.heroPlace ?? ""} ${v.P.hero.cls ?? ""}`} style={{ background: "var(--d3-yellow)", left: `calc(${v.P.hero.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.hero.r ?? ""} * var(--rowh))`, width: `calc(${v.P.hero.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.hero.h ?? ""} * var(--rowh))`, transitionDelay: v.P.hero.d } as Css}>
       <span className="wipe" />
       <div className="msk hp-fk">
-        <img src="/bildwelt/d3-moment.jpg" alt="Teilnehmerin vor schwebenden Bildflächen" style={{ "--fx": "26%", "--fy": "16%", "--z": "1.2", "--ox": "50%", "--oy": "22%" } as Css} />
+        <img src="/bildwelt/d3-moment.jpg" alt="Teilnehmerin vor schwebenden Bildflächen" style={{ "--fx": "0%", "--fy": "30%", "--z": "1.06", "--ox": "0%", "--oy": "20%" } as Css} />
       </div>
       <div className="msk hp-fc">
-        <img src="/bildwelt/d3-portrait.jpg" alt="Teilnehmer, umgeben von zugeschalteten Gesprächspartnern" style={{ "--fx": "46%", "--fy": "22%", "--z": "1.15", "--ox": "50%", "--oy": "26%" } as Css} />
+        <img src="/bildwelt/d3-portrait.jpg" alt="Teilnehmer, umgeben von zugeschalteten Gesprächspartnern" style={{ "--fx": "64%", "--fy": "30%", "--z": "1.06", "--ox": "100%", "--oy": "20%" } as Css} />
       </div>
       <div className="msk hp-fm">
-        <img src="/bildwelt/d3-focus.jpg" alt="Teilnehmerin arbeitet an schwebenden Flächen" style={{ "--fx": "36%", "--fy": "22%", "--z": "1.15", "--ox": "50%", "--oy": "26%" } as Css} />
+        <img src="/bildwelt/d3-focus.jpg" alt="Teilnehmerin arbeitet an schwebenden Flächen" style={{ "--fx": "34%", "--fy": "30%", "--z": "1", "--ox": "50%", "--oy": "20%" } as Css} />
       </div>
       <div className="msk hp-fn">
-        <img src="/bildwelt/d3-exchange.jpg" alt="Zwei Menschen im Gespräch" style={{ "--fx": "54%", "--fy": "24%", "--z": "1.05", "--ox": "50%", "--oy": "28%" } as Css} />
+        <img src="/bildwelt/d3-exchange.jpg" alt="Zwei Menschen im Gespräch" style={{ "--fx": "100%", "--fy": "30%", "--z": "1", "--ox": "50%", "--oy": "20%" } as Css} />
       </div>
       <div className="msk hp-fs">
-        <img src="/bildwelt/d3-explorer.jpg" alt="Teilnehmer zwischen Licht und Flächen" style={{ "--fx": "63%", "--fy": "26%", "--z": "1.2", "--ox": "50%", "--oy": "30%" } as Css} />
+        <img src="/bildwelt/d3-explorer.jpg" alt="Teilnehmer zwischen Licht und Flächen" style={{ "--fx": "52%", "--fy": "30%", "--z": "1", "--ox": "50%", "--oy": "20%" } as Css} />
       </div>
-      <span className="geo g-db" style={{ background: "var(--d3-yellow)" } as Css} />
+      <span className="geo g-qbl" style={{ background: "var(--d3-yellow)" } as Css} />
       <div className="L l-all tD pad" style={{ justifyContent: "flex-end" } as Css}>
         <div className="btm">
           <span className="lab">
-            {v.heroMeta}
+            {v.heroTime}
+            <br />
+            {v.heroFmt}
           </span>
           <b style={{ fontSize: "clamp(14px, 6cqw, 18px)", lineHeight: "1.1" } as Css}>
             {v.heroVerb}

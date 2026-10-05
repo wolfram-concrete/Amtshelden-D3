@@ -122,7 +122,7 @@ export function SpeakerHead({ v }: { v: V }) {
   return (
     <div className={`mod k-spkhead ${v.P.spkhead.cls ?? ""}`} style={{ left: `calc(${v.P.spkhead.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.spkhead.r ?? ""} * var(--rowh))`, width: `calc(${v.P.spkhead.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.spkhead.h ?? ""} * var(--rowh))`, transitionDelay: v.P.spkhead.d } as Css}>
       <div className="ph">
-        <img src="/bildwelt/d3-speaker.jpg" alt="Speaker im Gespräch mit dem Publikum" style={{ "--fx": "0%", "--fy": "22%", "--z": "1.1", "--ox": "70%", "--oy": "26%" } as Css} />
+        <img src="/bildwelt/d3-speaker.jpg" alt="Speaker im Gespräch mit dem Publikum" style={{ "--fx": "0%", "--fy": "26%", "--z": "1.14", "--ox": "0%", "--oy": "18%" } as Css} />
       </div>
       <span className="geo g-qbl" style={{ background: "var(--d3-black)" } as Css} />
       <div className="L l-speaker end pad" style={{ color: "var(--d3-bg)" } as Css}>

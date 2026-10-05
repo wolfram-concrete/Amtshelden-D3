@@ -9,17 +9,19 @@ Ausgabe 01: **KI + Transformation**. Anmeldung später über Let's Get Digital.
 - Briefing: https://docs.google.com/document/d/1grwTioy0KYaqkIG4jyswoq4MoUHnkSsbOVQYmfsstwM
 - Live (intern, noindex): https://amtshelden-d3.vercel.app
 
-## Aktueller Stand: v7.2 „Amtshelden vorn“ als Next.js-App
+## Aktueller Stand: v7.3 „Amtshelden vorn“ als Next.js-App
 
 Amtshelden ist die Marke, der Deep Dive Day ein Format davon (Feedback Christian, freigegeben am 04.10.2026).
 Das Interface ist ein Vollbild-Raster (Desktop 12, Tablet 8, Mobil 4 Spalten), das seinen Zustand wechselt statt
 klassischer Sections: **Home → Formate → Programm → Speaker*innen → Mitmachen**.
 Scrollen, Navigation oder die Pfeil-Felder lösen den Wechsel aus.
 
-**Bausteine:** Amtshelden-Logo als Absender (Leiste, erste Zelle; kein Preloader), einfarbige 3D-Zeichen in den
-Format-Kacheln, Überschneidungen immer ausgespart (auch beim Weiter-Icon) (Standbild, bei Hover live WebGL), eigene Bildwelt (Menschen im digitalen Raum) mit geometrischer Fläche, Programm als Tagesreise
+**Bausteine:** Amtshelden-Logo als Absender (Leiste, erste Zelle; kein Preloader), einfarbige Zeichen in den
+Format-Kacheln – in Ruhe flach und frontal, bei Hover live als 3D-Körper (WebGL); Überschneidungen immer ausgespart
+(auch beim Weiter-Icon). Eigene Bildwelt (Menschen im digitalen Raum) mit geometrischer Fläche, die Abstand zur Person hält, Programm als Tagesreise
 (Zeitachse, vier Räume, Jetzt/Als Nächstes, aufklappende Programmpunkte), Frag Amtshelden (FAQ ohne KI),
-Ausgaben-Logik, Phase 1/Phase 2 als Schalter (`phase`). Regeln: `/design-system`.
+Ausgaben-Logik, Phase 1/Phase 2 als Schalter (`phase`). Bewegung nur bei Zustandswechsel und Hover, keine
+Dauerschleifen. Regeln: `/design-system`.
 
 ### Lokal starten
 
@@ -50,7 +52,7 @@ Ausführen `components/d3/` und `lib/d3/`.
 
 | Route | Inhalt |
 |---|---|
-| `/` | Die App, Stand v7.2 |
+| `/` | Die App, Stand v7.3 |
 | `/design-system` | Regeln und Bausteine, Stand v7 (Board aus `design/canvas-v7/DesignSystem-v7.dc.html`) |
 | `/v7` | v7 als Prototyp-HTML aus dem Canvas – Referenz zur App |
 | `/prototype/mosaic-v5.html` | v5.8 als Archiv (nutzt dieselben Bilddateien, zeigt daher die aktuelle Bildwelt) |

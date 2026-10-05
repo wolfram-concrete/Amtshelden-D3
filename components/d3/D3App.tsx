@@ -42,7 +42,7 @@ export default class D3App extends Component<D3Props, any> {
     this._t = setInterval(function () {
       var rm = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!rm && (self.props.tour ?? true) && self.state.st === 'home' && !self.state.hover) self.setState({ tour: self.state.tour + 1 });
-    }, 2800);
+    }, 6500);   // ruhig: Bildwechsel im Hero nur alle 6,5 s
   }
   componentDidUpdate(pp, ps) {
     var self = this;
@@ -168,16 +168,16 @@ export default class D3App extends Component<D3Props, any> {
     }
     function frame() {
       S.raf = 0; if (!S.renderer) return; var moving = false;
-      ['d', 'rx', 'ry'].forEach(function (k) { var d = S.t[k] - S.g[k]; if (Math.abs(d) > .001) { S.g[k] += d * .14; moving = true; } else S.g[k] = S.t[k]; });
+      ['d', 'rx', 'ry'].forEach(function (k) { var d = S.t[k] - S.g[k]; if (Math.abs(d) > .001) { S.g[k] += d * .12; moving = true; } else S.g[k] = S.t[k]; });
       var dz = Math.max(.02, S.g.d * DEPTH);
       (S.meshes || []).forEach(function (m) { m.scale.z = dz; m.position.z = m.userData.lvl * LAYER * S.g.d; });
       S.root.rotation.set(S.g.rx * Math.PI / 180, S.g.ry * Math.PI / 180, 0);
       S.renderer.render(S.scene, S.cam);
-      if (!S.want && !moving && S.cur) { S.cur.classList.remove('is3d'); if (S.canvas.parentNode) S.canvas.parentNode.removeChild(S.canvas); S.cur = null; return; }
+      if (!S.want && !moving && S.cur) { S.cur.classList.remove('is3d'); S.cur = null; var cv = S.canvas; cv.style.opacity = '0'; clearTimeout(S.fade); S.fade = setTimeout(function () { if (!S.cur && cv.parentNode) cv.parentNode.removeChild(cv); }, 240); return; }
       if (moving) S.raf = requestAnimationFrame(frame);
     }
     function kick() { if (!S.raf) S.raf = requestAnimationFrame(frame); }
-    function aim() { var on = !!S.want; S.t.d = 1; S.t.rx = 11 + (on ? S.my * 4 : 0); S.t.ry = -14 + (on ? S.mx * 6 : 0); kick(); }
+    function aim() { var on = !!S.want; S.t.d = on ? 1 : 0; S.t.rx = on ? 11 + S.my * 4 : 0; S.t.ry = on ? -14 + S.mx * 6 : 0; kick(); }
     S.activate = function (mod) {
       var k = (mod.className.match(/\bk-(f[kcmns])\b/) || [])[1]; if (!k) return;
       S.want = mod;
@@ -185,8 +185,8 @@ export default class D3App extends Component<D3Props, any> {
         if (S.want !== mod) return;
         if (S.cur && S.cur !== mod) { S.cur.classList.remove('is3d'); }
         if (!place(mod)) return;
-        if (S.cur !== mod) { build(k); S.g = { d: 1, rx: 11, ry: -14 }; }
-        S.cur = mod; mod.classList.add('is3d'); aim();
+        if (S.cur !== mod) { build(k); S.g = { d: 0, rx: 0, ry: 0 }; }
+        clearTimeout(S.fade); S.canvas.style.opacity = ''; S.cur = mod; mod.classList.add('is3d'); aim();
       }).catch(function () { S.failed = true; });
     };
     S.release = function () { S.want = null; aim(); };
@@ -448,7 +448,7 @@ export default class D3App extends Component<D3Props, any> {
       introCls: s.intro === 0 ? '' : (s.intro === 2 ? 'out' : 'out gone'), bootCls: s.intro < 2 ? 'booting' : '', skipIntro: function () { self.endIntro(); }, ilogoRef: this._ilogoRef,
       depthCls: (bp === 'desk' && !(typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) ? 'depth' : '',
       lockSpan: bp === 'desk' ? 4 : (bp === 'tab' ? 5 : 3), ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: bp === 'mob' ? (p2 ? 'Anmelden' : 'Partner') : (p2 ? 'Anmelden' : 'Partner werden'), idxSpan: bp === 'desk' ? 1 : 1,
-      P: P, fmts: fmts, heroPlace: heroPlace, heroMeta: heroTimes[heroPlace] + ' · ' + { fk: 'Keynote', fc: 'Case', fm: 'Masterclass', fn: 'Networking', fs: 'Stände' }[heroPlace], heroVerb: heroVerbs[heroPlace],
+      P: P, fmts: fmts, heroPlace: heroPlace, heroTime: heroTimes[heroPlace], heroFmt: { fk: 'Keynote', fc: 'Case', fm: 'Masterclass', fn: 'Networking', fs: 'Stände' }[heroPlace], heroVerb: heroVerbs[heroPlace],
       stNo: '0' + (idx + 1), stName: names[s.st],
       on: { home: s.st === 'home' ? 'on' : '', explore: s.st === 'explore' ? 'on' : '', program: s.st === 'program' ? 'on' : '', speaker: s.st === 'speaker' ? 'on' : '', partner: s.st === 'partner' ? 'on' : '' },
       nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner') },

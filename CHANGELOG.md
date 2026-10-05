@@ -1,5 +1,22 @@
 # Changelog
 
+## v7.3 – Ruhe · 2026-10-05
+
+- 3D-Zeichen: In Ruhe liegt jedes Format-Zeichen flach und frontal in der Kachel, ohne Tiefe und ohne Neigung. Erst unter der
+  Maus (mobil beim ersten Tap) wächst es in die Tiefe und kippt in seine Pose; beim Verlassen legt es sich wieder flach.
+  Flach und 3D nutzen dieselben Teile und Farben (Überschneidungen ausgespart, Grün nur als Akzent), der Wechsel wird
+  überblendet. Die 3D-Standbilder in den Kacheln sind raus.
+- Ruhe statt Tanzen: alle Dauerschleifen entfernt (Zeichen-Schritte, atmende Flächen, Farbwischer in Hero, „Als Nächstes“
+  und Networking), keine Maus-Tiefe mehr (Ebenen verschoben sich gegeneinander und ruckelten beim Hover), kein
+  Scroll-Parallax mobil. Der Bildwechsel im Hero kommt nur noch alle 6,5 s statt alle 2,8 s.
+- Porträt-Zelle (Home oben rechts): Viertelkreis aus dem linken Anschnitt statt Halbkreis von unten – deckt deutlich
+  weniger Bild ab. Bilder randlos (die gelbe Kante links kam aus der Maus-Tiefe), Fokus je Motiv neu, Personen stehen im
+  freien Teil. Label zweizeilig (Zeit / Format); in kleinen Zellen nur noch die Aktion.
+- Kopfzellen mit Abstand zwischen Fläche und Person: „Ein Tag. Viele Räume.“ jetzt mit Motiv `space`, Mitmachen mit
+  `about`, „Über den Deep Dive Day“ mit neuem Motiv `d3-dialog.jpg` (aus `people/`, …19966). Headline „Ein Tag …“ etwas kleiner.
+- Design System: Zeichen flach mit Hinweis „bei Hover 3D“, Bildwelt-Beispiele mit Abstand zur Person, Regeln „Abstand zur
+  Person“ und „Ruhe zuerst“, 3D-Text aktualisiert.
+
 ## v7.2 – ohne Preloader, Weiter-Icon · 2026-10-05
 
 - Weiter-Icon korrigiert: wieder die freigegebene Geometrie aus `SVG/icons/d3-icon-next.svg` – wo sich die drei

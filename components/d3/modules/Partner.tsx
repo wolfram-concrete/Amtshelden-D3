@@ -7,7 +7,7 @@ export function PartnerHead({ v }: { v: V }) {
   return (
     <div className={`mod k-phead2 ${v.P.phead2.cls ?? ""}`} style={{ left: `calc(${v.P.phead2.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.phead2.r ?? ""} * var(--rowh))`, width: `calc(${v.P.phead2.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.phead2.h ?? ""} * var(--rowh))`, transitionDelay: v.P.phead2.d } as Css}>
       <div className="ph">
-        <img src="/bildwelt/d3-space.jpg" alt="Teilnehmerin zwischen schwebenden Flächen" style={{ "--fx": "70%", "--fy": "30%", "--z": "1.1", "--ox": "60%", "--oy": "30%" } as Css} />
+        <img src="/bildwelt/d3-about.jpg" alt="Teilnehmer im Licht der Bildflächen" style={{ "--fx": "0%", "--fy": "26%", "--z": "1.42", "--ox": "0%", "--oy": "18%" } as Css} />
       </div>
       <span className="geo g-qbl" style={{ background: "var(--d3-yellow)" } as Css} />
       <div className="L l-partner end pad">
@@ -96,7 +96,7 @@ export function About({ v }: { v: V }) {
     <div className={`mod k-about ${v.P.about.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.about.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.about.r ?? ""} * var(--rowh))`, width: `calc(${v.P.about.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.about.h ?? ""} * var(--rowh))`, transitionDelay: v.P.about.d } as Css}>
       <div className="phw">
         <div className="ph">
-          <img src="/bildwelt/d3-about.jpg" alt="Teilnehmer im Licht der Bildflächen" style={{ "--fx": "40%", "--fy": "25%", "--z": "1.1", "--ox": "65%", "--oy": "28%" } as Css} />
+          <img src="/bildwelt/d3-dialog.jpg" alt="Zwei Menschen im Dialog zwischen Bildflächen" style={{ "--fx": "100%", "--fy": "30%", "--z": "1", "--ox": "100%", "--oy": "25%" } as Css} />
         </div>
         <span className="geo g-dl" style={{ background: "var(--d3-green)" } as Css} />
       </div>
