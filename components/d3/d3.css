@@ -265,7 +265,7 @@ a{color:inherit}
 .bot-f:focus-within{box-shadow:0 0 0 2px var(--d3-green)}
 .bot-go{width:52px;display:flex;align-items:center;justify-content:center;background:var(--d3-black);color:var(--d3-yellow)}
 .bot-go .mo-next{width:26px;height:26px}
-.bot-go:hover .mo-next .p-b{transform:translateX(9%)}.bot-go:hover .mo-next .p-c{transform:translateX(18%)}
+
 .bot-a{display:flex;flex-direction:column;gap:8px;padding:12px 14px 14px;background:var(--d3-yellow);flex-shrink:0;animation:botIn .45s cubic-bezier(.7,0,.2,1) both}
 .bot-a.miss{background:var(--d3-bg-2)}
 .bot-a p{margin:0;font-family:var(--f-body);font-size:15.5px;line-height:1.45;hyphens:auto}
@@ -396,8 +396,8 @@ a{color:inherit}
 .s-arrow-w{display:block;width:clamp(26px,9cqw,44px);aspect-ratio:1;flex-shrink:0}
 .mo-next{display:block;width:100%;height:100%;overflow:visible}
 .mo-next path{fill:currentColor;transition:transform var(--motion-ui) var(--ease-out)}
-.mod.act:hover .mo-next .p-b,.lnk:hover .mo-next .p-b{transform:translateX(9%)}
-.mod.act:hover .mo-next .p-c,.lnk:hover .mo-next .p-c{transform:translateX(18%)}
+.mo-next{transition:transform var(--motion-ui) var(--ease-out)}
+.mod.act:hover .mo-next,.lnk:hover .mo-next,.bot-go:hover .mo-next{transform:translateX(8%)}
 /* Preloader */
 .intro{position:absolute;inset:0;z-index:60;background:var(--d3-black);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .55s var(--ease-out) .1s,visibility 0s linear .7s}
 .intro.out{opacity:0;visibility:hidden;pointer-events:none}

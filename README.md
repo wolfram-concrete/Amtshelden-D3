@@ -17,7 +17,7 @@ klassischer Sections: **Home → Formate → Programm → Speaker*innen → Mitm
 Scrollen, Navigation oder die Pfeil-Felder lösen den Wechsel aus.
 
 **Bausteine:** Amtshelden-Logo als Absender (Leiste, erste Zelle; kein Preloader), einfarbige 3D-Zeichen in den
-Format-Kacheln (Standbild, bei Hover live WebGL), eigene Bildwelt (Menschen im digitalen Raum) mit geometrischer Fläche, Programm als Tagesreise
+Format-Kacheln, Überschneidungen immer ausgespart (auch beim Weiter-Icon) (Standbild, bei Hover live WebGL), eigene Bildwelt (Menschen im digitalen Raum) mit geometrischer Fläche, Programm als Tagesreise
 (Zeitachse, vier Räume, Jetzt/Als Nächstes, aufklappende Programmpunkte), Frag Amtshelden (FAQ ohne KI),
 Ausgaben-Logik, Phase 1/Phase 2 als Schalter (`phase`). Regeln: `/design-system`.
 

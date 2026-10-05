@@ -1,7 +1,11 @@
 # Changelog
 
-## v7.2 – ohne Preloader · 2026-10-05
+## v7.2 – ohne Preloader, Weiter-Icon · 2026-10-05
 
+- Weiter-Icon korrigiert: wieder die freigegebene Geometrie aus `SVG/icons/d3-icon-next.svg` – wo sich die drei
+  Halbkreise überschneiden, ist die Fläche ausgespart (Negativfläche, der gemeinsame Nenner aller Zeichen). Vorher lagen
+  drei volle Halbkreise übereinander und verschmolzen zu einer Fläche. Hover: Die ganze Staffel rückt vor, statt einzelne
+  Teile zu verschieben (sonst würden die Aussparungen wandern). Gilt für App, Prototyp `/v7` und Design System.
 - Preloader entfernt (App unter `/` und Prototyp `/v7`): Die Seite startet direkt im Ruhezustand, die Leiste zeigt das
   Amtshelden-Logo ab dem ersten Bild. Kein Klick zum Überspringen, keine Wartezeit von rund fünf Sekunden mehr.
 - Port-Skript (`scripts/port/dc2react.js`) importiert die Rahmen-Komponenten jetzt aus dem, was die Quelle tatsächlich enthält.
