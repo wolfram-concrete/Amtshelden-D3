@@ -125,7 +125,7 @@ export function ExploreHead({ v }: { v: V }) {
   return (
     <div className={`mod k-xhead ${v.P.xhead.cls ?? ""}`} style={{ left: `calc(${v.P.xhead.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.xhead.r ?? ""} * var(--rowh))`, width: `calc(${v.P.xhead.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.xhead.h ?? ""} * var(--rowh))`, transitionDelay: v.P.xhead.d } as Css}>
       <div className="ph">
-        <img src="/bildwelt/d3-connection.jpg" alt="Menschen in einer Raumlandschaft aus Bögen und Flächen" style={{ "--fx": "92%", "--fy": "40%", "--z": "1.1", "--ox": "72%", "--oy": "40%" } as Css} />
+        <img src="/bildwelt/d3-connection.jpg" alt="Teilnehmerin mit zugeschalteten Gesprächspartnern" style={{ "--fx": "34%", "--fy": "32%", "--z": "1.05", "--ox": "60%", "--oy": "35%" } as Css} />
       </div>
       <span className="geo g-qbl" style={{ background: "var(--d3-bg)" } as Css} />
       <div className="L l-explore end pad">

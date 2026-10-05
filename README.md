@@ -17,7 +17,7 @@ klassischer Sections: **Home → Formate → Programm → Speaker*innen → Mitm
 Scrollen, Navigation oder die Pfeil-Felder lösen den Wechsel aus.
 
 **Bausteine:** Amtshelden-Logo als Absender (Leiste, Preloader, erste Zelle), einfarbige 3D-Zeichen in den
-Format-Kacheln (Standbild, bei Hover live WebGL), eigene Bildwelt mit geometrischer Fläche, Programm als Tagesreise
+Format-Kacheln (Standbild, bei Hover live WebGL), eigene Bildwelt (Menschen im digitalen Raum) mit geometrischer Fläche, Programm als Tagesreise
 (Zeitachse, vier Räume, Jetzt/Als Nächstes, aufklappende Programmpunkte), Frag Amtshelden (FAQ ohne KI),
 Ausgaben-Logik, Phase 1/Phase 2 als Schalter (`phase`). Regeln: `/design-system`.
 
@@ -67,7 +67,7 @@ Ausführen `components/d3/` und `lib/d3/`.
 ### Platzhalter
 
 Datum, Titel, Namen, Behörden und Partner stehen in eckigen Klammern. Zeiten ab 10:30, die vier Räume und
-die Themenzuordnung sind exemplarisch. Porträts sind Unsplash-Platzhalter (`public/people/CREDITS.md`). Die Bildwelt (`public/bildwelt/`) ist eigens generiert;
+die Themenzuordnung sind exemplarisch. Porträts sind Unsplash-Platzhalter (`public/people/CREDITS.md`). Die Bildwelt (`public/bildwelt/`, Stand 05.10.) ist eigens generiert; ältere Motive liegen in `people/alt/`;
 Originale und Kontaktbogen liegen nur lokal (`people/`, `design/bildwelt/`) und sind nicht im Repo.
 
 ## Archiv

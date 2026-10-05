@@ -1,5 +1,16 @@
 # Changelog
 
+## v7.1 – Bildwelt 2 · 2026-10-05
+
+- Neue Motive aus `people/` (Stand 05.10.): Menschen im digitalen Raum – Licht, schwebende Bildflächen, zugeschaltete
+  Gesprächspartner. Neun Motive, kaum Wiederholungen von Personen; Web-Versionen in `public/bildwelt/` (gleiche Dateinamen,
+  neu: `d3-about.jpg` für „Über den Deep Dive Day“).
+- Porträt-Zelle je Format: Keynote (Frau im Blazer), Case (Mann mit zugeschalteten Gesprächspartnern), Masterclass (Frau
+  an Bildflächen), Networking (Paar), Stände (Mann im Licht). Dazu „Ein Tag. Viele Räume.“, Speaker*innen, Mitmachen, Über.
+- Fokuspunkte (`--fx/--fy/--z/--ox/--oy`) je Zelle neu gesetzt und auf Desktop und Mobil geprüft: Gesichter liegen frei,
+  nie unter der geometrischen Fläche.
+- Design System: Abschnitt Bildwelt mit den neuen Motiven und neuer Beschreibung.
+
 ## v7 – freigegeben und umgezogen · 2026-10-04
 
 - `/` (Next.js-App) läuft jetzt auf v7 „Amtshelden vorn“: Port aus `design/canvas-v7/D3App4.dc.html`, pixelgleich zum Prototyp `/v7`.

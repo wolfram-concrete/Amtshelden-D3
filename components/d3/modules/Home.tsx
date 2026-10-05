@@ -103,19 +103,19 @@ export function Hero({ v }: { v: V }) {
     <div className={`mod k-hero on-${v.heroPlace ?? ""} ${v.P.hero.cls ?? ""}`} style={{ background: "var(--d3-yellow)", left: `calc(${v.P.hero.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.hero.r ?? ""} * var(--rowh))`, width: `calc(${v.P.hero.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.hero.h ?? ""} * var(--rowh))`, transitionDelay: v.P.hero.d } as Css}>
       <span className="wipe" />
       <div className="msk hp-fk">
-        <img src="/bildwelt/d3-moment.jpg" alt="Teilnehmerin im gelben Bogen" style={{ "--fx": "50%", "--fy": "34%", "--z": "1.3", "--ox": "50%", "--oy": "36%" } as Css} />
+        <img src="/bildwelt/d3-moment.jpg" alt="Teilnehmerin vor schwebenden Bildflächen" style={{ "--fx": "26%", "--fy": "16%", "--z": "1.2", "--ox": "50%", "--oy": "22%" } as Css} />
       </div>
       <div className="msk hp-fc">
-        <img src="/bildwelt/d3-portrait.jpg" alt="Porträt einer Teilnehmerin" style={{ "--fx": "49%", "--fy": "22%", "--z": "1.25", "--ox": "50%", "--oy": "26%" } as Css} />
+        <img src="/bildwelt/d3-portrait.jpg" alt="Teilnehmer, umgeben von zugeschalteten Gesprächspartnern" style={{ "--fx": "46%", "--fy": "22%", "--z": "1.15", "--ox": "50%", "--oy": "26%" } as Css} />
       </div>
       <div className="msk hp-fm">
-        <img src="/bildwelt/d3-focus.jpg" alt="Teilnehmerin mit Laptop" style={{ "--fx": "21%", "--fy": "20%", "--z": "1.2", "--ox": "50%", "--oy": "24%" } as Css} />
+        <img src="/bildwelt/d3-focus.jpg" alt="Teilnehmerin arbeitet an schwebenden Flächen" style={{ "--fx": "36%", "--fy": "22%", "--z": "1.15", "--ox": "50%", "--oy": "26%" } as Css} />
       </div>
       <div className="msk hp-fn">
-        <img src="/bildwelt/d3-exchange.jpg" alt="Zwei Menschen im Gespräch" style={{ "--fx": "51%", "--fy": "26%", "--z": "1.1", "--ox": "50%", "--oy": "30%" } as Css} />
+        <img src="/bildwelt/d3-exchange.jpg" alt="Zwei Menschen im Gespräch" style={{ "--fx": "54%", "--fy": "24%", "--z": "1.05", "--ox": "50%", "--oy": "28%" } as Css} />
       </div>
       <div className="msk hp-fs">
-        <img src="/bildwelt/d3-explorer.jpg" alt="Teilnehmer auf dem Weg durch die Räume" style={{ "--fx": "48%", "--fy": "28%", "--z": "1.3", "--ox": "50%", "--oy": "30%" } as Css} />
+        <img src="/bildwelt/d3-explorer.jpg" alt="Teilnehmer zwischen Licht und Flächen" style={{ "--fx": "63%", "--fy": "26%", "--z": "1.2", "--ox": "50%", "--oy": "30%" } as Css} />
       </div>
       <span className="geo g-db" style={{ background: "var(--d3-yellow)" } as Css} />
       <div className="L l-all tD pad" style={{ justifyContent: "flex-end" } as Css}>
