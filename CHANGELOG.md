@@ -8,6 +8,7 @@
   Zeichen als einfarbige 3D-Körper, Typografie und Module ohne „D3“, „die D3“ und bunte Icons unter „Raus“.
 - Programm: Networking-Punkte grün statt gelb.
 - v5.8 bleibt als Archiv (`/prototype/mosaic-v5.html`, Design System v5 im Canvas).
+- README: Projektname „Amtshelden Deep Dive Day“ mit Sprachregel, Routen-Tabelle, offene Punkte, Archiv-Hinweis auf v5.8.
 
 ## v7 – Entwurf „Amtshelden vorn“ · 2026-10-04
 
