@@ -7,7 +7,7 @@ export function D3Cell({ v }: { v: V }) {
     <div className={`mod k-d3 k-ah ${v.P.d3.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.d3.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.d3.r ?? ""} * var(--rowh))`, width: `calc(${v.P.d3.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.d3.h ?? ""} * var(--rowh))`, transitionDelay: v.P.d3.d } as Css}>
       <div className="L l-home tA pad">
         <span className="lab">
-          Die Konferenz von
+          Die digitale Konferenz von
         </span>
         <svg className="ah-logo" viewBox="0 0 1386.5 319.2" style={{ width: "100%", height: "auto", display: "block" } as Css} role="img" aria-label="Amtshelden">
           <g className="ah-a" fill="#0D9D69">
