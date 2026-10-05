@@ -13,7 +13,7 @@ type D3Props = { phase?: 'Phase 1' | 'Phase 2'; tour?: boolean; grain?: boolean;
 export default class D3App extends Component<D3Props, any> {
   constructor(props) {
     super(props);
-    this.state = { intro: 0, st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, now: 645, botQ: '', botA: null, ffmt: 'all', ftopic: 'all', spk: 0 };
+    this.state = { intro: 3, st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, now: 645, botQ: '', botA: null, ffmt: 'all', ftopic: 'all', spk: 0 };
     this._last = {};
     this._lock = 0;
     var self = this;
@@ -38,10 +38,7 @@ export default class D3App extends Component<D3Props, any> {
     try { this.init3D(); } catch (e) {}
     this._key = function (e) { if (e.key === 'Escape' && self.state.sel) self.closeExp(); };
     if (typeof document !== 'undefined') document.addEventListener('keydown', this._key);
-    var rmI = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if ((this.props.intro ?? true) && !rmI) {
-      this._it1 = setTimeout(function () { self.endIntro(); }, 4700);
-    } else { this.setState({ intro: 3 }); }
+    /* Kein Preloader mehr (05.10.): die Seite startet direkt im Ruhezustand */
     this._t = setInterval(function () {
       var rm = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!rm && (self.props.tour ?? true) && self.state.st === 'home' && !self.state.hover) self.setState({ tour: self.state.tour + 1 });

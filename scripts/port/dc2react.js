@@ -165,10 +165,10 @@ const used = {};
 for (const [k, [nm, f]] of Object.entries(MODS)) (used[f] = used[f] || []).push(nm);
 used.Formats.push('FormatTiles');
 fs.writeFileSync(path.join(OUT, 'D3View.tsx'),
-`// Gerüst des Interfaces: Leiste, Bühne mit allen Zellen, Navigation unten, Preloader.
+`// Gerüst des Interfaces: Leiste, Bühne mit allen Zellen, Navigation unten.
 // Welche Zelle wo steht, entscheidet das Layout (lib/d3/layout.ts) über v.P.
 import type { V, Css } from './types';
-import { Bar, BottomNav, Intro, Grain } from './parts/Frame';
+import { ${files.parts.map((x) => x.match(/export function (\w+)/)[1]).join(', ')} } from './parts/Frame';
 ${Object.entries(used).map(([f, l]) => `import { ${l.join(', ')} } from './modules/${f}';`).join('\n')}
 
 export default function D3View({ v }: { v: V }) {

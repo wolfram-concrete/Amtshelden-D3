@@ -9,14 +9,14 @@ Ausgabe 01: **KI + Transformation**. Anmeldung später über Let's Get Digital.
 - Briefing: https://docs.google.com/document/d/1grwTioy0KYaqkIG4jyswoq4MoUHnkSsbOVQYmfsstwM
 - Live (intern, noindex): https://amtshelden-d3.vercel.app
 
-## Aktueller Stand: v7.1 „Amtshelden vorn“ als Next.js-App
+## Aktueller Stand: v7.2 „Amtshelden vorn“ als Next.js-App
 
 Amtshelden ist die Marke, der Deep Dive Day ein Format davon (Feedback Christian, freigegeben am 04.10.2026).
 Das Interface ist ein Vollbild-Raster (Desktop 12, Tablet 8, Mobil 4 Spalten), das seinen Zustand wechselt statt
 klassischer Sections: **Home → Formate → Programm → Speaker*innen → Mitmachen**.
 Scrollen, Navigation oder die Pfeil-Felder lösen den Wechsel aus.
 
-**Bausteine:** Amtshelden-Logo als Absender (Leiste, Preloader, erste Zelle), einfarbige 3D-Zeichen in den
+**Bausteine:** Amtshelden-Logo als Absender (Leiste, erste Zelle; kein Preloader), einfarbige 3D-Zeichen in den
 Format-Kacheln (Standbild, bei Hover live WebGL), eigene Bildwelt (Menschen im digitalen Raum) mit geometrischer Fläche, Programm als Tagesreise
 (Zeitachse, vier Räume, Jetzt/Als Nächstes, aufklappende Programmpunkte), Frag Amtshelden (FAQ ohne KI),
 Ausgaben-Logik, Phase 1/Phase 2 als Schalter (`phase`). Regeln: `/design-system`.
@@ -33,10 +33,10 @@ npm run dev   # http://localhost:4320
 | Pfad | Inhalt |
 |---|---|
 | `app/page.tsx` | Startseite, lädt die App nur im Browser (Raster, Maus-Tiefe, WebGL) |
-| `components/d3/D3App.tsx` | Zustände und Logik (1:1 aus dem Prototyp, noch `@ts-nocheck`) |
-| `components/d3/D3View.tsx` | Gerüst: Leiste, Bühne mit allen Zellen, Navigation, Preloader |
+| `components/d3/D3App.tsx` | Zustände und Logik (1:1 aus dem Prototyp, noch `@ts-nocheck`; die Preloader-Methoden sind noch drin, aber stillgelegt) |
+| `components/d3/D3View.tsx` | Gerüst: Leiste, Bühne mit allen Zellen, Navigation |
 | `components/d3/modules/` | Zellen je Bereich: Home, Formats, Program, Speakers, Partner |
-| `components/d3/parts/Frame.tsx` | Leiste, Navigation unten, Preloader, Körnung |
+| `components/d3/parts/Frame.tsx` | Leiste, Navigation unten, Körnung |
 | `components/d3/d3.css` | Alle Stile, Tokens als Custom Properties in `:root` |
 | `lib/d3/layout.ts` | Raster-Layouts je Gerät und Zustand |
 | `lib/d3/program.ts` | Programm, Formate, Räume, Porträts |
@@ -50,7 +50,7 @@ Ausführen `components/d3/` und `lib/d3/`.
 
 | Route | Inhalt |
 |---|---|
-| `/` | Die App, Stand v7.1 |
+| `/` | Die App, Stand v7.2 |
 | `/design-system` | Regeln und Bausteine, Stand v7 (Board aus `design/canvas-v7/DesignSystem-v7.dc.html`) |
 | `/v7` | v7 als Prototyp-HTML aus dem Canvas – Referenz zur App |
 | `/prototype/mosaic-v5.html` | v5.8 als Archiv (nutzt dieselben Bilddateien, zeigt daher die aktuelle Bildwelt) |

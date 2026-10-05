@@ -1,5 +1,12 @@
 # Changelog
 
+## v7.2 – ohne Preloader · 2026-10-05
+
+- Preloader entfernt (App unter `/` und Prototyp `/v7`): Die Seite startet direkt im Ruhezustand, die Leiste zeigt das
+  Amtshelden-Logo ab dem ersten Bild. Kein Klick zum Überspringen, keine Wartezeit von rund fünf Sekunden mehr.
+- Port-Skript (`scripts/port/dc2react.js`) importiert die Rahmen-Komponenten jetzt aus dem, was die Quelle tatsächlich enthält.
+- Das Archiv v5.8 (`/prototype/mosaic-v5.html`) behält seinen Preloader.
+
 ## v7.1 – Bildwelt 2 · 2026-10-05
 
 - Neue Motive aus `people/` (Stand 05.10.): Menschen im digitalen Raum – Licht, schwebende Bildflächen, zugeschaltete

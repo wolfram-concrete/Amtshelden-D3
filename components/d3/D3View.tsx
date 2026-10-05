@@ -1,7 +1,7 @@
-// Gerüst des Interfaces: Leiste, Bühne mit allen Zellen, Navigation unten, Preloader.
+// Gerüst des Interfaces: Leiste, Bühne mit allen Zellen, Navigation unten.
 // Welche Zelle wo steht, entscheidet das Layout (lib/d3/layout.ts) über v.P.
 import type { V, Css } from './types';
-import { Bar, BottomNav, Intro, Grain } from './parts/Frame';
+import { Bar, BottomNav, Grain } from './parts/Frame';
 import { D3Cell, Brand, Theme, Why, Hero, NextEdition, DateCell, Cta, Cta2, Hint } from './modules/Home';
 import { Speaker1, Speaker2, Speaker3, Speaker4, Speaker5, Speaker6, SpeakerHead, SpeakerDetail } from './modules/Speakers';
 import { ExploreHead, FormatTiles } from './modules/Formats';
@@ -42,7 +42,6 @@ export default function D3View({ v }: { v: V }) {
           <Faq v={v} />
         </div>
       </main>
-      <Intro v={v} />
       <BottomNav v={v} />
       <Grain v={v} />
     </div>
