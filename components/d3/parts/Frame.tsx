@@ -33,8 +33,8 @@ export function Bar({ v }: { v: V }) {
       <a href="#" className={`nv sys ${v.on.partner ?? ""}`} onClick={v.nav.partner}>
         Mitmachen
       </a>
-      <a href="#" className="nv sys" onClick={v.nav.partner}>
-        Über
+      <a href="https://www.amtshelden.de/ueber-uns-julia-christian-amtshelden/" target="_blank" rel="noopener" className="nv sys" aria-label="Über Amtshelden (öffnet amtshelden.de in neuem Fenster)">
+        Über ↗
       </a>
       <span className="sys idx" style={{ gridColumn: `span ${v.idxSpan ?? ""}`, justifyContent: "center" } as Css}>
         {v.stNo}{" / 05"}
