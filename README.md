@@ -9,7 +9,7 @@ Ausgabe 01: **KI + Transformation**. Anmeldung später über Let's Get Digital.
 - Briefing: https://docs.google.com/document/d/1grwTioy0KYaqkIG4jyswoq4MoUHnkSsbOVQYmfsstwM
 - Live (intern, noindex): https://amtshelden-d3.vercel.app
 
-## Aktueller Stand: v7.3 „Amtshelden vorn“ als Next.js-App
+## Aktueller Stand: v7.4 „Amtshelden vorn“ als Next.js-App
 
 Amtshelden ist die Marke, der Deep Dive Day ein Format davon (Feedback Christian, freigegeben am 04.10.2026).
 Das Interface ist ein Vollbild-Raster (Desktop 12, Tablet 8, Mobil 4 Spalten), das seinen Zustand wechselt statt
@@ -52,7 +52,7 @@ Ausführen `components/d3/` und `lib/d3/`.
 
 | Route | Inhalt |
 |---|---|
-| `/` | Die App, Stand v7.3 |
+| `/` | Die App, Stand v7.4 |
 | `/design-system` | Regeln und Bausteine, Stand v7 (Board aus `design/canvas-v7/DesignSystem-v7.dc.html`) |
 | `/v7` | v7 als Prototyp-HTML aus dem Canvas – Referenz zur App |
 | `/prototype/mosaic-v5.html` | v5.8 als Archiv (nutzt dieselben Bilddateien, zeigt daher die aktuelle Bildwelt) |

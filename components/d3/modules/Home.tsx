@@ -103,13 +103,13 @@ export function Hero({ v }: { v: V }) {
     <div className={`mod k-hero on-${v.heroPlace ?? ""} ${v.P.hero.cls ?? ""}`} style={{ background: "var(--d3-yellow)", left: `calc(${v.P.hero.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.hero.r ?? ""} * var(--rowh))`, width: `calc(${v.P.hero.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.hero.h ?? ""} * var(--rowh))`, transitionDelay: v.P.hero.d } as Css}>
       <span className="wipe" />
       <div className="msk hp-fk">
-        <img src="/bildwelt/d3-moment.jpg" alt="Teilnehmerin vor schwebenden Bildflächen" style={{ "--fx": "0%", "--fy": "30%", "--z": "1.06", "--ox": "0%", "--oy": "20%" } as Css} />
+        <img src="/bildwelt/d3-closeup-a.jpg" alt="Teilnehmerin, nah, zwischen leuchtenden Bildflächen" style={{ "--fx": "39%", "--fy": "25%", "--z": "1", "--ox": "50%", "--oy": "20%" } as Css} />
       </div>
       <div className="msk hp-fc">
         <img src="/bildwelt/d3-portrait.jpg" alt="Teilnehmer, umgeben von zugeschalteten Gesprächspartnern" style={{ "--fx": "64%", "--fy": "30%", "--z": "1.06", "--ox": "100%", "--oy": "20%" } as Css} />
       </div>
       <div className="msk hp-fm">
-        <img src="/bildwelt/d3-focus.jpg" alt="Teilnehmerin arbeitet an schwebenden Flächen" style={{ "--fx": "34%", "--fy": "30%", "--z": "1", "--ox": "50%", "--oy": "20%" } as Css} />
+        <img src="/bildwelt/d3-closeup-b.jpg" alt="Teilnehmerin, nah, hinter einer schwebenden Bildfläche" style={{ "--fx": "27%", "--fy": "25%", "--z": "1", "--ox": "50%", "--oy": "20%" } as Css} />
       </div>
       <div className="msk hp-fn">
         <img src="/bildwelt/d3-exchange.jpg" alt="Zwei Menschen im Gespräch" style={{ "--fx": "100%", "--fy": "30%", "--z": "1", "--ox": "50%", "--oy": "20%" } as Css} />
@@ -200,7 +200,7 @@ export function Cta({ v }: { v: V }) {
           </span>
           <span className="s-arrow-w">
             <svg className="mo-next" viewBox="0 0 100 100" aria-hidden="true">
-              <path className="p-x" fillRule="evenodd" d="M0,10c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176zM30,23.54176l0,-13.54176c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176v-13.54176c6.22363,-7.05133 10,-16.31378 10,-26.45824c0,-10.14446 -3.77637,-19.40691 -10,-26.45824zM70,50c0,10.14446 -3.77637,19.40691 -10,26.45824v13.54176c22.09139,0 40,-17.90861 40,-40c0,-22.09139 -17.90861,-40 -40,-40v13.54176c6.22363,7.05133 10,16.31378 10,26.45824z" />
+              <path className="p-x" fillRule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z" />
             </svg>
           </span>
         </div>
@@ -223,7 +223,7 @@ export function Cta2({ v }: { v: V }) {
           </span>
           <span className="s-arrow-w">
             <svg className="mo-next" viewBox="0 0 100 100" aria-hidden="true">
-              <path className="p-x" fillRule="evenodd" d="M0,10c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176zM30,23.54176l0,-13.54176c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176v-13.54176c6.22363,-7.05133 10,-16.31378 10,-26.45824c0,-10.14446 -3.77637,-19.40691 -10,-26.45824zM70,50c0,10.14446 -3.77637,19.40691 -10,26.45824v13.54176c22.09139,0 40,-17.90861 40,-40c0,-22.09139 -17.90861,-40 -40,-40v13.54176c6.22363,7.05133 10,16.31378 10,26.45824z" />
+              <path className="p-x" fillRule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z" />
             </svg>
           </span>
         </div>
@@ -246,7 +246,7 @@ export function Hint({ v }: { v: V }) {
           </span>
           <span className="s-arrow-w">
             <svg className="mo-next" viewBox="0 0 100 100" aria-hidden="true">
-              <path className="p-x" fillRule="evenodd" d="M0,10c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176zM30,23.54176l0,-13.54176c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176v-13.54176c6.22363,-7.05133 10,-16.31378 10,-26.45824c0,-10.14446 -3.77637,-19.40691 -10,-26.45824zM70,50c0,10.14446 -3.77637,19.40691 -10,26.45824v13.54176c22.09139,0 40,-17.90861 40,-40c0,-22.09139 -17.90861,-40 -40,-40v13.54176c6.22363,7.05133 10,16.31378 10,26.45824z" />
+              <path className="p-x" fillRule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z" />
             </svg>
           </span>
         </div>

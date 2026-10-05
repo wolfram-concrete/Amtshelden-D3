@@ -1,5 +1,15 @@
 # Changelog
 
+## v7.4 – Weiter-Hover, Close-ups · 2026-10-05
+
+- Weiter-Zeichen: Bei Hover ziehen sich die drei D auseinander, bis sie frei nebeneinander stehen; beim Verlassen
+  fahren sie wieder zusammen. Der Pfad wird live gerechnet (ein Pfad, `evenodd`), deshalb bleiben die Überschneidungen
+  in jeder Phase ausgespart. Weiter ist das einzige Zeichen ohne 3D-Variante – es bleibt flach.
+- Zwei neue Close-up-Motive aus `people/` (…72695, …72696) als `d3-closeup-a.jpg` und `d3-closeup-b.jpg`. Auf der Startseite
+  in der Porträt-Zelle: Keynote (erstes Bild nach dem Laden) und Masterclass. `moment` und `focus` liegen weiter in
+  `public/bildwelt/`, sind auf der Seite aber nicht mehr im Einsatz.
+- Design System: Bildwelt-Beispiel der Porträt-Zelle mit Close-up.
+
 ## v7.3 – Ruhe · 2026-10-05
 
 - 3D-Zeichen: In Ruhe liegt jedes Format-Zeichen flach und frontal in der Kachel, ohne Tiefe und ohne Neigung. Erst unter der

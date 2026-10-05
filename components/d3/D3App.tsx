@@ -39,6 +39,33 @@ export default class D3App extends Component<D3Props, any> {
     this._key = function (e) { if (e.key === 'Escape' && self.state.sel) self.closeExp(); };
     if (typeof document !== 'undefined') document.addEventListener('keydown', this._key);
     /* Kein Preloader mehr (05.10.): die Seite startet direkt im Ruhezustand */
+    /* Weiter-Zeichen: Bei Hover ziehen sich die drei D auseinander, beim Verlassen wieder zusammen.
+       Ein Pfad mit evenodd: Wo sich D überlagern, bleibt die Fläche automatisch ausgespart. */
+    var NX = [[0, -10], [30, 34], [60, 78]];
+    function nextD(t) { return NX.map(function (p) { var x = p[0] + (p[1] - p[0]) * t; return 'M' + x.toFixed(2) + ',10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z'; }).join(''); }
+    function nextGo(svg, on) {
+      var st = svg._nx || (svg._nx = { t: 0, to: 0, raf: 0 }); st.to = on ? 1 : 0;
+      if (st.raf) return;
+      var pth = svg.querySelector('path');
+      (function step() {
+        var d = st.to - st.t; st.t = Math.abs(d) < .002 ? st.to : st.t + d * .13;
+        var e = st.t < .5 ? 2 * st.t * st.t : 1 - Math.pow(-2 * st.t + 2, 2) / 2;
+        if (pth) pth.setAttribute('d', nextD(e));
+        st.raf = st.t === st.to ? 0 : requestAnimationFrame(step);
+      })();
+    }
+    var nxSel = '.mod.act, .lnk, .bot-go';
+    var rootEl = this._root;
+    if (rootEl) {
+      rootEl.addEventListener('pointerover', function (e) {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        var h = e.target.closest && e.target.closest(nxSel); var svg = h && h.querySelector('.mo-next'); if (svg) nextGo(svg, true);
+      });
+      rootEl.addEventListener('pointerout', function (e) {
+        var h = e.target.closest && e.target.closest(nxSel); if (!h || (e.relatedTarget && h.contains(e.relatedTarget))) return;
+        var svg = h.querySelector('.mo-next'); if (svg) nextGo(svg, false);
+      });
+    }
     this._t = setInterval(function () {
       var rm = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!rm && (self.props.tour ?? true) && self.state.st === 'home' && !self.state.hover) self.setState({ tour: self.state.tour + 1 });

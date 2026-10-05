@@ -148,7 +148,7 @@ export function Faq({ v }: { v: V }) {
           <input className="bot-in" type="text" value={v.bot.q} onChange={v.bot.type} placeholder="Frag etwas zum Deep Dive Day …" aria-label="Frage an Amtshelden" autoComplete="off" />
           <button className="bot-go" type="submit" aria-label="Frage senden">
             <svg className="mo-next" viewBox="0 0 100 100" aria-hidden="true">
-              <path className="p-x" fillRule="evenodd" d="M0,10c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176zM30,23.54176l0,-13.54176c11.94693,0 22.67056,5.23755 30,13.54176l0,52.91649c-7.32944,8.30421 -18.05307,13.54176 -30,13.54176v-13.54176c6.22363,-7.05133 10,-16.31378 10,-26.45824c0,-10.14446 -3.77637,-19.40691 -10,-26.45824zM70,50c0,10.14446 -3.77637,19.40691 -10,26.45824v13.54176c22.09139,0 40,-17.90861 40,-40c0,-22.09139 -17.90861,-40 -40,-40v13.54176c6.22363,7.05133 10,16.31378 10,26.45824z" />
+              <path className="p-x" fillRule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z" />
             </svg>
           </button>
         </form>
