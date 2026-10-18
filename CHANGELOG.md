@@ -1,5 +1,33 @@
 # Changelog
 
+## v8 – Inhalte nach Christians Feedback · 2026-10-18
+
+Grundlage: Feedback-Dokument und Sprachnachricht von Christian (14.10.). Ziel: gleiches System, weniger Teile.
+
+- **Sitemap:** Navigation Programm · Speaker · Partner · Über die D3 · Teilnahme, dazu „Kostenfrei anmelden“ in der Leiste.
+  „Formate“ und „Mitmachen“ entfallen als eigene Zustände: Die Formate stehen jetzt auf „Über die D3“, Partner werden auf „Partner“.
+  Der externe Link „Über ↗“ ist raus, Amtshelden steht als Veranstalter auf „Über die D3“.
+- **Eigene Links:** jeder Zustand und jede Session ist per URL erreichbar (`#/programm/praxis-case-1`). In der
+  geöffneten Session: „Link zur Session kopieren“.
+- **Start:** Claim, Fakten (14. April 2027 · 9:00–15:30 · digital & kostenfrei), große Bildzelle, „Was ist die D3?“,
+  drei Gründe, Partner, Medienpartner, „Die nächste D3 kommt im Herbst 2027“, Anmelde-Kachel am Ende.
+  Keine Programm-, Speaker- oder Themenvorschau mehr. Thema-Kachel und Ausgaben-Kachel entfallen.
+- **Programm:** „Dein Tag. Deine Themen.“, vorläufiger Ablauf aus dem Feedback mit zwei Tracks (Track 1: Keynotes,
+  Praxis-Cases, Fachvorträge; Track 2: Masterclasses), neun Themen-Tags inkl. „Bündelung und Effizienz“, Hinweis auf
+  das vollständige Programm im Frühjahr 2027. Session mit Dauer, Kurz- und Langbeschreibung; Link zum Case auf
+  amtshelden.de nur bei Praxis-Cases.
+- **Speaker:** „Menschen, die etwas zu erzählen haben.“, Karten mit Funktion · Organisation und Programmpunkt,
+  Moderation (Julia Lupp, Christian Rosenberger, Steffi Hüthig) mit Initialen. „Speaker*in werden“ entfällt.
+- **Partner:** aus Sicht der Teilnehmenden („Lösungen kennenlernen. Direkt nachfragen.“), Partner-Platzhalter,
+  Messe-Area, Medienpartner, Formular „Partner werden“ (Name, Unternehmen, E-Mail, Nachricht; noch ohne Versand).
+- **Über die D3:** „Eine digitale Konferenz, bei der du mitmachst.“, die Idee als Text (scrollt in der Kachel),
+  fünf Formate (Fachvorträge, Praxis-Cases, Masterclasses, Austauschräume, Messe-Area), Veranstalter Amtshelden.
+- **Teilnahme (neu):** „Dabei sein? Kostet dich nichts.“, Fakten, drei Gründe ausführlich, Anmeldung (Phase 1: öffnet
+  [Datum], über Let's Get Digital), häufige Fragen mit Frag-Feld.
+- Antworten im Frag-Feld auf die neuen Fakten umgestellt (kostenfrei, zwei Tracks, Herbst 2027).
+- Port-Skript: neue Module, neue Datei `modules/Join.tsx`.
+
+
 ## v7.4 – Weiter-Hover, Close-ups · 2026-10-05
 
 - Weiter-Zeichen: Bei Hover ziehen sich die drei D auseinander, bis sie frei nebeneinander stehen; beim Verlassen

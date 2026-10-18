@@ -56,7 +56,7 @@ a{color:inherit}
 .hit:focus-visible{outline:3px solid var(--d3-orange);outline-offset:-3px}
 .L{position:absolute;inset:0;z-index:2;opacity:0;visibility:hidden;pointer-events:none;box-sizing:border-box;transition:opacity var(--motion-fast) var(--ease-out),visibility 0s linear var(--motion-fast)}
 .L a,.L button,.L details,.L summary{pointer-events:auto}
-.st-home .l-home,.st-explore .l-explore,.st-program .l-program,.st-speaker .l-speaker,.st-partner .l-partner,.l-all{opacity:1;visibility:visible;transition:opacity var(--motion-ui) var(--ease-out) var(--motion-in),visibility 0s linear 0s}
+.st-home .l-home,.st-explore .l-explore,.st-program .l-program,.st-speaker .l-speaker,.st-partner .l-partner,.st-join .l-join,.l-all{opacity:1;visibility:visible;transition:opacity var(--motion-ui) var(--ease-out) var(--motion-in),visibility 0s linear 0s}
 .pad{padding:var(--label-position) var(--cell-padding) var(--content-baseline)}
 .fill{display:flex;flex-direction:column;justify-content:space-between;height:100%;box-sizing:border-box}
 .end{display:flex;flex-direction:column;justify-content:flex-end;height:100%;box-sizing:border-box;gap:8px}
@@ -86,7 +86,7 @@ a{color:inherit}
 .m-circle{clip-path:circle(closest-side at 50% 50%)}
 .m-cut{clip-path:polygon(0 0,100% 0,100% 70%,70% 100%,0 100%)}
 .m-sq{}
-.spk .pt{left:var(--cell-padding);right:var(--cell-padding);top:var(--cell-padding);bottom:calc(var(--cell-padding) + 44px);width:auto;height:auto}
+.spk .pt{left:var(--cell-padding);right:var(--cell-padding);top:var(--cell-padding);bottom:calc(var(--cell-padding) + 62px);width:auto;height:auto}
 .spk .nm{position:absolute;left:var(--cell-padding);right:var(--cell-padding);bottom:var(--content-baseline);display:flex;flex-direction:column;gap:2px;z-index:2}
 .spk .nm b{font-size:clamp(13px,7cqw,17px);line-height:1.15}
 /* Auswahl ohne Kontur: das Detailfeld zeigt, wer gewählt ist */
@@ -148,14 +148,14 @@ a{color:inherit}
 .jn-c.idle .jn-dot{display:none}
 @keyframes jDot{50%{opacity:.15}}
 .j-body{flex:1;min-height:0;display:grid;grid-template-columns:var(--gut) minmax(0,1fr)}
-.j-rooms{display:grid;grid-template-rows:repeat(4,minmax(0,1fr));padding-top:var(--axh);border-right:1px solid var(--d3-black);background:var(--d3-bg)}
+.j-rooms{display:grid;grid-template-rows:repeat(2,minmax(0,1fr));padding-top:var(--axh);border-right:1px solid var(--d3-black);background:var(--d3-bg)}
 .j-rooms span{writing-mode:vertical-rl;transform:rotate(180deg);text-align:right;padding:10px 0;margin:0 auto;font-size:10px;letter-spacing:.06em;white-space:nowrap;overflow:hidden}
 .j-scroll{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--d3-black) transparent}
-.j-track{position:relative;height:100%;width:calc(390 * var(--ppm) + 28px);display:flex;flex-direction:column}
+.j-track{position:relative;height:100%;width:calc(400 * var(--ppm) + 28px);display:flex;flex-direction:column}
 .j-axis{position:relative;height:var(--axh);flex-shrink:0;border-bottom:1px solid var(--d3-black);background:var(--d3-bg)}
 .j-tk{position:absolute;top:0;bottom:0;display:flex;align-items:center;padding-left:6px;border-left:1px solid var(--d3-black);font-size:11px;white-space:nowrap}
 .j-tk.half{color:var(--d3-mute);border-left-color:var(--d3-line)}
-.j-lanes{position:relative;flex:1;min-height:0;background-image:repeating-linear-gradient(90deg,var(--d3-line) 0 1px,transparent 1px calc(30 * var(--ppm))),linear-gradient(transparent calc(25% - 1px),var(--d3-line) calc(25% - 1px) 25%,transparent 25% calc(50% - 1px),var(--d3-line) calc(50% - 1px) 50%,transparent 50% calc(75% - 1px),var(--d3-line) calc(75% - 1px) 75%,transparent 75%)}
+.j-lanes{position:relative;flex:1;min-height:0;background-image:repeating-linear-gradient(90deg,var(--d3-line) 0 1px,transparent 1px calc(30 * var(--ppm))),linear-gradient(transparent calc(50% - 1px),var(--d3-line) calc(50% - 1px) 50%,transparent 50%)}
 .jc{position:absolute;display:flex;flex-direction:column;justify-content:space-between;gap:6px;padding:10px 12px 12px;box-sizing:border-box;overflow:hidden;background:var(--d3-white);color:var(--d3-black);box-shadow:inset 0 0 0 1px var(--d3-black);transition:opacity var(--motion-ui) var(--ease-out),background var(--motion-fast)}
 .jc:hover{background:var(--d3-bg-2)}
 .jc .ci{position:relative;width:22px;height:22px;flex-shrink:0}
@@ -285,6 +285,40 @@ a{color:inherit}
 .ghost{position:fixed;z-index:30;pointer-events:none}
 @media (prefers-reduced-motion: reduce){.bp-mob .ph img,.bp-tab .ph img,.bp-mob .k-hero .msk img,.bp-tab .k-hero .msk img,.bp-mob .fmt .sh,.bp-tab .fmt .sh,.bot-a{animation:none !important}}
 
+
+/* ===== v8: Inhalte nach Christians Feedback ===== */
+.spk .nm .role{font-family:var(--f-body);font-size:13px;line-height:1.25;opacity:.8}
+.gr .gi{position:absolute;right:var(--cell-padding);top:var(--cell-padding);width:clamp(30px,min(18cqw,24cqh),56px);height:clamp(30px,min(18cqw,24cqh),56px);z-index:3}
+.gr .gi svg{width:100%;height:100%;display:block;overflow:visible}
+.gt{display:block;font-weight:800;font-size:clamp(15px,min(7cqw,12cqh),22px);line-height:1.12;letter-spacing:-.01em;max-width:16ch}
+.gp{margin:0;font-family:var(--f-body);font-size:clamp(13px,min(4.4cqw,9cqh),16px);line-height:1.4;max-width:40ch}
+.k-ptile .pt-t{font-weight:800;font-size:clamp(15px,min(8cqw,22cqh),22px);line-height:1.1}
+.media{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}
+.media .ivw{align-self:stretch;flex:1;display:flex;align-items:center;justify-content:center;border:1px dashed rgba(30,27,54,.3);color:var(--d3-mute);text-align:center;margin-bottom:8px}
+.mods{gap:12px}
+.mods-l{display:flex;flex-direction:column;gap:10px}
+.mods-l > div{display:flex;align-items:center;gap:10px}
+.mods-l .in{width:40px;height:40px;border-radius:50%;background:var(--d3-yellow);color:var(--d3-black);display:flex;align-items:center;justify-content:center;font-weight:850;font-size:14px;flex-shrink:0}
+.mods-l b{display:block;font-size:15px;line-height:1.15}
+.mods-l .sys{font-size:10px;color:#B9B5CF}
+.pf{display:flex;flex-direction:column;gap:10px}
+.pf-t{font-size:clamp(24px,min(7cqw,12cqh),40px)}
+.pf-f{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:620px}
+.pf-f input,.pf-f textarea{font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--d3-black);background:var(--d3-white);color:var(--d3-black);border-radius:0;min-width:0}
+.pf-f textarea{grid-column:1/-1;resize:vertical;min-height:64px}
+.pf-go{grid-column:1/-1;justify-self:start;background:var(--d3-black);color:var(--d3-bg);font-weight:800;font-size:15px;padding:12px 16px}
+.pf-ok{margin:0;font-weight:800}
+.idea{display:flex;flex-direction:column;gap:12px}
+.idea .p{max-width:52ch}
+.org{gap:10px}
+.org-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.org-row .p{font-size:15px;max-width:48ch}
+.jx-long{opacity:.85}
+.k-cta .t-mod{font-size:clamp(18px,min(7cqw,24cqh),40px)}
+.jc.plen b{font-size:clamp(16px,1.6cqw,22px);overflow-wrap:normal}
+@container mod (max-width: 540px){ .k-date .dataRow{grid-template-columns:auto auto;row-gap:14px} }
+.k-logos .logos{grid-template-columns:repeat(3,minmax(0,1fr))}
+.k-logos .logos > *:first-child{align-items:center;justify-content:center;text-align:center;padding:6px}
 /* ===== v7 „Amtshelden vorn“ ===== */
 /* Leiste: Absender zuerst */
 .lock .lock-f{font-weight:800;letter-spacing:.02em;margin-left:4px;padding-left:12px;border-left:1px solid var(--d3-line);height:28px;display:flex;align-items:center}
@@ -429,12 +463,12 @@ a{color:inherit}
 <a href="#" class="lock" onClick="{{nav.home}}" aria-label="Amtshelden Deep Dive Day, Home" style="grid-column: span {{lockSpan}}">
 <svg class="lock-mark" viewBox="0 0 1386.5 319.2" style="height: 30px; width: auto; flex-shrink: 0" role="img" aria-label="Amtshelden"><g class="ah-a" fill="#0D9D69"><path d="M617.8,126.2v53.1h-29.1V0H42.3C18.9,0,0,18.9,0,42.3v141.7c0,23.4,19,42.3,42.3,42.3h518.2l111,92.9V126.2h-53.7ZM152.7,179.3l-12.1-29.6h-55.9l-12.1,29.6h-29.6L99.6,46.2h26.8l56.6,133.1h-30.4.1ZM330.9,179.3h-28.9v-86.3l-37.2,56.4h-.8l-36.8-55.9v85.7h-28.5V47h31.3l34.7,55.9,34.7-55.9h31.3v132.2l.2.1h0ZM457.9,73.9h-40.2v105.4h-29.1v-105.4h-40.2v-26.8h109.5v26.8h0ZM568.2,140.2c0,26.2-20,41-48.5,41s-40.2-7-56.1-21.1l17.2-20.6c11.9,9.8,24.3,16.1,39.5,16.1s19.1-4.7,19.1-12.5v-.4c0-7.4-4.5-11.1-26.6-16.8-26.6-6.8-43.8-14.2-43.8-40.4v-.4c0-24,19.3-39.8,46.3-39.8s35.7,6,49.1,16.8l-15.1,21.9c-11.7-8.1-23.2-13-34.4-13s-17,5.1-17,11.5v.4c0,8.7,5.7,11.5,28.5,17.4,26.8,7,41.9,16.6,41.9,39.6v.4h0l-.1-.1h0Z"/><polygon points="95.1 123.9 130.2 123.9 112.7 81.1 95.1 123.9"/></g><g class="ah-b" fill="#333333"><path d="M1012.9,73.3h-22.5v79.7h22.5c23.8,0,39.8-16.1,39.8-39.5v-.4c0-23.4-16.1-39.8-39.8-39.8Z"/><path d="M1344.1,0h-726.3v99.4h53.6v-52.3h29.1v179.3h643.7c23.4,0,42.3-18.9,42.3-42.3V42.4c0-23.4-18.9-42.3-42.3-42.3h0l-.1-.1h0ZM828.1,179.3h-100.6V47.1h99.7v25.9h-70.8v26.8h62.3v25.9h-62.3v27.8h71.7v25.9h0v-.1h0ZM944.2,179.3h-95V47.1h29.1v105.7h65.9v26.5ZM1083.1,113.2c0,37.2-28.7,66.1-70.2,66.1h-51.5V47.1h51.5c41.5,0,70.2,28.5,70.2,65.7v.4ZM1204.8,179.3h-100.6V47.1h99.7v25.9h-70.8v26.8h62.3v25.9h-62.3v27.8h71.7v25.9h0v-.1h0ZM1343.4,179.3h-24.7l-64-84v84h-28.7V47.1h26.8l61.9,81.4V47.1h28.7v132.2h0Z"/></g></svg><span class="lock-f sys hide-mob-txt">Deep Dive Day</span>
 </a>
-<a href="#" class="nv sys {{on.explore}}" onClick="{{nav.explore}}">Formate</a>
 <a href="#" class="nv sys {{on.program}}" onClick="{{nav.program}}">Programm</a>
-<a href="#" class="nv sys {{on.speaker}}" onClick="{{nav.speaker}}">Speaker*innen</a>
-<a href="#" class="nv sys {{on.partner}}" onClick="{{nav.partner}}">Mitmachen</a>
-<a href="https://www.amtshelden.de/ueber-uns-julia-christian-amtshelden/" target="_blank" rel="noopener" class="nv sys" aria-label="Über Amtshelden (öffnet amtshelden.de in neuem Fenster)">Über ↗</a>
-<span class="sys idx" style="grid-column: span {{idxSpan}}; justify-content: center">{{stNo}} / 05</span>
+<a href="#" class="nv sys {{on.speaker}}" onClick="{{nav.speaker}}">Speaker</a>
+<a href="#" class="nv sys {{on.partner}}" onClick="{{nav.partner}}">Partner</a>
+<a href="#" class="nv sys {{on.explore}}" onClick="{{nav.explore}}">Über die D3</a>
+<a href="#" class="nv sys {{on.join}}" onClick="{{nav.join}}">Teilnahme</a>
+<span class="sys idx" style="grid-column: span {{idxSpan}}; justify-content: center">{{stNo}} / 06</span>
 <a href="#" class="cta-b" onClick="{{ctaBar.go}}" style="grid-column: span {{ctaSpan}}">{{ctaBarLabel}} <span>→</span></a>
 </header>
 
@@ -446,15 +480,12 @@ a{color:inherit}
 </div>
 
 <div class="mod k-brand {{P.brand.cls}}" style="background: var(--d3-white); left: calc({{P.brand.c}} * 100% / var(--cols)); top: calc({{P.brand.r}} * var(--rowh)); width: calc({{P.brand.w}} * 100% / var(--cols)); height: calc({{P.brand.h}} * var(--rowh)); transition-delay: {{P.brand.d}}">
-<div class="L l-home tA pad"><span class="lab">Amtshelden Deep Dive Day · Ausgabe 01</span><p class="ah-claim ah-big">Die digitale Konferenz von <span>Amtshelden</span> für Behörden, die neue Wege gehen.</p></div>
+<div class="L l-home tA pad"><span class="lab">Amtshelden Deep Dive Day · KI + Transformation</span><h1 class="ah-claim ah-big">Die digitale Konferenz für alle, die in Behörden lieber <span>machen</span> als reden.</h1></div>
 </div>
 
-<div class="mod k-theme {{P.theme.cls}}" style="background: var(--d3-black); color: var(--d3-bg); left: calc({{P.theme.c}} * 100% / var(--cols)); top: calc({{P.theme.r}} * var(--rowh)); width: calc({{P.theme.w}} * 100% / var(--cols)); height: calc({{P.theme.h}} * var(--rowh)); transition-delay: {{P.theme.d}}">
-<div class="L l-home tA pad"><span class="lab">Thema der Ausgabe 01 · 4 Räume · 8 Themen</span><span class="big" style="font-size: min(40cqh, 6cqw); letter-spacing: -0.025em; line-height: 1">KI + Transformation</span></div>
-</div>
-
-<div class="mod k-why why {{P.why.cls}}" style="background: var(--d3-white); left: calc({{P.why.c}} * 100% / var(--cols)); top: calc({{P.why.r}} * var(--rowh)); width: calc({{P.why.w}} * 100% / var(--cols)); height: calc({{P.why.h}} * var(--rowh)); transition-delay: {{P.why.d}}">
-<div class="L l-home tA pad"><span class="lab">Was ist der Deep Dive Day?</span><div class="btm" style="gap: 12px"><p class="ah-claim" style="font-size: clamp(18px, min(5.4cqw, 11cqh), 30px)">Ein Tag im Browser. Keynotes, Cases, Masterclasses und Austausch.</p><p class="ah-sub hide-s">Das Konferenzformat von Amtshelden. Jede Ausgabe hat ein Schwerpunktthema – die erste: KI und Transformation.</p><a class="ah-link sys" href="https://amtshelden.de" target="_blank" rel="noopener">amtshelden.de ↗</a></div></div>
+<div class="mod act k-why why {{P.why.cls}}" style="background: var(--d3-white); left: calc({{P.why.c}} * 100% / var(--cols)); top: calc({{P.why.r}} * var(--rowh)); width: calc({{P.why.w}} * 100% / var(--cols)); height: calc({{P.why.h}} * var(--rowh)); transition-delay: {{P.why.d}}">
+<button class="hit" onClick="{{nav.explore}}" aria-label="Mehr über die D3"></button>
+<div class="L l-home tA pad"><span class="lab">Was ist die D3?</span><div class="btm" style="gap: 12px"><p class="ah-claim" style="font-size: clamp(18px, min(5.4cqw, 11cqh), 30px)">Ein Tag. Viele Ideen. Echte Erfahrungen.</p><p class="ah-sub hide-s">Menschen aus Behörden treffen auf Fachleute, Praxisbeispiele und andere mit ähnlichen Aufgaben. Du erfährst, was funktioniert, fragst direkt nach und probierst Neues aus.</p><span class="ah-link sys">Mehr über die D3 →</span></div></div>
 </div>
 
 <div class="mod k-hero on-{{heroPlace}} {{P.hero.cls}}" style="background: var(--d3-yellow); left: calc({{P.hero.c}} * 100% / var(--cols)); top: calc({{P.hero.r}} * var(--rowh)); width: calc({{P.hero.w}} * 100% / var(--cols)); height: calc({{P.hero.h}} * var(--rowh)); transition-delay: {{P.hero.d}}">
@@ -464,64 +495,62 @@ a{color:inherit}
 <div class="msk hp-fn"><img src="/bildwelt/d3-exchange.jpg" alt="Zwei Menschen im Gespräch" style="--fx: 100%; --fy: 30%; --z: 1; --ox: 50%; --oy: 20%"></div>
 <div class="msk hp-fs"><img src="/bildwelt/d3-explorer.jpg" alt="Teilnehmer zwischen Licht und Flächen" style="--fx: 52%; --fy: 30%; --z: 1; --ox: 50%; --oy: 20%"></div>
 <span class="geo g-qbl" style="background: var(--d3-yellow)"></span>
-<div class="L l-all tD pad" style="justify-content: flex-end"><div class="btm"><span class="lab">{{heroTime}}<br>{{heroFmt}}</span><b style="font-size: clamp(14px, 6cqw, 18px); line-height: 1.1">{{heroVerb}}</b></div></div>
+<div class="L l-all tD pad" style="justify-content: flex-end"><div class="btm"><span class="lab">Ausgabe 01</span><b style="font-size: clamp(15px, 6.4cqw, 20px); line-height: 1.1">KI + Transformation</b></div></div>
 </div>
 
 <div class="mod k-pc spk {{P.pc.cls}} {{spkSel.0}}" style="background: var(--d3-yellow); left: calc({{P.pc.c}} * 100% / var(--cols)); top: calc({{P.pc.r}} * var(--rowh)); width: calc({{P.pc.w}} * 100% / var(--cols)); height: calc({{P.pc.h}} * var(--rowh)); transition-delay: {{P.pc.d}}">
 <button class="hit" onClick="{{spkPick.0}}" aria-label="Speaker*in Keynote"></button>
 <div class="pt m-circle"><img src="/people/p02.jpg" alt="Platzhalter-Porträt"></div>
-<div class="nm"><b>[Name Nachname]</b><span class="sys">Keynote · 09:40</span></div>
+<div class="nm"><b>[Name Nachname]</b><span class="role">[Funktion · Organisation]</span><span class="sys">Eröffnungskeynote · 09:40</span></div>
 </div>
 
 <div class="mod k-s2 spk {{P.s2.cls}} {{spkSel.1}}" style="background: var(--d3-bg-2); left: calc({{P.s2.c}} * 100% / var(--cols)); top: calc({{P.s2.r}} * var(--rowh)); width: calc({{P.s2.w}} * 100% / var(--cols)); height: calc({{P.s2.h}} * var(--rowh)); transition-delay: {{P.s2.d}}">
 <button class="hit" onClick="{{spkPick.1}}" aria-label="Speaker*in Case"></button>
 <div class="pt m-sq"><img src="/people/p03.jpg" alt="Platzhalter-Porträt"></div>
 <span class="badge s-burst" style="position: absolute; background: var(--d3-black)"></span>
-<div class="nm"><b>[Name Nachname]</b><span class="sys">Case · 10:30</span></div>
+<div class="nm"><b>[Name Nachname]</b><span class="role">[Funktion · Organisation]</span><span class="sys">Praxis-Case · 10:00</span></div>
 </div>
 
 <div class="mod k-s3 spk {{P.s3.cls}} {{spkSel.2}}" style="background: var(--d3-white); left: calc({{P.s3.c}} * 100% / var(--cols)); top: calc({{P.s3.r}} * var(--rowh)); width: calc({{P.s3.w}} * 100% / var(--cols)); height: calc({{P.s3.h}} * var(--rowh)); transition-delay: {{P.s3.d}}">
 <button class="hit" onClick="{{spkPick.2}}" aria-label="Speaker*in Masterclass"></button>
 <div class="pt m-cut"><img src="/people/p01.jpg" alt="Platzhalter-Porträt"></div>
-<div class="nm"><b>[Name Nachname]</b><span class="sys">Masterclass · 10:30</span></div>
+<div class="nm"><b>[Name Nachname]</b><span class="role">[Funktion · Organisation]</span><span class="sys">Masterclass · 10:00</span></div>
 </div>
 
 <div class="mod k-s4 spk {{P.s4.cls}} {{spkSel.3}}" style="background: var(--d3-green); left: calc({{P.s4.c}} * 100% / var(--cols)); top: calc({{P.s4.r}} * var(--rowh)); width: calc({{P.s4.w}} * 100% / var(--cols)); height: calc({{P.s4.h}} * var(--rowh)); transition-delay: {{P.s4.d}}">
 <button class="hit" onClick="{{spkPick.3}}" aria-label="Speaker*in Panel"></button>
 <div class="pt m-sq"><img src="/people/p07.jpg" alt="Platzhalter-Porträt"></div>
 <span class="badge s-burst" style="position: absolute; background: var(--d3-black)"></span>
-<div class="nm"><b>[Name Nachname]</b><span class="sys">Panel · 11:15</span></div>
+<div class="nm"><b>[Name Nachname]</b><span class="role">[Funktion · Organisation]</span><span class="sys">Panel · 11:00</span></div>
 </div>
 
 <div class="mod k-s5 spk {{P.s5.cls}} {{spkSel.4}}" style="background: var(--d3-white); left: calc({{P.s5.c}} * 100% / var(--cols)); top: calc({{P.s5.r}} * var(--rowh)); width: calc({{P.s5.w}} * 100% / var(--cols)); height: calc({{P.s5.h}} * var(--rowh)); transition-delay: {{P.s5.d}}">
 <button class="hit" onClick="{{spkPick.4}}" aria-label="Speaker*in Fachvortrag"></button>
 <div class="pt m-circle"><img src="/people/p04.jpg" alt="Platzhalter-Porträt"></div>
-<div class="nm"><b>[Name Nachname]</b><span class="sys">Vortrag · 10:30</span></div>
+<div class="nm"><b>[Name Nachname]</b><span class="role">[Funktion · Organisation]</span><span class="sys">Fachvortrag · 10:30</span></div>
 </div>
 
 <div class="mod k-s6 spk {{P.s6.cls}} {{spkSel.5}}" style="background: var(--d3-green); color: var(--d3-white); left: calc({{P.s6.c}} * 100% / var(--cols)); top: calc({{P.s6.r}} * var(--rowh)); width: calc({{P.s6.w}} * 100% / var(--cols)); height: calc({{P.s6.h}} * var(--rowh)); transition-delay: {{P.s6.d}}">
 <button class="hit" onClick="{{spkPick.5}}" aria-label="Speaker*in Abschluss-Keynote"></button>
 <div class="pt m-circle"><img src="/people/p05.jpg" alt="Platzhalter-Porträt"></div>
-<div class="nm"><b>[Name Nachname]</b><span class="sys">Keynote · 15:00</span></div>
+<div class="nm"><b>[Name Nachname]</b><span class="role">[Funktion · Organisation]</span><span class="sys">Abschlusskeynote · 15:00</span></div>
 </div>
 
 <sc-for list="{{fmts}}" as="f" hint-placeholder-count="5">
 <div class="mod fmt act k-{{f.k}} {{f.dark}} {{f.P.cls}} {{f.st0}}" style="background: {{f.bg}}; left: calc({{f.P.c}} * 100% / var(--cols)); top: calc({{f.P.r}} * var(--rowh)); width: calc({{f.P.w}} * 100% / var(--cols)); height: calc({{f.P.h}} * var(--rowh)); transition-delay: {{f.P.d}}" onMouseEnter="{{f.hover}}">
 <span class="wipe"></span><button class="hit" onClick="{{f.tap}}" aria-label="{{f.aria}}"></button>
 <span class="sh" style="color: {{f.ink}}"><sc-if value="{{f.is.fk}}" hint-placeholder-val="{{false}}"><svg class="mo mf" viewBox="0 0 100 100" aria-hidden="true"><path d="M0,50c0,-27.61424 22.38576,-50 50,-50c27.61424,0 50,22.38576 50,50h-20c0,-16.56854 -13.43146,-30 -30,-30c-16.56854,0 -30,13.43146 -30,30z" style="fill: var(--d3-bg)"></path><path d="M16,50c0,18.77768 15.22232,34 34,34c18.77768,0 34,-15.22232 34,-34h-16c0,9.94113 -8.05887,18 -18,18c-9.94113,0 -18,-8.05887 -18,-18z" style="fill: var(--d3-bg)"></path><path d="M32,50c0,-9.94113 8.05887,-18 18,-18c9.94113,0 18,8.05887 18,18z" style="fill: var(--d3-green)"></path></svg></sc-if><sc-if value="{{f.is.fc}}" hint-placeholder-val="{{false}}"><svg class="mo mf" viewBox="0 0 100 100" aria-hidden="true"><path d="M50,0l6.35485,16.59287c-2.05869,-0.38923 -4.18299,-0.59287 -6.35485,-0.59287v68c2.17186,0 4.29616,-0.20364 6.35485,-0.59287l-6.35485,16.59287l-9.95,-25.98l-25.41,11.34l11.34,-25.41l-25.98,-9.95l25.98,-9.95l-11.34,-25.41l25.41,11.34zM85.36,14.64l-7.24518,16.23457c-2.40598,-3.53 -5.4594,-6.58341 -8.98939,-8.98939zM100,50l-16.59287,6.35485c0.38923,-2.05869 0.59287,-4.18299 0.59287,-6.35485c0,-2.17186 -0.20364,-4.29616 -0.59287,-6.35485zM85.36,85.36l-16.23457,-7.24518c3.53,-2.40598 6.58341,-5.4594 8.98939,-8.98939z" style="fill: var(--d3-black)"></path><path d="M59.95,74.02l9.17543,4.09482c-3.78026,2.57655 -8.10707,4.41061 -12.77058,5.29231zM74.02,59.95l9.38713,-3.59515c-0.88171,4.66351 -2.71576,8.99032 -5.29231,12.77058zM74.02,40.05l4.09482,-9.17543c2.57655,3.78026 4.41061,8.10707 5.29231,12.77058zM59.95,25.98l-3.59515,-9.38713c4.66351,0.88171 8.99032,2.71576 12.77058,5.29231z" style="fill: var(--d3-black)"></path></svg></sc-if><sc-if value="{{f.is.fm}}" hint-placeholder-val="{{false}}"><svg class="mo mf" viewBox="0 0 100 100" aria-hidden="true"><path d="M0,33.5c19.98585,0 37.89689,8.88336 50,22.91698c-4.41417,5.11825 -8.05579,10.92157 -10.74376,17.22884c-8.40745,-12.73989 -22.85018,-21.14582 -39.25624,-21.14582zM66,99.5h-13c0,-9.55133 2.84909,-18.43722 7.74376,-25.85418c3.38373,7.93986 5.25624,16.67835 5.25624,25.85418z" style="fill: var(--d3-black)"></path><path d="M0,65.5c18.77768,0 34,15.22232 34,34h-16c0,-9.94113 -8.05887,-18 -18,-18z" style="fill: var(--d3-black)"></path><path d="M100,52.5c-16.40605,0 -30.84879,8.40593 -39.25624,21.14582c-2.68797,-6.30728 -6.3296,-12.11059 -10.74376,-17.22884c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698zM34,99.5c0,-9.17583 1.8725,-17.91431 5.25624,-25.85418c4.89468,7.41695 7.74376,16.30285 7.74376,25.85418z" style="fill: var(--d3-black)"></path><path d="M100,65.5c-18.77768,0 -34,15.22232 -34,34h16c0,-9.94113 8.05887,-18 18,-18z" style="fill: var(--d3-black)"></path><path d="M43,7.5c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style="fill: var(--d3-green)"></path><path d="M30.5,20c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style="fill: var(--d3-black)"></path><path d="M55.5,20c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style="fill: var(--d3-black)"></path><path d="M43,32.5c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style="fill: var(--d3-black)"></path></svg></sc-if><sc-if value="{{f.is.fn}}" hint-placeholder-val="{{false}}"><svg class="mo mf" viewBox="0 0 100 100" aria-hidden="true"><path d="M32,18c6.67442,0 12.87157,2.04339 18,5.53872c-8.45108,5.75991 -14,15.46258 -14,26.46128c0,10.9987 5.54892,20.70137 14,26.46128c-5.12843,3.49532 -11.32558,5.53872 -18,5.53872c-17.67311,0 -32,-14.32689 -32,-32c0,-17.67311 14.32689,-32 32,-32z" style="fill: var(--d3-white)"></path><path d="M68,18c17.67311,0 32,14.32689 32,32c0,17.67311 -14.32689,32 -32,32c-6.67442,0 -12.87157,-2.04339 -18,-5.53872c8.45108,-5.75991 14,-15.46258 14,-26.46128c0,-10.9987 -5.54892,-20.70137 -14,-26.46128c5.12843,-3.49532 11.32558,-5.53872 18,-5.53872z" style="fill: var(--d3-white)"></path></svg></sc-if><sc-if value="{{f.is.fs}}" hint-placeholder-val="{{false}}"><svg class="mo mf" viewBox="0 0 100 100" aria-hidden="true"><path d="M100,49.5c0,11.38476 -3.80499,21.88082 -10.21265,30.28585c-4.85334,-17.41119 -20.82851,-30.18585 -39.78735,-30.18585c-18.95884,0 -34.93401,12.77466 -39.78735,30.18585c-6.40766,-8.40503 -10.21265,-18.90109 -10.21265,-30.28585z" style="fill: var(--d3-bg)"></path><path d="M50,68.8c13.46316,0 24.38999,10.85935 24.49917,24.29676c-7.24004,4.07728 -15.59798,6.40324 -24.49917,6.40324c-8.90119,0 -17.25913,-2.32596 -24.49917,-6.40324c0.10919,-13.4374 11.03601,-24.29676 24.49917,-24.29676z" style="fill: var(--d3-bg)"></path><path d="M27.4,22.6c0,12.48164 10.11836,22.6 22.6,22.6c12.48164,0 22.6,-10.11836 22.6,-22.6c0,-12.48164 -10.11836,-22.6 -22.6,-22.6c-12.48164,0 -22.6,10.11836 -22.6,22.6z" style="fill: var(--d3-bg)"></path></svg></sc-if></span>
-<div class="L l-home tB pad"><span class="lab">{{f.short}}</span><div class="btm"><sc-if value="{{f.time}}" hint-placeholder-val="{{false}}"><span class="t-time hide-s">{{f.time}}</span></sc-if><span class="lab">{{f.verb}}</span></div></div>
 <div class="L l-explore tB pad"><span class="lab">{{f.short}}</span><div class="btm"><span class="big sc" style="font-size: clamp(20px, min(13cqw, 15cqh), 64px)">{{f.name}}</span><p class="p hide-s">{{f.desc}}</p></div></div>
-<div class="L l-partner tC pad"><span class="lab">Stände</span><div class="ctaRow"><span class="t-mod">Aussteller werden</span><span class="s-arrow-w"><svg class="mo-next" viewBox="0 0 100 100" aria-hidden="true"><path class="p-x" fill-rule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path></svg></span></div></div>
+<div class="L l-partner tB pad"><span class="lab">Messe-Area</span><div class="btm"><span class="big sc" style="font-size: clamp(20px, min(8cqw, 12cqh), 34px); max-width: 58%">Direkt nachfragen</span><p class="p hide-s">Virtuelle Stände: Du sprichst per Video mit den Ansprechpersonen und lässt dir Lösungen zeigen.</p></div></div>
 </div>
 </sc-for>
 
-<div class="mod k-next act {{P.next.cls}}" style="background: var(--d3-white); left: calc({{P.next.c}} * 100% / var(--cols)); top: calc({{P.next.r}} * var(--rowh)); width: calc({{P.next.w}} * 100% / var(--cols)); height: calc({{P.next.h}} * var(--rowh)); transition-delay: {{P.next.d}}">
-<span class="wipe"></span><button class="hit" onClick="{{nav.partner}}" aria-label="Nächste Ausgabe ansehen"></button>
-<div class="L l-home tA pad"><span class="lab">Als Nächstes · [Datum]</span><b style="font-size: clamp(14px, 6.5cqw, 18px); line-height: 1.15">Ausgabe 02 · Kommunikation</b></div>
+<div class="mod k-next {{P.next.cls}}" style="background: var(--d3-green); color: var(--d3-white); left: calc({{P.next.c}} * 100% / var(--cols)); top: calc({{P.next.r}} * var(--rowh)); width: calc({{P.next.w}} * 100% / var(--cols)); height: calc({{P.next.h}} * var(--rowh)); transition-delay: {{P.next.d}}">
+<div class="L l-home tA pad"><span class="lab">Als Nächstes</span><div class="btm"><b style="font-size: clamp(15px, min(6cqw, 15cqh), 22px); line-height: 1.15">Die nächste D3 kommt im Herbst 2027.</b><span class="lab">Thema: Kommunikation</span></div></div>
 </div>
 
 <div class="mod k-date {{P.date.cls}}" style="background: var(--d3-white); left: calc({{P.date.c}} * 100% / var(--cols)); top: calc({{P.date.r}} * var(--rowh)); width: calc({{P.date.w}} * 100% / var(--cols)); height: calc({{P.date.h}} * var(--rowh)); transition-delay: {{P.date.d}}">
-<div class="L l-all pad"><div class="dataRow"><div><span class="lab">Datum</span><b>[TT.MM.2027]</b></div><div><span class="lab">Zeit</span><b>09:00–15:30</b></div><div><span class="lab">Ort</span><b>Digital</b></div></div></div>
+<div class="L l-all pad"><div class="dataRow"><div><span class="lab">Datum</span><b>14. April 2027</b></div><div><span class="lab">Zeit</span><b>9:00–15:30</b></div><div><span class="lab">Teilnahme</span><b>Digital &amp; kostenfrei</b></div></div></div>
 </div>
 
 <div class="mod act k-cta {{P.cta.cls}}" style="background: var(--d3-yellow); left: calc({{P.cta.c}} * 100% / var(--cols)); top: calc({{P.cta.r}} * var(--rowh)); width: calc({{P.cta.w}} * 100% / var(--cols)); height: calc({{P.cta.h}} * var(--rowh)); transition-delay: {{P.cta.d}}">
@@ -529,25 +558,20 @@ a{color:inherit}
 <div class="L l-all tC pad"><span class="lab">{{cta.note}}</span><div class="ctaRow"><span class="t-mod">{{cta.label}}</span><span class="s-arrow-w"><svg class="mo-next" viewBox="0 0 100 100" aria-hidden="true"><path class="p-x" fill-rule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path></svg></span></div></div>
 </div>
 
-<div class="mod dark act k-cta2 {{P.cta2.cls}}" style="left: calc({{P.cta2.c}} * 100% / var(--cols)); top: calc({{P.cta2.r}} * var(--rowh)); width: calc({{P.cta2.w}} * 100% / var(--cols)); height: calc({{P.cta2.h}} * var(--rowh)); transition-delay: {{P.cta2.d}}">
-<button class="hit" onClick="{{cta2.go}}" aria-label="{{cta2.label}}"></button>
-<div class="L l-all tC pad"><span class="lab">{{cta2.note}}</span><div class="ctaRow"><span class="t-mod">{{cta2.label}}</span><span class="s-arrow-w"><svg class="mo-next" viewBox="0 0 100 100" aria-hidden="true"><path class="p-x" fill-rule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path></svg></span></div></div>
-</div>
-
 <div class="mod act k-hint {{P.hint.cls}}" style="background: var(--d3-white); left: calc({{P.hint.c}} * 100% / var(--cols)); top: calc({{P.hint.r}} * var(--rowh)); width: calc({{P.hint.w}} * 100% / var(--cols)); height: calc({{P.hint.h}} * var(--rowh)); transition-delay: {{P.hint.d}}">
 <button class="hit" onClick="{{hint.go}}" aria-label="{{hint.label}}"></button>
-<div class="L l-all tC pad"><span class="lab">Weiter · {{stNo}} / 05</span><div class="ctaRow"><span class="t-mod">{{hint.label}}</span><span class="s-arrow-w"><svg class="mo-next" viewBox="0 0 100 100" aria-hidden="true"><path class="p-x" fill-rule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path></svg></span></div></div>
+<div class="L l-all tC pad"><span class="lab">Weiter · {{stNo}} / 06</span><div class="ctaRow"><span class="t-mod">{{hint.label}}</span><span class="s-arrow-w"><svg class="mo-next" viewBox="0 0 100 100" aria-hidden="true"><path class="p-x" fill-rule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path></svg></span></div></div>
 </div>
 
 <div class="mod k-xhead {{P.xhead.cls}}" style="left: calc({{P.xhead.c}} * 100% / var(--cols)); top: calc({{P.xhead.r}} * var(--rowh)); width: calc({{P.xhead.w}} * 100% / var(--cols)); height: calc({{P.xhead.h}} * var(--rowh)); transition-delay: {{P.xhead.d}}">
 <div class="ph"><img src="/bildwelt/d3-space.jpg" alt="Teilnehmerin zwischen schwebenden Flächen" style="--fx: 0%; --fy: 30%; --z: 1.04; --ox: 0%; --oy: 22%"></div><span class="geo g-qbl" style="background: var(--d3-bg)"></span>
-<div class="L l-explore end pad"><h2 class="big sc" style="font-size: min(9cqh, 6.6cqw)">Ein Tag.<br>Viele Räume.<br>Ein Deep Dive.</h2></div>
+<div class="L l-explore end pad"><span class="lab">Über die D3</span><h2 class="big sc" style="font-size: min(8.4cqh, 6cqw); max-width: 12ch">Eine digitale Konferenz, bei der du mitmachst.</h2></div>
 </div>
 
 <div class="mod k-board {{P.board.cls}}" style="left: calc({{P.board.c}} * 100% / var(--cols)); top: calc({{P.board.r}} * var(--rowh)); width: calc({{P.board.w}} * 100% / var(--cols)); height: calc({{P.board.h}} * var(--rowh)); transition-delay: {{P.board.d}}">
 <div class="L l-program board">
 <aside class="b-side">
-<h2 class="big b-title">Programm</h2>
+<h2 class="big sc b-title">Dein Tag. Deine Themen.</h2>
 <p class="p" style="font-size: 15px">{{progNote}}</p>
 <div class="chips" role="group" aria-label="Format filtern">
 <sc-for list="{{fFilters}}" as="c" hint-placeholder-count="8">
@@ -562,12 +586,12 @@ a{color:inherit}
 </aside>
 <div class="b-main jr" ref="{{jrRef}}">
 <div class="j-now">
-<div class="jn-clock"><span class="lab">{{jn.clockLab}}</span><b class="jn-time">{{jn.time}}</b><input class="jn-range" type="range" min="540" max="930" step="5" value="{{jn.val}}" onInput="{{jn.set}}" aria-label="Uhrzeit für die Vorschau"></div>
+<div class="jn-clock"><span class="lab">{{jn.clockLab}}</span><b class="jn-time">{{jn.time}}</b><input class="jn-range" type="range" min="540" max="940" step="5" value="{{jn.val}}" onInput="{{jn.set}}" aria-label="Uhrzeit für die Vorschau"></div>
 <button class="jn-c jn-live {{jn.liveCls}}" onClick="{{jn.liveGo}}"><span class="lab"><i class="jn-dot"></i>{{jn.liveLab}}</span><span class="jn-b"><b>{{jn.liveTitle}}</b><span class="sys jn-m">{{jn.liveMeta}}</span></span></button>
 <button class="jn-c jn-next {{jn.nextCls}}" onClick="{{jn.nextGo}}"><span class="lab">{{jn.nextLab}}</span><span class="jn-b"><b>{{jn.nextTitle}}</b><span class="sys jn-m">{{jn.nextMeta}}</span></span></button>
 </div>
 <div class="j-body">
-<div class="j-rooms sys" aria-hidden="true"><span>Main Stage</span><span>Raum 2</span><span>Werkstatt</span><span>Lounge</span></div>
+<div class="j-rooms sys" aria-hidden="true"><span>Track 1</span><span>Track 2</span></div>
 <div class="j-scroll" ref="{{jScrollRef}}" onWheel="{{jWheel}}">
 <div class="j-track">
 <div class="j-axis sys" aria-hidden="true">
@@ -592,14 +616,15 @@ a{color:inherit}
 <div class="jx-text">
 <span class="jx-f"><span class="ci"><span class="sh {{ex.sh}}"></span></span><span class="sys">{{ex.fmt}}</span></span>
 <h3 class="big sc jx-title">{{ex.title}}</h3>
-<p class="p jx-desc">{{ex.desc}}</p>
+<p class="p jx-desc">{{ex.desc}}</p><p class="p jx-long">{{ex.long}}</p>
 <sc-if value="{{ex.topic}}" hint-placeholder-val="{{false}}"><span class="sys jx-tp">{{ex.topic}}</span></sc-if>
 </div>
 <div class="jx-side">
 <sc-if value="{{ex.img}}" hint-placeholder-val="{{false}}"><div class="jx-pt {{ex.mask}}"><img src="{{ex.img}}" alt=""></div></sc-if>
 <div class="jx-who"><b>{{ex.who}}</b><span>{{ex.role}}</span></div>
 <sc-if value="{{ex.hasSpk}}" hint-placeholder-val="{{false}}"><button class="lnk sys" onClick="{{ex.toSpk}}">Zur Speaker*in <span>→</span></button></sc-if>
-<a class="lnk sys" href="https://amtshelden.de" target="_blank" rel="noopener">{{ex.rel}} <span>↗</span></a>
+<sc-if value="{{ex.rel}}" hint-placeholder-val="{{false}}"><a class="lnk sys" href="https://www.amtshelden.de" target="_blank" rel="noopener">{{ex.rel}} <span>↗</span></a></sc-if>
+<button class="lnk sys" onClick="{{ex.copy}}">{{ex.copyLabel}} <span>⧉</span></button>
 </div>
 </div>
 <div class="jx-nav"><button class="lnk sys" onClick="{{ex.prev}}" aria-label="Vorheriger Programmpunkt">← Vorher</button><button class="lnk sys" onClick="{{ex.next}}" aria-label="Nächster Programmpunkt" style="justify-content: flex-end">Danach →</button></div>
@@ -611,7 +636,7 @@ a{color:inherit}
 
 <div class="mod k-spkhead {{P.spkhead.cls}}" style="left: calc({{P.spkhead.c}} * 100% / var(--cols)); top: calc({{P.spkhead.r}} * var(--rowh)); width: calc({{P.spkhead.w}} * 100% / var(--cols)); height: calc({{P.spkhead.h}} * var(--rowh)); transition-delay: {{P.spkhead.d}}">
 <div class="ph"><img src="/bildwelt/d3-speaker.jpg" alt="Speaker im Gespräch mit dem Publikum" style="--fx: 0%; --fy: 26%; --z: 1.14; --ox: 0%; --oy: 18%"></div><span class="geo g-qbl" style="background: var(--d3-black)"></span>
-<div class="L l-speaker end pad" style="color: var(--d3-bg)"><h2 class="big" style="font-size: min(11cqh, 7.2cqw)">Speaker*innen</h2><p class="p hide-s" style="max-width: min(24ch, 52cqw); font-size: clamp(13px, 3.4cqw, 15px); color: #CFCBE0">{{spkNote}}</p></div>
+<div class="L l-speaker end pad" style="color: var(--d3-bg)"><h2 class="big sc" style="font-size: min(9cqh, 6cqw); max-width: 13ch">Menschen, die etwas zu erzählen haben.</h2><p class="p hide-s" style="max-width: min(24ch, 52cqw); font-size: clamp(13px, 3.4cqw, 15px); color: #CFCBE0">{{spkNote}}</p></div>
 </div>
 
 <div class="mod dark k-sdetail {{P.sdetail.cls}}" style="left: calc({{P.sdetail.c}} * 100% / var(--cols)); top: calc({{P.sdetail.r}} * var(--rowh)); width: calc({{P.sdetail.w}} * 100% / var(--cols)); height: calc({{P.sdetail.h}} * var(--rowh)); transition-delay: {{P.sdetail.d}}">
@@ -620,14 +645,13 @@ a{color:inherit}
 <p class="p hide-s" style="font-size: 15px">[Kurzbio in zwei Sätzen.]</p>
 <div style="display: flex; flex-direction: column; gap: 8px">
 <button class="lnk sys" onClick="{{sd.toProg}}" style="border-color: var(--d3-bg)">{{sd.session}} <span>→</span></button>
-<a class="lnk sys hide-s" href="https://amtshelden.de" style="border-color: var(--d3-bg)">Interview auf amtshelden.de <span>↗</span></a>
 </div>
 </div>
 </div>
 
 <div class="mod k-phead2 {{P.phead2.cls}}" style="left: calc({{P.phead2.c}} * 100% / var(--cols)); top: calc({{P.phead2.r}} * var(--rowh)); width: calc({{P.phead2.w}} * 100% / var(--cols)); height: calc({{P.phead2.h}} * var(--rowh)); transition-delay: {{P.phead2.d}}">
 <div class="ph"><img src="/bildwelt/d3-about.jpg" alt="Teilnehmer im Licht der Bildflächen" style="--fx: 0%; --fy: 26%; --z: 1.42; --ox: 0%; --oy: 18%"></div><span class="geo g-qbl" style="background: var(--d3-yellow)"></span>
-<div class="L l-partner end pad"><h2 class="big" style="font-size: min(12cqh, 6cqw)">Mitmachen</h2><p class="p" style="max-width: min(30ch, 44cqw); font-size: clamp(13px, 3cqw, 15px)">{{partnerNote}}</p></div>
+<div class="L l-partner end pad"><span class="lab">Partner</span><h2 class="big sc" style="font-size: min(8.4cqh, 6cqw); max-width: 11ch">Lösungen kennenlernen. Direkt nachfragen.</h2><p class="p hide-s" style="max-width: min(30ch, 44cqw); font-size: clamp(13px, 3cqw, 15px)">{{partnerNote}}</p></div>
 </div>
 
 <div class="mod k-logos {{P.logos.cls}}" style="background: var(--d3-white); left: calc({{P.logos.c}} * 100% / var(--cols)); top: calc({{P.logos.r}} * var(--rowh)); width: calc({{P.logos.w}} * 100% / var(--cols)); height: calc({{P.logos.h}} * var(--rowh)); transition-delay: {{P.logos.d}}">
@@ -636,30 +660,90 @@ a{color:inherit}
 </div>
 </div>
 
-<div class="mod k-editions {{P.editions.cls}}" style="left: calc({{P.editions.c}} * 100% / var(--cols)); top: calc({{P.editions.r}} * var(--rowh)); width: calc({{P.editions.w}} * 100% / var(--cols)); height: calc({{P.editions.h}} * var(--rowh)); transition-delay: {{P.editions.d}}">
-<div class="L l-partner eds">
-<div style="background: var(--d3-yellow)"><div style="display: flex; justify-content: space-between; align-items: flex-start"><svg viewBox="0 0 10.14 10.12" style="height: 44px; width: auto" aria-hidden="true"><path fill="var(--d3-black)" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg><span class="sys">Aktuell</span></div><div style="display: flex; flex-direction: column; gap: 4px"><span class="sys">Ausgabe 01 · [Datum]</span><b style="font-size: clamp(15px, 2.6cqw, 20px); line-height: 1.1; text-transform: uppercase">KI + Transformation</b></div></div>
-<div style="background: var(--d3-green); color: var(--d3-white)"><div style="display: flex; justify-content: space-between; align-items: flex-start"><svg viewBox="0 0 10.14 10.12" style="height: 44px; width: auto" aria-hidden="true"><path fill="var(--d3-black)" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg><span class="sys">Vormerken</span></div><div style="display: flex; flex-direction: column; gap: 4px"><span class="sys">Ausgabe 02 · [Datum]</span><b style="font-size: clamp(15px, 2.6cqw, 20px); line-height: 1.1; text-transform: uppercase">Kommunikation</b></div></div>
-<div style="background: var(--d3-white)"><span class="sys">Archiv</span><p style="margin: 0; font-size: 14px; line-height: 1.4">Nach jeder Ausgabe wird das Programm zur Mediathek. Cases erscheinen als Artikel auf amtshelden.de.</p></div>
+<div class="mod k-about {{P.about.cls}}" style="background: var(--d3-white); left: calc({{P.about.c}} * 100% / var(--cols)); top: calc({{P.about.r}} * var(--rowh)); width: calc({{P.about.w}} * 100% / var(--cols)); height: calc({{P.about.h}} * var(--rowh)); transition-delay: {{P.about.d}}">
+<div class="L l-explore fill pad org">
+<span class="lab">Veranstalter</span>
+<div class="org-row"><svg viewBox="0 0 108.61 20.95" style="height: 26px; width: auto; flex-shrink: 0; color: var(--d3-black)" role="img" aria-label="Amtshelden"><g fill="currentColor"><path d="M58.16,8.28v3.48h-1.91V0H20.39c-1.54,0-2.78,1.24-2.78,2.78v9.3c0,1.54,1.25,2.78,2.78,2.78h34.01l7.28,6.1v-12.67h-3.52ZM27.64,11.77l-.79-1.94h-3.67l-.79,1.94h-1.94l3.71-8.74h1.76l3.71,8.74h-2,0ZM39.33,11.77h-1.9v-5.66l-2.44,3.7h-.05l-2.42-3.67v5.62h-1.87V3.08h2.050l2.28,3.67,2.28-3.67h2.05v8.68h.01ZM47.67,4.85h-2.64v6.92h-1.91v-6.92h-2.64v-1.76h7.19v1.76h0ZM54.91,9.2c0,1.72-1.31,2.69-3.18,2.69s-2.64-.46-3.68-1.38l1.13-1.35c.78.64,1.59,1.06,2.59,1.06s1.25-.31,1.25-.82v-.03c0-.49-.3-.73-1.75-1.1-1.75-.45-2.87-.93-2.87-2.65v-.03c0-1.58,1.27-2.61,3.04-2.61s2.34.39,3.22,1.1l-.99,1.44c-.77-.53-1.52-.85-2.26-.85s-1.12.33-1.12.75v.03c0,.57.37.75,1.87,1.14,1.76.46,2.75,1.09,2.75,2.6v.03h0Z"></path><polygon points="23.86 8.13 26.16 8.13 25.01 5.32 23.86 8.13"></polygon><path d="M84.09,4.81h-1.48v5.23h1.48c1.56,0,2.61-1.06,2.61-2.59v-.03c0-1.54-1.06-2.61-2.61-2.61Z"></path><path d="M105.83,0h-47.67v6.52h3.52v-3.43h1.91v11.77h42.25c1.54,0,2.78-1.24,2.78-2.78V2.78c0-1.54-1.24-2.78-2.78-2.78h0ZM71.96,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM79.58,11.77h-6.23V3.09h1.91v6.94h4.33v1.73h0ZM88.7,7.43c0,2.44-1.88,4.34-4.61,4.34h-3.38V3.09h3.38c2.72,0,4.61,1.87,4.61,4.31v.03ZM96.69,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM105.78,11.77h-1.62l-4.2-5.51v5.51h-1.88V3.09h1.76l4.06,5.34V3.09h1.88v8.68h0Z"></path></g></svg><p class="p">Amtshelden: Inspiration, Austausch und Lernen für Menschen in Behörden.</p><a class="ah-link sys" href="https://www.amtshelden.de/ueber-uns-julia-christian-amtshelden/" target="_blank" rel="noopener">Über Amtshelden ↗</a></div>
 </div>
 </div>
 
-<div class="mod k-about {{P.about.cls}}" style="background: var(--d3-white); left: calc({{P.about.c}} * 100% / var(--cols)); top: calc({{P.about.r}} * var(--rowh)); width: calc({{P.about.w}} * 100% / var(--cols)); height: calc({{P.about.h}} * var(--rowh)); transition-delay: {{P.about.d}}">
-<div class="phw"><div class="ph"><img src="/bildwelt/d3-dialog.jpg" alt="Zwei Menschen im Dialog zwischen Bildflächen" style="--fx: 100%; --fy: 30%; --z: 1; --ox: 100%; --oy: 25%"></div><span class="geo g-dl" style="background: var(--d3-green)"></span></div>
-<div class="L l-partner fill pad" style="gap: 12px">
-<div style="display: flex; flex-direction: column; gap: 10px"><h2 class="big sc" style="font-size: clamp(24px, 5.6cqw, 40px)">Über den Deep Dive Day</h2><p class="p">Der Deep Dive Day ist das digitale Konferenzformat von Amtshelden. Jede Ausgabe hat ein Schwerpunktthema: ein Tag, viele Räume, ein Deep Dive.</p></div>
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap"><span style="display: flex; align-items: center; gap: 8px"><svg viewBox="0 0 108.61 20.95" style="height: 22px; width: auto; flex-shrink: 0; color: var(--d3-black)" role="img" aria-label="by Amtshelden"><g fill="currentColor"><path d="M58.16,8.28v3.48h-1.91V0H20.39c-1.54,0-2.78,1.24-2.78,2.78v9.3c0,1.54,1.25,2.78,2.78,2.78h34.01l7.28,6.1v-12.67h-3.52ZM27.64,11.77l-.79-1.94h-3.67l-.79,1.94h-1.94l3.71-8.74h1.76l3.71,8.74h-2,0ZM39.33,11.77h-1.9v-5.66l-2.44,3.7h-.05l-2.42-3.67v5.62h-1.87V3.08h2.050l2.28,3.67,2.28-3.67h2.05v8.68h.01ZM47.67,4.85h-2.64v6.92h-1.91v-6.92h-2.64v-1.76h7.19v1.76h0ZM54.91,9.2c0,1.72-1.31,2.69-3.18,2.69s-2.64-.46-3.68-1.38l1.13-1.35c.78.64,1.59,1.06,2.59,1.06s1.25-.31,1.25-.82v-.03c0-.49-.3-.73-1.75-1.1-1.75-.45-2.87-.93-2.87-2.65v-.03c0-1.58,1.27-2.61,3.04-2.61s2.34.39,3.22,1.1l-.99,1.44c-.77-.53-1.52-.85-2.26-.85s-1.12.33-1.12.75v.03c0,.57.37.75,1.87,1.14,1.76.46,2.75,1.09,2.75,2.6v.03h0Z"></path><polygon points="23.86 8.13 26.16 8.13 25.01 5.32 23.86 8.13"></polygon><path d="M84.09,4.81h-1.48v5.23h1.48c1.56,0,2.61-1.06,2.61-2.59v-.03c0-1.54-1.06-2.61-2.61-2.61Z"></path><path d="M105.83,0h-47.67v6.52h3.52v-3.43h1.91v11.77h42.25c1.54,0,2.78-1.24,2.78-2.78V2.78c0-1.54-1.24-2.78-2.78-2.78h0ZM71.96,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM79.58,11.77h-6.23V3.09h1.91v6.94h4.33v1.73h0ZM88.7,7.43c0,2.44-1.88,4.34-4.61,4.34h-3.38V3.09h3.38c2.72,0,4.61,1.87,4.61,4.31v.03ZM96.69,11.77h-6.6V3.09h6.54v1.7h-4.65v1.76h4.09v1.7h-4.09v1.82h4.71v1.7h0ZM105.78,11.77h-1.62l-4.2-5.51v5.51h-1.88V3.09h1.76l4.06,5.34V3.09h1.88v8.68h0Z"></path><text transform="translate(0 11.75)" style="font-family: Gotham, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 11.82px"><tspan x="0" y="0" style="letter-spacing: -0.03em">b</tspan><tspan x="7.68" y="0">y</tspan></text></g></svg></span><a class="sys" href="https://amtshelden.de">amtshelden.de ↗</a></div>
+<div class="mod act k-g1 gr {{P.g1.cls}}" style="background: var(--d3-black); color: var(--d3-bg); left: calc({{P.g1.c}} * 100% / var(--cols)); top: calc({{P.g1.r}} * var(--rowh)); width: calc({{P.g1.w}} * 100% / var(--cols)); height: calc({{P.g1.h}} * var(--rowh)); transition-delay: {{P.g1.d}}">
+<button class="hit" onClick="{{nav.join}}" aria-label="Aus der Praxis. Für die Praxis. – zur Teilnahme"></button>
+<span class="gi"><svg class="mo mf" viewBox="0 0 100 100" aria-hidden="true"><path d="M50,0l6.35485,16.59287c-2.05869,-0.38923 -4.18299,-0.59287 -6.35485,-0.59287v68c2.17186,0 4.29616,-0.20364 6.35485,-0.59287l-6.35485,16.59287l-9.95,-25.98l-25.41,11.34l11.34,-25.41l-25.98,-9.95l25.98,-9.95l-11.34,-25.41l25.41,11.34zM85.36,14.64l-7.24518,16.23457c-2.40598,-3.53 -5.4594,-6.58341 -8.98939,-8.98939zM100,50l-16.59287,6.35485c0.38923,-2.05869 0.59287,-4.18299 0.59287,-6.35485c0,-2.17186 -0.20364,-4.29616 -0.59287,-6.35485zM85.36,85.36l-16.23457,-7.24518c3.53,-2.40598 6.58341,-5.4594 8.98939,-8.98939z" style="fill: var(--d3-black)"></path><path d="M59.95,74.02l9.17543,4.09482c-3.78026,2.57655 -8.10707,4.41061 -12.77058,5.29231zM74.02,59.95l9.38713,-3.59515c-0.88171,4.66351 -2.71576,8.99032 -5.29231,12.77058zM74.02,40.05l4.09482,-9.17543c2.57655,3.78026 4.41061,8.10707 5.29231,12.77058zM59.95,25.98l-3.59515,-9.38713c4.66351,0.88171 8.99032,2.71576 12.77058,5.29231z" style="fill: var(--d3-black)"></path></svg></span>
+<div class="L l-home tA pad"><span class="lab">Grund 01</span><div class="btm"><b class="gt">Aus der Praxis. Für die Praxis.</b><p class="gp hide-s">Echte Projekte aus Behörden und die Menschen dahinter.</p></div></div>
+<div class="L l-join tA pad"><span class="lab">Grund 01</span><div class="btm"><b class="gt">Aus der Praxis. Für die Praxis.</b><p class="gp">Du erfährst, was andere Behörden umgesetzt haben: mit Erfahrungen, Ergebnissen und der Möglichkeit, direkt mit den Beteiligten zu sprechen.</p></div></div>
 </div>
+
+<div class="mod act k-g2 gr {{P.g2.cls}}" style="background: var(--d3-white); color: var(--d3-black); left: calc({{P.g2.c}} * 100% / var(--cols)); top: calc({{P.g2.r}} * var(--rowh)); width: calc({{P.g2.w}} * 100% / var(--cols)); height: calc({{P.g2.h}} * var(--rowh)); transition-delay: {{P.g2.d}}">
+<button class="hit" onClick="{{nav.join}}" aria-label="Wissen, das du anwenden kannst. – zur Teilnahme"></button>
+<span class="gi"><svg class="mo mf" viewBox="0 0 100 100" aria-hidden="true"><path d="M0,33.5c19.98585,0 37.89689,8.88336 50,22.91698c-4.41417,5.11825 -8.05579,10.92157 -10.74376,17.22884c-8.40745,-12.73989 -22.85018,-21.14582 -39.25624,-21.14582zM66,99.5h-13c0,-9.55133 2.84909,-18.43722 7.74376,-25.85418c3.38373,7.93986 5.25624,16.67835 5.25624,25.85418z" style="fill: var(--d3-black)"></path><path d="M0,65.5c18.77768,0 34,15.22232 34,34h-16c0,-9.94113 -8.05887,-18 -18,-18z" style="fill: var(--d3-black)"></path><path d="M100,52.5c-16.40605,0 -30.84879,8.40593 -39.25624,21.14582c-2.68797,-6.30728 -6.3296,-12.11059 -10.74376,-17.22884c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698zM34,99.5c0,-9.17583 1.8725,-17.91431 5.25624,-25.85418c4.89468,7.41695 7.74376,16.30285 7.74376,25.85418z" style="fill: var(--d3-black)"></path><path d="M100,65.5c-18.77768,0 -34,15.22232 -34,34h16c0,-9.94113 8.05887,-18 18,-18z" style="fill: var(--d3-black)"></path><path d="M43,7.5c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style="fill: var(--d3-green)"></path><path d="M30.5,20c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style="fill: var(--d3-black)"></path><path d="M55.5,20c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style="fill: var(--d3-black)"></path><path d="M43,32.5c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style="fill: var(--d3-black)"></path></svg></span>
+<div class="L l-home tA pad"><span class="lab">Grund 02</span><div class="btm"><b class="gt">Wissen, das du anwenden kannst.</b><p class="gp hide-s">Fachleute teilen ihr Wissen. In Masterclasses wirst du selbst aktiv.</p></div></div>
+<div class="L l-join tA pad"><span class="lab">Grund 02</span><div class="btm"><b class="gt">Wissen, das du anwenden kannst.</b><p class="gp">Fachleute vermitteln Wissen zu konkreten Herausforderungen. In den Masterclasses wirst du selbst aktiv und nimmst Anregungen für deinen Arbeitsalltag mit.</p></div></div>
+</div>
+
+<div class="mod act k-g3 gr {{P.g3.cls}}" style="background: var(--d3-green); color: var(--d3-white); left: calc({{P.g3.c}} * 100% / var(--cols)); top: calc({{P.g3.r}} * var(--rowh)); width: calc({{P.g3.w}} * 100% / var(--cols)); height: calc({{P.g3.h}} * var(--rowh)); transition-delay: {{P.g3.d}}">
+<button class="hit" onClick="{{nav.join}}" aria-label="Digital dabei. Persönlich im Austausch. – zur Teilnahme"></button>
+<span class="gi"><svg class="mo mf" viewBox="0 0 100 100" aria-hidden="true"><path d="M32,18c6.67442,0 12.87157,2.04339 18,5.53872c-8.45108,5.75991 -14,15.46258 -14,26.46128c0,10.9987 5.54892,20.70137 14,26.46128c-5.12843,3.49532 -11.32558,5.53872 -18,5.53872c-17.67311,0 -32,-14.32689 -32,-32c0,-17.67311 14.32689,-32 32,-32z" style="fill: var(--d3-white)"></path><path d="M68,18c17.67311,0 32,14.32689 32,32c0,17.67311 -14.32689,32 -32,32c-6.67442,0 -12.87157,-2.04339 -18,-5.53872c8.45108,-5.75991 14,-15.46258 14,-26.46128c0,-10.9987 -5.54892,-20.70137 -14,-26.46128c5.12843,-3.49532 11.32558,-5.53872 18,-5.53872z" style="fill: var(--d3-white)"></path></svg></span>
+<div class="L l-home tA pad"><span class="lab">Grund 03</span><div class="btm"><b class="gt">Digital dabei. Persönlich im Austausch.</b><p class="gp hide-s">Sprich mit anderen Behörden und stell deine Fragen direkt.</p></div></div>
+<div class="L l-join tA pad"><span class="lab">Grund 03</span><div class="btm"><b class="gt">Digital dabei. Persönlich im Austausch.</b><p class="gp">Neben den Sessions gibt es eigene Austauschräume. Du sprichst mit Menschen aus anderen Behörden, stellst Fragen und knüpfst Kontakte.</p></div></div>
+</div>
+
+<div class="mod act k-ptile {{P.ptile.cls}}" style="background: var(--d3-white); left: calc({{P.ptile.c}} * 100% / var(--cols)); top: calc({{P.ptile.r}} * var(--rowh)); width: calc({{P.ptile.w}} * 100% / var(--cols)); height: calc({{P.ptile.h}} * var(--rowh)); transition-delay: {{P.ptile.d}}">
+<button class="hit" onClick="{{nav.partner}}" aria-label="Zu den Partnern"></button>
+<div class="L l-home tC pad"><span class="lab">Partner</span><div class="ctaRow"><b class="pt-t">Lösungen kennenlernen</b><span class="s-arrow-w"><svg class="mo-next" viewBox="0 0 100 100" aria-hidden="true"><path class="p-x" fill-rule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path></svg></span></div></div>
+</div>
+
+<div class="mod k-media {{P.media.cls}}" style="background: var(--d3-bg-2); left: calc({{P.media.c}} * 100% / var(--cols)); top: calc({{P.media.r}} * var(--rowh)); width: calc({{P.media.w}} * 100% / var(--cols)); height: calc({{P.media.h}} * var(--rowh)); transition-delay: {{P.media.d}}">
+<div class="L l-all media pad"><span class="ivw sys">[Logo Innovative Verwaltung]</span><span class="lab">Medienpartner</span></div>
+</div>
+
+<div class="mod dark k-mods {{P.mods.cls}}" style="left: calc({{P.mods.c}} * 100% / var(--cols)); top: calc({{P.mods.r}} * var(--rowh)); width: calc({{P.mods.w}} * 100% / var(--cols)); height: calc({{P.mods.h}} * var(--rowh)); transition-delay: {{P.mods.d}}">
+<div class="L l-speaker fill pad mods"><span class="lab">Moderation</span><div class="mods-l">
+<div><span class="in">JL</span><span><b>Julia Lupp</b><span class="sys">Amtshelden</span></span></div>
+<div><span class="in">CR</span><span><b>Christian Rosenberger</b><span class="sys">Amtshelden</span></span></div>
+<div><span class="in">SH</span><span><b>Steffi Hüthig</b><span class="sys">Innovative Verwaltung</span></span></div>
+</div></div>
+</div>
+
+<div class="mod k-pform {{P.pform.cls}}" style="background: var(--d3-yellow); left: calc({{P.pform.c}} * 100% / var(--cols)); top: calc({{P.pform.r}} * var(--rowh)); width: calc({{P.pform.w}} * 100% / var(--cols)); height: calc({{P.pform.h}} * var(--rowh)); transition-delay: {{P.pform.d}}">
+<div class="L l-partner pad pf" style="overflow: auto" onWheel="{{stopWheel}}">
+<span class="lab">Partner werden</span>
+<h2 class="big sc pf-t">Partner der D3 werden</h2>
+<p class="p">Ihr entwickelt Lösungen für die öffentliche Verwaltung? Zeigt beim Deep Dive Day, wie sie in der Praxis eingesetzt werden, und kommt mit Menschen aus Behörden ins Gespräch.</p>
+<sc-if value="{{pf.sent}}" hint-placeholder-val="{{false}}"><p class="pf-ok">Danke! Wir melden uns mit allen Informationen.</p></sc-if>
+<sc-if value="{{pf.open}}" hint-placeholder-val="{{true}}"><form class="pf-f" onSubmit="{{pf.submit}}">
+<input type="text" placeholder="Name" aria-label="Name" required><input type="text" placeholder="Unternehmen" aria-label="Unternehmen" required>
+<input type="email" placeholder="E-Mail" aria-label="E-Mail" required><textarea placeholder="Nachricht (optional)" aria-label="Nachricht"></textarea>
+<button class="pf-go" type="submit">Informationen anfordern</button>
+</form></sc-if>
+</div>
+</div>
+
+<div class="mod k-idea {{P.idea.cls}}" style="background: var(--d3-white); left: calc({{P.idea.c}} * 100% / var(--cols)); top: calc({{P.idea.r}} * var(--rowh)); width: calc({{P.idea.w}} * 100% / var(--cols)); height: calc({{P.idea.h}} * var(--rowh)); transition-delay: {{P.idea.d}}">
+<div class="L l-explore pad idea" style="overflow: auto" onWheel="{{stopWheel}}">
+<span class="lab">Die Idee</span>
+<p class="p">Wir kennen das von Onlinekonferenzen: Vortrag starten, zuhören, nebenbei E-Mails beantworten.</p>
+<p class="p">Beim Deep Dive Day bist du auch am Bildschirm wirklich dabei. Fachleute teilen ihr Wissen, Menschen aus Behörden berichten von echten Projekten, in Masterclasses probierst du selbst etwas aus. Dazwischen stellst du Fragen und kommst mit anderen ins Gespräch.</p>
+<p class="p">Uns interessiert, was in der Praxis passiert. Was funktioniert? Was war schwieriger als gedacht? Was hilft anderen Behörden weiter?</p>
+</div>
+</div>
+
+<div class="mod k-jhead {{P.jhead.cls}}" style="background: var(--d3-yellow); left: calc({{P.jhead.c}} * 100% / var(--cols)); top: calc({{P.jhead.r}} * var(--rowh)); width: calc({{P.jhead.w}} * 100% / var(--cols)); height: calc({{P.jhead.h}} * var(--rowh)); transition-delay: {{P.jhead.d}}">
+<div class="L l-join tA pad"><span class="lab">Teilnahme</span><div class="btm"><h2 class="big sc" style="font-size: clamp(26px, min(8cqw, 18cqh), 52px)">Dabei sein? Kostet dich nichts.</h2><p class="p hide-s" style="max-width: 46ch">Für Beschäftigte aus Behörden und öffentlichen Einrichtungen. Am 14. April 2027 bist du von 9:00 bis 15:30 digital dabei und stellst dir deinen Tag selbst zusammen.</p></div></div>
+</div>
+
+<div class="mod k-reg {{P.reg.cls}}" style="background: var(--d3-black); color: var(--d3-bg); left: calc({{P.reg.c}} * 100% / var(--cols)); top: calc({{P.reg.r}} * var(--rowh)); width: calc({{P.reg.w}} * 100% / var(--cols)); height: calc({{P.reg.h}} * var(--rowh)); transition-delay: {{P.reg.d}}">
+<div class="L l-join tA pad"><span class="lab">Anmeldung</span><div class="btm"><b class="gt">{{reg.title}}</b><p class="gp">{{reg.text}}</p></div></div>
 </div>
 
 <div class="mod k-faq faq {{P.faq.cls}}" style="background: var(--d3-white); left: calc({{P.faq.c}} * 100% / var(--cols)); top: calc({{P.faq.r}} * var(--rowh)); width: calc({{P.faq.w}} * 100% / var(--cols)); height: calc({{P.faq.h}} * var(--rowh)); transition-delay: {{P.faq.d}}">
-<div class="L l-partner pad fq" style="overflow: auto" onWheel="{{stopWheel}}">
-<span class="lab">Frag Amtshelden</span>
+<div class="L l-join pad fq" style="overflow: auto" onWheel="{{stopWheel}}">
+<span class="lab">Häufige Fragen</span>
 <form class="bot-f" onSubmit="{{bot.submit}}"><input class="bot-in" type="text" value="{{bot.q}}" onChange="{{bot.type}}" placeholder="Frag etwas zum Deep Dive Day …" aria-label="Frage an Amtshelden" autocomplete="off"><button class="bot-go" type="submit" aria-label="Frage senden"><svg class="mo-next" viewBox="0 0 100 100" aria-hidden="true"><path class="p-x" fill-rule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z"></path></svg></button></form>
 <sc-if value="{{bot.has}}" hint-placeholder-val="{{false}}"><div class="bot-a {{bot.tone}}" aria-live="polite"><span class="lab">{{bot.asked}}</span><p>{{bot.a}}</p><sc-if value="{{bot.act}}" hint-placeholder-val="{{false}}"><button class="lnk sys" onClick="{{bot.actGo}}">{{bot.actLabel}} <span>→</span></button></sc-if></div></sc-if>
 <div class="bot-chips" role="group" aria-label="Vorschläge"><sc-for list="{{bot.chips}}" as="c" hint-placeholder-count="4"><button class="tchip sys" onClick="{{c.ask}}">{{c.label}}</button></sc-for></div>
-<details><summary>Für wen ist der Deep Dive Day? <span>+</span></summary><p>Für Menschen aus Behörden und öffentlichen Organisationen.</p></details>
-<details><summary>Wie läuft der Tag ab? <span>+</span></summary><p>Von 09:00 bis 15:30 wechselst du digital zwischen Keynotes, Vorträgen, Cases, Masterclasses, Networking und Ständen.</p></details>
+<details><summary>Für wen ist die D3? <span>+</span></summary><p>Für Beschäftigte aus Behörden und öffentlichen Einrichtungen, die sich mit KI, Digitalisierung und Veränderung in ihrer Verwaltung beschäftigen.</p></details>
+<details><summary>Brauche ich Software? <span>+</span></summary><p>Nein. Du brauchst einen aktuellen Browser und eine stabile Verbindung. Kamera und Mikrofon sind für den Austausch hilfreich, aber kein Muss.</p></details>
 <details><summary>Wie melde ich mich an? <span>+</span></summary><p>{{faqReg}}</p></details>
 </div>
 </div>
@@ -668,11 +752,11 @@ a{color:inherit}
 </main>
 
 <nav class="bot sys" aria-label="Navigation">
-<a href="#" class="{{on.home}}" onClick="{{nav.home}}">Home</a>
-<a href="#" class="{{on.explore}}" onClick="{{nav.explore}}">Formate</a>
 <a href="#" class="{{on.program}}" onClick="{{nav.program}}">Programm</a>
 <a href="#" class="{{on.speaker}}" onClick="{{nav.speaker}}">Speaker</a>
-<a href="#" class="{{on.partner}}" onClick="{{nav.partner}}">Mitmachen</a>
+<a href="#" class="{{on.partner}}" onClick="{{nav.partner}}">Partner</a>
+<a href="#" class="{{on.explore}}" onClick="{{nav.explore}}">Über</a>
+<a href="#" class="{{on.join}}" onClick="{{nav.join}}">Teilnahme</a>
 </nav>
 
 <svg class="grain" aria-hidden="true" style="display: {{grainDisplay}}"><filter id="d3g5"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#d3g5)"></rect></svg>
@@ -752,7 +836,7 @@ window.__DC_DEFAULTS__={"phase":"Phase 1","tour":true,"grain":true,"intro":true}
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { intro: 3, st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, now: 645, botQ: '', botA: null, ffmt: 'all', ftopic: 'all', spk: 0 };
+    this.state = { intro: 3, st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, now: 645, botQ: '', botA: null, ffmt: 'all', ftopic: 'all', spk: 0, pfSent: false, copied: null };
     this._last = {};
     this._lock = 0;
     var self = this;
@@ -775,6 +859,11 @@ class Component extends DCLogic {
   componentDidMount() {
     var self = this;
     try { this.init3D(); } catch (e) {}
+    try {
+      var hp = String(window.location.hash || '').replace(/^#\/?/, '').split('/'), RT = this.routes(), st0 = null;
+      Object.keys(RT).forEach(function (k) { if (RT[k] && RT[k] === hp[0]) st0 = k; });
+      if (st0) this.setState({ st: st0, sel: st0 === 'program' && hp[1] ? hp[1] : null });
+    } catch (e) {}
     this._key = function (e) { if (e.key === 'Escape' && self.state.sel) self.closeExp(); };
     if (typeof document !== 'undefined') document.addEventListener('keydown', this._key);
     /* Kein Preloader mehr (05.10.): die Seite startet direkt im Ruhezustand */
@@ -810,8 +899,15 @@ class Component extends DCLogic {
       if (!rm && (self.props.tour ?? true) && self.state.st === 'home' && !self.state.hover) self.setState({ tour: self.state.tour + 1 });
     }, 6500);   // ruhig: Bildwechsel im Hero nur alle 6,5 s
   }
+  routes() { return { home: '', program: 'programm', speaker: 'speaker', partner: 'partner', explore: 'ueber', join: 'teilnahme' }; }
   componentDidUpdate(pp, ps) {
     var self = this;
+    if (ps.st !== this.state.st || ps.sel !== this.state.sel) {
+      try {
+        var r = this.routes()[this.state.st], h = r ? '#/' + r + (this.state.st === 'program' && this.state.sel ? '/' + this.state.sel : '') : '';
+        if (window.location.hash !== h) window.history.replaceState(null, '', h || (window.location.pathname + window.location.search));
+      } catch (e) {}
+    }
     if (ps.st !== this.state.st) {
       if (this._stage) this._stage.scrollTop = 0;
       if (this._3d && this._3d.release) this._3d.release();
@@ -989,25 +1085,28 @@ class Component extends DCLogic {
   lay() {
     return {
       desk: {
-        home: { d3: [0, 0, 3, 3], brand: [3, 0, 5, 2], hero: [8, 0, 2, 2], fk: [10, 0, 2, 2], theme: [3, 2, 5, 1], fc: [8, 2, 2, 2], fs: [10, 2, 2, 1], why: [0, 3, 4, 2], fm: [4, 3, 2, 2], fn: [6, 3, 2, 2], next: [10, 3, 2, 1], date: [8, 4, 4, 1], hint: [0, 5, 6, 1], cta: [6, 5, 3, 1], cta2: [9, 5, 3, 1] },
-        explore: { xhead: [0, 0, 4, 3], fk: [4, 0, 4, 3], hero: [8, 0, 2, 2], fs: [10, 0, 2, 2], fc: [8, 2, 4, 2], fm: [0, 3, 4, 3], fn: [4, 3, 4, 2], cta: [8, 4, 4, 1], date: [4, 5, 4, 1], hint: [8, 5, 4, 1] },
+        home: { d3: [0, 0, 3, 3], brand: [3, 0, 5, 2], date: [3, 2, 5, 1], hero: [8, 0, 4, 3], why: [0, 3, 4, 2], g1: [4, 3, 2, 2], g2: [6, 3, 2, 2], g3: [8, 3, 2, 2], ptile: [10, 3, 2, 1], media: [10, 4, 2, 1], next: [0, 5, 4, 1], hint: [4, 5, 4, 1], cta: [8, 5, 4, 1] },
         program: { board: [0, 0, 12, 6] },
-        speaker: { spkhead: [0, 0, 3, 2], pc: [3, 0, 2, 2], s2: [5, 0, 2, 2], s3: [7, 0, 2, 2], sdetail: [9, 0, 3, 4], cta2: [0, 2, 3, 2], s4: [3, 2, 2, 2], s5: [5, 2, 2, 2], s6: [7, 2, 2, 2], hint: [0, 4, 3, 2], cta: [9, 4, 3, 2] },
-        partner: { phead2: [0, 0, 6, 3], cta: [6, 0, 3, 3], cta2: [9, 0, 3, 1], fs: [9, 1, 3, 2], about: [0, 3, 6, 2], faq: [6, 3, 6, 2], date: [0, 5, 3, 1], hint: [3, 5, 3, 1], editions: [6, 5, 6, 1] }
+        speaker: { spkhead: [0, 0, 3, 2], pc: [3, 0, 2, 2], s2: [5, 0, 2, 2], s3: [7, 0, 2, 2], sdetail: [9, 0, 3, 6], mods: [0, 2, 3, 2], s4: [3, 2, 2, 2], s5: [5, 2, 2, 2], s6: [7, 2, 2, 2], hint: [0, 4, 3, 2], cta: [3, 4, 6, 2] },
+        partner: { phead2: [0, 0, 5, 3], logos: [5, 0, 7, 2], fs: [5, 2, 4, 2], media: [9, 2, 3, 2], pform: [0, 3, 5, 3], cta: [5, 4, 4, 2], hint: [9, 4, 3, 2] },
+        explore: { xhead: [0, 0, 5, 3], idea: [5, 0, 4, 3], fk: [9, 0, 3, 3], fc: [0, 3, 3, 2], fm: [3, 3, 3, 2], fn: [6, 3, 3, 2], fs: [9, 3, 3, 2], about: [0, 5, 6, 1], cta: [6, 5, 3, 1], hint: [9, 5, 3, 1] },
+        join: { jhead: [0, 0, 5, 2], date: [5, 0, 4, 2], hero: [9, 0, 3, 4], g1: [0, 2, 3, 2], g2: [3, 2, 3, 2], g3: [6, 2, 3, 2], faq: [0, 4, 6, 2], reg: [6, 4, 3, 2], hint: [9, 4, 3, 2] }
       },
       tab: {
-        home: { d3: [0, 0, 3, 2], brand: [3, 0, 5, 2], theme: [0, 2, 5, 1], fk: [5, 2, 3, 2], why: [0, 3, 5, 2], fm: [5, 4, 1, 1], fn: [6, 4, 1, 1], fs: [7, 4, 1, 1], hero: [0, 5, 2, 2], fc: [2, 5, 2, 2], next: [4, 5, 2, 1], hint: [6, 5, 2, 2], cta: [4, 6, 2, 1], date: [0, 7, 4, 1], cta2: [4, 7, 4, 1] },
-        explore: { xhead: [0, 0, 5, 2], hero: [5, 0, 3, 2], fk: [0, 2, 4, 2], fc: [4, 2, 4, 2], fm: [0, 4, 4, 2], fn: [4, 4, 4, 2], fs: [0, 6, 3, 2], cta: [3, 6, 5, 1], hint: [3, 7, 5, 1] },
+        home: { d3: [0, 0, 3, 2], brand: [3, 0, 5, 2], hero: [0, 2, 5, 3], date: [5, 2, 3, 1], ptile: [5, 3, 3, 1], media: [5, 4, 3, 1], why: [0, 5, 4, 2], g1: [4, 5, 2, 2], g2: [6, 5, 2, 2], g3: [0, 7, 2, 2], next: [2, 7, 3, 1], hint: [2, 8, 3, 1], cta: [5, 7, 3, 2] },
         program: { board: [0, 0, 8, 8] },
-        speaker: { spkhead: [0, 0, 4, 2], sdetail: [4, 0, 4, 4], pc: [0, 2, 2, 2], s2: [2, 2, 2, 2], s3: [0, 4, 2, 2], s4: [2, 4, 2, 2], s5: [4, 4, 2, 2], s6: [6, 4, 2, 2], cta2: [0, 6, 4, 1], cta: [4, 6, 4, 1], hint: [0, 7, 8, 1] },
-        partner: { phead2: [0, 0, 5, 3], cta: [5, 0, 3, 2], cta2: [5, 2, 3, 1], fs: [0, 3, 8, 1], editions: [0, 4, 8, 2], about: [0, 6, 4, 3], faq: [4, 6, 4, 3] }
+        speaker: { spkhead: [0, 0, 4, 2], sdetail: [4, 0, 4, 4], pc: [0, 2, 2, 2], s2: [2, 2, 2, 2], s3: [0, 4, 2, 2], s4: [2, 4, 2, 2], s5: [4, 4, 2, 2], s6: [6, 4, 2, 2], mods: [0, 6, 4, 2], cta: [4, 6, 4, 1], hint: [4, 7, 4, 1] },
+        partner: { phead2: [0, 0, 5, 3], logos: [5, 0, 3, 3], fs: [0, 3, 5, 2], media: [5, 3, 3, 2], pform: [0, 5, 8, 3], cta: [0, 8, 4, 1], hint: [4, 8, 4, 1] },
+        explore: { xhead: [0, 0, 5, 3], fk: [5, 0, 3, 3], idea: [0, 3, 8, 2], fc: [0, 5, 4, 2], fm: [4, 5, 4, 2], fn: [0, 7, 4, 2], fs: [4, 7, 4, 2], about: [0, 9, 8, 1], cta: [0, 10, 4, 1], hint: [4, 10, 4, 1] },
+        join: { jhead: [0, 0, 5, 2], date: [5, 0, 3, 2], g1: [0, 2, 4, 2], g2: [4, 2, 4, 2], g3: [0, 4, 4, 2], hero: [4, 4, 4, 2], reg: [0, 6, 4, 2], faq: [4, 6, 4, 3], hint: [0, 8, 4, 1] }
       },
       mob: {
-        home: { d3: [0, 0, 2, 2], hero: [2, 0, 2, 2], brand: [0, 2, 4, 2], why: [0, 4, 4, 3], theme: [0, 7, 4, 1], date: [0, 8, 4, 1], cta: [0, 9, 2, 1], cta2: [2, 9, 2, 1], fk: [0, 10, 2, 2], fc: [2, 10, 1, 1], fm: [3, 10, 1, 1], fn: [2, 11, 1, 1], fs: [3, 11, 1, 1], next: [0, 12, 4, 1], hint: [0, 13, 4, 1] },
-        explore: { xhead: [0, 0, 4, 2], fk: [0, 2, 4, 2], fc: [0, 4, 2, 2], fm: [2, 4, 2, 2], fn: [0, 6, 2, 2], fs: [2, 6, 2, 2], cta: [0, 8, 4, 1], hint: [0, 9, 4, 1] },
+        home: { hero: [0, 0, 4, 2], brand: [0, 2, 4, 2], date: [0, 4, 4, 1], why: [0, 5, 4, 3], g1: [0, 8, 2, 2], g2: [2, 8, 2, 2], g3: [0, 10, 4, 1], ptile: [0, 11, 2, 1], media: [2, 11, 2, 1], next: [0, 12, 4, 1], cta: [0, 13, 4, 2], hint: [0, 15, 4, 1] },
         program: { board: [0, 0, 4, 8] },
-        speaker: { spkhead: [0, 0, 4, 2], pc: [0, 2, 2, 2], s2: [2, 2, 2, 2], s3: [0, 4, 2, 2], s4: [2, 4, 2, 2], s5: [0, 6, 2, 2], s6: [2, 6, 2, 2], sdetail: [0, 8, 4, 3], cta2: [0, 11, 4, 1], hint: [0, 12, 4, 1] },
-        partner: { phead2: [0, 0, 4, 3], cta: [0, 3, 4, 1], cta2: [0, 4, 4, 1], fs: [0, 5, 4, 1], editions: [0, 6, 4, 4], about: [0, 10, 4, 3], faq: [0, 13, 4, 4] }
+        speaker: { spkhead: [0, 0, 4, 2], pc: [0, 2, 2, 2], s2: [2, 2, 2, 2], s3: [0, 4, 2, 2], s4: [2, 4, 2, 2], s5: [0, 6, 2, 2], s6: [2, 6, 2, 2], sdetail: [0, 8, 4, 3], mods: [0, 11, 4, 2], cta: [0, 13, 4, 1], hint: [0, 14, 4, 1] },
+        partner: { phead2: [0, 0, 4, 3], logos: [0, 3, 4, 2], fs: [0, 5, 4, 2], media: [0, 7, 4, 1], pform: [0, 8, 4, 5], cta: [0, 13, 4, 1], hint: [0, 14, 4, 1] },
+        explore: { xhead: [0, 0, 4, 3], idea: [0, 3, 4, 4], fk: [0, 7, 4, 2], fc: [0, 9, 4, 1], fm: [0, 10, 4, 1], fn: [0, 11, 4, 1], fs: [0, 12, 4, 1], about: [0, 13, 4, 2], cta: [0, 15, 4, 1], hint: [0, 16, 4, 1] },
+        join: { jhead: [0, 0, 4, 3], date: [0, 3, 4, 1], reg: [0, 4, 4, 2], g1: [0, 6, 4, 2], g2: [0, 8, 4, 2], g3: [0, 10, 4, 2], faq: [0, 12, 4, 4], hint: [0, 16, 4, 1] }
       }
     };
   }
@@ -1044,48 +1143,53 @@ class Component extends DCLogic {
     var L = this.lay()[bp][s.st];
     var rows = 0;
     Object.keys(L).forEach(function (k) { rows = Math.max(rows, L[k][1] + L[k][3]); });
-    var keys = ['d3', 'brand', 'theme', 'why', 'hero', 'pc', 's2', 's3', 's4', 's5', 's6', 'fk', 'fc', 'fm', 'fn', 'fs', 'next', 'date', 'cta', 'cta2', 'hint', 'xhead', 'board', 'spkhead', 'sdetail', 'phead2', 'logos', 'editions', 'about', 'faq'];
+    var keys = ['d3', 'brand', 'why', 'hero', 'pc', 's2', 's3', 's4', 's5', 's6', 'fk', 'fc', 'fm', 'fn', 'fs', 'next', 'date', 'cta', 'hint', 'xhead', 'board', 'spkhead', 'sdetail', 'phead2', 'logos', 'about', 'faq', 'g1', 'g2', 'g3', 'ptile', 'media', 'mods', 'pform', 'idea', 'jhead', 'reg'];
     var P = {};
     keys.forEach(function (k) {
       var p = L[k], vis = !!p;
       if (vis) self._last[k] = p; else p = self._last[k] || [0, 0, 1, 1];
       P[k] = { c: p[0], r: p[1], w: p[2], h: p[3], cls: vis ? '' : 'off', d: vis ? ((p[0] + p[1]) * (s.intro === 2 ? 70 : 30) + (s.intro === 2 ? 350 : 0)) + 'ms' : '0ms' };
     });
-    var order = ['home', 'explore', 'program', 'speaker', 'partner'];
-    var names = { home: 'Home', explore: 'Formate', program: 'Programm', speaker: 'Speaker*innen', partner: 'Mitmachen' };
+    var order = ['home', 'program', 'speaker', 'partner', 'explore', 'join'];
+    var names = { home: 'Start', program: 'Programm', speaker: 'Speaker', partner: 'Partner', explore: 'Über die D3', join: 'Teilnahme' };
     var idx = order.indexOf(s.st);
     var navTo = function (st, extra) { return function (e) { if (e && e.preventDefault) e.preventDefault(); self.go(st, extra); }; };
 
     /* sessions */
     var SP = ['/people/p02.jpg', '/people/p03.jpg', '/people/p01.jpg', '/people/p07.jpg', '/people/p04.jpg', '/people/p05.jpg'];
     var F = {
-      keynote: ['Keynote', 's-circle'], vortrag: ['Vortrag', 's-circle'], panel: ['Panel', 's-burst'], case: ['Case', 's-burst'],
-      master: ['Masterclass', 's-diag'], net: ['Networking', 's-net'], stand: ['Stände', 's-grid']
+      keynote: ['Keynote', 's-circle'], vortrag: ['Fachvortrag', 's-circle'], panel: ['Panel', 's-burst'], case: ['Praxis-Case', 's-burst'],
+      master: ['Masterclass', 's-diag'], net: ['Austausch', 's-net'], stand: ['Messe-Area', 's-grid'], mod: ['Moderation', 's-circle'], pause: ['Pause', 's-net']
     };
-    var R = ['Main Stage', 'Raum 2', 'Werkstatt', 'Lounge'];
+    var R = ['Track 1', 'Track 2'];
     var S = [
-      { id: 'a', t: '09:00', e: '09:30', f: 'net', room: 3, title: 'Get-together', who: 'Ankommen, Technik testen, Leute treffen', topic: '' },
-      { id: 'b', t: '09:30', e: '09:40', f: 'keynote', room: 0, title: 'Welcome', who: 'Amtshelden', topic: '' },
-      { id: 'c', t: '09:40', e: '10:20', f: 'keynote', room: 0, title: '[Titel der Keynote]', who: '[Speaker*in]', topic: 'KI', spk: 0 },
-      { id: 'd', t: '10:30', e: '11:10', f: 'case', room: 0, title: '[Case-Titel]', who: '[Behörde]', topic: 'Prozesse', spk: 1 },
-      { id: 'e', t: '10:30', e: '11:10', f: 'vortrag', room: 1, title: '[Vortragstitel]', who: '[Speaker*in]', topic: 'Cybersecurity', spk: 4 },
-      { id: 'f', t: '10:30', e: '12:00', f: 'master', room: 2, title: '[Titel der Masterclass]', who: '[Leitung]', topic: 'Tools', spk: 2 },
-      { id: 'g', t: '11:15', e: '11:55', f: 'vortrag', room: 0, title: '[Vortragstitel]', who: '[Speaker*in]', topic: 'Infrastruktur' },
-      { id: 'h', t: '11:15', e: '11:55', f: 'panel', room: 1, title: '[Panel-Titel]', who: '[Beteiligte]', topic: 'Führung', spk: 3 },
-      { id: 'i', t: '12:00', e: '13:00', f: 'net', room: 3, title: 'Themenräume & Stände', who: 'Alle', topic: '' },
-      { id: 'j', t: '13:00', e: '13:40', f: 'panel', room: 0, title: '[Panel-Titel]', who: '[Beteiligte]', topic: 'Datenschutz & Recht' },
-      { id: 'k', t: '13:00', e: '13:40', f: 'case', room: 1, title: '[Case-Titel]', who: '[Behörde]', topic: 'KI' },
-      { id: 'l', t: '13:00', e: '14:30', f: 'master', room: 2, title: '[Titel der Masterclass]', who: '[Leitung]', topic: 'Transformation & Kultur' },
-      { id: 'm', t: '14:00', e: '14:40', f: 'vortrag', room: 0, title: '[Vortragstitel]', who: '[Speaker*in]', topic: 'KI' },
-      { id: 'n', t: '15:00', e: '15:30', f: 'keynote', room: 0, title: 'Abschluss-Keynote', who: '[Speaker*in]', topic: 'Transformation & Kultur', spk: 5 }
+      { id: 'get-together', t: '09:00', e: '09:30', f: 'net', room: 0, title: 'Get-together und Messe-Area', who: 'Ankommen, Technik testen, Stände besuchen', topic: '' },
+      { id: 'begruessung', t: '09:30', e: '09:40', f: 'mod', room: 0, title: 'Begrüßung', who: 'Julia Lupp, Christian Rosenberger', topic: '' },
+      { id: 'eroeffnungskeynote', t: '09:40', e: '10:00', f: 'keynote', room: 0, title: 'Eröffnungskeynote', who: '[Speaker*in]', topic: 'KI', spk: 0 },
+      { id: 'praxis-case-1', t: '10:00', e: '10:30', f: 'case', room: 0, title: '[Titel Praxis-Case]', who: '[Behörde] · [Unternehmen]', topic: 'Prozesse', spk: 1 },
+      { id: 'masterclass-1-vormittag', t: '10:00', e: '11:00', f: 'master', room: 1, title: 'Masterclass 1', who: '[Leitung]', topic: 'Tools', spk: 2 },
+      { id: 'fachvortrag-1', t: '10:30', e: '11:00', f: 'vortrag', room: 0, title: 'Fachvortrag 1', who: '[Speaker*in]', topic: 'Cybersecurity', spk: 4 },
+      { id: 'panel-1', t: '11:00', e: '11:30', f: 'panel', room: 0, title: '[Titel Panel]', who: '[Beteiligte]', topic: 'Führung', spk: 3 },
+      { id: 'masterclass-2-vormittag', t: '11:00', e: '12:00', f: 'master', room: 1, title: 'Masterclass 2', who: '[Leitung]', topic: 'KI' },
+      { id: 'fachvortrag-2', t: '11:30', e: '12:00', f: 'vortrag', room: 0, title: 'Fachvortrag 2', who: '[Speaker*in]', topic: 'Infrastruktur' },
+      { id: 'pausenmoderation', t: '12:00', e: '12:10', f: 'mod', room: 0, title: 'Pausenmoderation', who: 'Moderation', topic: '' },
+      { id: 'mittagspause', t: '12:10', e: '13:00', f: 'pause', room: 0, title: 'Mittagspause', who: 'Messe-Area und Austauschräume offen', topic: '' },
+      { id: 'praxis-case-2', t: '13:00', e: '13:30', f: 'case', room: 0, title: '[Titel Praxis-Case]', who: '[Behörde] · [Unternehmen]', topic: 'Transformation und Kultur' },
+      { id: 'masterclass-1-nachmittag', t: '13:00', e: '14:00', f: 'master', room: 1, title: 'Masterclass 1', who: '[Leitung]', topic: 'Tools' },
+      { id: 'fachvortrag-3', t: '13:30', e: '14:00', f: 'vortrag', room: 0, title: 'Fachvortrag 3', who: '[Speaker*in]', topic: 'Datenschutz und Recht' },
+      { id: 'panel-2', t: '14:00', e: '14:30', f: 'panel', room: 0, title: '[Titel Panel]', who: '[Beteiligte]', topic: 'Bündelung und Effizienz' },
+      { id: 'masterclass-2-nachmittag', t: '14:00', e: '15:00', f: 'master', room: 1, title: 'Masterclass 2', who: '[Leitung]', topic: 'KI' },
+      { id: 'fachvortrag-4', t: '14:30', e: '15:00', f: 'vortrag', room: 0, title: 'Fachvortrag 4', who: '[Speaker*in]', topic: 'Prozesse' },
+      { id: 'abschlusskeynote', t: '15:00', e: '15:30', f: 'keynote', room: 0, title: 'Abschlusskeynote', who: '[Speaker*in]', topic: 'Transformation und Kultur', spk: 5 },
+      { id: 'abschluss', t: '15:30', e: '15:40', f: 'mod', room: 0, title: 'Abschluss', who: 'Julia Lupp, Christian Rosenberger', topic: '' }
     ];
     var times = ['09:00', '09:30', '09:40', '10:30', '11:15', '12:00', '13:00', '14:00', '15:00', '15:30'];
     var cont = { '11:15': [[2, 'Masterclass läuft bis 12:00']], '14:00': [[2, 'Masterclass läuft bis 14:30']] };
-    var fam = { keynote: 'keynote', vortrag: 'keynote', case: 'case', panel: 'case', master: 'master', net: 'net' };
+    var fam = { keynote: 'keynote', vortrag: 'keynote', case: 'case', panel: 'case', master: 'master', net: 'net', pause: 'net', mod: '' };
     var match = function (x) { return (s.ffmt === 'all' || fam[x.f] === s.ffmt) && (s.ftopic === 'all' || x.topic === s.ftopic); };
     var mins = function (t) { var q = t.split(':'); return +q[0] * 60 + +q[1]; };
     var hhmm = function (m) { return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + (m % 60)).slice(-2); };
-    var T0 = 540, T1 = 930, now = s.now;
+    var T0 = 540, T1 = 940, now = s.now;
     var SM = S.map(function (x) { return { x: x, a: mins(x.t), b: mins(x.e) }; });
     var open = function (id) { return function () { if (self.state.sel === id) self.closeExp(); else self.setState({ sel: id }); }; };
     var jItems = SM.map(function (o, i) {
@@ -1094,9 +1198,9 @@ class Component extends DCLogic {
       return {
         id: x.id, i: i, sh: F[x.f][1], fmtLabel: F[x.f][0], title: x.title, who: x.who, time: x.t, live: live,
         l: 'calc(' + (o.a - T0) + ' * var(--ppm) + 2px)', w: 'calc(' + d + ' * var(--ppm) - 4px)',
-        t: alone ? '2px' : 'calc(' + (x.room * 25) + '% + 2px)', h: alone ? 'calc(100% - 4px)' : 'calc(25% - 4px)',
-        cls: ['f-' + x.f, alone ? 'plen' : '', d <= 15 ? 'thin' : '', live ? 'live' : '', past ? 'past' : '', match(x) ? '' : 'dim'].join(' '),
-        aria: x.t + ' bis ' + x.e + ', ' + F[x.f][0] + ', ' + (alone ? 'alle Räume' : R[x.room]) + ': ' + x.title,
+        t: alone ? '2px' : 'calc(' + (x.room * 50) + '% + 2px)', h: alone ? 'calc(100% - 4px)' : 'calc(50% - 4px)',
+        cls: ['f-' + x.f, alone ? 'plen' : '', d <= 20 ? 'thin' : '', live ? 'live' : '', past ? 'past' : '', match(x) ? '' : 'dim'].join(' '),
+        aria: x.t + ' bis ' + x.e + ', ' + F[x.f][0] + ', ' + (alone ? 'Plenum' : R[x.room]) + ': ' + x.title,
         pick: open(x.id)
       };
     });
@@ -1105,7 +1209,7 @@ class Component extends DCLogic {
     var liveL = SM.filter(function (o) { return o.a <= now && now < o.b; });
     var upA = SM.filter(function (o) { return o.a > now; }).map(function (o) { return o.a; }).sort(function (p, q) { return p - q; })[0];
     var nextL = SM.filter(function (o) { return o.a === upA; });
-    var where = function (o) { return SM.some(function (y) { return y !== o && y.a < o.b && y.b > o.a; }) ? R[o.x.room] : 'Alle Räume'; };
+    var where = function (o) { return SM.some(function (y) { return y !== o && y.a < o.b && y.b > o.a; }) ? R[o.x.room] : 'Plenum'; };
     var inMin = function (d) { return d < 60 ? 'in ' + d + ' min' : 'in ' + Math.floor(d / 60) + ' h' + (d % 60 ? ' ' + (d % 60) + ' min' : ''); };
     var jn = {
       time: hhmm(now), val: now, l: 'calc(' + (now - T0) + ' * var(--ppm))',
@@ -1123,29 +1227,32 @@ class Component extends DCLogic {
       nextGo: function () { if (nextL.length) self.setState({ sel: nextL[0].x.id }); }
     };
     var cur = S.filter(function (x) { return x.id === s.sel; })[0];
-    var MASK = { keynote: 'h-fk', vortrag: 'h-fk', case: 'h-fc', panel: 'h-fc', master: 'h-fm', net: 'h-fn' };
+    var MASK = { keynote: 'h-fk', vortrag: 'h-fk', case: 'h-fc', panel: 'h-fc', master: 'h-fm', net: 'h-fn', pause: 'h-fn', mod: 'h-fk' };
     var ex = cur ? {
       cls: 'open', hidden: false, tone: fam[cur.f] === 'keynote' && cur.f === 'keynote' ? 'tone-k' : (cur.f === 'net' ? 'tone-n' : ''),
-      meta: cur.t + '–' + cur.e + ' · ' + where(SM[S.indexOf(cur)]), title: cur.title, topic: cur.topic, sh: F[cur.f][1], fmt: F[cur.f][0],
-      desc: cur.f === 'net' ? 'Kleine Runden zu den Themen des Tages. Du wählst den Raum und bleibst, so lange du willst.' : '[Kurzbeschreibung: worum es geht, was du mitnimmst.]',
+      meta: cur.t + '–' + cur.e + ' · ' + (mins(cur.e) - mins(cur.t)) + ' Min · ' + where(SM[S.indexOf(cur)]), title: cur.title, topic: cur.topic, sh: F[cur.f][1], fmt: F[cur.f][0],
+      desc: cur.f === 'net' || cur.f === 'pause' ? 'Die Messe-Area ist offen: Stände besuchen, Leute treffen, in den Austauschräumen weiterreden.' : (cur.f === 'mod' ? 'Julia Lupp und Christian Rosenberger führen durch den Tag.' : '[Kurzbeschreibung: worum es geht, was du mitnimmst.]'),
+      long: cur.f === 'net' || cur.f === 'pause' || cur.f === 'mod' ? '' : (cur.f === 'case' ? '[Ausführliche Beschreibung: Was war die Herausforderung? Wie wurde das Projekt umgesetzt? Was hat es gebracht?]' : '[Ausführliche Beschreibung des Programmpunkts.]'),
       img: cur.spk !== undefined ? SP[cur.spk] : '', mask: MASK[cur.f],
       who: cur.who, role: cur.spk !== undefined ? '[Funktion · Organisation]' : '', hasSpk: cur.spk !== undefined,
+      copyLabel: s.copied === cur.id ? 'Link kopiert' : 'Link zur Session kopieren',
+      copy: function () { try { navigator.clipboard.writeText(window.location.href); } catch (e) {} self.setState({ copied: cur.id }); },
       toSpk: function () { self.go('speaker', { spk: cur.spk, sel: null }); },
-      rel: cur.f === 'case' ? 'Artikel zum Case auf amtshelden.de' : 'Weiterführend auf amtshelden.de',
+      rel: cur.f === 'case' ? 'Vollständiger Case auf amtshelden.de' : '',
       close: function () { self.closeExp(); },
       prev: function () { var i = S.indexOf(cur); self.setState({ sel: S[(i - 1 + S.length) % S.length].id }); },
       next: function () { var i = S.indexOf(cur); self.setState({ sel: S[(i + 1) % S.length].id }); }
-    } : { cls: '', hidden: true, tone: '', meta: '', title: '', topic: '', sh: '', fmt: '', desc: '', img: '', mask: '', who: '', role: '', hasSpk: false, toSpk: null, rel: '', close: function () {}, prev: function () {}, next: function () {} };
-    var fList = [['all', 'Alle Formate', ''], ['keynote', 'Keynote & Vortrag', 's-circle'], ['case', 'Case & Panel', 's-burst'], ['master', 'Masterclass', 's-diag'], ['net', 'Networking', 's-net']];
-    var tList = ['all', 'KI', 'Cybersecurity', 'Tools', 'Führung', 'Transformation & Kultur', 'Prozesse', 'Infrastruktur', 'Datenschutz & Recht'];
+    } : { cls: '', hidden: true, tone: '', meta: '', title: '', topic: '', sh: '', fmt: '', desc: '', long: '', img: '', mask: '', who: '', role: '', hasSpk: false, toSpk: null, rel: '', copyLabel: '', copy: function () {}, close: function () {}, prev: function () {}, next: function () {} };
+    var fList = [['all', 'Alle Formate', ''], ['keynote', 'Keynote & Fachvortrag', 's-circle'], ['case', 'Praxis-Case & Panel', 's-burst'], ['master', 'Masterclass', 's-diag'], ['net', 'Austausch & Messe', 's-net']];
+    var tList = ['all', 'Cybersecurity', 'KI', 'Tools', 'Führung', 'Transformation und Kultur', 'Prozesse', 'Infrastruktur', 'Datenschutz und Recht', 'Bündelung und Effizienz'];
 
     /* format modules */
     var FM = [
-      { k: 'fk', verb: 'Vortrag ansehen', f: 'keynote', name: 'Keynotes & Vorträge', desc: 'Impulse für die Verwaltung von morgen.', time: '09:40', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-orange)' },
-      { k: 'fc', verb: 'Cases kennenlernen', f: 'case', name: 'Cases & Panels', desc: 'Echte Lösungen aus echten Behörden.', time: '10:30', bg: 'var(--d3-bg-2)', dark: '', ink: '' },
-      { k: 'fm', verb: 'Masterclass mitmachen', f: 'master', name: 'Master­classes', desc: 'Wissen vertiefen und anwenden.', time: '', bg: 'var(--d3-white)', dark: '', ink: 'var(--d3-black)' },
-      { k: 'fn', verb: 'Leute treffen', f: 'net', name: 'Networking', desc: 'Menschen und Perspektiven verbinden.', time: '', bg: 'var(--d3-green)', dark: 'dark', ink: 'var(--d3-white)' },
-      { k: 'fs', verb: 'Stände besuchen', f: 'stand', name: 'Stände', desc: 'Technologien und Lösungen entdecken.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-bg)' }
+      { k: 'fk', verb: 'Programm ansehen', f: 'vortrag', name: 'Fach­vorträge', desc: 'Fachleute zu konkreten Herausforderungen. Danach ist Zeit für deine Fragen.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-orange)' },
+      { k: 'fc', verb: 'Programm ansehen', f: 'case', name: 'Praxis-Cases', desc: 'Behörden und Unternehmen zeigen gemeinsam ein echtes Projekt.', time: '', bg: 'var(--d3-bg-2)', dark: '', ink: '' },
+      { k: 'fm', verb: 'Programm ansehen', f: 'master', name: 'Master­classes', desc: 'Selbst ausprobieren, je einmal vormittags und nachmittags.', time: '', bg: 'var(--d3-white)', dark: '', ink: 'var(--d3-black)' },
+      { k: 'fn', verb: 'Programm ansehen', f: 'net', name: 'Austausch­räume', desc: 'In kleinen Gruppen mit anderen Behörden über konkrete Themen sprechen.', time: '', bg: 'var(--d3-green)', dark: 'dark', ink: 'var(--d3-white)' },
+      { k: 'fs', verb: 'Partner ansehen', f: 'stand', name: 'Messe-Area', desc: 'Virtuelle Stände: direkt mit Anbietern und ihren Ansprechpersonen sprechen.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-bg)' }
     ];
     var STILL = {"fk": "/bildwelt/d3-3d-fk.png", "fc": "/bildwelt/d3-3d-fc.png", "fm": "/bildwelt/d3-3d-fm.png", "fn": "/bildwelt/d3-3d-fn.png", "fs": "/bildwelt/d3-3d-fs.png"};
     var fmts = FM.map(function (m) {
@@ -1160,7 +1267,7 @@ class Component extends DCLogic {
           if (touch && self._3d && !self._3d.failed && mod && self._3d.want !== mod) { self._3d.activate(mod); return; }
           if (m.f === 'stand') { if (st === 'partner') return; self.go('partner', null, mod); return; }
           if (st === 'home') { self.go('explore', { hover: m.k }); return; }
-          self.go('program', { ffmt: m.f, sel: null }, mod);
+          self.go('program', { ffmt: fam[m.f] || 'all', sel: null }, mod);
         } };
     });
 
@@ -1180,35 +1287,29 @@ class Component extends DCLogic {
 
     /* ctas */
     var ctaDefs = {
-      home: p2 ? ['Anmelden', 'über Let’s Get Digital', null] : ['Partner werden', '', 'partner'],
-      explore: ['Programm ansehen', '', 'program'],
-      speaker: p2 ? ['Anmelden', 'über Let’s Get Digital', null] : ['Partner werden', '', 'partner'],
-      partner: p2 ? ['Anmelden', 'über Let’s Get Digital', null] : ['Partner werden', '', null],
-      program: p2 ? ['Anmelden', 'über Let’s Get Digital', null] : ['Partner werden', '', 'partner']
+      home: ['Jetzt kostenfrei anmelden', 'Bist du dabei? · 14. April 2027', 'join'],
+      explore: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join'],
+      speaker: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join'],
+      partner: ['Jetzt kostenfrei anmelden', 'Für Beschäftigte aus Behörden', 'join'],
+      program: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join']
     };
-    var cta2Defs = {
-      home: p2 ? ['Programm', '', 'program'] : ['Speaker*in werden', '', 'partner'],
-      speaker: p2 ? ['Programm', '', 'program'] : ['Speaker*in werden', '', 'partner'],
-      partner: ['Speaker*in werden', '', null]
-    };
-    var faqReg = p2 ? 'Über Let’s Get Digital. Dort bekommst du Bestätigung und Zugang.' : 'Die Anmeldung startet [Datum]. Organisiert wird sie über Let’s Get Digital.';
+    var faqReg = p2 ? 'Über Let’s Get Digital. Dort bekommst du Bestätigung und Zugang.' : 'Die Anmeldung öffnet [Datum]. Sie läuft über Let’s Get Digital, dort bekommst du Bestätigung und Zugang.';
 
     /* Frag D3: fester Katalog, Stichwort-Abgleich. [Klammern] = Platzhalter wie im Rest der Seite. */
     var KB = [
-      { k: ['wer', 'für wen', 'zielgruppe', 'behörde', 'verwaltung', 'kommune', 'teilnehm', 'mitarbeit'], q: 'Für wen ist der Deep Dive Day?', a: 'Für Menschen aus Behörden und öffentlichen Organisationen, die die Verwaltung mit KI und neuen Arbeitsweisen verändern wollen.' },
-      { k: ['ablauf', 'läuft', 'tag ab', 'uhr', 'uhrzeit', 'dauer', 'wie lange', 'beginn', 'ende'], q: 'Wie läuft der Tag ab?', a: 'Von 09:00 bis 15:30, komplett im Browser. Du wechselst zwischen Keynotes, Vorträgen, Cases, Masterclasses, Networking und Ständen.', act: ['Programm ansehen', 'program'] },
+      { k: ['wer', 'für wen', 'zielgruppe', 'behörde', 'verwaltung', 'kommune', 'teilnehm', 'mitarbeit'], q: 'Für wen ist die D3?', a: 'Für Beschäftigte aus Behörden und öffentlichen Einrichtungen, die sich mit KI, Digitalisierung und Veränderung in ihrer Verwaltung beschäftigen.' },
+      { k: ['ablauf', 'läuft', 'tag ab', 'uhr', 'uhrzeit', 'dauer', 'wie lange', 'beginn', 'ende'], q: 'Wie läuft der Tag ab?', a: 'Von 9:00 bis 15:30, komplett digital. Zwei Tracks mit Fachvorträgen, Praxis-Cases und Masterclasses, dazu Austauschräume und die Messe-Area.', act: ['Programm ansehen', 'program'] },
       { k: ['anmeld', 'registr', 'ticket', 'let’s get digital', "let's get digital", 'teilnahme sichern', 'platz'], q: 'Wie melde ich mich an?', a: faqReg },
-      { k: ['kost', 'preis', 'gebühr', 'kostenlos', 'bezahl', 'euro', '€'], q: 'Was kostet die Teilnahme?', a: '[Antwort folgt: Kosten der Teilnahme.] Alles Weitere zur Anmeldung läuft über Let’s Get Digital.' },
-      { k: ['technik', 'software', 'browser', 'install', 'app', 'zoom', 'teams', 'kamera', 'mikro'], q: 'Brauche ich Software?', a: 'Nein. Der Deep Dive Day läuft im Browser, du brauchst nur einen aktuellen Browser und eine stabile Verbindung. [Plattform wird ergänzt.]' },
-      { k: ['aufzeichn', 'mediathek', 'nachschau', 'später', 'video', 'verpass'], q: 'Gibt es Aufzeichnungen?', a: 'Nach jeder Ausgabe wird das Programm zur Mediathek. Cases erscheinen zusätzlich als Artikel auf amtshelden.de.' },
-      { k: ['raum', 'räume', 'parallel', 'wechsel', 'gleichzeitig'], q: 'Was heißt viele Räume?', a: 'Vier Räume laufen parallel: Main Stage, Raum 2, Werkstatt und Lounge. Du wechselst, wann du willst.', act: ['Zur Tagesstrecke', 'program'] },
-      { k: ['format', 'keynote', 'vortrag', 'case', 'panel', 'masterclass', 'workshop'], q: 'Welche Formate gibt es?', a: 'Keynotes und Vorträge für Impulse, Cases und Panels mit echten Lösungen aus Behörden, Masterclasses zum Vertiefen, dazu Networking und Stände.', act: ['Formate ansehen', 'explore'] },
-      { k: ['netzwerk', 'networking', 'kennenlern', 'leute', 'austausch', 'kontakt knüpf'], q: 'Kann ich Leute treffen?', a: 'Ja. In den Networking-Runden und Themenräumen sprichst du in kleinen Gruppen mit anderen aus der Verwaltung.' },
-      { k: ['partner', 'sponsor', 'ausstell', 'stand ', 'stände', 'unternehmen'], q: 'Wie werde ich Partner?', a: 'Amtshelden sucht Partner und Aussteller für die erste Ausgabe. Melde dich über Mitmachen.', act: ['Partner werden', 'partner'] },
-      { k: ['speaker', 'sprech', 'einreich', 'call for', 'vortragen', 'referent'], q: 'Kann ich sprechen?', a: 'Ja, wir suchen Speaker*innen mit echten Erfahrungen aus der Verwaltung. Einreichen über Mitmachen.', act: ['Speaker*in werden', 'partner'] },
-      { k: ['thema', 'themen', ' ki', 'ki ', 'künstlich', 'transformation', 'ausgabe'], q: 'Worum geht es?', a: 'Ausgabe 01 heißt KI + Transformation. Ausgabe 02 widmet sich der Kommunikation [Datum].' },
-      { k: ['wann', 'datum', 'termin', 'findet'], q: 'Wann ist der Deep Dive Day?', a: '[TT.MM.2027], 09:00 bis 15:30, digital.' },
-      { k: ['amtshelden', 'veranstalt', 'wer steckt', 'organisier'], q: 'Wer steckt dahinter?', a: 'Der Deep Dive Day ist das digitale Konferenzformat von Amtshelden.', act: ['Über den Deep Dive Day', 'partner'] }
+      { k: ['kost', 'preis', 'gebühr', 'kostenlos', 'kostenfrei', 'bezahl', 'euro', '€'], q: 'Was kostet die Teilnahme?', a: 'Nichts. Für Beschäftigte aus Behörden und öffentlichen Einrichtungen ist die Teilnahme kostenfrei.' },
+      { k: ['technik', 'software', 'browser', 'install', 'app', 'zoom', 'teams', 'kamera', 'mikro'], q: 'Brauche ich Software?', a: 'Nein. Du brauchst einen aktuellen Browser und eine stabile Verbindung.' },
+      { k: ['aufzeichn', 'mediathek', 'nachschau', 'später', 'video', 'verpass'], q: 'Gibt es Aufzeichnungen?', a: '[Antwort folgt.] Praxis-Cases erscheinen nach dem Event als Artikel auf amtshelden.de.' },
+      { k: ['track', 'parallel', 'wechsel', 'gleichzeitig', 'raum', 'räume'], q: 'Was läuft parallel?', a: 'Zwei Tracks: Fachvorträge und Praxis-Cases in Track 1, Masterclasses in Track 2. Du wechselst, wann du willst.', act: ['Programm ansehen', 'program'] },
+      { k: ['format', 'keynote', 'vortrag', 'case', 'panel', 'masterclass', 'workshop'], q: 'Welche Formate gibt es?', a: 'Fachvorträge, Praxis-Cases, Masterclasses, Austauschräume und die Messe-Area.', act: ['Über die D3', 'explore'] },
+      { k: ['netzwerk', 'networking', 'kennenlern', 'leute', 'austausch', 'kontakt knüpf'], q: 'Kann ich Leute treffen?', a: 'Ja. In den Austauschräumen sprichst du in kleinen Gruppen mit anderen Behörden.' },
+      { k: ['partner', 'sponsor', 'ausstell', 'stand ', 'stände', 'unternehmen', 'messe'], q: 'Wie werde ich Partner?', a: 'Über das Formular im Partnerbereich. Wir schicken euch alle Informationen.', act: ['Zu den Partnern', 'partner'] },
+      { k: ['thema', 'themen', ' ki', 'ki ', 'künstlich', 'transformation', 'ausgabe', 'herbst', 'kommunikation'], q: 'Worum geht es?', a: 'Die erste Ausgabe heißt KI + Transformation. Die nächste D3 kommt im Herbst 2027, Thema: Kommunikation.' },
+      { k: ['wann', 'datum', 'termin', 'findet'], q: 'Wann ist die D3?', a: 'Am 14. April 2027, von 9:00 bis 15:30, digital.' },
+      { k: ['amtshelden', 'veranstalt', 'wer steckt', 'organisier'], q: 'Wer steckt dahinter?', a: 'Veranstalter ist Amtshelden.', act: ['Über die D3', 'explore'] }
     ];
     var norm = function (t) { return (' ' + String(t || '').toLowerCase().replace(/[?!.,;:„“"()]/g, ' ').replace(/\s+/g, ' ') + ' '); };
     var ask = function (text) {
@@ -1228,7 +1329,7 @@ class Component extends DCLogic {
       chips: ['Was kostet die Teilnahme?', 'Brauche ich Software?', 'Gibt es Aufzeichnungen?', 'Wie werde ich Partner?'].map(function (c) { return { label: c, ask: function () { ask(c); } }; })
     };
     var mk = function (d) { d = d || ['', '', null]; return { label: d[0], note: d[1], go: function (e) { if (d[2]) self.go(d[2], null, e && e.currentTarget); } }; };
-    var cta = mk(ctaDefs[s.st]), cta2 = mk(cta2Defs[s.st]);
+    var cta = mk(ctaDefs[s.st]);
     var nxt = order[idx + 1];
     var hint = nxt ? { label: names[nxt], go: function (e) { self.go(nxt, null, e && e.currentTarget); } } : { label: 'Zum Start', go: function (e) { self.go('home', null, e && e.currentTarget); } };
 
@@ -1245,26 +1346,28 @@ class Component extends DCLogic {
       spkSel[i] = (s.st === 'speaker' && s.spk === i) ? 'sel' : '';
       spkPick[i] = function () { if (self.state.st !== 'speaker') self.go('speaker', { spk: i }); else self.setState({ spk: i }); };
     });
-    var spkSess = ['09:40 · Keynote', '10:30 · Case', '10:30 · Masterclass', '11:15 · Panel', '10:30 · Vortrag', '15:00 · Abschluss-Keynote'];
-    var spkSessId = ['c', 'd', 'f', 'h', 'e', 'n'];
+    var spkSess = ['09:40 · Eröffnungskeynote', '10:00 · Praxis-Case', '10:00 · Masterclass 1', '11:00 · Panel', '10:30 · Fachvortrag 1', '15:00 · Abschlusskeynote'];
+    var spkSessId = ['eroeffnungskeynote', 'praxis-case-1', 'masterclass-1-vormittag', 'panel-1', 'fachvortrag-1', 'abschlusskeynote'];
 
     return {
       st: s.st, bp: bp, cols: cols, rows: rows, base: base, minrow: minrow,
       rootRef: this._rootRef, stageRef: this._stageRef,
       introCls: s.intro === 0 ? '' : (s.intro === 2 ? 'out' : 'out gone'), bootCls: s.intro < 2 ? 'booting' : '', skipIntro: function () { self.endIntro(); }, ilogoRef: this._ilogoRef,
       depthCls: (bp === 'desk' && !(typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) ? 'depth' : '',
-      lockSpan: bp === 'desk' ? 4 : (bp === 'tab' ? 5 : 3), ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: bp === 'mob' ? (p2 ? 'Anmelden' : 'Partner') : (p2 ? 'Anmelden' : 'Partner werden'), idxSpan: bp === 'desk' ? 1 : 1,
+      lockSpan: bp === 'desk' ? 4 : (bp === 'tab' ? 5 : 3), ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: bp === 'mob' ? 'Anmelden' : 'Kostenfrei anmelden', idxSpan: bp === 'desk' ? 1 : 1,
       P: P, fmts: fmts, heroPlace: heroPlace, heroTime: heroTimes[heroPlace], heroFmt: { fk: 'Keynote', fc: 'Case', fm: 'Masterclass', fn: 'Networking', fs: 'Stände' }[heroPlace], heroVerb: heroVerbs[heroPlace],
       stNo: '0' + (idx + 1), stName: names[s.st],
-      on: { home: s.st === 'home' ? 'on' : '', explore: s.st === 'explore' ? 'on' : '', program: s.st === 'program' ? 'on' : '', speaker: s.st === 'speaker' ? 'on' : '', partner: s.st === 'partner' ? 'on' : '' },
-      nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner') },
-      ctaBar: p2 ? { label: 'Anmelden', go: function (e) { if (e && e.preventDefault) e.preventDefault(); } } : { label: 'Partner werden', go: navTo('partner') },
-      cta: cta, cta2: cta2, hint: hint,
-      progNote: p2 ? 'Der Tag als Strecke: links nach rechts die Zeit, untereinander die Räume. Tippe auf einen Programmpunkt.' : 'Vorläufiger Ablauf, Zeiten ab 10:30 und Themen sind exemplarisch. Schieb die Uhr, um den Tag live zu sehen.',
-      spkNote: p2 ? 'Alle Speaker*innen des Tages.' : 'Die ersten Stimmen. Weitere folgen.',
-      partnerNote: p2 ? 'Partner und Aussteller der Ausgabe 01.' : 'Amtshelden sucht Partner, Aussteller und Speaker*innen für die erste Ausgabe.',
+      on: { home: s.st === 'home' ? 'on' : '', explore: s.st === 'explore' ? 'on' : '', program: s.st === 'program' ? 'on' : '', speaker: s.st === 'speaker' ? 'on' : '', partner: s.st === 'partner' ? 'on' : '', join: s.st === 'join' ? 'on' : '' },
+      nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner'), join: navTo('join') },
+      ctaBar: { label: 'Kostenfrei anmelden', go: navTo('join') },
+      cta: cta, hint: hint,
+      reg: p2 ? { title: 'Jetzt kostenfrei anmelden', text: 'Die Anmeldung läuft über Let’s Get Digital. [Widget oder Link folgt.]' } : { title: 'Anmeldung öffnet bald', text: 'Die Anmeldung öffnet [Datum]. Sie läuft über Let’s Get Digital, dort bekommst du Bestätigung und Zugang.' },
+      pf: { sent: s.pfSent, open: !s.pfSent, submit: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState({ pfSent: true }); } },
+      progNote: p2 ? 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Tippe auf einen Programmpunkt.' : 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Das vollständige Programm veröffentlichen wir im Frühjahr 2027.',
+      spkNote: p2 ? 'Fachleute, Menschen aus Behörden und alle, die Projekte umgesetzt haben.' : 'Fachleute, Menschen aus Behörden und alle, die Projekte umgesetzt haben. Weitere folgen.',
+      partnerNote: 'Welche Anwendungen funktionieren bereits in Behörden? Unsere Partner zeigen es und beantworten deine Fragen.',
       faqReg: faqReg, bot: bot,
-      logos: [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) { return p2 ? { label: '[Partner-Logo]', bg: 'transparent' } : { label: i === 0 ? 'Hier entsteht der Partnerbereich der Ausgabe 01.' : '', bg: i === 0 ? 'var(--d3-white)' : (i % 3 === 1 ? 'var(--d3-bg)' : 'transparent') }; }),
+      logos: [0, 1, 2, 3, 4, 5].map(function (i) { return { label: '[Partner ' + (i + 1) + ']', bg: i % 2 ? 'var(--d3-bg)' : 'transparent' }; }),
       jItems: jItems, jTicks: jTicks, jn: jn, ex: ex, jrRef: this._jrRef, jScrollRef: this._jScrollRef,
       jWheel: function (e) {
         var el = e.currentTarget, ax = Math.abs(e.deltaX) > Math.abs(e.deltaY), d = ax ? e.deltaX : e.deltaY, max = el.scrollWidth - el.clientWidth;

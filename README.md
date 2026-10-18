@@ -3,25 +3,27 @@
 Event-Website für den Amtshelden Deep Dive Day, die wiederkehrende digitale Konferenz von Amtshelden für Behörden.
 Ausgabe 01: **KI + Transformation**. Anmeldung später über Let's Get Digital.
 
-> Sprachregel: „der Amtshelden Deep Dive Day“, kurz „Deep Dive Day“ – nie „die D3“. D3 ist nur das Formatzeichen
-> (Bildmarke) und der interne Projektname, daher Repo- und Ordnernamen.
+> Sprachregel: Seit dem Feedback vom 14.10.2026 nutzt die Seite „die D3“ und „Deep Dive Day“ (z. B. „Über die D3“).
+> Die frühere Regel „nie die D3“ ist damit offen und mit Christian abzustimmen.
 
 - Briefing: https://docs.google.com/document/d/1grwTioy0KYaqkIG4jyswoq4MoUHnkSsbOVQYmfsstwM
 - Live (intern, noindex): https://amtshelden-d3.vercel.app
 
-## Aktueller Stand: v7.4 „Amtshelden vorn“ als Next.js-App
+## Aktueller Stand: v8 – Inhalte nach Christians Feedback
 
-Amtshelden ist die Marke, der Deep Dive Day ein Format davon (Feedback Christian, freigegeben am 04.10.2026).
 Das Interface ist ein Vollbild-Raster (Desktop 12, Tablet 8, Mobil 4 Spalten), das seinen Zustand wechselt statt
-klassischer Sections: **Home → Formate → Programm → Speaker*innen → Mitmachen**.
-Scrollen, Navigation oder die Pfeil-Felder lösen den Wechsel aus.
+klassischer Sections: **Start → Programm → Speaker → Partner → Über die D3 → Teilnahme**. Scrollen, Navigation
+oder die Weiter-Felder lösen den Wechsel aus. Jeder Zustand hat einen eigenen Link (`#/programm`, `#/teilnahme` …),
+jede Session ebenfalls (`#/programm/praxis-case-1`). Die Startseite erreicht man über das Logo.
 
-**Bausteine:** Amtshelden-Logo als Absender (Leiste, erste Zelle; kein Preloader), einfarbige Zeichen in den
-Format-Kacheln – in Ruhe flach und frontal, bei Hover live als 3D-Körper (WebGL); Überschneidungen immer ausgespart
-(auch beim Weiter-Icon). Eigene Bildwelt (Menschen im digitalen Raum) mit geometrischer Fläche, die Abstand zur Person hält, Programm als Tagesreise
-(Zeitachse, vier Räume, Jetzt/Als Nächstes, aufklappende Programmpunkte), Frag Amtshelden (FAQ ohne KI),
-Ausgaben-Logik, Phase 1/Phase 2 als Schalter (`phase`). Bewegung nur bei Zustandswechsel und Hover, keine
-Dauerschleifen. Regeln: `/design-system`.
+**Viel Inhalt, gleiches System:** Kacheln für den Überblick, aufklappende Kacheln für Details (Session, Speaker),
+längere Texte scrollen innerhalb ihrer Kachel. Keine neuen Unterseiten-Typen.
+
+**Bausteine:** Amtshelden-Logo als Absender, Claim „Die digitale Konferenz für alle, die in Behörden lieber machen als reden.“,
+Fakten (14. April 2027, 9:00–15:30, digital & kostenfrei), Button „Kostenfrei anmelden“ in der Leiste. Drei Gründe als
+Kacheln (Start kurz, Teilnahme ausführlich). Format-Zeichen in Ruhe flach, bei Hover 3D (Über die D3). Programm mit
+zwei Tracks und neun Themen-Tags. Partner-Übersicht (Platzhalter), Medienpartner Innovative Verwaltung (Platzhalter),
+Formular „Partner werden“. Häufige Fragen auf Teilnahme. Phase 1/Phase 2 als Schalter (`phase`). Regeln: `/design-system`.
 
 ### Lokal starten
 
@@ -37,11 +39,11 @@ npm run dev   # http://localhost:4320
 | `app/page.tsx` | Startseite, lädt die App nur im Browser (Raster, Maus-Tiefe, WebGL) |
 | `components/d3/D3App.tsx` | Zustände und Logik (1:1 aus dem Prototyp, noch `@ts-nocheck`; die Preloader-Methoden sind noch drin, aber stillgelegt) |
 | `components/d3/D3View.tsx` | Gerüst: Leiste, Bühne mit allen Zellen, Navigation |
-| `components/d3/modules/` | Zellen je Bereich: Home, Formats, Program, Speakers, Partner |
+| `components/d3/modules/` | Zellen je Bereich: Home, Program, Speakers, Partner, Formats (Über die D3), Join (Teilnahme) |
 | `components/d3/parts/Frame.tsx` | Leiste, Navigation unten, Körnung |
 | `components/d3/d3.css` | Alle Stile, Tokens als Custom Properties in `:root` |
 | `lib/d3/layout.ts` | Raster-Layouts je Gerät und Zustand |
-| `lib/d3/program.ts` | Programm, Formate, Räume, Porträts |
+| `lib/d3/program.ts` | Programm, Formate, Tracks, Porträts |
 | `public/bildwelt/`, `public/people/` | Bildwelt, Porträt-Platzhalter |
 
 Änderungen passieren ab jetzt im Next.js-Code. Der Design-Canvas (`design/canvas-v7/`, früher `canvas-v5/`) bleibt Werkbank für
@@ -52,7 +54,7 @@ Ausführen `components/d3/` und `lib/d3/`.
 
 | Route | Inhalt |
 |---|---|
-| `/` | Die App, Stand v7.4 |
+| `/` | Die App, Stand v8 |
 | `/design-system` | Regeln und Bausteine, Stand v7 (Board aus `design/canvas-v7/DesignSystem-v7.dc.html`) |
 | `/v7` | v7 als Prototyp-HTML aus dem Canvas – Referenz zur App |
 | `/prototype/mosaic-v5.html` | v5.8 als Archiv (nutzt dieselben Bilddateien, zeigt daher die aktuelle Bildwelt) |

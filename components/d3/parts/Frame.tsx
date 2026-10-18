@@ -1,4 +1,4 @@
-// Rahmen: Leiste, Navigation unten, Preloader, Körnung.
+// Rahmen: Leiste, Navigation unten, Körnung.
 // Werte (v) kommen aus D3App.renderVals().
 import type { V, Css } from '../types';
 
@@ -21,23 +21,23 @@ export function Bar({ v }: { v: V }) {
           Deep Dive Day
         </span>
       </a>
-      <a href="#" className={`nv sys ${v.on.explore ?? ""}`} onClick={v.nav.explore}>
-        Formate
-      </a>
       <a href="#" className={`nv sys ${v.on.program ?? ""}`} onClick={v.nav.program}>
         Programm
       </a>
       <a href="#" className={`nv sys ${v.on.speaker ?? ""}`} onClick={v.nav.speaker}>
-        Speaker*innen
+        Speaker
       </a>
       <a href="#" className={`nv sys ${v.on.partner ?? ""}`} onClick={v.nav.partner}>
-        Mitmachen
+        Partner
       </a>
-      <a href="https://www.amtshelden.de/ueber-uns-julia-christian-amtshelden/" target="_blank" rel="noopener" className="nv sys" aria-label="Über Amtshelden (öffnet amtshelden.de in neuem Fenster)">
-        Über ↗
+      <a href="#" className={`nv sys ${v.on.explore ?? ""}`} onClick={v.nav.explore}>
+        Über die D3
+      </a>
+      <a href="#" className={`nv sys ${v.on.join ?? ""}`} onClick={v.nav.join}>
+        Teilnahme
       </a>
       <span className="sys idx" style={{ gridColumn: `span ${v.idxSpan ?? ""}`, justifyContent: "center" } as Css}>
-        {v.stNo}{" / 05"}
+        {v.stNo}{" / 06"}
       </span>
       <a href="#" className="cta-b" onClick={v.ctaBar.go} style={{ gridColumn: `span ${v.ctaSpan ?? ""}` } as Css}>
         {v.ctaBarLabel}{" "}
@@ -53,12 +53,6 @@ export function Bar({ v }: { v: V }) {
 export function BottomNav({ v }: { v: V }) {
   return (
     <nav className="bot sys" aria-label="Navigation">
-      <a href="#" className={v.on.home} onClick={v.nav.home}>
-        Home
-      </a>
-      <a href="#" className={v.on.explore} onClick={v.nav.explore}>
-        Formate
-      </a>
       <a href="#" className={v.on.program} onClick={v.nav.program}>
         Programm
       </a>
@@ -66,7 +60,13 @@ export function BottomNav({ v }: { v: V }) {
         Speaker
       </a>
       <a href="#" className={v.on.partner} onClick={v.nav.partner}>
-        Mitmachen
+        Partner
+      </a>
+      <a href="#" className={v.on.explore} onClick={v.nav.explore}>
+        Über
+      </a>
+      <a href="#" className={v.on.join} onClick={v.nav.join}>
+        Teilnahme
       </a>
     </nav>
   );

@@ -109,22 +109,25 @@ function jsx(n, scope, ind, svg) {
 
 // ---------- Aufteilung in Komponenten ----------
 const MODS = {
-  d3: ['D3Cell', 'Home'], brand: ['Brand', 'Home'], theme: ['Theme', 'Home'], why: ['Why', 'Home'], hero: ['Hero', 'Home'],
-  next: ['NextEdition', 'Home'], date: ['DateCell', 'Home'], cta: ['Cta', 'Home'], cta2: ['Cta2', 'Home'], hint: ['Hint', 'Home'],
+  d3: ['D3Cell', 'Home'], brand: ['Brand', 'Home'], why: ['Why', 'Home'], hero: ['Hero', 'Home'],
+  next: ['NextEdition', 'Home'], date: ['DateCell', 'Home'], cta: ['Cta', 'Home'], hint: ['Hint', 'Home'],
+  g1: ['Reason1', 'Home'], g2: ['Reason2', 'Home'], g3: ['Reason3', 'Home'], ptile: ['PartnerTeaser', 'Home'],
   pc: ['Speaker1', 'Speakers'], s2: ['Speaker2', 'Speakers'], s3: ['Speaker3', 'Speakers'], s4: ['Speaker4', 'Speakers'], s5: ['Speaker5', 'Speakers'], s6: ['Speaker6', 'Speakers'],
-  spkhead: ['SpeakerHead', 'Speakers'], sdetail: ['SpeakerDetail', 'Speakers'],
-  xhead: ['ExploreHead', 'Formats'], board: ['ProgramBoard', 'Program'],
-  phead2: ['PartnerHead', 'Partner'], logos: ['Logos', 'Partner'], editions: ['Editions', 'Partner'], about: ['About', 'Partner'], faq: ['Faq', 'Partner'],
+  spkhead: ['SpeakerHead', 'Speakers'], sdetail: ['SpeakerDetail', 'Speakers'], mods: ['Moderation', 'Speakers'],
+  xhead: ['AboutHead', 'Formats'], idea: ['AboutIdea', 'Formats'], about: ['Organizer', 'Formats'], board: ['ProgramBoard', 'Program'],
+  phead2: ['PartnerHead', 'Partner'], logos: ['Logos', 'Partner'], media: ['MediaPartner', 'Partner'], pform: ['PartnerForm', 'Partner'],
+  jhead: ['JoinHead', 'Join'], reg: ['Registration', 'Join'], faq: ['Faq', 'Join'],
 };
 const DOC = {
-  Home: 'Home-Zellen: Marke, Thema, Aussage, Porträt-Zelle, Ausgaben, Datum, Aktionen.',
-  Speakers: 'Speaker*innen: Kopf mit Bild, sechs Porträt-Zellen, Detail.',
-  Formats: 'Formate: Kopfzelle und die fünf Format-Kacheln (Zeichen, 3D-Körper bei Hover).',
-  Program: 'Programm als Tagesreise: Filter, Jetzt/Als Nächstes, Zeitachse mit Räumen, aufklappender Programmpunkt.',
-  Partner: 'Mitmachen: Kopf mit Bild, Partner, Ausgaben, Über D3, Frag D3 (FAQ ohne KI).',
-  parts: 'Rahmen: Leiste, Navigation unten, Preloader, Körnung.',
+  Home: 'Start: Marke, Claim, Datum, Bildwelt, Was ist die D3, drei Gründe, Partner, nächste Ausgabe, Anmeldung. Die Gründe erscheinen auch auf Teilnahme.',
+  Speakers: 'Speaker & Moderation: Kopf mit Bild, sechs Porträt-Zellen, Detail, Moderation.',
+  Formats: 'Über die D3: Kopfzelle, Idee, die fünf Format-Kacheln (Zeichen, 3D-Körper bei Hover), Veranstalter.',
+  Program: 'Programm: Filter, Jetzt/Als Nächstes, Zeitachse mit zwei Tracks, aufklappender Programmpunkt mit eigenem Link.',
+  Partner: 'Partner: Kopf mit Bild, Partner-Übersicht, Medienpartner, Formular „Partner werden“.',
+  Join: 'Teilnahme: Kopf, Anmeldung, häufige Fragen.',
+  parts: 'Rahmen: Leiste, Navigation unten, Körnung.',
 };
-const files = { Home: [], Speakers: [], Formats: [], Program: [], Partner: [], parts: [] };
+const files = { Home: [], Speakers: [], Formats: [], Program: [], Partner: [], Join: [], parts: [] };
 const S0 = new Set();
 function component(name, node, file, note) {
   files[file].push(`${note ? `/** ${note} */\n` : ''}export function ${name}({ v }: { v: V }) {\n  return (\n${jsx(node, S0, 2, false)}\n  );\n}`);
@@ -138,7 +141,7 @@ function viewOf(n, ind) { // App-Gerüst: Kinder werden zu Komponenten-Aufrufen
   const k = (cls.match(/\bk-([a-z0-9]+)\b/) || [])[1];
   if (cls.split(' ')[0] === 'mod' && MODS[k]) { const [nm, f] = MODS[k]; component(nm, n, f); return `${pad}<${nm} v={v} />`; }
   if (n.name === 'sc-for') { component('FormatTiles', { type: 'tag', name: 'div', attribs: {}, children: [] }, 'Formats'); files.Formats.pop();
-    files.Formats.push(`/** Fünf Format-Kacheln (Home, Formate, Mitmachen) */\nexport function FormatTiles({ v }: { v: V }) {\n  return (\n    <>\n${jsx(n, S0, 3, false)}\n    </>\n  );\n}`);
+    files.Formats.push(`/** Fünf Format-Kacheln (Über die D3, Partner) */\nexport function FormatTiles({ v }: { v: V }) {\n  return (\n    <>\n${jsx(n, S0, 3, false)}\n    </>\n  );\n}`);
     return `${pad}<FormatTiles v={v} />`; }
   if (n.name === 'header') { component('Bar', n, 'parts', 'Leiste: Bildmarke, Navigation, Zähler, Aktion'); return `${pad}<Bar v={v} />`; }
   if (n.name === 'nav') { component('BottomNav', n, 'parts', 'Navigation unten (Tablet, Mobil)'); return `${pad}<BottomNav v={v} />`; }
@@ -200,7 +203,7 @@ fs.writeFileSync(path.join(process.cwd(), 'lib/d3/layout.ts'),
 `// Raster-Layouts je Gerät und Zustand: Zelle -> [Spalte, Zeile, Breite, Höhe].
 // Desktop 12 Spalten, Tablet 8, Mobil 4. Fehlt eine Zelle im Zustand, blendet sie aus.
 type Cell = [number, number, number, number];
-type States = Record<'home' | 'explore' | 'program' | 'speaker' | 'partner', Record<string, Cell>>;
+type States = Record<'home' | 'explore' | 'program' | 'speaker' | 'partner' | 'join', Record<string, Cell>>;
 export const LAYOUT: Record<'desk' | 'tab' | 'mob', States> = ${layout.replace(/\n    /g, '\n')};
 `);
 fs.writeFileSync(path.join(process.cwd(), 'lib/d3/program.ts'),

@@ -2,11 +2,12 @@
 // Welche Zelle wo steht, entscheidet das Layout (lib/d3/layout.ts) über v.P.
 import type { V, Css } from './types';
 import { Bar, BottomNav, Grain } from './parts/Frame';
-import { D3Cell, Brand, Theme, Why, Hero, NextEdition, DateCell, Cta, Cta2, Hint } from './modules/Home';
-import { Speaker1, Speaker2, Speaker3, Speaker4, Speaker5, Speaker6, SpeakerHead, SpeakerDetail } from './modules/Speakers';
-import { ExploreHead, FormatTiles } from './modules/Formats';
+import { D3Cell, Brand, Why, Hero, NextEdition, DateCell, Cta, Hint, Reason1, Reason2, Reason3, PartnerTeaser } from './modules/Home';
+import { Speaker1, Speaker2, Speaker3, Speaker4, Speaker5, Speaker6, SpeakerHead, SpeakerDetail, Moderation } from './modules/Speakers';
+import { AboutHead, AboutIdea, Organizer, FormatTiles } from './modules/Formats';
 import { ProgramBoard } from './modules/Program';
-import { PartnerHead, Logos, Editions, About, Faq } from './modules/Partner';
+import { PartnerHead, Logos, MediaPartner, PartnerForm } from './modules/Partner';
+import { JoinHead, Registration, Faq } from './modules/Join';
 
 export default function D3View({ v }: { v: V }) {
   return (
@@ -16,7 +17,6 @@ export default function D3View({ v }: { v: V }) {
         <div className="canvas" style={{ "--cols": v.cols, "--rows": v.rows, "--base": v.base, "--minrow": v.minrow } as Css}>
           <D3Cell v={v} />
           <Brand v={v} />
-          <Theme v={v} />
           <Why v={v} />
           <Hero v={v} />
           <Speaker1 v={v} />
@@ -29,16 +29,24 @@ export default function D3View({ v }: { v: V }) {
           <NextEdition v={v} />
           <DateCell v={v} />
           <Cta v={v} />
-          <Cta2 v={v} />
           <Hint v={v} />
-          <ExploreHead v={v} />
+          <AboutHead v={v} />
           <ProgramBoard v={v} />
           <SpeakerHead v={v} />
           <SpeakerDetail v={v} />
           <PartnerHead v={v} />
           <Logos v={v} />
-          <Editions v={v} />
-          <About v={v} />
+          <Organizer v={v} />
+          <Reason1 v={v} />
+          <Reason2 v={v} />
+          <Reason3 v={v} />
+          <PartnerTeaser v={v} />
+          <MediaPartner v={v} />
+          <Moderation v={v} />
+          <PartnerForm v={v} />
+          <AboutIdea v={v} />
+          <JoinHead v={v} />
+          <Registration v={v} />
           <Faq v={v} />
         </div>
       </main>

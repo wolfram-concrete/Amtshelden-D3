@@ -1,4 +1,4 @@
-// Programm als Tagesreise: Filter, Jetzt/Als Nächstes, Zeitachse mit Räumen, aufklappender Programmpunkt.
+// Programm: Filter, Jetzt/Als Nächstes, Zeitachse mit zwei Tracks, aufklappender Programmpunkt mit eigenem Link.
 // Werte (v) kommen aus D3App.renderVals().
 import { Fragment } from 'react';
 import type { V, Css } from '../types';
@@ -8,8 +8,8 @@ export function ProgramBoard({ v }: { v: V }) {
     <div className={`mod k-board ${v.P.board.cls ?? ""}`} style={{ left: `calc(${v.P.board.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.board.r ?? ""} * var(--rowh))`, width: `calc(${v.P.board.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.board.h ?? ""} * var(--rowh))`, transitionDelay: v.P.board.d } as Css}>
       <div className="L l-program board">
         <aside className="b-side">
-          <h2 className="big b-title">
-            Programm
+          <h2 className="big sc b-title">
+            Dein Tag. Deine Themen.
           </h2>
           <p className="p" style={{ fontSize: "15px" } as Css}>
             {v.progNote}
@@ -45,7 +45,7 @@ export function ProgramBoard({ v }: { v: V }) {
               <b className="jn-time">
                 {v.jn.time}
               </b>
-              <input className="jn-range" type="range" min="540" max="930" step="5" value={v.jn.val} onChange={v.jn.set} aria-label="Uhrzeit für die Vorschau" />
+              <input className="jn-range" type="range" min="540" max="940" step="5" value={v.jn.val} onChange={v.jn.set} aria-label="Uhrzeit für die Vorschau" />
             </div>
             <button className={`jn-c jn-live ${v.jn.liveCls ?? ""}`} onClick={v.jn.liveGo}>
               <span className="lab">
@@ -78,16 +78,10 @@ export function ProgramBoard({ v }: { v: V }) {
           <div className="j-body">
             <div className="j-rooms sys" aria-hidden="true">
               <span>
-                Main Stage
+                Track 1
               </span>
               <span>
-                Raum 2
-              </span>
-              <span>
-                Werkstatt
-              </span>
-              <span>
-                Lounge
+                Track 2
               </span>
             </div>
             <div className="j-scroll" ref={v.jScrollRef} onWheel={v.jWheel}>
@@ -169,6 +163,9 @@ export function ProgramBoard({ v }: { v: V }) {
                   <p className="p jx-desc">
                     {v.ex.desc}
                   </p>
+                  <p className="p jx-long">
+                    {v.ex.long}
+                  </p>
                   {v.ex.topic ? (
                     <>
                       <span className="sys jx-tp">
@@ -203,12 +200,22 @@ export function ProgramBoard({ v }: { v: V }) {
                       </button>
                     </>
                   ) : null}
-                  <a className="lnk sys" href="https://amtshelden.de" target="_blank" rel="noopener">
-                    {v.ex.rel}{" "}
+                  {v.ex.rel ? (
+                    <>
+                      <a className="lnk sys" href="https://www.amtshelden.de" target="_blank" rel="noopener">
+                        {v.ex.rel}{" "}
+                        <span>
+                          ↗
+                        </span>
+                      </a>
+                    </>
+                  ) : null}
+                  <button className="lnk sys" onClick={v.ex.copy}>
+                    {v.ex.copyLabel}{" "}
                     <span>
-                      ↗
+                      ⧉
                     </span>
-                  </a>
+                  </button>
                 </div>
               </div>
               <div className="jx-nav">

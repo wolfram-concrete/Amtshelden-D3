@@ -13,7 +13,7 @@ type D3Props = { phase?: 'Phase 1' | 'Phase 2'; tour?: boolean; grain?: boolean;
 export default class D3App extends Component<D3Props, any> {
   constructor(props) {
     super(props);
-    this.state = { intro: 3, st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, now: 645, botQ: '', botA: null, ffmt: 'all', ftopic: 'all', spk: 0 };
+    this.state = { intro: 3, st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, now: 645, botQ: '', botA: null, ffmt: 'all', ftopic: 'all', spk: 0, pfSent: false, copied: null };
     this._last = {};
     this._lock = 0;
     var self = this;
@@ -36,6 +36,11 @@ export default class D3App extends Component<D3Props, any> {
   componentDidMount() {
     var self = this;
     try { this.init3D(); } catch (e) {}
+    try {
+      var hp = String(window.location.hash || '').replace(/^#\/?/, '').split('/'), RT = this.routes(), st0 = null;
+      Object.keys(RT).forEach(function (k) { if (RT[k] && RT[k] === hp[0]) st0 = k; });
+      if (st0) this.setState({ st: st0, sel: st0 === 'program' && hp[1] ? hp[1] : null });
+    } catch (e) {}
     this._key = function (e) { if (e.key === 'Escape' && self.state.sel) self.closeExp(); };
     if (typeof document !== 'undefined') document.addEventListener('keydown', this._key);
     /* Kein Preloader mehr (05.10.): die Seite startet direkt im Ruhezustand */
@@ -71,8 +76,15 @@ export default class D3App extends Component<D3Props, any> {
       if (!rm && (self.props.tour ?? true) && self.state.st === 'home' && !self.state.hover) self.setState({ tour: self.state.tour + 1 });
     }, 6500);   // ruhig: Bildwechsel im Hero nur alle 6,5 s
   }
+  routes() { return { home: '', program: 'programm', speaker: 'speaker', partner: 'partner', explore: 'ueber', join: 'teilnahme' }; }
   componentDidUpdate(pp, ps) {
     var self = this;
+    if (ps.st !== this.state.st || ps.sel !== this.state.sel) {
+      try {
+        var r = this.routes()[this.state.st], h = r ? '#/' + r + (this.state.st === 'program' && this.state.sel ? '/' + this.state.sel : '') : '';
+        if (window.location.hash !== h) window.history.replaceState(null, '', h || (window.location.pathname + window.location.search));
+      } catch (e) {}
+    }
     if (ps.st !== this.state.st) {
       if (this._stage) this._stage.scrollTop = 0;
       if (this._3d && this._3d.release) this._3d.release();
@@ -283,15 +295,15 @@ export default class D3App extends Component<D3Props, any> {
     var L = this.lay()[bp][s.st];
     var rows = 0;
     Object.keys(L).forEach(function (k) { rows = Math.max(rows, L[k][1] + L[k][3]); });
-    var keys = ['d3', 'brand', 'theme', 'why', 'hero', 'pc', 's2', 's3', 's4', 's5', 's6', 'fk', 'fc', 'fm', 'fn', 'fs', 'next', 'date', 'cta', 'cta2', 'hint', 'xhead', 'board', 'spkhead', 'sdetail', 'phead2', 'logos', 'editions', 'about', 'faq'];
+    var keys = ['d3', 'brand', 'why', 'hero', 'pc', 's2', 's3', 's4', 's5', 's6', 'fk', 'fc', 'fm', 'fn', 'fs', 'next', 'date', 'cta', 'hint', 'xhead', 'board', 'spkhead', 'sdetail', 'phead2', 'logos', 'about', 'faq', 'g1', 'g2', 'g3', 'ptile', 'media', 'mods', 'pform', 'idea', 'jhead', 'reg'];
     var P = {};
     keys.forEach(function (k) {
       var p = L[k], vis = !!p;
       if (vis) self._last[k] = p; else p = self._last[k] || [0, 0, 1, 1];
       P[k] = { c: p[0], r: p[1], w: p[2], h: p[3], cls: vis ? '' : 'off', d: vis ? ((p[0] + p[1]) * (s.intro === 2 ? 70 : 30) + (s.intro === 2 ? 350 : 0)) + 'ms' : '0ms' };
     });
-    var order = ['home', 'explore', 'program', 'speaker', 'partner'];
-    var names = { home: 'Home', explore: 'Formate', program: 'Programm', speaker: 'Speaker*innen', partner: 'Mitmachen' };
+    var order = ['home', 'program', 'speaker', 'partner', 'explore', 'join'];
+    var names = { home: 'Start', program: 'Programm', speaker: 'Speaker', partner: 'Partner', explore: 'Über die D3', join: 'Teilnahme' };
     var idx = order.indexOf(s.st);
     var navTo = function (st, extra) { return function (e) { if (e && e.preventDefault) e.preventDefault(); self.go(st, extra); }; };
 
@@ -302,11 +314,11 @@ export default class D3App extends Component<D3Props, any> {
     var S = SESSIONS;
     var times = ['09:00', '09:30', '09:40', '10:30', '11:15', '12:00', '13:00', '14:00', '15:00', '15:30'];
     var cont = { '11:15': [[2, 'Masterclass läuft bis 12:00']], '14:00': [[2, 'Masterclass läuft bis 14:30']] };
-    var fam = { keynote: 'keynote', vortrag: 'keynote', case: 'case', panel: 'case', master: 'master', net: 'net' };
+    var fam = { keynote: 'keynote', vortrag: 'keynote', case: 'case', panel: 'case', master: 'master', net: 'net', pause: 'net', mod: '' };
     var match = function (x) { return (s.ffmt === 'all' || fam[x.f] === s.ffmt) && (s.ftopic === 'all' || x.topic === s.ftopic); };
     var mins = function (t) { var q = t.split(':'); return +q[0] * 60 + +q[1]; };
     var hhmm = function (m) { return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + (m % 60)).slice(-2); };
-    var T0 = 540, T1 = 930, now = s.now;
+    var T0 = 540, T1 = 940, now = s.now;
     var SM = S.map(function (x) { return { x: x, a: mins(x.t), b: mins(x.e) }; });
     var open = function (id) { return function () { if (self.state.sel === id) self.closeExp(); else self.setState({ sel: id }); }; };
     var jItems = SM.map(function (o, i) {
@@ -315,9 +327,9 @@ export default class D3App extends Component<D3Props, any> {
       return {
         id: x.id, i: i, sh: F[x.f][1], fmtLabel: F[x.f][0], title: x.title, who: x.who, time: x.t, live: live,
         l: 'calc(' + (o.a - T0) + ' * var(--ppm) + 2px)', w: 'calc(' + d + ' * var(--ppm) - 4px)',
-        t: alone ? '2px' : 'calc(' + (x.room * 25) + '% + 2px)', h: alone ? 'calc(100% - 4px)' : 'calc(25% - 4px)',
-        cls: ['f-' + x.f, alone ? 'plen' : '', d <= 15 ? 'thin' : '', live ? 'live' : '', past ? 'past' : '', match(x) ? '' : 'dim'].join(' '),
-        aria: x.t + ' bis ' + x.e + ', ' + F[x.f][0] + ', ' + (alone ? 'alle Räume' : R[x.room]) + ': ' + x.title,
+        t: alone ? '2px' : 'calc(' + (x.room * 50) + '% + 2px)', h: alone ? 'calc(100% - 4px)' : 'calc(50% - 4px)',
+        cls: ['f-' + x.f, alone ? 'plen' : '', d <= 20 ? 'thin' : '', live ? 'live' : '', past ? 'past' : '', match(x) ? '' : 'dim'].join(' '),
+        aria: x.t + ' bis ' + x.e + ', ' + F[x.f][0] + ', ' + (alone ? 'Plenum' : R[x.room]) + ': ' + x.title,
         pick: open(x.id)
       };
     });
@@ -326,7 +338,7 @@ export default class D3App extends Component<D3Props, any> {
     var liveL = SM.filter(function (o) { return o.a <= now && now < o.b; });
     var upA = SM.filter(function (o) { return o.a > now; }).map(function (o) { return o.a; }).sort(function (p, q) { return p - q; })[0];
     var nextL = SM.filter(function (o) { return o.a === upA; });
-    var where = function (o) { return SM.some(function (y) { return y !== o && y.a < o.b && y.b > o.a; }) ? R[o.x.room] : 'Alle Räume'; };
+    var where = function (o) { return SM.some(function (y) { return y !== o && y.a < o.b && y.b > o.a; }) ? R[o.x.room] : 'Plenum'; };
     var inMin = function (d) { return d < 60 ? 'in ' + d + ' min' : 'in ' + Math.floor(d / 60) + ' h' + (d % 60 ? ' ' + (d % 60) + ' min' : ''); };
     var jn = {
       time: hhmm(now), val: now, l: 'calc(' + (now - T0) + ' * var(--ppm))',
@@ -344,29 +356,32 @@ export default class D3App extends Component<D3Props, any> {
       nextGo: function () { if (nextL.length) self.setState({ sel: nextL[0].x.id }); }
     };
     var cur = S.filter(function (x) { return x.id === s.sel; })[0];
-    var MASK = { keynote: 'h-fk', vortrag: 'h-fk', case: 'h-fc', panel: 'h-fc', master: 'h-fm', net: 'h-fn' };
+    var MASK = { keynote: 'h-fk', vortrag: 'h-fk', case: 'h-fc', panel: 'h-fc', master: 'h-fm', net: 'h-fn', pause: 'h-fn', mod: 'h-fk' };
     var ex = cur ? {
       cls: 'open', hidden: false, tone: fam[cur.f] === 'keynote' && cur.f === 'keynote' ? 'tone-k' : (cur.f === 'net' ? 'tone-n' : ''),
-      meta: cur.t + '–' + cur.e + ' · ' + where(SM[S.indexOf(cur)]), title: cur.title, topic: cur.topic, sh: F[cur.f][1], fmt: F[cur.f][0],
-      desc: cur.f === 'net' ? 'Kleine Runden zu den Themen des Tages. Du wählst den Raum und bleibst, so lange du willst.' : '[Kurzbeschreibung: worum es geht, was du mitnimmst.]',
+      meta: cur.t + '–' + cur.e + ' · ' + (mins(cur.e) - mins(cur.t)) + ' Min · ' + where(SM[S.indexOf(cur)]), title: cur.title, topic: cur.topic, sh: F[cur.f][1], fmt: F[cur.f][0],
+      desc: cur.f === 'net' || cur.f === 'pause' ? 'Die Messe-Area ist offen: Stände besuchen, Leute treffen, in den Austauschräumen weiterreden.' : (cur.f === 'mod' ? 'Julia Lupp und Christian Rosenberger führen durch den Tag.' : '[Kurzbeschreibung: worum es geht, was du mitnimmst.]'),
+      long: cur.f === 'net' || cur.f === 'pause' || cur.f === 'mod' ? '' : (cur.f === 'case' ? '[Ausführliche Beschreibung: Was war die Herausforderung? Wie wurde das Projekt umgesetzt? Was hat es gebracht?]' : '[Ausführliche Beschreibung des Programmpunkts.]'),
       img: cur.spk !== undefined ? SP[cur.spk] : '', mask: MASK[cur.f],
       who: cur.who, role: cur.spk !== undefined ? '[Funktion · Organisation]' : '', hasSpk: cur.spk !== undefined,
+      copyLabel: s.copied === cur.id ? 'Link kopiert' : 'Link zur Session kopieren',
+      copy: function () { try { navigator.clipboard.writeText(window.location.href); } catch (e) {} self.setState({ copied: cur.id }); },
       toSpk: function () { self.go('speaker', { spk: cur.spk, sel: null }); },
-      rel: cur.f === 'case' ? 'Artikel zum Case auf amtshelden.de' : 'Weiterführend auf amtshelden.de',
+      rel: cur.f === 'case' ? 'Vollständiger Case auf amtshelden.de' : '',
       close: function () { self.closeExp(); },
       prev: function () { var i = S.indexOf(cur); self.setState({ sel: S[(i - 1 + S.length) % S.length].id }); },
       next: function () { var i = S.indexOf(cur); self.setState({ sel: S[(i + 1) % S.length].id }); }
-    } : { cls: '', hidden: true, tone: '', meta: '', title: '', topic: '', sh: '', fmt: '', desc: '', img: '', mask: '', who: '', role: '', hasSpk: false, toSpk: null, rel: '', close: function () {}, prev: function () {}, next: function () {} };
-    var fList = [['all', 'Alle Formate', ''], ['keynote', 'Keynote & Vortrag', 's-circle'], ['case', 'Case & Panel', 's-burst'], ['master', 'Masterclass', 's-diag'], ['net', 'Networking', 's-net']];
-    var tList = ['all', 'KI', 'Cybersecurity', 'Tools', 'Führung', 'Transformation & Kultur', 'Prozesse', 'Infrastruktur', 'Datenschutz & Recht'];
+    } : { cls: '', hidden: true, tone: '', meta: '', title: '', topic: '', sh: '', fmt: '', desc: '', long: '', img: '', mask: '', who: '', role: '', hasSpk: false, toSpk: null, rel: '', copyLabel: '', copy: function () {}, close: function () {}, prev: function () {}, next: function () {} };
+    var fList = [['all', 'Alle Formate', ''], ['keynote', 'Keynote & Fachvortrag', 's-circle'], ['case', 'Praxis-Case & Panel', 's-burst'], ['master', 'Masterclass', 's-diag'], ['net', 'Austausch & Messe', 's-net']];
+    var tList = ['all', 'Cybersecurity', 'KI', 'Tools', 'Führung', 'Transformation und Kultur', 'Prozesse', 'Infrastruktur', 'Datenschutz und Recht', 'Bündelung und Effizienz'];
 
     /* format modules */
     var FM = [
-      { k: 'fk', verb: 'Vortrag ansehen', f: 'keynote', name: 'Keynotes & Vorträge', desc: 'Impulse für die Verwaltung von morgen.', time: '09:40', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-orange)' },
-      { k: 'fc', verb: 'Cases kennenlernen', f: 'case', name: 'Cases & Panels', desc: 'Echte Lösungen aus echten Behörden.', time: '10:30', bg: 'var(--d3-bg-2)', dark: '', ink: '' },
-      { k: 'fm', verb: 'Masterclass mitmachen', f: 'master', name: 'Master­classes', desc: 'Wissen vertiefen und anwenden.', time: '', bg: 'var(--d3-white)', dark: '', ink: 'var(--d3-black)' },
-      { k: 'fn', verb: 'Leute treffen', f: 'net', name: 'Networking', desc: 'Menschen und Perspektiven verbinden.', time: '', bg: 'var(--d3-green)', dark: 'dark', ink: 'var(--d3-white)' },
-      { k: 'fs', verb: 'Stände besuchen', f: 'stand', name: 'Stände', desc: 'Technologien und Lösungen entdecken.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-bg)' }
+      { k: 'fk', verb: 'Programm ansehen', f: 'vortrag', name: 'Fach­vorträge', desc: 'Fachleute zu konkreten Herausforderungen. Danach ist Zeit für deine Fragen.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-orange)' },
+      { k: 'fc', verb: 'Programm ansehen', f: 'case', name: 'Praxis-Cases', desc: 'Behörden und Unternehmen zeigen gemeinsam ein echtes Projekt.', time: '', bg: 'var(--d3-bg-2)', dark: '', ink: '' },
+      { k: 'fm', verb: 'Programm ansehen', f: 'master', name: 'Master­classes', desc: 'Selbst ausprobieren, je einmal vormittags und nachmittags.', time: '', bg: 'var(--d3-white)', dark: '', ink: 'var(--d3-black)' },
+      { k: 'fn', verb: 'Programm ansehen', f: 'net', name: 'Austausch­räume', desc: 'In kleinen Gruppen mit anderen Behörden über konkrete Themen sprechen.', time: '', bg: 'var(--d3-green)', dark: 'dark', ink: 'var(--d3-white)' },
+      { k: 'fs', verb: 'Partner ansehen', f: 'stand', name: 'Messe-Area', desc: 'Virtuelle Stände: direkt mit Anbietern und ihren Ansprechpersonen sprechen.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-bg)' }
     ];
     var STILL = {"fk": "/bildwelt/d3-3d-fk.png", "fc": "/bildwelt/d3-3d-fc.png", "fm": "/bildwelt/d3-3d-fm.png", "fn": "/bildwelt/d3-3d-fn.png", "fs": "/bildwelt/d3-3d-fs.png"};
     var fmts = FM.map(function (m) {
@@ -381,7 +396,7 @@ export default class D3App extends Component<D3Props, any> {
           if (touch && self._3d && !self._3d.failed && mod && self._3d.want !== mod) { self._3d.activate(mod); return; }
           if (m.f === 'stand') { if (st === 'partner') return; self.go('partner', null, mod); return; }
           if (st === 'home') { self.go('explore', { hover: m.k }); return; }
-          self.go('program', { ffmt: m.f, sel: null }, mod);
+          self.go('program', { ffmt: fam[m.f] || 'all', sel: null }, mod);
         } };
     });
 
@@ -401,35 +416,29 @@ export default class D3App extends Component<D3Props, any> {
 
     /* ctas */
     var ctaDefs = {
-      home: p2 ? ['Anmelden', 'über Let’s Get Digital', null] : ['Partner werden', '', 'partner'],
-      explore: ['Programm ansehen', '', 'program'],
-      speaker: p2 ? ['Anmelden', 'über Let’s Get Digital', null] : ['Partner werden', '', 'partner'],
-      partner: p2 ? ['Anmelden', 'über Let’s Get Digital', null] : ['Partner werden', '', null],
-      program: p2 ? ['Anmelden', 'über Let’s Get Digital', null] : ['Partner werden', '', 'partner']
+      home: ['Jetzt kostenfrei anmelden', 'Bist du dabei? · 14. April 2027', 'join'],
+      explore: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join'],
+      speaker: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join'],
+      partner: ['Jetzt kostenfrei anmelden', 'Für Beschäftigte aus Behörden', 'join'],
+      program: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join']
     };
-    var cta2Defs = {
-      home: p2 ? ['Programm', '', 'program'] : ['Speaker*in werden', '', 'partner'],
-      speaker: p2 ? ['Programm', '', 'program'] : ['Speaker*in werden', '', 'partner'],
-      partner: ['Speaker*in werden', '', null]
-    };
-    var faqReg = p2 ? 'Über Let’s Get Digital. Dort bekommst du Bestätigung und Zugang.' : 'Die Anmeldung startet [Datum]. Organisiert wird sie über Let’s Get Digital.';
+    var faqReg = p2 ? 'Über Let’s Get Digital. Dort bekommst du Bestätigung und Zugang.' : 'Die Anmeldung öffnet [Datum]. Sie läuft über Let’s Get Digital, dort bekommst du Bestätigung und Zugang.';
 
     /* Frag D3: fester Katalog, Stichwort-Abgleich. [Klammern] = Platzhalter wie im Rest der Seite. */
     var KB = [
-      { k: ['wer', 'für wen', 'zielgruppe', 'behörde', 'verwaltung', 'kommune', 'teilnehm', 'mitarbeit'], q: 'Für wen ist der Deep Dive Day?', a: 'Für Menschen aus Behörden und öffentlichen Organisationen, die die Verwaltung mit KI und neuen Arbeitsweisen verändern wollen.' },
-      { k: ['ablauf', 'läuft', 'tag ab', 'uhr', 'uhrzeit', 'dauer', 'wie lange', 'beginn', 'ende'], q: 'Wie läuft der Tag ab?', a: 'Von 09:00 bis 15:30, komplett im Browser. Du wechselst zwischen Keynotes, Vorträgen, Cases, Masterclasses, Networking und Ständen.', act: ['Programm ansehen', 'program'] },
+      { k: ['wer', 'für wen', 'zielgruppe', 'behörde', 'verwaltung', 'kommune', 'teilnehm', 'mitarbeit'], q: 'Für wen ist die D3?', a: 'Für Beschäftigte aus Behörden und öffentlichen Einrichtungen, die sich mit KI, Digitalisierung und Veränderung in ihrer Verwaltung beschäftigen.' },
+      { k: ['ablauf', 'läuft', 'tag ab', 'uhr', 'uhrzeit', 'dauer', 'wie lange', 'beginn', 'ende'], q: 'Wie läuft der Tag ab?', a: 'Von 9:00 bis 15:30, komplett digital. Zwei Tracks mit Fachvorträgen, Praxis-Cases und Masterclasses, dazu Austauschräume und die Messe-Area.', act: ['Programm ansehen', 'program'] },
       { k: ['anmeld', 'registr', 'ticket', 'let’s get digital', "let's get digital", 'teilnahme sichern', 'platz'], q: 'Wie melde ich mich an?', a: faqReg },
-      { k: ['kost', 'preis', 'gebühr', 'kostenlos', 'bezahl', 'euro', '€'], q: 'Was kostet die Teilnahme?', a: '[Antwort folgt: Kosten der Teilnahme.] Alles Weitere zur Anmeldung läuft über Let’s Get Digital.' },
-      { k: ['technik', 'software', 'browser', 'install', 'app', 'zoom', 'teams', 'kamera', 'mikro'], q: 'Brauche ich Software?', a: 'Nein. Der Deep Dive Day läuft im Browser, du brauchst nur einen aktuellen Browser und eine stabile Verbindung. [Plattform wird ergänzt.]' },
-      { k: ['aufzeichn', 'mediathek', 'nachschau', 'später', 'video', 'verpass'], q: 'Gibt es Aufzeichnungen?', a: 'Nach jeder Ausgabe wird das Programm zur Mediathek. Cases erscheinen zusätzlich als Artikel auf amtshelden.de.' },
-      { k: ['raum', 'räume', 'parallel', 'wechsel', 'gleichzeitig'], q: 'Was heißt viele Räume?', a: 'Vier Räume laufen parallel: Main Stage, Raum 2, Werkstatt und Lounge. Du wechselst, wann du willst.', act: ['Zur Tagesstrecke', 'program'] },
-      { k: ['format', 'keynote', 'vortrag', 'case', 'panel', 'masterclass', 'workshop'], q: 'Welche Formate gibt es?', a: 'Keynotes und Vorträge für Impulse, Cases und Panels mit echten Lösungen aus Behörden, Masterclasses zum Vertiefen, dazu Networking und Stände.', act: ['Formate ansehen', 'explore'] },
-      { k: ['netzwerk', 'networking', 'kennenlern', 'leute', 'austausch', 'kontakt knüpf'], q: 'Kann ich Leute treffen?', a: 'Ja. In den Networking-Runden und Themenräumen sprichst du in kleinen Gruppen mit anderen aus der Verwaltung.' },
-      { k: ['partner', 'sponsor', 'ausstell', 'stand ', 'stände', 'unternehmen'], q: 'Wie werde ich Partner?', a: 'Amtshelden sucht Partner und Aussteller für die erste Ausgabe. Melde dich über Mitmachen.', act: ['Partner werden', 'partner'] },
-      { k: ['speaker', 'sprech', 'einreich', 'call for', 'vortragen', 'referent'], q: 'Kann ich sprechen?', a: 'Ja, wir suchen Speaker*innen mit echten Erfahrungen aus der Verwaltung. Einreichen über Mitmachen.', act: ['Speaker*in werden', 'partner'] },
-      { k: ['thema', 'themen', ' ki', 'ki ', 'künstlich', 'transformation', 'ausgabe'], q: 'Worum geht es?', a: 'Ausgabe 01 heißt KI + Transformation. Ausgabe 02 widmet sich der Kommunikation [Datum].' },
-      { k: ['wann', 'datum', 'termin', 'findet'], q: 'Wann ist der Deep Dive Day?', a: '[TT.MM.2027], 09:00 bis 15:30, digital.' },
-      { k: ['amtshelden', 'veranstalt', 'wer steckt', 'organisier'], q: 'Wer steckt dahinter?', a: 'Der Deep Dive Day ist das digitale Konferenzformat von Amtshelden.', act: ['Über den Deep Dive Day', 'partner'] }
+      { k: ['kost', 'preis', 'gebühr', 'kostenlos', 'kostenfrei', 'bezahl', 'euro', '€'], q: 'Was kostet die Teilnahme?', a: 'Nichts. Für Beschäftigte aus Behörden und öffentlichen Einrichtungen ist die Teilnahme kostenfrei.' },
+      { k: ['technik', 'software', 'browser', 'install', 'app', 'zoom', 'teams', 'kamera', 'mikro'], q: 'Brauche ich Software?', a: 'Nein. Du brauchst einen aktuellen Browser und eine stabile Verbindung.' },
+      { k: ['aufzeichn', 'mediathek', 'nachschau', 'später', 'video', 'verpass'], q: 'Gibt es Aufzeichnungen?', a: '[Antwort folgt.] Praxis-Cases erscheinen nach dem Event als Artikel auf amtshelden.de.' },
+      { k: ['track', 'parallel', 'wechsel', 'gleichzeitig', 'raum', 'räume'], q: 'Was läuft parallel?', a: 'Zwei Tracks: Fachvorträge und Praxis-Cases in Track 1, Masterclasses in Track 2. Du wechselst, wann du willst.', act: ['Programm ansehen', 'program'] },
+      { k: ['format', 'keynote', 'vortrag', 'case', 'panel', 'masterclass', 'workshop'], q: 'Welche Formate gibt es?', a: 'Fachvorträge, Praxis-Cases, Masterclasses, Austauschräume und die Messe-Area.', act: ['Über die D3', 'explore'] },
+      { k: ['netzwerk', 'networking', 'kennenlern', 'leute', 'austausch', 'kontakt knüpf'], q: 'Kann ich Leute treffen?', a: 'Ja. In den Austauschräumen sprichst du in kleinen Gruppen mit anderen Behörden.' },
+      { k: ['partner', 'sponsor', 'ausstell', 'stand ', 'stände', 'unternehmen', 'messe'], q: 'Wie werde ich Partner?', a: 'Über das Formular im Partnerbereich. Wir schicken euch alle Informationen.', act: ['Zu den Partnern', 'partner'] },
+      { k: ['thema', 'themen', ' ki', 'ki ', 'künstlich', 'transformation', 'ausgabe', 'herbst', 'kommunikation'], q: 'Worum geht es?', a: 'Die erste Ausgabe heißt KI + Transformation. Die nächste D3 kommt im Herbst 2027, Thema: Kommunikation.' },
+      { k: ['wann', 'datum', 'termin', 'findet'], q: 'Wann ist die D3?', a: 'Am 14. April 2027, von 9:00 bis 15:30, digital.' },
+      { k: ['amtshelden', 'veranstalt', 'wer steckt', 'organisier'], q: 'Wer steckt dahinter?', a: 'Veranstalter ist Amtshelden.', act: ['Über die D3', 'explore'] }
     ];
     var norm = function (t) { return (' ' + String(t || '').toLowerCase().replace(/[?!.,;:„“"()]/g, ' ').replace(/\s+/g, ' ') + ' '); };
     var ask = function (text) {
@@ -449,7 +458,7 @@ export default class D3App extends Component<D3Props, any> {
       chips: ['Was kostet die Teilnahme?', 'Brauche ich Software?', 'Gibt es Aufzeichnungen?', 'Wie werde ich Partner?'].map(function (c) { return { label: c, ask: function () { ask(c); } }; })
     };
     var mk = function (d) { d = d || ['', '', null]; return { label: d[0], note: d[1], go: function (e) { if (d[2]) self.go(d[2], null, e && e.currentTarget); } }; };
-    var cta = mk(ctaDefs[s.st]), cta2 = mk(cta2Defs[s.st]);
+    var cta = mk(ctaDefs[s.st]);
     var nxt = order[idx + 1];
     var hint = nxt ? { label: names[nxt], go: function (e) { self.go(nxt, null, e && e.currentTarget); } } : { label: 'Zum Start', go: function (e) { self.go('home', null, e && e.currentTarget); } };
 
@@ -466,26 +475,28 @@ export default class D3App extends Component<D3Props, any> {
       spkSel[i] = (s.st === 'speaker' && s.spk === i) ? 'sel' : '';
       spkPick[i] = function () { if (self.state.st !== 'speaker') self.go('speaker', { spk: i }); else self.setState({ spk: i }); };
     });
-    var spkSess = ['09:40 · Keynote', '10:30 · Case', '10:30 · Masterclass', '11:15 · Panel', '10:30 · Vortrag', '15:00 · Abschluss-Keynote'];
-    var spkSessId = ['c', 'd', 'f', 'h', 'e', 'n'];
+    var spkSess = ['09:40 · Eröffnungskeynote', '10:00 · Praxis-Case', '10:00 · Masterclass 1', '11:00 · Panel', '10:30 · Fachvortrag 1', '15:00 · Abschlusskeynote'];
+    var spkSessId = ['eroeffnungskeynote', 'praxis-case-1', 'masterclass-1-vormittag', 'panel-1', 'fachvortrag-1', 'abschlusskeynote'];
 
     return {
       st: s.st, bp: bp, cols: cols, rows: rows, base: base, minrow: minrow,
       rootRef: this._rootRef, stageRef: this._stageRef,
       introCls: s.intro === 0 ? '' : (s.intro === 2 ? 'out' : 'out gone'), bootCls: s.intro < 2 ? 'booting' : '', skipIntro: function () { self.endIntro(); }, ilogoRef: this._ilogoRef,
       depthCls: (bp === 'desk' && !(typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) ? 'depth' : '',
-      lockSpan: bp === 'desk' ? 4 : (bp === 'tab' ? 5 : 3), ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: bp === 'mob' ? (p2 ? 'Anmelden' : 'Partner') : (p2 ? 'Anmelden' : 'Partner werden'), idxSpan: bp === 'desk' ? 1 : 1,
+      lockSpan: bp === 'desk' ? 4 : (bp === 'tab' ? 5 : 3), ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: bp === 'mob' ? 'Anmelden' : 'Kostenfrei anmelden', idxSpan: bp === 'desk' ? 1 : 1,
       P: P, fmts: fmts, heroPlace: heroPlace, heroTime: heroTimes[heroPlace], heroFmt: { fk: 'Keynote', fc: 'Case', fm: 'Masterclass', fn: 'Networking', fs: 'Stände' }[heroPlace], heroVerb: heroVerbs[heroPlace],
       stNo: '0' + (idx + 1), stName: names[s.st],
-      on: { home: s.st === 'home' ? 'on' : '', explore: s.st === 'explore' ? 'on' : '', program: s.st === 'program' ? 'on' : '', speaker: s.st === 'speaker' ? 'on' : '', partner: s.st === 'partner' ? 'on' : '' },
-      nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner') },
-      ctaBar: p2 ? { label: 'Anmelden', go: function (e) { if (e && e.preventDefault) e.preventDefault(); } } : { label: 'Partner werden', go: navTo('partner') },
-      cta: cta, cta2: cta2, hint: hint,
-      progNote: p2 ? 'Der Tag als Strecke: links nach rechts die Zeit, untereinander die Räume. Tippe auf einen Programmpunkt.' : 'Vorläufiger Ablauf, Zeiten ab 10:30 und Themen sind exemplarisch. Schieb die Uhr, um den Tag live zu sehen.',
-      spkNote: p2 ? 'Alle Speaker*innen des Tages.' : 'Die ersten Stimmen. Weitere folgen.',
-      partnerNote: p2 ? 'Partner und Aussteller der Ausgabe 01.' : 'Amtshelden sucht Partner, Aussteller und Speaker*innen für die erste Ausgabe.',
+      on: { home: s.st === 'home' ? 'on' : '', explore: s.st === 'explore' ? 'on' : '', program: s.st === 'program' ? 'on' : '', speaker: s.st === 'speaker' ? 'on' : '', partner: s.st === 'partner' ? 'on' : '', join: s.st === 'join' ? 'on' : '' },
+      nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner'), join: navTo('join') },
+      ctaBar: { label: 'Kostenfrei anmelden', go: navTo('join') },
+      cta: cta, hint: hint,
+      reg: p2 ? { title: 'Jetzt kostenfrei anmelden', text: 'Die Anmeldung läuft über Let’s Get Digital. [Widget oder Link folgt.]' } : { title: 'Anmeldung öffnet bald', text: 'Die Anmeldung öffnet [Datum]. Sie läuft über Let’s Get Digital, dort bekommst du Bestätigung und Zugang.' },
+      pf: { sent: s.pfSent, open: !s.pfSent, submit: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState({ pfSent: true }); } },
+      progNote: p2 ? 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Tippe auf einen Programmpunkt.' : 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Das vollständige Programm veröffentlichen wir im Frühjahr 2027.',
+      spkNote: p2 ? 'Fachleute, Menschen aus Behörden und alle, die Projekte umgesetzt haben.' : 'Fachleute, Menschen aus Behörden und alle, die Projekte umgesetzt haben. Weitere folgen.',
+      partnerNote: 'Welche Anwendungen funktionieren bereits in Behörden? Unsere Partner zeigen es und beantworten deine Fragen.',
       faqReg: faqReg, bot: bot,
-      logos: [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) { return p2 ? { label: '[Partner-Logo]', bg: 'transparent' } : { label: i === 0 ? 'Hier entsteht der Partnerbereich der Ausgabe 01.' : '', bg: i === 0 ? 'var(--d3-white)' : (i % 3 === 1 ? 'var(--d3-bg)' : 'transparent') }; }),
+      logos: [0, 1, 2, 3, 4, 5].map(function (i) { return { label: '[Partner ' + (i + 1) + ']', bg: i % 2 ? 'var(--d3-bg)' : 'transparent' }; }),
       jItems: jItems, jTicks: jTicks, jn: jn, ex: ex, jrRef: this._jrRef, jScrollRef: this._jScrollRef,
       jWheel: function (e) {
         var el = e.currentTarget, ax = Math.abs(e.deltaX) > Math.abs(e.deltaY), d = ax ? e.deltaX : e.deltaY, max = el.scrollWidth - el.clientWidth;

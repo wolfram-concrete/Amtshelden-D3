@@ -1,4 +1,4 @@
-// Home-Zellen: Marke, Thema, Aussage, Porträt-Zelle, Ausgaben, Datum, Aktionen.
+// Start: Marke, Claim, Datum, Bildwelt, Was ist die D3, drei Gründe, Partner, nächste Ausgabe, Anmeldung. Die Gründe erscheinen auch auf Teilnahme.
 // Werte (v) kommen aus D3App.renderVals().
 import type { V, Css } from '../types';
 
@@ -46,30 +46,15 @@ export function Brand({ v }: { v: V }) {
     <div className={`mod k-brand ${v.P.brand.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.brand.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.brand.r ?? ""} * var(--rowh))`, width: `calc(${v.P.brand.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.brand.h ?? ""} * var(--rowh))`, transitionDelay: v.P.brand.d } as Css}>
       <div className="L l-home tA pad">
         <span className="lab">
-          Amtshelden Deep Dive Day · Ausgabe 01
+          Amtshelden Deep Dive Day · KI + Transformation
         </span>
-        <p className="ah-claim ah-big">
-          {"Die digitale Konferenz von "}
+        <h1 className="ah-claim ah-big">
+          {"Die digitale Konferenz für alle, die in Behörden lieber "}
           <span>
-            Amtshelden
+            machen
           </span>
-          {" für Behörden, die neue Wege gehen."}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-export function Theme({ v }: { v: V }) {
-  return (
-    <div className={`mod k-theme ${v.P.theme.cls ?? ""}`} style={{ background: "var(--d3-black)", color: "var(--d3-bg)", left: `calc(${v.P.theme.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.theme.r ?? ""} * var(--rowh))`, width: `calc(${v.P.theme.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.theme.h ?? ""} * var(--rowh))`, transitionDelay: v.P.theme.d } as Css}>
-      <div className="L l-home tA pad">
-        <span className="lab">
-          Thema der Ausgabe 01 · 4 Räume · 8 Themen
-        </span>
-        <span className="big" style={{ fontSize: "min(40cqh, 6cqw)", letterSpacing: "-0.025em", lineHeight: "1" } as Css}>
-          KI + Transformation
-        </span>
+          {" als reden."}
+        </h1>
       </div>
     </div>
   );
@@ -77,21 +62,22 @@ export function Theme({ v }: { v: V }) {
 
 export function Why({ v }: { v: V }) {
   return (
-    <div className={`mod k-why why ${v.P.why.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.why.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.why.r ?? ""} * var(--rowh))`, width: `calc(${v.P.why.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.why.h ?? ""} * var(--rowh))`, transitionDelay: v.P.why.d } as Css}>
+    <div className={`mod act k-why why ${v.P.why.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.why.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.why.r ?? ""} * var(--rowh))`, width: `calc(${v.P.why.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.why.h ?? ""} * var(--rowh))`, transitionDelay: v.P.why.d } as Css}>
+      <button className="hit" onClick={v.nav.explore} aria-label="Mehr über die D3" />
       <div className="L l-home tA pad">
         <span className="lab">
-          Was ist der Deep Dive Day?
+          Was ist die D3?
         </span>
         <div className="btm" style={{ gap: "12px" } as Css}>
           <p className="ah-claim" style={{ fontSize: "clamp(18px, min(5.4cqw, 11cqh), 30px)" } as Css}>
-            Ein Tag im Browser. Keynotes, Cases, Masterclasses und Austausch.
+            Ein Tag. Viele Ideen. Echte Erfahrungen.
           </p>
           <p className="ah-sub hide-s">
-            Das Konferenzformat von Amtshelden. Jede Ausgabe hat ein Schwerpunktthema – die erste: KI und Transformation.
+            Menschen aus Behörden treffen auf Fachleute, Praxisbeispiele und andere mit ähnlichen Aufgaben. Du erfährst, was funktioniert, fragst direkt nach und probierst Neues aus.
           </p>
-          <a className="ah-link sys" href="https://amtshelden.de" target="_blank" rel="noopener">
-            amtshelden.de ↗
-          </a>
+          <span className="ah-link sys">
+            Mehr über die D3 →
+          </span>
         </div>
       </div>
     </div>
@@ -121,12 +107,10 @@ export function Hero({ v }: { v: V }) {
       <div className="L l-all tD pad" style={{ justifyContent: "flex-end" } as Css}>
         <div className="btm">
           <span className="lab">
-            {v.heroTime}
-            <br />
-            {v.heroFmt}
+            Ausgabe 01
           </span>
-          <b style={{ fontSize: "clamp(14px, 6cqw, 18px)", lineHeight: "1.1" } as Css}>
-            {v.heroVerb}
+          <b style={{ fontSize: "clamp(15px, 6.4cqw, 20px)", lineHeight: "1.1" } as Css}>
+            KI + Transformation
           </b>
         </div>
       </div>
@@ -136,16 +120,19 @@ export function Hero({ v }: { v: V }) {
 
 export function NextEdition({ v }: { v: V }) {
   return (
-    <div className={`mod k-next act ${v.P.next.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.next.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.next.r ?? ""} * var(--rowh))`, width: `calc(${v.P.next.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.next.h ?? ""} * var(--rowh))`, transitionDelay: v.P.next.d } as Css}>
-      <span className="wipe" />
-      <button className="hit" onClick={v.nav.partner} aria-label="Nächste Ausgabe ansehen" />
+    <div className={`mod k-next ${v.P.next.cls ?? ""}`} style={{ background: "var(--d3-green)", color: "var(--d3-white)", left: `calc(${v.P.next.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.next.r ?? ""} * var(--rowh))`, width: `calc(${v.P.next.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.next.h ?? ""} * var(--rowh))`, transitionDelay: v.P.next.d } as Css}>
       <div className="L l-home tA pad">
         <span className="lab">
-          Als Nächstes · [Datum]
+          Als Nächstes
         </span>
-        <b style={{ fontSize: "clamp(14px, 6.5cqw, 18px)", lineHeight: "1.15" } as Css}>
-          Ausgabe 02 · Kommunikation
-        </b>
+        <div className="btm">
+          <b style={{ fontSize: "clamp(15px, min(6cqw, 15cqh), 22px)", lineHeight: "1.15" } as Css}>
+            Die nächste D3 kommt im Herbst 2027.
+          </b>
+          <span className="lab">
+            Thema: Kommunikation
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -161,7 +148,7 @@ export function DateCell({ v }: { v: V }) {
               Datum
             </span>
             <b>
-              [TT.MM.2027]
+              14. April 2027
             </b>
           </div>
           <div>
@@ -169,15 +156,15 @@ export function DateCell({ v }: { v: V }) {
               Zeit
             </span>
             <b>
-              09:00–15:30
+              9:00–15:30
             </b>
           </div>
           <div>
             <span className="lab">
-              Ort
+              Teilnahme
             </span>
             <b>
-              Digital
+              {"Digital & kostenfrei"}
             </b>
           </div>
         </div>
@@ -209,17 +196,17 @@ export function Cta({ v }: { v: V }) {
   );
 }
 
-export function Cta2({ v }: { v: V }) {
+export function Hint({ v }: { v: V }) {
   return (
-    <div className={`mod dark act k-cta2 ${v.P.cta2.cls ?? ""}`} style={{ left: `calc(${v.P.cta2.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.cta2.r ?? ""} * var(--rowh))`, width: `calc(${v.P.cta2.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.cta2.h ?? ""} * var(--rowh))`, transitionDelay: v.P.cta2.d } as Css}>
-      <button className="hit" onClick={v.cta2.go} aria-label={v.cta2.label} />
+    <div className={`mod act k-hint ${v.P.hint.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.hint.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.hint.r ?? ""} * var(--rowh))`, width: `calc(${v.P.hint.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.hint.h ?? ""} * var(--rowh))`, transitionDelay: v.P.hint.d } as Css}>
+      <button className="hit" onClick={v.hint.go} aria-label={v.hint.label} />
       <div className="L l-all tC pad">
         <span className="lab">
-          {v.cta2.note}
+          {"Weiter · "}{v.stNo}{" / 06"}
         </span>
         <div className="ctaRow">
           <span className="t-mod">
-            {v.cta2.label}
+            {v.hint.label}
           </span>
           <span className="s-arrow-w">
             <svg className="mo-next" viewBox="0 0 100 100" aria-hidden="true">
@@ -232,18 +219,144 @@ export function Cta2({ v }: { v: V }) {
   );
 }
 
-export function Hint({ v }: { v: V }) {
+export function Reason1({ v }: { v: V }) {
   return (
-    <div className={`mod act k-hint ${v.P.hint.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.hint.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.hint.r ?? ""} * var(--rowh))`, width: `calc(${v.P.hint.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.hint.h ?? ""} * var(--rowh))`, transitionDelay: v.P.hint.d } as Css}>
-      <button className="hit" onClick={v.hint.go} aria-label={v.hint.label} />
-      <div className="L l-all tC pad">
+    <div className={`mod act k-g1 gr ${v.P.g1.cls ?? ""}`} style={{ background: "var(--d3-black)", color: "var(--d3-bg)", left: `calc(${v.P.g1.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.g1.r ?? ""} * var(--rowh))`, width: `calc(${v.P.g1.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.g1.h ?? ""} * var(--rowh))`, transitionDelay: v.P.g1.d } as Css}>
+      <button className="hit" onClick={v.nav.join} aria-label="Aus der Praxis. Für die Praxis. – zur Teilnahme" />
+      <span className="gi">
+        <svg className="mo mf" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M50,0l6.35485,16.59287c-2.05869,-0.38923 -4.18299,-0.59287 -6.35485,-0.59287v68c2.17186,0 4.29616,-0.20364 6.35485,-0.59287l-6.35485,16.59287l-9.95,-25.98l-25.41,11.34l11.34,-25.41l-25.98,-9.95l25.98,-9.95l-11.34,-25.41l25.41,11.34zM85.36,14.64l-7.24518,16.23457c-2.40598,-3.53 -5.4594,-6.58341 -8.98939,-8.98939zM100,50l-16.59287,6.35485c0.38923,-2.05869 0.59287,-4.18299 0.59287,-6.35485c0,-2.17186 -0.20364,-4.29616 -0.59287,-6.35485zM85.36,85.36l-16.23457,-7.24518c3.53,-2.40598 6.58341,-5.4594 8.98939,-8.98939z" style={{ fill: "var(--d3-black)" } as Css} />
+          <path d="M59.95,74.02l9.17543,4.09482c-3.78026,2.57655 -8.10707,4.41061 -12.77058,5.29231zM74.02,59.95l9.38713,-3.59515c-0.88171,4.66351 -2.71576,8.99032 -5.29231,12.77058zM74.02,40.05l4.09482,-9.17543c2.57655,3.78026 4.41061,8.10707 5.29231,12.77058zM59.95,25.98l-3.59515,-9.38713c4.66351,0.88171 8.99032,2.71576 12.77058,5.29231z" style={{ fill: "var(--d3-black)" } as Css} />
+        </svg>
+      </span>
+      <div className="L l-home tA pad">
         <span className="lab">
-          {"Weiter · "}{v.stNo}{" / 05"}
+          Grund 01
+        </span>
+        <div className="btm">
+          <b className="gt">
+            Aus der Praxis. Für die Praxis.
+          </b>
+          <p className="gp hide-s">
+            Echte Projekte aus Behörden und die Menschen dahinter.
+          </p>
+        </div>
+      </div>
+      <div className="L l-join tA pad">
+        <span className="lab">
+          Grund 01
+        </span>
+        <div className="btm">
+          <b className="gt">
+            Aus der Praxis. Für die Praxis.
+          </b>
+          <p className="gp">
+            Du erfährst, was andere Behörden umgesetzt haben: mit Erfahrungen, Ergebnissen und der Möglichkeit, direkt mit den Beteiligten zu sprechen.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function Reason2({ v }: { v: V }) {
+  return (
+    <div className={`mod act k-g2 gr ${v.P.g2.cls ?? ""}`} style={{ background: "var(--d3-white)", color: "var(--d3-black)", left: `calc(${v.P.g2.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.g2.r ?? ""} * var(--rowh))`, width: `calc(${v.P.g2.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.g2.h ?? ""} * var(--rowh))`, transitionDelay: v.P.g2.d } as Css}>
+      <button className="hit" onClick={v.nav.join} aria-label="Wissen, das du anwenden kannst. – zur Teilnahme" />
+      <span className="gi">
+        <svg className="mo mf" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M0,33.5c19.98585,0 37.89689,8.88336 50,22.91698c-4.41417,5.11825 -8.05579,10.92157 -10.74376,17.22884c-8.40745,-12.73989 -22.85018,-21.14582 -39.25624,-21.14582zM66,99.5h-13c0,-9.55133 2.84909,-18.43722 7.74376,-25.85418c3.38373,7.93986 5.25624,16.67835 5.25624,25.85418z" style={{ fill: "var(--d3-black)" } as Css} />
+          <path d="M0,65.5c18.77768,0 34,15.22232 34,34h-16c0,-9.94113 -8.05887,-18 -18,-18z" style={{ fill: "var(--d3-black)" } as Css} />
+          <path d="M100,52.5c-16.40605,0 -30.84879,8.40593 -39.25624,21.14582c-2.68797,-6.30728 -6.3296,-12.11059 -10.74376,-17.22884c12.10311,-14.03362 30.01415,-22.91698 50,-22.91698zM34,99.5c0,-9.17583 1.8725,-17.91431 5.25624,-25.85418c4.89468,7.41695 7.74376,16.30285 7.74376,25.85418z" style={{ fill: "var(--d3-black)" } as Css} />
+          <path d="M100,65.5c-18.77768,0 -34,15.22232 -34,34h16c0,-9.94113 8.05887,-18 18,-18z" style={{ fill: "var(--d3-black)" } as Css} />
+          <path d="M43,7.5c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style={{ fill: "var(--d3-green)" } as Css} />
+          <path d="M30.5,20c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style={{ fill: "var(--d3-black)" } as Css} />
+          <path d="M55.5,20c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style={{ fill: "var(--d3-black)" } as Css} />
+          <path d="M43,32.5c0,3.86599 3.13401,7 7,7c3.86599,0 7,-3.13401 7,-7c0,-3.86599 -3.13401,-7 -7,-7c-3.86599,0 -7,3.13401 -7,7z" style={{ fill: "var(--d3-black)" } as Css} />
+        </svg>
+      </span>
+      <div className="L l-home tA pad">
+        <span className="lab">
+          Grund 02
+        </span>
+        <div className="btm">
+          <b className="gt">
+            Wissen, das du anwenden kannst.
+          </b>
+          <p className="gp hide-s">
+            Fachleute teilen ihr Wissen. In Masterclasses wirst du selbst aktiv.
+          </p>
+        </div>
+      </div>
+      <div className="L l-join tA pad">
+        <span className="lab">
+          Grund 02
+        </span>
+        <div className="btm">
+          <b className="gt">
+            Wissen, das du anwenden kannst.
+          </b>
+          <p className="gp">
+            Fachleute vermitteln Wissen zu konkreten Herausforderungen. In den Masterclasses wirst du selbst aktiv und nimmst Anregungen für deinen Arbeitsalltag mit.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function Reason3({ v }: { v: V }) {
+  return (
+    <div className={`mod act k-g3 gr ${v.P.g3.cls ?? ""}`} style={{ background: "var(--d3-green)", color: "var(--d3-white)", left: `calc(${v.P.g3.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.g3.r ?? ""} * var(--rowh))`, width: `calc(${v.P.g3.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.g3.h ?? ""} * var(--rowh))`, transitionDelay: v.P.g3.d } as Css}>
+      <button className="hit" onClick={v.nav.join} aria-label="Digital dabei. Persönlich im Austausch. – zur Teilnahme" />
+      <span className="gi">
+        <svg className="mo mf" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M32,18c6.67442,0 12.87157,2.04339 18,5.53872c-8.45108,5.75991 -14,15.46258 -14,26.46128c0,10.9987 5.54892,20.70137 14,26.46128c-5.12843,3.49532 -11.32558,5.53872 -18,5.53872c-17.67311,0 -32,-14.32689 -32,-32c0,-17.67311 14.32689,-32 32,-32z" style={{ fill: "var(--d3-white)" } as Css} />
+          <path d="M68,18c17.67311,0 32,14.32689 32,32c0,17.67311 -14.32689,32 -32,32c-6.67442,0 -12.87157,-2.04339 -18,-5.53872c8.45108,-5.75991 14,-15.46258 14,-26.46128c0,-10.9987 -5.54892,-20.70137 -14,-26.46128c5.12843,-3.49532 11.32558,-5.53872 18,-5.53872z" style={{ fill: "var(--d3-white)" } as Css} />
+        </svg>
+      </span>
+      <div className="L l-home tA pad">
+        <span className="lab">
+          Grund 03
+        </span>
+        <div className="btm">
+          <b className="gt">
+            Digital dabei. Persönlich im Austausch.
+          </b>
+          <p className="gp hide-s">
+            Sprich mit anderen Behörden und stell deine Fragen direkt.
+          </p>
+        </div>
+      </div>
+      <div className="L l-join tA pad">
+        <span className="lab">
+          Grund 03
+        </span>
+        <div className="btm">
+          <b className="gt">
+            Digital dabei. Persönlich im Austausch.
+          </b>
+          <p className="gp">
+            Neben den Sessions gibt es eigene Austauschräume. Du sprichst mit Menschen aus anderen Behörden, stellst Fragen und knüpfst Kontakte.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function PartnerTeaser({ v }: { v: V }) {
+  return (
+    <div className={`mod act k-ptile ${v.P.ptile.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.ptile.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.ptile.r ?? ""} * var(--rowh))`, width: `calc(${v.P.ptile.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.ptile.h ?? ""} * var(--rowh))`, transitionDelay: v.P.ptile.d } as Css}>
+      <button className="hit" onClick={v.nav.partner} aria-label="Zu den Partnern" />
+      <div className="L l-home tC pad">
+        <span className="lab">
+          Partner
         </span>
         <div className="ctaRow">
-          <span className="t-mod">
-            {v.hint.label}
-          </span>
+          <b className="pt-t">
+            Lösungen kennenlernen
+          </b>
           <span className="s-arrow-w">
             <svg className="mo-next" viewBox="0 0 100 100" aria-hidden="true">
               <path className="p-x" fillRule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z" />

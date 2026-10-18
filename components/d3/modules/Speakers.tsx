@@ -1,4 +1,4 @@
-// Speaker*innen: Kopf mit Bild, sechs Porträt-Zellen, Detail.
+// Speaker & Moderation: Kopf mit Bild, sechs Porträt-Zellen, Detail, Moderation.
 // Werte (v) kommen aus D3App.renderVals().
 import type { V, Css } from '../types';
 
@@ -13,8 +13,11 @@ export function Speaker1({ v }: { v: V }) {
         <b>
           [Name Nachname]
         </b>
+        <span className="role">
+          [Funktion · Organisation]
+        </span>
         <span className="sys">
-          Keynote · 09:40
+          Eröffnungskeynote · 09:40
         </span>
       </div>
     </div>
@@ -33,8 +36,11 @@ export function Speaker2({ v }: { v: V }) {
         <b>
           [Name Nachname]
         </b>
+        <span className="role">
+          [Funktion · Organisation]
+        </span>
         <span className="sys">
-          Case · 10:30
+          Praxis-Case · 10:00
         </span>
       </div>
     </div>
@@ -52,8 +58,11 @@ export function Speaker3({ v }: { v: V }) {
         <b>
           [Name Nachname]
         </b>
+        <span className="role">
+          [Funktion · Organisation]
+        </span>
         <span className="sys">
-          Masterclass · 10:30
+          Masterclass · 10:00
         </span>
       </div>
     </div>
@@ -72,8 +81,11 @@ export function Speaker4({ v }: { v: V }) {
         <b>
           [Name Nachname]
         </b>
+        <span className="role">
+          [Funktion · Organisation]
+        </span>
         <span className="sys">
-          Panel · 11:15
+          Panel · 11:00
         </span>
       </div>
     </div>
@@ -91,8 +103,11 @@ export function Speaker5({ v }: { v: V }) {
         <b>
           [Name Nachname]
         </b>
+        <span className="role">
+          [Funktion · Organisation]
+        </span>
         <span className="sys">
-          Vortrag · 10:30
+          Fachvortrag · 10:30
         </span>
       </div>
     </div>
@@ -110,8 +125,11 @@ export function Speaker6({ v }: { v: V }) {
         <b>
           [Name Nachname]
         </b>
+        <span className="role">
+          [Funktion · Organisation]
+        </span>
         <span className="sys">
-          Keynote · 15:00
+          Abschlusskeynote · 15:00
         </span>
       </div>
     </div>
@@ -126,8 +144,8 @@ export function SpeakerHead({ v }: { v: V }) {
       </div>
       <span className="geo g-qbl" style={{ background: "var(--d3-black)" } as Css} />
       <div className="L l-speaker end pad" style={{ color: "var(--d3-bg)" } as Css}>
-        <h2 className="big" style={{ fontSize: "min(11cqh, 7.2cqw)" } as Css}>
-          Speaker*innen
+        <h2 className="big sc" style={{ fontSize: "min(9cqh, 6cqw)", maxWidth: "13ch" } as Css}>
+          Menschen, die etwas zu erzählen haben.
         </h2>
         <p className="p hide-s" style={{ maxWidth: "min(24ch, 52cqw)", fontSize: "clamp(13px, 3.4cqw, 15px)", color: "#CFCBE0" } as Css}>
           {v.spkNote}
@@ -162,12 +180,59 @@ export function SpeakerDetail({ v }: { v: V }) {
               →
             </span>
           </button>
-          <a className="lnk sys hide-s" href="https://amtshelden.de" style={{ borderColor: "var(--d3-bg)" } as Css}>
-            {"Interview auf amtshelden.de "}
-            <span>
-              ↗
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function Moderation({ v }: { v: V }) {
+  return (
+    <div className={`mod dark k-mods ${v.P.mods.cls ?? ""}`} style={{ left: `calc(${v.P.mods.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.mods.r ?? ""} * var(--rowh))`, width: `calc(${v.P.mods.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.mods.h ?? ""} * var(--rowh))`, transitionDelay: v.P.mods.d } as Css}>
+      <div className="L l-speaker fill pad mods">
+        <span className="lab">
+          Moderation
+        </span>
+        <div className="mods-l">
+          <div>
+            <span className="in">
+              JL
             </span>
-          </a>
+            <span>
+              <b>
+                Julia Lupp
+              </b>
+              <span className="sys">
+                Amtshelden
+              </span>
+            </span>
+          </div>
+          <div>
+            <span className="in">
+              CR
+            </span>
+            <span>
+              <b>
+                Christian Rosenberger
+              </b>
+              <span className="sys">
+                Amtshelden
+              </span>
+            </span>
+          </div>
+          <div>
+            <span className="in">
+              SH
+            </span>
+            <span>
+              <b>
+                Steffi Hüthig
+              </b>
+              <span className="sys">
+                Innovative Verwaltung
+              </span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
