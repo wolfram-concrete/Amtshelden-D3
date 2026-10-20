@@ -6,7 +6,7 @@ import { D3Cell, Brand, Why, Hero, NextEdition, DateCell, Cta, Hint, Reason1, Re
 import { Speaker1, Speaker2, Speaker3, Speaker4, Speaker5, Speaker6, SpeakerHead, SpeakerDetail, Moderation } from './modules/Speakers';
 import { AboutHead, AboutIdea, Organizer, FormatTiles } from './modules/Formats';
 import { ProgramBoard } from './modules/Program';
-import { PartnerHead, Logos, MediaPartner, PartnerForm } from './modules/Partner';
+import { PartnerHead, Logos, MediaPartner, PartnerForm, MediaLogo, MediaText } from './modules/Partner';
 import { JoinHead, Registration, Faq } from './modules/Join';
 
 export default function D3View({ v }: { v: V }) {
@@ -47,6 +47,8 @@ export default function D3View({ v }: { v: V }) {
           <AboutIdea v={v} />
           <JoinHead v={v} />
           <Registration v={v} />
+          <MediaLogo v={v} />
+          <MediaText v={v} />
           <Faq v={v} />
         </div>
       </main>

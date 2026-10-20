@@ -14,7 +14,7 @@ export function JoinHead({ v }: { v: V }) {
             Dabei sein? Kostet dich nichts.
           </h2>
           <p className="p hide-s" style={{ maxWidth: "46ch" } as Css}>
-            Für Beschäftigte aus Behörden und öffentlichen Einrichtungen. Am 14. April 2027 bist du von 9:00 bis 15:30 digital dabei und stellst dir deinen Tag selbst zusammen.
+            Ein Tag voller Ideen, echter Erfahrungen und neuer Kontakte. Für alle, die sich in Behörden mit KI und Transformation beschäftigen. Am 14. April 2027. Digital und kostenfrei.
           </p>
         </div>
       </div>
@@ -25,7 +25,7 @@ export function JoinHead({ v }: { v: V }) {
 export function Registration({ v }: { v: V }) {
   return (
     <div className={`mod k-reg ${v.P.reg.cls ?? ""}`} style={{ background: "var(--d3-black)", color: "var(--d3-bg)", left: `calc(${v.P.reg.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.reg.r ?? ""} * var(--rowh))`, width: `calc(${v.P.reg.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.reg.h ?? ""} * var(--rowh))`, transitionDelay: v.P.reg.d } as Css}>
-      <div className="L l-join tA pad">
+      <div className="L l-join tA pad" style={{ overflow: "auto" } as Css} onWheel={v.stopWheel}>
         <span className="lab">
           Anmeldung
         </span>
@@ -57,7 +57,7 @@ export function Faq({ v }: { v: V }) {
             </span>
           </summary>
           <p>
-            Für Beschäftigte aus Behörden und öffentlichen Einrichtungen, die sich mit KI, Digitalisierung und Veränderung in ihrer Verwaltung beschäftigen.
+            Für Beschäftigte aus Behörden und öffentlichen Einrichtungen, die sich mit KI, Digitalisierung und Veränderungen in ihrer Verwaltung beschäftigen.
           </p>
         </details>
         <details>
@@ -73,7 +73,29 @@ export function Faq({ v }: { v: V }) {
         </details>
         <details>
           <summary>
-            {"Wie melde ich mich an? "}
+            {"Wo findet die D3 statt? "}
+            <span>
+              +
+            </span>
+          </summary>
+          <p>
+            Komplett digital. Du kannst von deinem Arbeitsplatz oder einem anderen geeigneten Ort teilnehmen.
+          </p>
+        </details>
+        <details>
+          <summary>
+            {"Muss ich den ganzen Tag dabei sein? "}
+            <span>
+              +
+            </span>
+          </summary>
+          <p>
+            Nein. Du kannst dir aus den verschiedenen Programmpunkten deinen Tag zusammenstellen und die Sessions auswählen, die dich interessieren.
+          </p>
+        </details>
+        <details>
+          <summary>
+            {"Wann kann ich mich anmelden? "}
             <span>
               +
             </span>
@@ -102,28 +124,6 @@ export function Faq({ v }: { v: V }) {
           </summary>
           <p>
             Zwei Tracks: Fachvorträge und Praxis-Cases in Track 1, Masterclasses in Track 2. Dazu Austauschräume und die Messe-Area. Du wechselst, wann du willst.
-          </p>
-        </details>
-        <details>
-          <summary>
-            {"Gibt es Aufzeichnungen? "}
-            <span>
-              +
-            </span>
-          </summary>
-          <p>
-            [Antwort folgt.] Praxis-Cases erscheinen nach dem Event als Artikel auf amtshelden.de.
-          </p>
-        </details>
-        <details>
-          <summary>
-            {"Wie werde ich Partner? "}
-            <span>
-              +
-            </span>
-          </summary>
-          <p>
-            Über das Formular „Partner werden“ im Bereich Partner. Wir schicken euch alle Informationen.
           </p>
         </details>
       </div>

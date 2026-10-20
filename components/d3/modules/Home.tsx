@@ -222,7 +222,7 @@ export function Hint({ v }: { v: V }) {
 export function Reason1({ v }: { v: V }) {
   return (
     <div className={`mod act k-g1 gr ${v.P.g1.cls ?? ""}`} style={{ background: "var(--d3-black)", color: "var(--d3-bg)", left: `calc(${v.P.g1.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.g1.r ?? ""} * var(--rowh))`, width: `calc(${v.P.g1.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.g1.h ?? ""} * var(--rowh))`, transitionDelay: v.P.g1.d } as Css}>
-      <button className="hit" onClick={v.nav.join} aria-label="Aus der Praxis. Für die Praxis. – zur Teilnahme" />
+      <button className="hit" onClick={v.nav.join} aria-label="Voneinander lernen – zur Teilnahme" />
       <span className="gi">
         <svg className="mo mf" viewBox="0 0 100 100" aria-hidden="true">
           <path d="M50,0l6.35485,16.59287c-2.05869,-0.38923 -4.18299,-0.59287 -6.35485,-0.59287v68c2.17186,0 4.29616,-0.20364 6.35485,-0.59287l-6.35485,16.59287l-9.95,-25.98l-25.41,11.34l11.34,-25.41l-25.98,-9.95l25.98,-9.95l-11.34,-25.41l25.41,11.34zM85.36,14.64l-7.24518,16.23457c-2.40598,-3.53 -5.4594,-6.58341 -8.98939,-8.98939zM100,50l-16.59287,6.35485c0.38923,-2.05869 0.59287,-4.18299 0.59287,-6.35485c0,-2.17186 -0.20364,-4.29616 -0.59287,-6.35485zM85.36,85.36l-16.23457,-7.24518c3.53,-2.40598 6.58341,-5.4594 8.98939,-8.98939z" style={{ fill: "var(--d3-black)" } as Css} />
@@ -233,25 +233,20 @@ export function Reason1({ v }: { v: V }) {
         <span className="lab">
           Grund 01
         </span>
-        <div className="btm">
-          <b className="gt">
-            Aus der Praxis. Für die Praxis.
-          </b>
-          <p className="gp hide-s">
-            Echte Projekte aus Behörden und die Menschen dahinter.
-          </p>
-        </div>
+        <b className="gt gt-xl">
+          Voneinander lernen
+        </b>
       </div>
       <div className="L l-join tA pad">
         <span className="lab">
           Grund 01
         </span>
         <div className="btm">
-          <b className="gt">
-            Aus der Praxis. Für die Praxis.
+          <b className="gt gt-l">
+            Voneinander lernen
           </b>
           <p className="gp">
-            Du erfährst, was andere Behörden umgesetzt haben: mit Erfahrungen, Ergebnissen und der Möglichkeit, direkt mit den Beteiligten zu sprechen.
+            Was hat funktioniert? Was nicht? Und was würden andere Behörden heute anders machen? Erfahre es direkt von den Menschen hinter den Projekten.
           </p>
         </div>
       </div>
@@ -262,7 +257,7 @@ export function Reason1({ v }: { v: V }) {
 export function Reason2({ v }: { v: V }) {
   return (
     <div className={`mod act k-g2 gr ${v.P.g2.cls ?? ""}`} style={{ background: "var(--d3-white)", color: "var(--d3-black)", left: `calc(${v.P.g2.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.g2.r ?? ""} * var(--rowh))`, width: `calc(${v.P.g2.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.g2.h ?? ""} * var(--rowh))`, transitionDelay: v.P.g2.d } as Css}>
-      <button className="hit" onClick={v.nav.join} aria-label="Wissen, das du anwenden kannst. – zur Teilnahme" />
+      <button className="hit" onClick={v.nav.join} aria-label="Direkt anwenden – zur Teilnahme" />
       <span className="gi">
         <svg className="mo mf" viewBox="0 0 100 100" aria-hidden="true">
           <path d="M0,33.5c19.98585,0 37.89689,8.88336 50,22.91698c-4.41417,5.11825 -8.05579,10.92157 -10.74376,17.22884c-8.40745,-12.73989 -22.85018,-21.14582 -39.25624,-21.14582zM66,99.5h-13c0,-9.55133 2.84909,-18.43722 7.74376,-25.85418c3.38373,7.93986 5.25624,16.67835 5.25624,25.85418z" style={{ fill: "var(--d3-black)" } as Css} />
@@ -279,25 +274,20 @@ export function Reason2({ v }: { v: V }) {
         <span className="lab">
           Grund 02
         </span>
-        <div className="btm">
-          <b className="gt">
-            Wissen, das du anwenden kannst.
-          </b>
-          <p className="gp hide-s">
-            Fachleute teilen ihr Wissen. In Masterclasses wirst du selbst aktiv.
-          </p>
-        </div>
+        <b className="gt gt-xl">
+          Direkt anwenden
+        </b>
       </div>
       <div className="L l-join tA pad">
         <span className="lab">
           Grund 02
         </span>
         <div className="btm">
-          <b className="gt">
-            Wissen, das du anwenden kannst.
+          <b className="gt gt-l">
+            Direkt anwenden
           </b>
           <p className="gp">
-            Fachleute vermitteln Wissen zu konkreten Herausforderungen. In den Masterclasses wirst du selbst aktiv und nimmst Anregungen für deinen Arbeitsalltag mit.
+            Neue Erkenntnisse, konkrete Tipps und Masterclasses, in denen du selbst aktiv wirst. Damit du nach dem Event auch etwas damit anfangen kannst.
           </p>
         </div>
       </div>
@@ -308,7 +298,7 @@ export function Reason2({ v }: { v: V }) {
 export function Reason3({ v }: { v: V }) {
   return (
     <div className={`mod act k-g3 gr ${v.P.g3.cls ?? ""}`} style={{ background: "var(--d3-green)", color: "var(--d3-white)", left: `calc(${v.P.g3.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.g3.r ?? ""} * var(--rowh))`, width: `calc(${v.P.g3.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.g3.h ?? ""} * var(--rowh))`, transitionDelay: v.P.g3.d } as Css}>
-      <button className="hit" onClick={v.nav.join} aria-label="Digital dabei. Persönlich im Austausch. – zur Teilnahme" />
+      <button className="hit" onClick={v.nav.join} aria-label="Miteinander sprechen – zur Teilnahme" />
       <span className="gi">
         <svg className="mo mf" viewBox="0 0 100 100" aria-hidden="true">
           <path d="M32,18c6.67442,0 12.87157,2.04339 18,5.53872c-8.45108,5.75991 -14,15.46258 -14,26.46128c0,10.9987 5.54892,20.70137 14,26.46128c-5.12843,3.49532 -11.32558,5.53872 -18,5.53872c-17.67311,0 -32,-14.32689 -32,-32c0,-17.67311 14.32689,-32 32,-32z" style={{ fill: "var(--d3-white)" } as Css} />
@@ -319,25 +309,20 @@ export function Reason3({ v }: { v: V }) {
         <span className="lab">
           Grund 03
         </span>
-        <div className="btm">
-          <b className="gt">
-            Digital dabei. Persönlich im Austausch.
-          </b>
-          <p className="gp hide-s">
-            Sprich mit anderen Behörden und stell deine Fragen direkt.
-          </p>
-        </div>
+        <b className="gt gt-xl">
+          Miteinander sprechen
+        </b>
       </div>
       <div className="L l-join tA pad">
         <span className="lab">
           Grund 03
         </span>
         <div className="btm">
-          <b className="gt">
-            Digital dabei. Persönlich im Austausch.
+          <b className="gt gt-l">
+            Miteinander sprechen
           </b>
           <p className="gp">
-            Neben den Sessions gibt es eigene Austauschräume. Du sprichst mit Menschen aus anderen Behörden, stellst Fragen und knüpfst Kontakte.
+            Triff Menschen aus anderen Behörden, die vor ähnlichen Herausforderungen stehen. Tauscht euch aus, stellt Fragen und knüpft neue Kontakte.
           </p>
         </div>
       </div>
@@ -348,14 +333,14 @@ export function Reason3({ v }: { v: V }) {
 export function PartnerTeaser({ v }: { v: V }) {
   return (
     <div className={`mod act k-ptile ${v.P.ptile.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.ptile.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.ptile.r ?? ""} * var(--rowh))`, width: `calc(${v.P.ptile.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.ptile.h ?? ""} * var(--rowh))`, transitionDelay: v.P.ptile.d } as Css}>
-      <button className="hit" onClick={v.nav.partner} aria-label="Zu den Partnern" />
+      <button className="hit" onClick={v.nav.partner} aria-label="Zu den Cases" />
       <div className="L l-home tC pad">
         <span className="lab">
-          Partner
+          Cases
         </span>
         <div className="ctaRow">
           <b className="pt-t">
-            Lösungen kennenlernen
+            Echte Cases – Einblicke in die Behördenpraxis
           </b>
           <span className="s-arrow-w">
             <svg className="mo-next" viewBox="0 0 100 100" aria-hidden="true">

@@ -67,7 +67,7 @@ export function FormatTiles({ v }: { v: V }) {
                 {f.short}
               </span>
               <div className="btm">
-                <span className="big sc" style={{ fontSize: "clamp(20px, min(13cqw, 15cqh), 64px)" } as Css}>
+                <span className="big sc" style={{ fontSize: "clamp(20px, min(10.5cqw, 13cqh), 56px)" } as Css}>
                   {f.name}
                 </span>
                 <p className="p hide-s">
@@ -84,7 +84,7 @@ export function FormatTiles({ v }: { v: V }) {
                   Direkt nachfragen
                 </span>
                 <p className="p hide-s">
-                  Virtuelle Stände: Du sprichst per Video mit den Ansprechpersonen und lässt dir Lösungen zeigen.
+                  Besuche die virtuellen Stände, lass dir Lösungen zeigen und sprich direkt mit den Menschen dahinter.
                 </p>
               </div>
             </div>
@@ -131,10 +131,10 @@ export function Organizer({ v }: { v: V }) {
             </g>
           </svg>
           <p className="p">
-            Amtshelden: Inspiration, Austausch und Lernen für Menschen in Behörden.
+            Wir sind Amtshelden. Wir bringen Menschen aus Verwaltungen zusammen, teilen Wissen und zeigen Ideen, die in der Praxis funktionieren. Mit dem Deep Dive Day machen wir daraus eine digitale Konferenz.
           </p>
           <a className="ah-link sys" href="https://www.amtshelden.de/ueber-uns-julia-christian-amtshelden/" target="_blank" rel="noopener">
-            Über Amtshelden ↗
+            Mehr über Amtshelden ↗
           </a>
         </div>
       </div>
@@ -149,14 +149,19 @@ export function AboutIdea({ v }: { v: V }) {
         <span className="lab">
           Die Idee
         </span>
-        <p className="p">
-          Wir kennen das von Onlinekonferenzen: Vortrag starten, zuhören, nebenbei E-Mails beantworten.
+        <p className="idea-lead">
+          Onlinekonferenz an. Kamera aus. Nebenbei E-Mails beantworten. Kennen wir.
         </p>
         <p className="p">
-          Beim Deep Dive Day bist du auch am Bildschirm wirklich dabei. Fachleute teilen ihr Wissen, Menschen aus Behörden berichten von echten Projekten, in Masterclasses probierst du selbst etwas aus. Dazwischen stellst du Fragen und kommst mit anderen ins Gespräch.
+          Beim Deep Dive Day soll das anders laufen. Wir zeigen echte Projekte, lassen die Menschen dahinter zu Wort kommen und geben dir die Möglichkeit, direkt nachzufragen.
         </p>
         <p className="p">
-          Uns interessiert, was in der Praxis passiert. Was funktioniert? Was war schwieriger als gedacht? Was hilft anderen Behörden weiter?
+          Dazu gibt’s Fachwissen, Masterclasses zum Mitmachen und jede Menge Gelegenheit, andere Menschen aus Behörden kennenzulernen.
+        </p>
+        <p className="p">
+          <b>
+            Du entscheidest, wo du zuhörst, mitmachst oder mitdiskutierst.
+          </b>
         </p>
       </div>
     </div>

@@ -28,8 +28,9 @@ export const SESSIONS: Session[] = [
   { id: 'panel-2', t: '14:00', e: '14:30', f: 'panel', room: 0, title: '[Titel Panel]', who: '[Beteiligte]', topic: 'Bündelung und Effizienz' },
   { id: 'masterclass-2-nachmittag', t: '14:00', e: '15:00', f: 'master', room: 1, title: 'Masterclass 2', who: '[Leitung]', topic: 'KI' },
   { id: 'fachvortrag-4', t: '14:30', e: '15:00', f: 'vortrag', room: 0, title: 'Fachvortrag 4', who: '[Speaker*in]', topic: 'Prozesse' },
-  { id: 'abschlusskeynote', t: '15:00', e: '15:30', f: 'keynote', room: 0, title: 'Abschlusskeynote', who: '[Speaker*in]', topic: 'Transformation und Kultur', spk: 5 },
-  { id: 'abschluss', t: '15:30', e: '15:40', f: 'mod', room: 0, title: 'Abschluss', who: 'Julia Lupp, Christian Rosenberger', topic: '' }
+  { id: 'abschlusskeynote', t: '15:00', e: '15:20', f: 'keynote', room: 0, title: 'Abschlusskeynote', who: '[Speaker*in]', topic: 'Transformation und Kultur', spk: 5 },
+  { id: 'abmoderation', t: '15:20', e: '15:30', f: 'mod', room: 0, title: 'Abmoderation', who: 'Julia Lupp, Christian Rosenberger', topic: '' },
+  { id: 'come-together', t: '15:30', e: '16:00', f: 'net', room: 0, title: 'Come-together', who: 'Offen, weiter im Gespräch. Dauer folgt.', topic: '' }
 ];
 
 /** Porträts der Speaker*innen (Platzhalter) */

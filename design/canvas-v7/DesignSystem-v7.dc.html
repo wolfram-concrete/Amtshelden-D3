@@ -59,7 +59,7 @@ a{color:inherit}
 .hit:focus-visible{outline:3px solid var(--d3-orange);outline-offset:-3px}
 .L{position:absolute;inset:0;z-index:2;opacity:0;visibility:hidden;pointer-events:none;box-sizing:border-box;transition:opacity var(--motion-fast) var(--ease-out),visibility 0s linear var(--motion-fast)}
 .L a,.L button,.L details,.L summary{pointer-events:auto}
-.st-home .l-home,.st-explore .l-explore,.st-program .l-program,.st-speaker .l-speaker,.st-partner .l-partner,.l-all{opacity:1;visibility:visible;transition:opacity var(--motion-ui) var(--ease-out) var(--motion-in),visibility 0s linear 0s}
+.st-home .l-home,.st-explore .l-explore,.st-program .l-program,.st-speaker .l-speaker,.st-partner .l-partner,.st-join .l-join,.st-media .l-media,.l-all{opacity:1;visibility:visible;transition:opacity var(--motion-ui) var(--ease-out) var(--motion-in),visibility 0s linear 0s}
 .pad{padding:var(--label-position) var(--cell-padding) var(--content-baseline)}
 .fill{display:flex;flex-direction:column;justify-content:space-between;height:100%;box-sizing:border-box}
 .end{display:flex;flex-direction:column;justify-content:flex-end;height:100%;box-sizing:border-box;gap:8px}
@@ -89,7 +89,7 @@ a{color:inherit}
 .m-circle{clip-path:circle(closest-side at 50% 50%)}
 .m-cut{clip-path:polygon(0 0,100% 0,100% 70%,70% 100%,0 100%)}
 .m-sq{}
-.spk .pt{left:var(--cell-padding);right:var(--cell-padding);top:var(--cell-padding);bottom:calc(var(--cell-padding) + 44px);width:auto;height:auto}
+.spk .pt{left:var(--cell-padding);right:var(--cell-padding);top:var(--cell-padding);bottom:calc(var(--cell-padding) + 62px);width:auto;height:auto}
 .spk .nm{position:absolute;left:var(--cell-padding);right:var(--cell-padding);bottom:var(--content-baseline);display:flex;flex-direction:column;gap:2px;z-index:2}
 .spk .nm b{font-size:clamp(13px,7cqw,17px);line-height:1.15}
 /* Auswahl ohne Kontur: das Detailfeld zeigt, wer gewählt ist */
@@ -151,14 +151,14 @@ a{color:inherit}
 .jn-c.idle .jn-dot{display:none}
 @keyframes jDot{50%{opacity:.15}}
 .j-body{flex:1;min-height:0;display:grid;grid-template-columns:var(--gut) minmax(0,1fr)}
-.j-rooms{display:grid;grid-template-rows:repeat(4,minmax(0,1fr));padding-top:var(--axh);border-right:1px solid var(--d3-black);background:var(--d3-bg)}
+.j-rooms{display:grid;grid-template-rows:repeat(2,minmax(0,1fr));padding-top:var(--axh);border-right:1px solid var(--d3-black);background:var(--d3-bg)}
 .j-rooms span{writing-mode:vertical-rl;transform:rotate(180deg);text-align:right;padding:10px 0;margin:0 auto;font-size:10px;letter-spacing:.06em;white-space:nowrap;overflow:hidden}
 .j-scroll{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--d3-black) transparent}
-.j-track{position:relative;height:100%;width:calc(390 * var(--ppm) + 28px);display:flex;flex-direction:column}
+.j-track{position:relative;height:100%;width:calc(420 * var(--ppm) + 28px);display:flex;flex-direction:column}
 .j-axis{position:relative;height:var(--axh);flex-shrink:0;border-bottom:1px solid var(--d3-black);background:var(--d3-bg)}
 .j-tk{position:absolute;top:0;bottom:0;display:flex;align-items:center;padding-left:6px;border-left:1px solid var(--d3-black);font-size:11px;white-space:nowrap}
 .j-tk.half{color:var(--d3-mute);border-left-color:var(--d3-line)}
-.j-lanes{position:relative;flex:1;min-height:0;background-image:repeating-linear-gradient(90deg,var(--d3-line) 0 1px,transparent 1px calc(30 * var(--ppm))),linear-gradient(transparent calc(25% - 1px),var(--d3-line) calc(25% - 1px) 25%,transparent 25% calc(50% - 1px),var(--d3-line) calc(50% - 1px) 50%,transparent 50% calc(75% - 1px),var(--d3-line) calc(75% - 1px) 75%,transparent 75%)}
+.j-lanes{position:relative;flex:1;min-height:0;background-image:repeating-linear-gradient(90deg,var(--d3-line) 0 1px,transparent 1px calc(30 * var(--ppm))),linear-gradient(transparent calc(50% - 1px),var(--d3-line) calc(50% - 1px) 50%,transparent 50%)}
 .jc{position:absolute;display:flex;flex-direction:column;justify-content:space-between;gap:6px;padding:10px 12px 12px;box-sizing:border-box;overflow:hidden;background:var(--d3-white);color:var(--d3-black);box-shadow:inset 0 0 0 1px var(--d3-black);transition:opacity var(--motion-ui) var(--ease-out),background var(--motion-fast)}
 .jc:hover{background:var(--d3-bg-2)}
 .jc .ci{position:relative;width:22px;height:22px;flex-shrink:0}
@@ -288,6 +288,52 @@ a{color:inherit}
 .ghost{position:fixed;z-index:30;pointer-events:none}
 @media (prefers-reduced-motion: reduce){.bp-mob .ph img,.bp-tab .ph img,.bp-mob .k-hero .msk img,.bp-tab .k-hero .msk img,.bp-mob .fmt .sh,.bp-tab .fmt .sh,.bot-a{animation:none !important}}
 
+
+/* ===== v8: Inhalte nach Christians Feedback ===== */
+.spk .nm .role{font-family:var(--f-body);font-size:13px;line-height:1.25;opacity:.8}
+.gr .gi{position:absolute;right:var(--cell-padding);top:var(--cell-padding);width:clamp(30px,min(18cqw,24cqh),56px);height:clamp(30px,min(18cqw,24cqh),56px);z-index:3}
+.gr .gi svg{width:100%;height:100%;display:block;overflow:visible}
+.gt{display:block;font-weight:800;font-size:clamp(15px,min(7cqw,12cqh),22px);line-height:1.12;letter-spacing:-.01em;max-width:16ch}
+.gp{margin:0;font-family:var(--f-body);font-size:clamp(13px,min(4.4cqw,9cqh),16px);line-height:1.4;max-width:40ch}
+.k-ptile .pt-t{font-weight:800;font-size:clamp(15px,min(8cqw,22cqh),22px);line-height:1.1}
+.media{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}
+.media .ivw{align-self:stretch;flex:1;display:flex;align-items:center;justify-content:center;border:1px dashed rgba(30,27,54,.3);color:var(--d3-mute);text-align:center;margin-bottom:8px}
+.mods{gap:12px}
+.mods-l{display:flex;flex-direction:column;gap:10px}
+.mods-l > div{display:flex;align-items:center;gap:10px}
+.mods-l .in{width:40px;height:40px;border-radius:50%;background:var(--d3-yellow);color:var(--d3-black);display:flex;align-items:center;justify-content:center;font-weight:850;font-size:14px;flex-shrink:0}
+.mods-l b{display:block;font-size:15px;line-height:1.15}
+.mods-l .sys{font-size:10px;color:#B9B5CF}
+.pf{display:flex;flex-direction:column;gap:10px}
+.pf-t{font-size:clamp(24px,min(7cqw,12cqh),40px)}
+.pf-f{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:620px}
+.pf-f input,.pf-f textarea{font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--d3-black);background:var(--d3-white);color:var(--d3-black);border-radius:0;min-width:0}
+.pf-f textarea{grid-column:1/-1;resize:vertical;min-height:64px}
+.pf-go{grid-column:1/-1;justify-self:start;background:var(--d3-black);color:var(--d3-bg);font-weight:800;font-size:15px;padding:12px 16px}
+.pf-ok{margin:0;font-weight:800}
+.idea{display:flex;flex-direction:column;gap:12px}
+.idea .p{max-width:52ch}
+.org{gap:10px}
+.org-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.org-row .p{font-size:15px;max-width:48ch}
+.jx-long{opacity:.85}
+.gt-xl{font-weight:850;font-stretch:var(--f-wide);letter-spacing:-.03em;line-height:.98;font-size:clamp(20px,min(11cqw,17cqh),40px);max-width:9ch;margin-top:auto}
+.gt-l{font-weight:850;font-stretch:var(--f-wide);letter-spacing:-.03em;line-height:1;font-size:clamp(20px,min(8cqw,13cqh),34px);max-width:12ch}
+.k-ptile .pt-t{font-size:clamp(14px,min(7cqw,15cqh),19px) !important;max-width:18ch}
+.idea{gap:16px}
+.idea-lead{margin:0;font-weight:800;font-size:clamp(18px,min(5cqw,7cqh),26px);line-height:1.15;letter-spacing:-.01em;max-width:24ch}
+.k-mlogo .ivw{font-size:13px}
+.k-about .phw{display:none}.k-about .L{right:0}
+.pf{gap:8px}.pf-f{grid-template-columns:repeat(3,minmax(0,1fr))}.pf-f textarea{grid-column:1/3 !important}.pf-f .pf-go{grid-column:3/4 !important;justify-self:stretch}
+@container mod (max-width: 520px){ .pf-f{grid-template-columns:1fr 1fr} .pf-f textarea{grid-column:1/-1 !important} .pf-f .pf-go{grid-column:1/-1 !important;justify-self:start} }.pf-t{font-size:clamp(22px,min(6cqw,9cqh),34px)}.pf-f textarea{min-height:42px !important}
+/* Kennzeichnung der Bildwelt: KI-generiert, gestürzt in der oberen rechten Ecke */
+.ph::after,.k-hero::after{content:"KI-generiert";position:absolute;top:var(--cell-padding);right:6px;z-index:5;writing-mode:vertical-rl;font-family:var(--f-sys);font-size:9px;letter-spacing:.08em;text-transform:uppercase;line-height:1;color:rgba(248,247,242,.62);pointer-events:none}
+.k-cta .t-mod{font-size:clamp(18px,min(7cqw,24cqh),40px)}
+.jc.plen b{font-size:clamp(16px,1.6cqw,22px);overflow-wrap:normal}
+@container mod (max-width: 540px) and (min-height: 150px){ .k-date .dataRow{grid-template-columns:auto auto;row-gap:14px} }
+@container mod (max-width: 420px){ .k-date .dataRow{gap:10px} .k-date .dataRow b{font-size:13px} }
+.k-logos .logos{grid-template-columns:repeat(3,minmax(0,1fr))}
+.k-logos .logos > *:first-child{align-items:center;justify-content:center;text-align:center;padding:6px}
 /* ===== v7 „Amtshelden vorn“ ===== */
 /* Leiste: Absender zuerst */
 .lock .lock-f{font-weight:800;letter-spacing:.02em;margin-left:4px;padding-left:12px;border-left:1px solid var(--d3-line);height:28px;display:flex;align-items:center}
@@ -409,6 +455,8 @@ a{color:inherit}
 .faq details{border-top:1px solid var(--d3-line)}
 .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;padding:12px 0;font-weight:800;font-size:clamp(15px,3.4cqw,19px);letter-spacing:-.01em}
 .faq summary::-webkit-details-marker{display:none}
+.faq summary span{transition:transform var(--motion-fast) var(--ease-out)}.faq details[open] summary span{transform:rotate(45deg)}
+.faq details:first-of-type{border-top:0}
 .faq p{margin:0 0 12px;font-size:15px;line-height:1.45}
 .eds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));height:100%}
 @container mod (max-width: 520px){ .eds{grid-template-columns:minmax(0,1fr)} }
@@ -529,7 +577,7 @@ code{font-family:var(--f-sys);font-size:12px}
 <div class="ds-b"><div class="grid3 abs">
 <div class="cell" style="background: var(--d3-white)"><span class="lab">Absender</span><div style="width: 86%"><svg class="lock-mark" viewBox="0 0 1386.5 319.2" style="width: 100%; height: auto; display: block" role="img" aria-label="Amtshelden"><g class="ah-a" fill="#0D9D69"><path d="M617.8,126.2v53.1h-29.1V0H42.3C18.9,0,0,18.9,0,42.3v141.7c0,23.4,19,42.3,42.3,42.3h518.2l111,92.9V126.2h-53.7ZM152.7,179.3l-12.1-29.6h-55.9l-12.1,29.6h-29.6L99.6,46.2h26.8l56.6,133.1h-30.4.1ZM330.9,179.3h-28.9v-86.3l-37.2,56.4h-.8l-36.8-55.9v85.7h-28.5V47h31.3l34.7,55.9,34.7-55.9h31.3v132.2l.2.1h0ZM457.9,73.9h-40.2v105.4h-29.1v-105.4h-40.2v-26.8h109.5v26.8h0ZM568.2,140.2c0,26.2-20,41-48.5,41s-40.2-7-56.1-21.1l17.2-20.6c11.9,9.8,24.3,16.1,39.5,16.1s19.1-4.7,19.1-12.5v-.4c0-7.4-4.5-11.1-26.6-16.8-26.6-6.8-43.8-14.2-43.8-40.4v-.4c0-24,19.3-39.8,46.3-39.8s35.7,6,49.1,16.8l-15.1,21.9c-11.7-8.1-23.2-13-34.4-13s-17,5.1-17,11.5v.4c0,8.7,5.7,11.5,28.5,17.4,26.8,7,41.9,16.6,41.9,39.6v.4h0l-.1-.1h0Z"/><polygon points="95.1 123.9 130.2 123.9 112.7 81.1 95.1 123.9"/></g><g class="ah-b" fill="#333333"><path d="M1012.9,73.3h-22.5v79.7h22.5c23.8,0,39.8-16.1,39.8-39.5v-.4c0-23.4-16.1-39.8-39.8-39.8Z"/><path d="M1344.1,0h-726.3v99.4h53.6v-52.3h29.1v179.3h643.7c23.4,0,42.3-18.9,42.3-42.3V42.4c0-23.4-18.9-42.3-42.3-42.3h0l-.1-.1h0ZM828.1,179.3h-100.6V47.1h99.7v25.9h-70.8v26.8h62.3v25.9h-62.3v27.8h71.7v25.9h0v-.1h0ZM944.2,179.3h-95V47.1h29.1v105.7h65.9v26.5ZM1083.1,113.2c0,37.2-28.7,66.1-70.2,66.1h-51.5V47.1h51.5c41.5,0,70.2,28.5,70.2,65.7v.4ZM1204.8,179.3h-100.6V47.1h99.7v25.9h-70.8v26.8h62.3v25.9h-62.3v27.8h71.7v25.9h0v-.1h0ZM1343.4,179.3h-24.7l-64-84v84h-28.7V47.1h26.8l61.9,81.4V47.1h28.7v132.2h0Z"/></g></svg></div><p class="cap">Amtshelden-Logo als Originaldatei, Originalfarben. Steht immer zuerst: Leiste, Preloader, erste Zelle.</p></div>
 <div class="cell" style="background: var(--d3-white)"><span class="lab">Die digitale Konferenz von</span><div style="width: 62%"><svg class="lock-mark" viewBox="0 0 1386.5 319.2" style="width: 100%; height: auto; display: block" role="img" aria-label="Amtshelden"><g class="ah-a" fill="#0D9D69"><path d="M617.8,126.2v53.1h-29.1V0H42.3C18.9,0,0,18.9,0,42.3v141.7c0,23.4,19,42.3,42.3,42.3h518.2l111,92.9V126.2h-53.7ZM152.7,179.3l-12.1-29.6h-55.9l-12.1,29.6h-29.6L99.6,46.2h26.8l56.6,133.1h-30.4.1ZM330.9,179.3h-28.9v-86.3l-37.2,56.4h-.8l-36.8-55.9v85.7h-28.5V47h31.3l34.7,55.9,34.7-55.9h31.3v132.2l.2.1h0ZM457.9,73.9h-40.2v105.4h-29.1v-105.4h-40.2v-26.8h109.5v26.8h0ZM568.2,140.2c0,26.2-20,41-48.5,41s-40.2-7-56.1-21.1l17.2-20.6c11.9,9.8,24.3,16.1,39.5,16.1s19.1-4.7,19.1-12.5v-.4c0-7.4-4.5-11.1-26.6-16.8-26.6-6.8-43.8-14.2-43.8-40.4v-.4c0-24,19.3-39.8,46.3-39.8s35.7,6,49.1,16.8l-15.1,21.9c-11.7-8.1-23.2-13-34.4-13s-17,5.1-17,11.5v.4c0,8.7,5.7,11.5,28.5,17.4,26.8,7,41.9,16.6,41.9,39.6v.4h0l-.1-.1h0Z"/><polygon points="95.1 123.9 130.2 123.9 112.7 81.1 95.1 123.9"/></g><g class="ah-b" fill="#333333"><path d="M1012.9,73.3h-22.5v79.7h22.5c23.8,0,39.8-16.1,39.8-39.5v-.4c0-23.4-16.1-39.8-39.8-39.8Z"/><path d="M1344.1,0h-726.3v99.4h53.6v-52.3h29.1v179.3h643.7c23.4,0,42.3-18.9,42.3-42.3V42.4c0-23.4-18.9-42.3-42.3-42.3h0l-.1-.1h0ZM828.1,179.3h-100.6V47.1h99.7v25.9h-70.8v26.8h62.3v25.9h-62.3v27.8h71.7v25.9h0v-.1h0ZM944.2,179.3h-95V47.1h29.1v105.7h65.9v26.5ZM1083.1,113.2c0,37.2-28.7,66.1-70.2,66.1h-51.5V47.1h51.5c41.5,0,70.2,28.5,70.2,65.7v.4ZM1204.8,179.3h-100.6V47.1h99.7v25.9h-70.8v26.8h62.3v25.9h-62.3v27.8h71.7v25.9h0v-.1h0ZM1343.4,179.3h-24.7l-64-84v84h-28.7V47.1h26.8l61.9,81.4V47.1h28.7v132.2h0Z"/></g></svg></div><div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px"><div class="big" style="font-size: 46px; line-height: .9; white-space: nowrap">Deep<br>Dive Day</div><div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px"><div style="height: 40px; color: var(--d3-black)"><svg class="fz" viewBox="0 0 10.14 10.12" style="height: 100%; width: auto; display: block" aria-hidden="true"><path fill="currentColor" d="M10.14,5.06C10.14,2.26,7.88,0,5.09,0v2.35c.87.41,1.62,1.1,2.07,2.05,1.01,2.15.08,4.71-2.07,5.72,0,0,0,0,0,0,2.79,0,5.06-2.26,5.06-5.06Z M5.01,5.11s.05.07.08.1v-2.85c-1.12-.53-2.44-.59-3.65-.02.25.53.54,1.15.85,1.81.97-.07,1.97.24,2.72.97Z M0,5.19c1.27,1.23,3.18,3.08,5.09,4.92-.99-2.12-1.98-4.23-2.8-5.98-.84.06-1.65.41-2.28,1.05Z M5.09,5.2v4.91s0,0,0,0c0,0,0,0,0,0,1.33-1.37,1.31-3.54,0-4.91Z"></path></svg></div><span class="lab">Ausgabe 01</span></div></div></div>
-<div class="cell" style="background: var(--d3-black); color: var(--d3-bg)"><span class="lab">So sprechen wir</span><p class="ah-claim" style="font-size: 30px; max-width: 16ch; color: var(--d3-bg)">„Der <span>Amtshelden</span> Deep Dive Day“</p><p class="cap" style="color: #CFCBE0">Kurz: „Deep Dive Day“. Nie „die D3“. D3 ist nur das Formatzeichen.</p></div>
+<div class="cell" style="background: var(--d3-black); color: var(--d3-bg)"><span class="lab">So sprechen wir</span><p class="ah-claim" style="font-size: 30px; max-width: 16ch; color: var(--d3-bg)">„Der <span>Amtshelden</span> Deep Dive Day“</p><p class="cap" style="color: #CFCBE0">Kurz: „die D3“ oder „Deep Dive Day“. Absender ist immer Amtshelden.</p></div>
 </div>
 <ul class="rules">
 <li><b>Amtshelden ist die Marke.</b> Der Deep Dive Day ist ein Format davon. Jedes Event zahlt auf Amtshelden ein – und eine starke Marke wertet jedes künftige Event auf.</li>
@@ -622,6 +670,7 @@ code{font-family:var(--f-sys);font-size:12px}
 <li><b>Ausschnitt auf die Person.</b> Das Foto füllt die Zelle; Fokus und Zoom sitzen auf Gesicht und Haltung, nie das ganze Motiv als Postkarte.</li>
 <li><b>Eine Fläche pro Bild.</b> Viertel- oder Halbkreis aus dem Zeichensystem, an einer Zellkante verankert. Die Fläche trägt den Text – nie Text direkt aufs Foto.</li>
 <li><b>Abstand zur Person.</b> Die Person steht im freien Teil der Zelle. Gesicht und Geste berühren nie die Kante der Fläche; lieber eine kleinere Fläche als ein angeschnittenes Gesicht.</li>
+<li><b>Kennzeichnung.</b> Jedes Motiv trägt klein „KI-generiert“, gestürzt in der oberen rechten Ecke.</li>
 <li><b>Farbe bleibt.</b> Tiefes Tinte-Blau mit Grün und Gelb im Licht – deshalb farbig. Speaker*innen-Porträts bleiben schwarzweiß.</li>
 <li><b>Bewegung:</b> Beim Betreten öffnet sich das Bild, die Fläche wächst aus ihrer Ecke. Danach steht beides still.</li>
 </ul></div>
@@ -679,7 +728,7 @@ code{font-family:var(--f-sys);font-size:12px}
 <div><b>Schwenk-Hover</b><span class="lab">Drehen, Wackeln</span></div>
 <div><b>Verläufe, Glas</b><span class="lab">flache Flächen only</span></div>
 <div><b>Stockfotos</b><span class="lab">eigene Bildwelt statt Archiv</span></div>
-<div><b>„die D3“</b><span class="lab">Name → Amtshelden Deep Dive Day</span></div>
+<div><b>Suchfeld in der FAQ</b><span class="lab">→ Fragen zum Aufklappen</span></div>
 <div><b>Bunte Icons</b><span class="lab">→ einfarbig, 3D</span></div>
 </div></div>
 </section>

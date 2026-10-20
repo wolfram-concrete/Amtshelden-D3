@@ -117,13 +117,14 @@ const MODS = {
   xhead: ['AboutHead', 'Formats'], idea: ['AboutIdea', 'Formats'], about: ['Organizer', 'Formats'], board: ['ProgramBoard', 'Program'],
   phead2: ['PartnerHead', 'Partner'], logos: ['Logos', 'Partner'], media: ['MediaPartner', 'Partner'], pform: ['PartnerForm', 'Partner'],
   jhead: ['JoinHead', 'Join'], reg: ['Registration', 'Join'], faq: ['Faq', 'Join'],
+  mlogo: ['MediaLogo', 'Partner'], mtext: ['MediaText', 'Partner'],
 };
 const DOC = {
   Home: 'Start: Marke, Claim, Datum, Bildwelt, Was ist die D3, drei Gründe, Partner, nächste Ausgabe, Anmeldung. Die Gründe erscheinen auch auf Teilnahme.',
   Speakers: 'Speaker & Moderation: Kopf mit Bild, sechs Porträt-Zellen, Detail, Moderation.',
   Formats: 'Über die D3: Kopfzelle, Idee, die fünf Format-Kacheln (Zeichen, 3D-Körper bei Hover), Veranstalter.',
   Program: 'Programm: Filter, Jetzt/Als Nächstes, Zeitachse mit zwei Tracks, aufklappender Programmpunkt mit eigenem Link.',
-  Partner: 'Partner: Kopf mit Bild, Partner-Übersicht, Medienpartner, Formular „Partner werden“.',
+  Partner: 'Partner: Kopf mit Bild, Partner-Übersicht, Medienpartner, Formular „Partner werden“ (öffnet eine E-Mail an hallo@amtshelden.de) und die Medienpartnerseite.',
   Join: 'Teilnahme: Kopf, Anmeldung, häufige Fragen.',
   parts: 'Rahmen: Leiste, Navigation unten, Körnung.',
 };
@@ -203,7 +204,7 @@ fs.writeFileSync(path.join(process.cwd(), 'lib/d3/layout.ts'),
 `// Raster-Layouts je Gerät und Zustand: Zelle -> [Spalte, Zeile, Breite, Höhe].
 // Desktop 12 Spalten, Tablet 8, Mobil 4. Fehlt eine Zelle im Zustand, blendet sie aus.
 type Cell = [number, number, number, number];
-type States = Record<'home' | 'explore' | 'program' | 'speaker' | 'partner' | 'join', Record<string, Cell>>;
+type States = Record<'home' | 'explore' | 'program' | 'speaker' | 'partner' | 'join' | 'media', Record<string, Cell>>;
 export const LAYOUT: Record<'desk' | 'tab' | 'mob', States> = ${layout.replace(/\n    /g, '\n')};
 `);
 fs.writeFileSync(path.join(process.cwd(), 'lib/d3/program.ts'),

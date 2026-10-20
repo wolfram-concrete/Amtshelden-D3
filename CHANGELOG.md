@@ -1,5 +1,26 @@
 # Changelog
 
+## v8.2 – Christians Antworten, Medienpartner, KI-Hinweis · 2026-10-20
+
+Grundlage: Christians Rückmeldung zu den offenen Fragen (20.10.).
+
+- **Anmeldung:** Start Mitte Januar 2027. Kachel „Anmeldung startet Mitte Januar.“ mit Christians Text, FAQ „Wann kann ich
+  mich anmelden?“ entsprechend. Die Anbindung von Let's Get Digital bleibt offen.
+- **Partner werden:** Neuer Text. Das Formular öffnet eine vorausgefüllte E-Mail an hallo@amtshelden.de (Name,
+  Unternehmen, E-Mail, Nachricht). Felder in einer Zeile, Button immer sichtbar.
+- **Medienpartner:** eigene, kompakte Seite `#/medienpartner` (Logo, Headline, Beschreibung, Link „Innovative Verwaltung
+  kennenlernen“). Die Medienpartner-Kacheln auf Start und Partner führen dorthin. Logo noch als Platzhalter.
+- **Sprachregel:** „die D3“ bleibt. Design System angepasst.
+- **Programmende:** Abschlusskeynote 15:00–15:20, Abmoderation bis 15:30, danach offenes Come-together (Dauer folgt).
+- **Start:** Gründe mit kurzen, großen Headlines (Voneinander lernen · Direkt anwenden · Miteinander sprechen), Kachel
+  „Cases – Echte Cases – Einblicke in die Behördenpraxis“.
+- **Partner:** neue Texte für Einstieg und Messe-Area.
+- **Über die D3:** neue Texte für Idee, die fünf Formate und den Veranstalter („Mehr über Amtshelden“). Veranstalter-Kachel
+  ohne Bild, damit der Text Luft hat.
+- **Teilnahme:** neuer Einstieg, Gründe mit Christians Texten, FAQ überarbeitet (neu: Wo findet die D3 statt?, Muss ich den
+  ganzen Tag dabei sein?; raus: Aufzeichnungen, Partner werden).
+- **Bildwelt:** jedes Motiv trägt klein „KI-generiert“, gestürzt in der oberen rechten Ecke. Auch als Regel im Design System.
+
 ## v8.1 – FAQ als Akkordeon · 2026-10-20
 
 - Teilnahme, häufige Fragen: Fragefeld und Vorschlags-Buttons entfernt. Stattdessen eine klassische FAQ zum Aufklappen mit

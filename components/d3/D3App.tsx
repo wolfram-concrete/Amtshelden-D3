@@ -76,7 +76,7 @@ export default class D3App extends Component<D3Props, any> {
       if (!rm && (self.props.tour ?? true) && self.state.st === 'home' && !self.state.hover) self.setState({ tour: self.state.tour + 1 });
     }, 6500);   // ruhig: Bildwechsel im Hero nur alle 6,5 s
   }
-  routes() { return { home: '', program: 'programm', speaker: 'speaker', partner: 'partner', explore: 'ueber', join: 'teilnahme' }; }
+  routes() { return { home: '', program: 'programm', speaker: 'speaker', partner: 'partner', explore: 'ueber', join: 'teilnahme', media: 'medienpartner' }; }
   componentDidUpdate(pp, ps) {
     var self = this;
     if (ps.st !== this.state.st || ps.sel !== this.state.sel) {
@@ -295,7 +295,7 @@ export default class D3App extends Component<D3Props, any> {
     var L = this.lay()[bp][s.st];
     var rows = 0;
     Object.keys(L).forEach(function (k) { rows = Math.max(rows, L[k][1] + L[k][3]); });
-    var keys = ['d3', 'brand', 'why', 'hero', 'pc', 's2', 's3', 's4', 's5', 's6', 'fk', 'fc', 'fm', 'fn', 'fs', 'next', 'date', 'cta', 'hint', 'xhead', 'board', 'spkhead', 'sdetail', 'phead2', 'logos', 'about', 'faq', 'g1', 'g2', 'g3', 'ptile', 'media', 'mods', 'pform', 'idea', 'jhead', 'reg'];
+    var keys = ['mlogo', 'mtext', 'd3', 'brand', 'why', 'hero', 'pc', 's2', 's3', 's4', 's5', 's6', 'fk', 'fc', 'fm', 'fn', 'fs', 'next', 'date', 'cta', 'hint', 'xhead', 'board', 'spkhead', 'sdetail', 'phead2', 'logos', 'about', 'faq', 'g1', 'g2', 'g3', 'ptile', 'media', 'mods', 'pform', 'idea', 'jhead', 'reg'];
     var P = {};
     keys.forEach(function (k) {
       var p = L[k], vis = !!p;
@@ -304,7 +304,7 @@ export default class D3App extends Component<D3Props, any> {
     });
     var order = ['home', 'program', 'speaker', 'partner', 'explore', 'join'];
     var names = { home: 'Start', program: 'Programm', speaker: 'Speaker', partner: 'Partner', explore: 'Über die D3', join: 'Teilnahme' };
-    var idx = order.indexOf(s.st);
+    var idx = order.indexOf(s.st === 'media' ? 'partner' : s.st);
     var navTo = function (st, extra) { return function (e) { if (e && e.preventDefault) e.preventDefault(); self.go(st, extra); }; };
 
     /* sessions */
@@ -318,7 +318,7 @@ export default class D3App extends Component<D3Props, any> {
     var match = function (x) { return (s.ffmt === 'all' || fam[x.f] === s.ffmt) && (s.ftopic === 'all' || x.topic === s.ftopic); };
     var mins = function (t) { var q = t.split(':'); return +q[0] * 60 + +q[1]; };
     var hhmm = function (m) { return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + (m % 60)).slice(-2); };
-    var T0 = 540, T1 = 940, now = s.now;
+    var T0 = 540, T1 = 960, now = s.now;
     var SM = S.map(function (x) { return { x: x, a: mins(x.t), b: mins(x.e) }; });
     var open = function (id) { return function () { if (self.state.sel === id) self.closeExp(); else self.setState({ sel: id }); }; };
     var jItems = SM.map(function (o, i) {
@@ -360,7 +360,7 @@ export default class D3App extends Component<D3Props, any> {
     var ex = cur ? {
       cls: 'open', hidden: false, tone: fam[cur.f] === 'keynote' && cur.f === 'keynote' ? 'tone-k' : (cur.f === 'net' ? 'tone-n' : ''),
       meta: cur.t + '–' + cur.e + ' · ' + (mins(cur.e) - mins(cur.t)) + ' Min · ' + where(SM[S.indexOf(cur)]), title: cur.title, topic: cur.topic, sh: F[cur.f][1], fmt: F[cur.f][0],
-      desc: cur.f === 'net' || cur.f === 'pause' ? 'Die Messe-Area ist offen: Stände besuchen, Leute treffen, in den Austauschräumen weiterreden.' : (cur.f === 'mod' ? 'Julia Lupp und Christian Rosenberger führen durch den Tag.' : '[Kurzbeschreibung: worum es geht, was du mitnimmst.]'),
+      desc: cur.id === 'come-together' ? 'Das offizielle Programm ist vorbei, das Gespräch nicht: Wer mag, bleibt und redet weiter. Die Dauer steht noch nicht fest.' : cur.f === 'net' || cur.f === 'pause' ? 'Die Messe-Area ist offen: Stände besuchen, Leute treffen, in den Austauschräumen weiterreden.' : (cur.f === 'mod' ? 'Julia Lupp und Christian Rosenberger führen durch den Tag.' : '[Kurzbeschreibung: worum es geht, was du mitnimmst.]'),
       long: cur.f === 'net' || cur.f === 'pause' || cur.f === 'mod' ? '' : (cur.f === 'case' ? '[Ausführliche Beschreibung: Was war die Herausforderung? Wie wurde das Projekt umgesetzt? Was hat es gebracht?]' : '[Ausführliche Beschreibung des Programmpunkts.]'),
       img: cur.spk !== undefined ? SP[cur.spk] : '', mask: MASK[cur.f],
       who: cur.who, role: cur.spk !== undefined ? '[Funktion · Organisation]' : '', hasSpk: cur.spk !== undefined,
@@ -377,11 +377,11 @@ export default class D3App extends Component<D3Props, any> {
 
     /* format modules */
     var FM = [
-      { k: 'fk', verb: 'Programm ansehen', f: 'vortrag', name: 'Fach­vorträge', desc: 'Fachleute zu konkreten Herausforderungen. Danach ist Zeit für deine Fragen.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-orange)' },
-      { k: 'fc', verb: 'Programm ansehen', f: 'case', name: 'Praxis-Cases', desc: 'Behörden und Unternehmen zeigen gemeinsam ein echtes Projekt.', time: '', bg: 'var(--d3-bg-2)', dark: '', ink: '' },
-      { k: 'fm', verb: 'Programm ansehen', f: 'master', name: 'Master­classes', desc: 'Selbst ausprobieren, je einmal vormittags und nachmittags.', time: '', bg: 'var(--d3-white)', dark: '', ink: 'var(--d3-black)' },
-      { k: 'fn', verb: 'Programm ansehen', f: 'net', name: 'Austausch­räume', desc: 'In kleinen Gruppen mit anderen Behörden über konkrete Themen sprechen.', time: '', bg: 'var(--d3-green)', dark: 'dark', ink: 'var(--d3-white)' },
-      { k: 'fs', verb: 'Partner ansehen', f: 'stand', name: 'Messe-Area', desc: 'Virtuelle Stände: direkt mit Anbietern und ihren Ansprechpersonen sprechen.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-bg)' }
+      { k: 'fk', verb: 'Programm ansehen', f: 'vortrag', name: 'Fach­vorträge', desc: 'Fachleute bringen komplexe Themen auf den Punkt. Mit konkreten Beispielen und Zeit für deine Fragen.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-orange)' },
+      { k: 'fc', verb: 'Programm ansehen', f: 'case', name: 'Praxis-Cases', desc: 'Echte Projekte aus Behörden. Die Beteiligten erzählen, wie sie vorgegangen sind, was funktioniert hat und wo es schwierig wurde.', time: '', bg: 'var(--d3-bg-2)', dark: '', ink: '' },
+      { k: 'fm', verb: 'Programm ansehen', f: 'master', name: 'Master­classes', desc: 'Zuhören war gestern. Hier probierst du selbst etwas aus und nimmst Wissen mit, das du direkt anwenden kannst.', time: '', bg: 'var(--d3-white)', dark: '', ink: 'var(--d3-black)' },
+      { k: 'fn', verb: 'Programm ansehen', f: 'net', name: 'Austausch­räume', desc: 'Andere Behörden, ähnliche Herausforderungen? Tauscht euch in kleinen Gruppen aus, teilt Erfahrungen und lernt voneinander.', time: '', bg: 'var(--d3-green)', dark: 'dark', ink: 'var(--d3-white)' },
+      { k: 'fs', verb: 'Partner ansehen', f: 'stand', name: 'Messe-Area', desc: 'Schau dir Lösungen an, die in Behörden eingesetzt werden, und sprich direkt mit den Unternehmen dahinter.', time: '', bg: 'var(--d3-black)', dark: 'dark', ink: 'var(--d3-bg)' }
     ];
     var STILL = {"fk": "/bildwelt/d3-3d-fk.png", "fc": "/bildwelt/d3-3d-fc.png", "fm": "/bildwelt/d3-3d-fm.png", "fn": "/bildwelt/d3-3d-fn.png", "fs": "/bildwelt/d3-3d-fs.png"};
     var fmts = FM.map(function (m) {
@@ -420,13 +420,15 @@ export default class D3App extends Component<D3Props, any> {
       explore: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join'],
       speaker: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join'],
       partner: ['Jetzt kostenfrei anmelden', 'Für Beschäftigte aus Behörden', 'join'],
+      media: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join'],
       program: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join']
     };
-    var faqReg = p2 ? 'Über Let’s Get Digital. Dort bekommst du Bestätigung und Zugang.' : 'Die Anmeldung öffnet [Datum]. Sie läuft über Let’s Get Digital, dort bekommst du Bestätigung und Zugang.';
+    var faqReg = p2 ? 'Jetzt. Die kostenfreie Registrierung läuft über unsere digitale Eventplattform.' : 'Die Anmeldung startet voraussichtlich Mitte Januar 2027. Den Link zur kostenfreien Registrierung findest du dann hier.';
 
     var mk = function (d) { d = d || ['', '', null]; return { label: d[0], note: d[1], go: function (e) { if (d[2]) self.go(d[2], null, e && e.currentTarget); } }; };
     var cta = mk(ctaDefs[s.st]);
     var nxt = order[idx + 1];
+    if (s.st === 'media') nxt = 'partner';
     var hint = nxt ? { label: names[nxt], go: function (e) { self.go(nxt, null, e && e.currentTarget); } } : { label: 'Zum Start', go: function (e) { self.go('home', null, e && e.currentTarget); } };
 
     var step = function (dir) {
@@ -453,15 +455,21 @@ export default class D3App extends Component<D3Props, any> {
       lockSpan: bp === 'desk' ? 4 : (bp === 'tab' ? 5 : 3), ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: bp === 'mob' ? 'Anmelden' : 'Kostenfrei anmelden', idxSpan: bp === 'desk' ? 1 : 1,
       P: P, fmts: fmts, heroPlace: heroPlace, heroTime: heroTimes[heroPlace], heroFmt: { fk: 'Keynote', fc: 'Case', fm: 'Masterclass', fn: 'Networking', fs: 'Stände' }[heroPlace], heroVerb: heroVerbs[heroPlace],
       stNo: '0' + (idx + 1), stName: names[s.st],
-      on: { home: s.st === 'home' ? 'on' : '', explore: s.st === 'explore' ? 'on' : '', program: s.st === 'program' ? 'on' : '', speaker: s.st === 'speaker' ? 'on' : '', partner: s.st === 'partner' ? 'on' : '', join: s.st === 'join' ? 'on' : '' },
-      nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner'), join: navTo('join') },
+      on: { home: s.st === 'home' ? 'on' : '', explore: s.st === 'explore' ? 'on' : '', program: s.st === 'program' ? 'on' : '', speaker: s.st === 'speaker' ? 'on' : '', partner: s.st === 'partner' || s.st === 'media' ? 'on' : '', join: s.st === 'join' ? 'on' : '' },
+      nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner'), join: navTo('join'), media: navTo('media') },
       ctaBar: { label: 'Kostenfrei anmelden', go: navTo('join') },
       cta: cta, hint: hint,
-      reg: p2 ? { title: 'Jetzt kostenfrei anmelden', text: 'Die Anmeldung läuft über Let’s Get Digital. [Widget oder Link folgt.]' } : { title: 'Anmeldung öffnet bald', text: 'Die Anmeldung öffnet [Datum]. Sie läuft über Let’s Get Digital, dort bekommst du Bestätigung und Zugang.' },
-      pf: { sent: s.pfSent, open: !s.pfSent, submit: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState({ pfSent: true }); } },
+      reg: p2 ? { title: 'Jetzt kostenfrei anmelden', text: 'Die Registrierung läuft über unsere digitale Eventplattform. [Button folgt.]' } : { title: 'Anmeldung startet Mitte Januar.', text: 'Ab dann kannst du dir deinen kostenfreien Platz beim Deep Dive Day sichern. Die Registrierung erfolgt über unsere digitale Eventplattform.' },
+      pf: { sent: s.pfSent, open: !s.pfSent, submit: function (e) {
+        if (e && e.preventDefault) e.preventDefault();
+        var f = e && e.currentTarget, v = function (n) { return f && f.elements[n] ? String(f.elements[n].value || '').trim() : ''; };
+        var body = 'Name: ' + v('name') + '\nUnternehmen: ' + v('firma') + '\nE-Mail: ' + v('mail') + (v('text') ? '\n\n' + v('text') : '');
+        try { window.location.href = 'mailto:hallo@amtshelden.de?subject=' + encodeURIComponent('Partner der D3 werden – ' + v('firma')) + '&body=' + encodeURIComponent(body); } catch (x) {}
+        self.setState({ pfSent: true });
+      } },
       progNote: p2 ? 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Tippe auf einen Programmpunkt.' : 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Das vollständige Programm veröffentlichen wir im Frühjahr 2027.',
       spkNote: p2 ? 'Fachleute, Menschen aus Behörden und alle, die Projekte umgesetzt haben.' : 'Fachleute, Menschen aus Behörden und alle, die Projekte umgesetzt haben. Weitere folgen.',
-      partnerNote: 'Welche Anwendungen funktionieren bereits in Behörden? Unsere Partner zeigen es und beantworten deine Fragen.',
+      partnerNote: 'Unsere Partner zeigen gemeinsam mit Behörden, wie ihre Lösungen in der Praxis eingesetzt werden. Was war die Herausforderung? Was hat funktioniert? Und was hat es gebracht?',
       faqReg: faqReg,
       logos: [0, 1, 2, 3, 4, 5].map(function (i) { return { label: '[Partner ' + (i + 1) + ']', bg: i % 2 ? 'var(--d3-bg)' : 'transparent' }; }),
       jItems: jItems, jTicks: jTicks, jn: jn, ex: ex, jrRef: this._jrRef, jScrollRef: this._jScrollRef,

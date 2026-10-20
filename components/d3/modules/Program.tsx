@@ -45,7 +45,7 @@ export function ProgramBoard({ v }: { v: V }) {
               <b className="jn-time">
                 {v.jn.time}
               </b>
-              <input className="jn-range" type="range" min="540" max="940" step="5" value={v.jn.val} onChange={v.jn.set} aria-label="Uhrzeit für die Vorschau" />
+              <input className="jn-range" type="range" min="540" max="960" step="5" value={v.jn.val} onChange={v.jn.set} aria-label="Uhrzeit für die Vorschau" />
             </div>
             <button className={`jn-c jn-live ${v.jn.liveCls ?? ""}`} onClick={v.jn.liveGo}>
               <span className="lab">
