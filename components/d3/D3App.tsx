@@ -13,7 +13,7 @@ type D3Props = { phase?: 'Phase 1' | 'Phase 2'; tour?: boolean; grain?: boolean;
 export default class D3App extends Component<D3Props, any> {
   constructor(props) {
     super(props);
-    this.state = { intro: 3, st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, now: 645, botQ: '', botA: null, ffmt: 'all', ftopic: 'all', spk: 0, pfSent: false, copied: null };
+    this.state = { intro: 3, st: 'home', bp: 'desk', mx: 0, my: 0, hover: null, tour: 0, sel: null, now: 645, ffmt: 'all', ftopic: 'all', spk: 0, pfSent: false, copied: null };
     this._last = {};
     this._lock = 0;
     var self = this;
@@ -424,39 +424,6 @@ export default class D3App extends Component<D3Props, any> {
     };
     var faqReg = p2 ? 'Über Let’s Get Digital. Dort bekommst du Bestätigung und Zugang.' : 'Die Anmeldung öffnet [Datum]. Sie läuft über Let’s Get Digital, dort bekommst du Bestätigung und Zugang.';
 
-    /* Frag D3: fester Katalog, Stichwort-Abgleich. [Klammern] = Platzhalter wie im Rest der Seite. */
-    var KB = [
-      { k: ['wer', 'für wen', 'zielgruppe', 'behörde', 'verwaltung', 'kommune', 'teilnehm', 'mitarbeit'], q: 'Für wen ist die D3?', a: 'Für Beschäftigte aus Behörden und öffentlichen Einrichtungen, die sich mit KI, Digitalisierung und Veränderung in ihrer Verwaltung beschäftigen.' },
-      { k: ['ablauf', 'läuft', 'tag ab', 'uhr', 'uhrzeit', 'dauer', 'wie lange', 'beginn', 'ende'], q: 'Wie läuft der Tag ab?', a: 'Von 9:00 bis 15:30, komplett digital. Zwei Tracks mit Fachvorträgen, Praxis-Cases und Masterclasses, dazu Austauschräume und die Messe-Area.', act: ['Programm ansehen', 'program'] },
-      { k: ['anmeld', 'registr', 'ticket', 'let’s get digital', "let's get digital", 'teilnahme sichern', 'platz'], q: 'Wie melde ich mich an?', a: faqReg },
-      { k: ['kost', 'preis', 'gebühr', 'kostenlos', 'kostenfrei', 'bezahl', 'euro', '€'], q: 'Was kostet die Teilnahme?', a: 'Nichts. Für Beschäftigte aus Behörden und öffentlichen Einrichtungen ist die Teilnahme kostenfrei.' },
-      { k: ['technik', 'software', 'browser', 'install', 'app', 'zoom', 'teams', 'kamera', 'mikro'], q: 'Brauche ich Software?', a: 'Nein. Du brauchst einen aktuellen Browser und eine stabile Verbindung.' },
-      { k: ['aufzeichn', 'mediathek', 'nachschau', 'später', 'video', 'verpass'], q: 'Gibt es Aufzeichnungen?', a: '[Antwort folgt.] Praxis-Cases erscheinen nach dem Event als Artikel auf amtshelden.de.' },
-      { k: ['track', 'parallel', 'wechsel', 'gleichzeitig', 'raum', 'räume'], q: 'Was läuft parallel?', a: 'Zwei Tracks: Fachvorträge und Praxis-Cases in Track 1, Masterclasses in Track 2. Du wechselst, wann du willst.', act: ['Programm ansehen', 'program'] },
-      { k: ['format', 'keynote', 'vortrag', 'case', 'panel', 'masterclass', 'workshop'], q: 'Welche Formate gibt es?', a: 'Fachvorträge, Praxis-Cases, Masterclasses, Austauschräume und die Messe-Area.', act: ['Über die D3', 'explore'] },
-      { k: ['netzwerk', 'networking', 'kennenlern', 'leute', 'austausch', 'kontakt knüpf'], q: 'Kann ich Leute treffen?', a: 'Ja. In den Austauschräumen sprichst du in kleinen Gruppen mit anderen Behörden.' },
-      { k: ['partner', 'sponsor', 'ausstell', 'stand ', 'stände', 'unternehmen', 'messe'], q: 'Wie werde ich Partner?', a: 'Über das Formular im Partnerbereich. Wir schicken euch alle Informationen.', act: ['Zu den Partnern', 'partner'] },
-      { k: ['thema', 'themen', ' ki', 'ki ', 'künstlich', 'transformation', 'ausgabe', 'herbst', 'kommunikation'], q: 'Worum geht es?', a: 'Die erste Ausgabe heißt KI + Transformation. Die nächste D3 kommt im Herbst 2027, Thema: Kommunikation.' },
-      { k: ['wann', 'datum', 'termin', 'findet'], q: 'Wann ist die D3?', a: 'Am 14. April 2027, von 9:00 bis 15:30, digital.' },
-      { k: ['amtshelden', 'veranstalt', 'wer steckt', 'organisier'], q: 'Wer steckt dahinter?', a: 'Veranstalter ist Amtshelden.', act: ['Über die D3', 'explore'] }
-    ];
-    var norm = function (t) { return (' ' + String(t || '').toLowerCase().replace(/[?!.,;:„“"()]/g, ' ').replace(/\s+/g, ' ') + ' '); };
-    var ask = function (text) {
-      var n = norm(text), best = null, sc = 0;
-      KB.forEach(function (e) { var h = 0; e.k.forEach(function (w) { if (n.indexOf(w) >= 0) h += w.length > 4 ? 2 : 1; }); if (h > sc) { sc = h; best = e; } });
-      self.setState({ botQ: '', botA: { q: String(text).trim(), e: sc > 0 ? best : null } });
-    };
-    var BA = s.botA;
-    var bot = {
-      q: s.botQ,
-      type: function (e) { self.setState({ botQ: e.target.value }); },
-      submit: function (e) { if (e && e.preventDefault) e.preventDefault(); if (String(self.state.botQ).trim()) ask(self.state.botQ); },
-      has: !!BA, asked: BA ? BA.q : '', tone: BA && !BA.e ? 'miss' : '',
-      a: BA ? (BA.e ? BA.e.a : 'Dazu habe ich noch keine Antwort. Schreib uns an [Kontakt-Adresse] – oder probier eine der Fragen unten.') : '',
-      act: !!(BA && BA.e && BA.e.act), actLabel: BA && BA.e && BA.e.act ? BA.e.act[0] : '',
-      actGo: function (e) { if (BA && BA.e && BA.e.act) self.go(BA.e.act[1], null, e && e.currentTarget); },
-      chips: ['Was kostet die Teilnahme?', 'Brauche ich Software?', 'Gibt es Aufzeichnungen?', 'Wie werde ich Partner?'].map(function (c) { return { label: c, ask: function () { ask(c); } }; })
-    };
     var mk = function (d) { d = d || ['', '', null]; return { label: d[0], note: d[1], go: function (e) { if (d[2]) self.go(d[2], null, e && e.currentTarget); } }; };
     var cta = mk(ctaDefs[s.st]);
     var nxt = order[idx + 1];
@@ -495,7 +462,7 @@ export default class D3App extends Component<D3Props, any> {
       progNote: p2 ? 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Tippe auf einen Programmpunkt.' : 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Das vollständige Programm veröffentlichen wir im Frühjahr 2027.',
       spkNote: p2 ? 'Fachleute, Menschen aus Behörden und alle, die Projekte umgesetzt haben.' : 'Fachleute, Menschen aus Behörden und alle, die Projekte umgesetzt haben. Weitere folgen.',
       partnerNote: 'Welche Anwendungen funktionieren bereits in Behörden? Unsere Partner zeigen es und beantworten deine Fragen.',
-      faqReg: faqReg, bot: bot,
+      faqReg: faqReg,
       logos: [0, 1, 2, 3, 4, 5].map(function (i) { return { label: '[Partner ' + (i + 1) + ']', bg: i % 2 ? 'var(--d3-bg)' : 'transparent' }; }),
       jItems: jItems, jTicks: jTicks, jn: jn, ex: ex, jrRef: this._jrRef, jScrollRef: this._jScrollRef,
       jWheel: function (e) {

@@ -1,5 +1,11 @@
 # Changelog
 
+## v8.1 – FAQ als Akkordeon · 2026-10-20
+
+- Teilnahme, häufige Fragen: Fragefeld und Vorschlags-Buttons entfernt. Stattdessen eine klassische FAQ zum Aufklappen mit
+  sieben Fragen (Für wen, Kosten, Anmeldung, Software, Was läuft parallel, Aufzeichnungen, Partner werden). Das Plus dreht
+  sich beim Öffnen zum Kreuz. Die Stichwort-Logik dahinter ist aus dem Code entfernt.
+
 ## v8 – Inhalte nach Christians Feedback · 2026-10-18
 
 Grundlage: Feedback-Dokument und Sprachnachricht von Christian (14.10.). Ziel: gleiches System, weniger Teile.

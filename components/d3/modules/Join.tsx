@@ -1,6 +1,5 @@
 // Teilnahme: Kopf, Anmeldung, häufige Fragen.
 // Werte (v) kommen aus D3App.renderVals().
-import { Fragment } from 'react';
 import type { V, Css } from '../types';
 
 export function JoinHead({ v }: { v: V }) {
@@ -50,45 +49,6 @@ export function Faq({ v }: { v: V }) {
         <span className="lab">
           Häufige Fragen
         </span>
-        <form className="bot-f" onSubmit={v.bot.submit}>
-          <input className="bot-in" type="text" value={v.bot.q} onChange={v.bot.type} placeholder="Frag etwas zum Deep Dive Day …" aria-label="Frage an Amtshelden" autoComplete="off" />
-          <button className="bot-go" type="submit" aria-label="Frage senden">
-            <svg className="mo-next" viewBox="0 0 100 100" aria-hidden="true">
-              <path className="p-x" fillRule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z" />
-            </svg>
-          </button>
-        </form>
-        {v.bot.has ? (
-          <>
-            <div className={`bot-a ${v.bot.tone ?? ""}`} aria-live="polite">
-              <span className="lab">
-                {v.bot.asked}
-              </span>
-              <p>
-                {v.bot.a}
-              </p>
-              {v.bot.act ? (
-                <>
-                  <button className="lnk sys" onClick={v.bot.actGo}>
-                    {v.bot.actLabel}{" "}
-                    <span>
-                      →
-                    </span>
-                  </button>
-                </>
-              ) : null}
-            </div>
-          </>
-        ) : null}
-        <div className="bot-chips" role="group" aria-label="Vorschläge">
-          {(v.bot.chips || []).map((c: any, cIndex: number) => (
-            <Fragment key={cIndex}>
-              <button className="tchip sys" onClick={c.ask}>
-                {c.label}
-              </button>
-            </Fragment>
-          ))}
-        </div>
         <details>
           <summary>
             {"Für wen ist die D3? "}
@@ -98,6 +58,28 @@ export function Faq({ v }: { v: V }) {
           </summary>
           <p>
             Für Beschäftigte aus Behörden und öffentlichen Einrichtungen, die sich mit KI, Digitalisierung und Veränderung in ihrer Verwaltung beschäftigen.
+          </p>
+        </details>
+        <details>
+          <summary>
+            {"Was kostet die Teilnahme? "}
+            <span>
+              +
+            </span>
+          </summary>
+          <p>
+            Nichts. Für Beschäftigte aus Behörden und öffentlichen Einrichtungen ist die Teilnahme kostenfrei.
+          </p>
+        </details>
+        <details>
+          <summary>
+            {"Wie melde ich mich an? "}
+            <span>
+              +
+            </span>
+          </summary>
+          <p>
+            {v.faqReg}
           </p>
         </details>
         <details>
@@ -113,13 +95,35 @@ export function Faq({ v }: { v: V }) {
         </details>
         <details>
           <summary>
-            {"Wie melde ich mich an? "}
+            {"Was läuft parallel? "}
             <span>
               +
             </span>
           </summary>
           <p>
-            {v.faqReg}
+            Zwei Tracks: Fachvorträge und Praxis-Cases in Track 1, Masterclasses in Track 2. Dazu Austauschräume und die Messe-Area. Du wechselst, wann du willst.
+          </p>
+        </details>
+        <details>
+          <summary>
+            {"Gibt es Aufzeichnungen? "}
+            <span>
+              +
+            </span>
+          </summary>
+          <p>
+            [Antwort folgt.] Praxis-Cases erscheinen nach dem Event als Artikel auf amtshelden.de.
+          </p>
+        </details>
+        <details>
+          <summary>
+            {"Wie werde ich Partner? "}
+            <span>
+              +
+            </span>
+          </summary>
+          <p>
+            Über das Formular „Partner werden“ im Bereich Partner. Wir schicken euch alle Informationen.
           </p>
         </details>
       </div>

@@ -9,7 +9,7 @@ Ausgabe 01: **KI + Transformation**. Anmeldung später über Let's Get Digital.
 - Briefing: https://docs.google.com/document/d/1grwTioy0KYaqkIG4jyswoq4MoUHnkSsbOVQYmfsstwM
 - Live (intern, noindex): https://amtshelden-d3.vercel.app
 
-## Aktueller Stand: v8 – Inhalte nach Christians Feedback
+## Aktueller Stand: v8.1 – Inhalte nach Christians Feedback
 
 Das Interface ist ein Vollbild-Raster (Desktop 12, Tablet 8, Mobil 4 Spalten), das seinen Zustand wechselt statt
 klassischer Sections: **Start → Programm → Speaker → Partner → Über die D3 → Teilnahme**. Scrollen, Navigation
@@ -23,7 +23,7 @@ längere Texte scrollen innerhalb ihrer Kachel. Keine neuen Unterseiten-Typen.
 Fakten (14. April 2027, 9:00–15:30, digital & kostenfrei), Button „Kostenfrei anmelden“ in der Leiste. Drei Gründe als
 Kacheln (Start kurz, Teilnahme ausführlich). Format-Zeichen in Ruhe flach, bei Hover 3D (Über die D3). Programm mit
 zwei Tracks und neun Themen-Tags. Partner-Übersicht (Platzhalter), Medienpartner Innovative Verwaltung (Platzhalter),
-Formular „Partner werden“. Häufige Fragen auf Teilnahme. Phase 1/Phase 2 als Schalter (`phase`). Regeln: `/design-system`.
+Formular „Partner werden“. Häufige Fragen als Akkordeon auf Teilnahme. Phase 1/Phase 2 als Schalter (`phase`). Regeln: `/design-system`.
 
 ### Lokal starten
 
@@ -54,7 +54,7 @@ Ausführen `components/d3/` und `lib/d3/`.
 
 | Route | Inhalt |
 |---|---|
-| `/` | Die App, Stand v8 |
+| `/` | Die App, Stand v8.1 |
 | `/design-system` | Regeln und Bausteine, Stand v7 (Board aus `design/canvas-v7/DesignSystem-v7.dc.html`) |
 | `/v7` | v7 als Prototyp-HTML aus dem Canvas – Referenz zur App |
 | `/prototype/mosaic-v5.html` | v5.8 als Archiv (nutzt dieselben Bilddateien, zeigt daher die aktuelle Bildwelt) |
