@@ -46,8 +46,8 @@ export function MediaPartner({ v }: { v: V }) {
     <div className={`mod act k-media ${v.P.media.cls ?? ""}`} style={{ background: "var(--d3-bg-2)", left: `calc(${v.P.media.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.media.r ?? ""} * var(--rowh))`, width: `calc(${v.P.media.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.media.h ?? ""} * var(--rowh))`, transitionDelay: v.P.media.d } as Css}>
       <button className="hit" onClick={v.nav.media} aria-label="Medienpartner Innovative Verwaltung" />
       <div className="L l-all media pad">
-        <span className="ivw sys">
-          [Logo Innovative Verwaltung]
+        <span className="ivw ivw-logo">
+          <img src="/partner/innovative-verwaltung.png" alt="Innovative Verwaltung" />
         </span>
         <span className="lab">
           Medienpartner
@@ -104,8 +104,8 @@ export function MediaLogo({ v }: { v: V }) {
   return (
     <div className={`mod k-mlogo ${v.P.mlogo.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.mlogo.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.mlogo.r ?? ""} * var(--rowh))`, width: `calc(${v.P.mlogo.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.mlogo.h ?? ""} * var(--rowh))`, transitionDelay: v.P.mlogo.d } as Css}>
       <div className="L l-media media pad">
-        <span className="ivw sys">
-          [Logo Innovative Verwaltung]
+        <span className="ivw ivw-logo">
+          <img src="/partner/innovative-verwaltung.png" alt="Innovative Verwaltung" />
         </span>
         <span className="lab">
           Medienpartner

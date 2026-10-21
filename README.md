@@ -6,9 +6,9 @@ Ausgabe 01: **KI + Transformation**. Anmeldung später über Let's Get Digital.
 > Sprachregel: „die D3“ oder „Deep Dive Day“ (bestätigt von Christian am 20.10.2026). Absender ist immer Amtshelden.
 
 - Briefing: https://docs.google.com/document/d/1grwTioy0KYaqkIG4jyswoq4MoUHnkSsbOVQYmfsstwM
-- Live (intern, noindex): https://amtshelden-d3.vercel.app
+- Live (noindex): https://d3.amtshelden.de (Vercel, Projekt `amtshelden-d3`; DNS bei internetwerk, CNAME `d3` → `cname.vercel-dns.com`)
 
-## Aktueller Stand: v8.2 – Inhalte nach Christians Feedback
+## Aktueller Stand: v8.3 – Inhalte nach Christians Feedback
 
 Das Interface ist ein Vollbild-Raster (Desktop 12, Tablet 8, Mobil 4 Spalten), das seinen Zustand wechselt statt
 klassischer Sections: **Start → Programm → Speaker → Partner → Über die D3 → Teilnahme**. Scrollen, Navigation
@@ -21,7 +21,7 @@ längere Texte scrollen innerhalb ihrer Kachel. Keine neuen Unterseiten-Typen.
 **Bausteine:** Amtshelden-Logo als Absender, Claim „Die digitale Konferenz für alle, die in Behörden lieber machen als reden.“,
 Fakten (14. April 2027, 9:00–15:30, digital & kostenfrei), Button „Kostenfrei anmelden“ in der Leiste. Drei Gründe als
 Kacheln (Start kurz, Teilnahme ausführlich). Format-Zeichen in Ruhe flach, bei Hover 3D (Über die D3). Programm mit
-zwei Tracks und neun Themen-Tags. Partner-Übersicht (Platzhalter), eigene Medienpartnerseite Innovative Verwaltung (`#/medienpartner`, Logo folgt),
+zwei Tracks und neun Themen-Tags. Partner-Übersicht (Platzhalter), eigene Medienpartnerseite Innovative Verwaltung (`#/medienpartner`, mit Logo),
 Formular „Partner werden“ (öffnet eine E-Mail an hallo@amtshelden.de). Bildwelt mit Hinweis „KI-generiert“. Häufige Fragen als Akkordeon auf Teilnahme. Phase 1/Phase 2 als Schalter (`phase`). Regeln: `/design-system`.
 
 ### Lokal starten
@@ -44,6 +44,7 @@ npm run dev   # http://localhost:4320
 | `lib/d3/layout.ts` | Raster-Layouts je Gerät und Zustand |
 | `lib/d3/program.ts` | Programm, Formate, Tracks, Porträts |
 | `public/bildwelt/`, `public/people/` | Bildwelt, Porträt-Platzhalter |
+| `public/partner/` | Partner-Logos (Innovative Verwaltung) |
 
 Änderungen passieren ab jetzt im Next.js-Code. Der Design-Canvas (`design/canvas-v7/`, früher `canvas-v5/`) bleibt Werkbank für
 Entwürfe; `scripts/port/dc2react.js` dokumentiert, wie der Port entstanden ist, und überschreibt beim erneuten
@@ -53,7 +54,7 @@ Ausführen `components/d3/` und `lib/d3/`.
 
 | Route | Inhalt |
 |---|---|
-| `/` | Die App, Stand v8.2 |
+| `/` | Die App, Stand v8.3 |
 | `/design-system` | Regeln und Bausteine, Stand v7 (Board aus `design/canvas-v7/DesignSystem-v7.dc.html`) |
 | `/v7` | v7 als Prototyp-HTML aus dem Canvas – Referenz zur App |
 | `/prototype/mosaic-v5.html` | v5.8 als Archiv (nutzt dieselben Bilddateien, zeigt daher die aktuelle Bildwelt) |

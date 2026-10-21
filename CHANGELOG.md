@@ -1,5 +1,13 @@
 # Changelog
 
+## v8.3 – Logo Innovative Verwaltung, eigene Domain · 2026-10-21
+
+- **Medienpartner:** Das Logo von Innovative Verwaltung ersetzt die Platzhalter in der Medienpartner-Kachel (Start,
+  Partner) und auf der Medienpartnerseite `#/medienpartner`. Datei `public/partner/innovative-verwaltung.png`,
+  zugeschnitten, weißer Hintergrund in Transparenz umgewandelt. Original liegt lokal unter `design/`.
+- **Domain:** Die Seite läuft unter https://d3.amtshelden.de (CNAME `d3` → `cname.vercel-dns.com`, gesetzt in der
+  internetwerk-Kundenverwaltung, SSL über Vercel). Weiterhin `noindex`.
+
 ## v8.2 – Christians Antworten, Medienpartner, KI-Hinweis · 2026-10-20
 
 Grundlage: Christians Rückmeldung zu den offenen Fragen (20.10.).

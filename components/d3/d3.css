@@ -311,6 +311,10 @@ a{color:inherit}
 .idea{gap:16px}
 .idea-lead{margin:0;font-weight:800;font-size:clamp(18px,min(5cqw,7cqh),26px);line-height:1.15;letter-spacing:-.01em;max-width:24ch}
 .k-mlogo .ivw{font-size:13px}
+/* Logo Innovative Verwaltung: ersetzt den gestrichelten Platzhalter */
+.media .ivw-logo{border:0;padding:4px 0}
+.media .ivw-logo img{display:block;width:100%;max-width:240px;max-height:100%;height:auto;object-fit:contain}
+.k-mlogo .ivw-logo img{max-width:300px}
 .k-about .phw{display:none}.k-about .L{right:0}
 .pf{gap:8px}.pf-f{grid-template-columns:repeat(3,minmax(0,1fr))}.pf-f textarea{grid-column:1/3 !important}.pf-f .pf-go{grid-column:3/4 !important;justify-self:stretch}
 @container mod (max-width: 520px){ .pf-f{grid-template-columns:1fr 1fr} .pf-f textarea{grid-column:1/-1 !important} .pf-f .pf-go{grid-column:1/-1 !important;justify-self:start} }.pf-t{font-size:clamp(22px,min(6cqw,9cqh),34px)}.pf-f textarea{min-height:42px !important}
