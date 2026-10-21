@@ -19,6 +19,18 @@
         "dev"
       ],
       "port": 4320
+    },
+    {
+      "name": "durna-deck",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4330",
+        "--directory",
+        "/Users/wolfram/web-projekte/durna-praesentation"
+      ],
+      "port": 4330
     }
   ]
 }
