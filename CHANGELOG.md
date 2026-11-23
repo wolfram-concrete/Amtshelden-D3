@@ -1,5 +1,36 @@
 # Changelog
 
+## v9 – Veröffentlichungsstand ohne Programm und Speaker · 2026-11-23
+
+Grundlage: Christians Briefing „D3 Website für den aktuellen Stand anpassen“ (23.11.) und Wolframs Entscheidungen.
+
+- **Vier statt sechs Ansichten:** Start → Über die D3 → Partner → Teilnahme → Start. Programm und Speaker sind aus Leiste,
+  mobiler Navigation, Weiter-Kacheln und Seitenzählung (`0X / 04`) genommen. Der Schalter `PROGRAM_LIVE` in
+  `lib/d3/release.ts` blendet sie aus; Code und Layouts bleiben für Januar 2027 erhalten. Solange er aus ist, werden
+  Programm, Speaker und Logo-Raster gar nicht gerendert, also auch keine Platzhalter im Seitencode.
+- **Alte Direktlinks:** `#/programm…` und `#/speaker` zeigen den Januar-Hinweis mit Wegen zu „Über die D3“ und
+  „Teilnahmeinfos“. Hash-Wechsel ohne Neuladen und die Zurück-Taste werden jetzt ausgewertet.
+- **Einheitlicher Januar-Hinweis** (Texte zentral in `lib/d3/release.ts`): auf der Startseite in der Datumszelle, auf
+  Teilnahme in der Anmelde-Kachel, im Januar-Hinweis und in der FAQ. „Mitte Januar“ und „Frühjahr 2027“ sind raus.
+- **Keine Anmeldeversprechen:** „Jetzt kostenfrei anmelden“ heißt in Leiste und Kacheln „Teilnahmeinfos“ (mobil „Infos“)
+  und führt zur Teilnahme. Anmelde-Kachel: „Kostenfreie Anmeldung ab Januar 2027“.
+- **Startseite:** Die Cases-Kachel führt zur Erklärung der Praxis-Cases unter „Über die D3“. Die Kachel zur Herbst-Ausgabe
+  ist vorerst „Partner der D3 werden“ und führt zum Partnerbereich.
+- **Über die D3:** Format-Kacheln verlinken nicht mehr ins Programm, sie heben das Format hervor. Veranstalter-Kachel
+  scrollt statt abzuschneiden.
+- **Partner:** Logo-Raster [Partner 1–6] entfernt, Fläche neu aufgeteilt (Messe-Area und Medienpartner größer).
+  Neuer Einstiegstext ohne behauptete Partnergruppe. Innovative Verwaltung bleibt ausschließlich Medienpartner.
+- **Partner werden:** Christians Text, Hinweis „Partneranfragen sind schon jetzt möglich. Die Anmeldung für Teilnehmende
+  öffnet im Januar 2027.“ Das Formular ist ersetzt durch „Partnerschaft per E-Mail anfragen“ plus sichtbare, kopierbare
+  Adresse hallo@amtshelden.de und „Unverbindlich anfragen. Wir melden uns bei euch.“
+- **Teilnahme:** Moderation (Julia Lupp, Christian Rosenberger, Steffi Hüthig) steht jetzt hier. Neue FAQ „Wann erfahre
+  ich mehr über Programm und Speaker?“.
+- **Impressum und Datenschutz** von jeder Ansicht erreichbar: Desktop in der Leiste, Tablet und Mobil in der Navigation
+  unten (Links auf amtshelden.de/impressum und /datenschutzerklaerung).
+- **Suchmaschinen:** `noindex` entfernt, die Seite ist auffindbar. Die Prototyp-Archive unter `/prototype/` bleiben gesperrt.
+- **Abnahme:** Alle Ansichten auf Desktop, Tablet und Mobil geprüft, keine abgeschnittenen Texte, keine Platzhalter,
+  alle Buttons mit Ziel.
+
 ## v8.3 – Logo Innovative Verwaltung, eigene Domain · 2026-10-21
 
 - **Medienpartner:** Das Logo von Innovative Verwaltung ersetzt die Platzhalter in der Medienpartner-Kachel (Start,

@@ -1,4 +1,5 @@
-// Partner: Kopf mit Bild, Partner-Übersicht, Medienpartner, Formular „Partner werden“ (öffnet eine E-Mail an hallo@amtshelden.de) und die Medienpartnerseite.
+// Partner: Kopf mit Bild, Medienpartner, „Partner werden“ (Anfrage per E-Mail an hallo@amtshelden.de) und die Medienpartnerseite.
+// Stand 23.11.2026: Das Logo-Raster [Partner 1–6] ist aus allen Layouts genommen; Logos bleibt für später erhalten.
 // Werte (v) kommen aus D3App.renderVals().
 import { Fragment } from 'react';
 import type { V, Css } from '../types';
@@ -14,10 +15,10 @@ export function PartnerHead({ v }: { v: V }) {
         <span className="lab">
           Partner
         </span>
-        <h2 className="big sc" style={{ fontSize: "min(8.4cqh, 6cqw)", maxWidth: "11ch" } as Css}>
+        <h2 className="big sc" style={{ fontSize: "min(7cqh, 5.4cqw)", maxWidth: "11ch" } as Css}>
           Lösungen kennenlernen. Direkt nachfragen.
         </h2>
-        <p className="p hide-s" style={{ maxWidth: "min(30ch, 44cqw)", fontSize: "clamp(13px, 3cqw, 15px)" } as Css}>
+        <p className="p hide-s" style={{ maxWidth: "min(34ch, 46cqw)", fontSize: "clamp(12px, 2.6cqw, 14px)" } as Css}>
           {v.partnerNote}
         </p>
       </div>
@@ -64,37 +65,40 @@ export function PartnerForm({ v }: { v: V }) {
         <span className="lab">
           Partner werden
         </span>
+        <div className="pf-cols">
+        <div className="pf-a">
         <h2 className="big sc pf-t">
           Partner der D3 werden
         </h2>
         <p className="p">
-          Ihr entwickelt Lösungen für Behörden? Dann zeigt, was sie in der Praxis leisten. Mit echten Anwendungsfällen, fachlichem Austausch und direktem Kontakt zu Menschen aus der Verwaltung.
+          Ihr bietet Lösungen für Behörden rund um KI und Transformation? Bei der D3 könnt ihr anhand konkreter Anwendungsfälle zeigen, was sie im Verwaltungsalltag leisten, und mit Menschen aus Behörden ins Gespräch kommen. Meldet euch bei uns, wenn ihr als Partner dabei sein möchtet. Wir besprechen mit euch die Möglichkeiten.
         </p>
-        <p className="p">
+        </div>
+        <div className="pf-b">
+        <p className="p pf-when">
           <b>
-            Interesse? Fordert weitere Informationen an.
+            Partneranfragen sind schon jetzt möglich.
           </b>
+          {" Die Anmeldung für Teilnehmende öffnet im Januar 2027."}
         </p>
-        {v.pf.sent ? (
-          <>
-            <p className="pf-ok">
-              Danke! Dein E-Mail-Programm hat sich mit der Anfrage an hallo@amtshelden.de geöffnet.
-            </p>
-          </>
-        ) : null}
-        {v.pf.open ? (
-          <>
-            <form className="pf-f" onSubmit={v.pf.submit}>
-              <input type="text" name="name" placeholder="Name" aria-label="Name" required />
-              <input type="text" name="firma" placeholder="Unternehmen" aria-label="Unternehmen" required />
-              <input type="email" name="mail" placeholder="E-Mail" aria-label="E-Mail" required />
-              <textarea name="text" placeholder="Nachricht (optional)" aria-label="Nachricht" />
-              <button className="pf-go" type="submit">
-                Informationen anfordern
-              </button>
-            </form>
-          </>
-        ) : null}
+        <div className="pf-mail">
+          <a className="pf-go" href={v.pf.mailto}>
+            Partnerschaft per E-Mail anfragen
+          </a>
+          <span className="pf-addr">
+            <span className="sys">
+              {v.partnerMail}
+            </span>
+            <button type="button" className="sys pf-copy" onClick={v.pf.copy}>
+              {v.pf.copyLabel}
+            </button>
+          </span>
+        </div>
+        <p className="pf-note sys">
+          Unverbindlich anfragen. Wir melden uns bei euch.
+        </p>
+        </div>
+        </div>
       </div>
     </div>
   );

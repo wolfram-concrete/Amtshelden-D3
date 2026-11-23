@@ -21,23 +21,31 @@ export function Bar({ v }: { v: V }) {
           Deep Dive Day
         </span>
       </a>
-      <a href="#" className={`nv sys ${v.on.program ?? ""}`} onClick={v.nav.program}>
-        Programm
-      </a>
-      <a href="#" className={`nv sys ${v.on.speaker ?? ""}`} onClick={v.nav.speaker}>
-        Speaker
+      {v.programLive ? (
+        <>
+          <a href="#" className={`nv sys ${v.on.program ?? ""}`} onClick={v.nav.program}>
+            Programm
+          </a>
+          <a href="#" className={`nv sys ${v.on.speaker ?? ""}`} onClick={v.nav.speaker}>
+            Speaker
+          </a>
+        </>
+      ) : null}
+      <a href="#" className={`nv sys ${v.on.explore ?? ""}`} onClick={v.nav.explore}>
+        Über die D3
       </a>
       <a href="#" className={`nv sys ${v.on.partner ?? ""}`} onClick={v.nav.partner}>
         Partner
       </a>
-      <a href="#" className={`nv sys ${v.on.explore ?? ""}`} onClick={v.nav.explore}>
-        Über die D3
-      </a>
       <a href="#" className={`nv sys ${v.on.join ?? ""}`} onClick={v.nav.join}>
         Teilnahme
       </a>
+      <span className="nv sys legal" style={{ gridColumn: `span ${v.legalSpan ?? ""}` } as Css}>
+        <a href={v.legal.imprint} target="_blank" rel="noopener">Impressum</a>
+        <a href={v.legal.privacy} target="_blank" rel="noopener">Datenschutz</a>
+      </span>
       <span className="sys idx" style={{ gridColumn: `span ${v.idxSpan ?? ""}`, justifyContent: "center" } as Css}>
-        {v.stNo}{" / 06"}
+        {v.stNo}{" / "}{v.total}
       </span>
       <a href="#" className="cta-b" onClick={v.ctaBar.go} style={{ gridColumn: `span ${v.ctaSpan ?? ""}` } as Css}>
         {v.ctaBarLabel}{" "}
@@ -49,25 +57,36 @@ export function Bar({ v }: { v: V }) {
   );
 }
 
-/** Navigation unten (Tablet, Mobil) */
+/** Navigation unten (Tablet, Mobil), mit Impressum und Datenschutz */
 export function BottomNav({ v }: { v: V }) {
   return (
     <nav className="bot sys" aria-label="Navigation">
-      <a href="#" className={v.on.program} onClick={v.nav.program}>
-        Programm
+      <a href="#" className={v.on.home} onClick={v.nav.home}>
+        Start
       </a>
-      <a href="#" className={v.on.speaker} onClick={v.nav.speaker}>
-        Speaker
+      {v.programLive ? (
+        <>
+          <a href="#" className={v.on.program} onClick={v.nav.program}>
+            Programm
+          </a>
+          <a href="#" className={v.on.speaker} onClick={v.nav.speaker}>
+            Speaker
+          </a>
+        </>
+      ) : null}
+      <a href="#" className={v.on.explore} onClick={v.nav.explore}>
+        Über
       </a>
       <a href="#" className={v.on.partner} onClick={v.nav.partner}>
         Partner
       </a>
-      <a href="#" className={v.on.explore} onClick={v.nav.explore}>
-        Über
-      </a>
       <a href="#" className={v.on.join} onClick={v.nav.join}>
         Teilnahme
       </a>
+      <span className="bot-legal">
+        <a href={v.legal.imprint} target="_blank" rel="noopener">Impressum</a>
+        <a href={v.legal.privacy} target="_blank" rel="noopener">Datenschutz</a>
+      </span>
     </nav>
   );
 }

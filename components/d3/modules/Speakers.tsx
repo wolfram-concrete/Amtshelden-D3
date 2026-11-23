@@ -1,4 +1,5 @@
 // Speaker & Moderation: Kopf mit Bild, sechs Porträt-Zellen, Detail, Moderation.
+// Stand 23.11.2026: Speaker ausgeblendet (lib/d3/release.ts), die Moderation steht auf Teilnahme.
 // Werte (v) kommen aus D3App.renderVals().
 import type { V, Css } from '../types';
 
@@ -189,7 +190,7 @@ export function SpeakerDetail({ v }: { v: V }) {
 export function Moderation({ v }: { v: V }) {
   return (
     <div className={`mod dark k-mods ${v.P.mods.cls ?? ""}`} style={{ left: `calc(${v.P.mods.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.mods.r ?? ""} * var(--rowh))`, width: `calc(${v.P.mods.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.mods.h ?? ""} * var(--rowh))`, transitionDelay: v.P.mods.d } as Css}>
-      <div className="L l-speaker fill pad mods">
+      <div className="L l-join l-speaker fill pad mods">
         <span className="lab">
           Moderation
         </span>

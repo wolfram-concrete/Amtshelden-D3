@@ -1,4 +1,5 @@
-// Start: Marke, Claim, Datum, Bildwelt, Was ist die D3, drei Gründe, Partner, nächste Ausgabe, Anmeldung. Die Gründe erscheinen auch auf Teilnahme.
+// Start: Marke, Claim, Datum mit Januar-Hinweis, Bildwelt, Was ist die D3, drei Gründe, Cases, Medienpartner, Partner werden, Teilnahmeinfos.
+// Die Gründe erscheinen auch auf Teilnahme. Stand 23.11.2026: „Nächste D3 im Herbst“ ist vorerst durch „Partner der D3 werden“ ersetzt.
 // Werte (v) kommen aus D3App.renderVals().
 import type { V, Css } from '../types';
 
@@ -120,17 +121,20 @@ export function Hero({ v }: { v: V }) {
 
 export function NextEdition({ v }: { v: V }) {
   return (
-    <div className={`mod k-next ${v.P.next.cls ?? ""}`} style={{ background: "var(--d3-green)", color: "var(--d3-white)", left: `calc(${v.P.next.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.next.r ?? ""} * var(--rowh))`, width: `calc(${v.P.next.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.next.h ?? ""} * var(--rowh))`, transitionDelay: v.P.next.d } as Css}>
-      <div className="L l-home tA pad">
+    <div className={`mod act k-next ${v.P.next.cls ?? ""}`} style={{ background: "var(--d3-green)", color: "var(--d3-white)", left: `calc(${v.P.next.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.next.r ?? ""} * var(--rowh))`, width: `calc(${v.P.next.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.next.h ?? ""} * var(--rowh))`, transitionDelay: v.P.next.d } as Css}>
+      <button className="hit" onClick={v.nav.partner} aria-label="Partner der D3 werden" />
+      <div className="L l-home tC pad">
         <span className="lab">
-          Als Nächstes
+          Für Unternehmen · Anfragen schon jetzt möglich
         </span>
-        <div className="btm">
+        <div className="ctaRow">
           <b style={{ fontSize: "clamp(15px, min(6cqw, 15cqh), 22px)", lineHeight: "1.15" } as Css}>
-            Die nächste D3 kommt im Herbst 2027.
+            Partner der D3 werden
           </b>
-          <span className="lab">
-            Thema: Kommunikation
+          <span className="s-arrow-w">
+            <svg className="mo-next" viewBox="0 0 100 100" aria-hidden="true">
+              <path className="p-x" fillRule="evenodd" d="M0,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM30,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40zM60,10c22.09139,0 40,17.90861 40,40c0,22.09139 -17.90861,40 -40,40z" />
+            </svg>
           </span>
         </div>
       </div>
@@ -141,7 +145,7 @@ export function NextEdition({ v }: { v: V }) {
 export function DateCell({ v }: { v: V }) {
   return (
     <div className={`mod k-date ${v.P.date.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.date.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.date.r ?? ""} * var(--rowh))`, width: `calc(${v.P.date.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.date.h ?? ""} * var(--rowh))`, transitionDelay: v.P.date.d } as Css}>
-      <div className="L l-all pad">
+      <div className="L l-all tA pad">
         <div className="dataRow">
           <div>
             <span className="lab">
@@ -168,6 +172,9 @@ export function DateCell({ v }: { v: V }) {
             </b>
           </div>
         </div>
+        <p className="date-note">
+          {v.notice.short}
+        </p>
       </div>
     </div>
   );
@@ -202,7 +209,7 @@ export function Hint({ v }: { v: V }) {
       <button className="hit" onClick={v.hint.go} aria-label={v.hint.label} />
       <div className="L l-all tC pad">
         <span className="lab">
-          {"Weiter · "}{v.stNo}{" / 06"}
+          {v.hintLab}
         </span>
         <div className="ctaRow">
           <span className="t-mod">
@@ -333,7 +340,7 @@ export function Reason3({ v }: { v: V }) {
 export function PartnerTeaser({ v }: { v: V }) {
   return (
     <div className={`mod act k-ptile ${v.P.ptile.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.ptile.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.ptile.r ?? ""} * var(--rowh))`, width: `calc(${v.P.ptile.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.ptile.h ?? ""} * var(--rowh))`, transitionDelay: v.P.ptile.d } as Css}>
-      <button className="hit" onClick={v.nav.partner} aria-label="Zu den Cases" />
+      <button className="hit" onClick={v.nav.cases} aria-label="Praxis-Cases: so funktioniert das Format" />
       <div className="L l-home tC pad">
         <span className="lab">
           Cases

@@ -1,4 +1,4 @@
-// Teilnahme: Kopf, Anmeldung, häufige Fragen.
+// Teilnahme: Kopf, Anmeldung (Hinweis auf den Start im Januar 2027), häufige Fragen. Dazu der Januar-Hinweis für alte Programm- und Speaker-Links.
 // Werte (v) kommen aus D3App.renderVals().
 import type { V, Css } from '../types';
 
@@ -106,6 +106,17 @@ export function Faq({ v }: { v: V }) {
         </details>
         <details>
           <summary>
+            {"Wann erfahre ich mehr über Programm und Speaker? "}
+            <span>
+              +
+            </span>
+          </summary>
+          <p>
+            Erste Einblicke veröffentlichen wir ab Januar 2027 hier auf der Website. Bis dahin erfährst du unter Über die D3, welche Formate und Themen dich erwarten.
+          </p>
+        </details>
+        <details>
+          <summary>
             {"Brauche ich Software? "}
             <span>
               +
@@ -126,6 +137,35 @@ export function Faq({ v }: { v: V }) {
             Zwei Tracks: Fachvorträge und Praxis-Cases in Track 1, Masterclasses in Track 2. Dazu Austauschräume und die Messe-Area. Du wechselst, wann du willst.
           </p>
         </details>
+      </div>
+    </div>
+  );
+}
+
+/** Januar-Hinweis: Ziel alter Direktlinks auf #/programm und #/speaker, solange beides nicht veröffentlicht ist */
+export function Soon({ v }: { v: V }) {
+  return (
+    <div className={`mod dark k-soon ${v.P.soon.cls ?? ""}`} style={{ left: `calc(${v.P.soon.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.soon.r ?? ""} * var(--rowh))`, width: `calc(${v.P.soon.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.soon.h ?? ""} * var(--rowh))`, transitionDelay: v.P.soon.d } as Css}>
+      <div className="L l-soon tA pad" style={{ overflow: "auto" } as Css} onWheel={v.stopWheel}>
+        <span className="lab">
+          Programm und Speaker
+        </span>
+        <div className="btm soon-b">
+          <h2 className="big sc soon-t">
+            Erste Einblicke ab Januar 2027.
+          </h2>
+          <p className="p soon-p">
+            {v.notice.full}
+          </p>
+          <div className="soon-l">
+            <a className="ah-link sys" href="#/ueber" onClick={v.nav.explore}>
+              Bis dahin: Über die D3 →
+            </a>
+            <a className="ah-link sys" href="#/teilnahme" onClick={v.nav.join}>
+              Teilnahmeinfos →
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

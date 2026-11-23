@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next';
 export const metadata: Metadata = {
   title: 'D3 Deep Dive Day – die digitale Konferenz für Behörden',
   description: 'D3 Deep Dive Day – das digitale B2G-Event von Amtshelden. Ausgabe 01: KI + Transformation.',
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {

@@ -6,6 +6,7 @@ import { Component } from 'react';
 import D3View from './D3View';
 import { LAYOUT } from '@/lib/d3/layout';
 import { FORMATS, ROOMS, SESSIONS, SPEAKER_PHOTOS } from '@/lib/d3/program';
+import { PROGRAM_LIVE, NOTICE, PARTNER_MAIL, LEGAL } from '@/lib/d3/release';
 import './d3.css';
 
 type D3Props = { phase?: 'Phase 1' | 'Phase 2'; tour?: boolean; grain?: boolean; intro?: boolean };
@@ -36,11 +37,10 @@ export default class D3App extends Component<D3Props, any> {
   componentDidMount() {
     var self = this;
     try { this.init3D(); } catch (e) {}
-    try {
-      var hp = String(window.location.hash || '').replace(/^#\/?/, '').split('/'), RT = this.routes(), st0 = null;
-      Object.keys(RT).forEach(function (k) { if (RT[k] && RT[k] === hp[0]) st0 = k; });
-      if (st0) this.setState({ st: st0, sel: st0 === 'program' && hp[1] ? hp[1] : null });
-    } catch (e) {}
+    this.fromHash();
+    /* Auch Hash-Wechsel ohne Neuladen (eingefügter Link, Zurück-Taste) landen im richtigen Zustand */
+    this._hash = function () { self.fromHash(); };
+    if (typeof window !== 'undefined') window.addEventListener('hashchange', this._hash);
     this._key = function (e) { if (e.key === 'Escape' && self.state.sel) self.closeExp(); };
     if (typeof document !== 'undefined') document.addEventListener('keydown', this._key);
     /* Kein Preloader mehr (05.10.): die Seite startet direkt im Ruhezustand */
@@ -76,10 +76,19 @@ export default class D3App extends Component<D3Props, any> {
       if (!rm && (self.props.tour ?? true) && self.state.st === 'home' && !self.state.hover) self.setState({ tour: self.state.tour + 1 });
     }, 6500);   // ruhig: Bildwechsel im Hero nur alle 6,5 s
   }
+  fromHash() {
+    try {
+      var hp = String(window.location.hash || '').replace(/^#\/?/, '').split('/'), RT = this.routes(), st0 = null;
+      Object.keys(RT).forEach(function (k) { if (RT[k] && RT[k] === hp[0]) st0 = k; });
+      if (!PROGRAM_LIVE && (st0 === 'program' || st0 === 'speaker')) st0 = 'soon';
+      if (!st0 && hp[0] === '') st0 = 'home';
+      if (st0 && (st0 !== this.state.st || st0 === 'program')) this.setState({ st: st0, sel: st0 === 'program' && hp[1] ? hp[1] : null });
+    } catch (e) {}
+  }
   routes() { return { home: '', program: 'programm', speaker: 'speaker', partner: 'partner', explore: 'ueber', join: 'teilnahme', media: 'medienpartner' }; }
   componentDidUpdate(pp, ps) {
     var self = this;
-    if (ps.st !== this.state.st || ps.sel !== this.state.sel) {
+    if ((ps.st !== this.state.st || ps.sel !== this.state.sel) && this.state.st !== 'soon') {
       try {
         var r = this.routes()[this.state.st], h = r ? '#/' + r + (this.state.st === 'program' && this.state.sel ? '/' + this.state.sel : '') : '';
         if (window.location.hash !== h) window.history.replaceState(null, '', h || (window.location.pathname + window.location.search));
@@ -258,6 +267,7 @@ export default class D3App extends Component<D3Props, any> {
   }
   componentWillUnmount() {
     if (this._key && typeof document !== 'undefined') document.removeEventListener('keydown', this._key);
+    if (this._hash && typeof window !== 'undefined') window.removeEventListener('hashchange', this._hash);
     clearTimeout(this._it1); clearTimeout(this._it2); clearInterval(this._t); if (this._ro) this._ro.disconnect(); if (this._raf) cancelAnimationFrame(this._raf); }
   lay() {
     return LAYOUT;
@@ -295,17 +305,20 @@ export default class D3App extends Component<D3Props, any> {
     var L = this.lay()[bp][s.st];
     var rows = 0;
     Object.keys(L).forEach(function (k) { rows = Math.max(rows, L[k][1] + L[k][3]); });
-    var keys = ['mlogo', 'mtext', 'd3', 'brand', 'why', 'hero', 'pc', 's2', 's3', 's4', 's5', 's6', 'fk', 'fc', 'fm', 'fn', 'fs', 'next', 'date', 'cta', 'hint', 'xhead', 'board', 'spkhead', 'sdetail', 'phead2', 'logos', 'about', 'faq', 'g1', 'g2', 'g3', 'ptile', 'media', 'mods', 'pform', 'idea', 'jhead', 'reg'];
+    var keys = ['mlogo', 'mtext', 'd3', 'brand', 'why', 'hero', 'pc', 's2', 's3', 's4', 's5', 's6', 'fk', 'fc', 'fm', 'fn', 'fs', 'next', 'date', 'cta', 'hint', 'xhead', 'board', 'spkhead', 'sdetail', 'phead2', 'logos', 'about', 'faq', 'g1', 'g2', 'g3', 'ptile', 'media', 'mods', 'pform', 'idea', 'jhead', 'reg', 'soon'];
     var P = {};
     keys.forEach(function (k) {
       var p = L[k], vis = !!p;
       if (vis) self._last[k] = p; else p = self._last[k] || [0, 0, 1, 1];
       P[k] = { c: p[0], r: p[1], w: p[2], h: p[3], cls: vis ? '' : 'off', d: vis ? ((p[0] + p[1]) * (s.intro === 2 ? 70 : 30) + (s.intro === 2 ? 350 : 0)) + 'ms' : '0ms' };
     });
-    var order = ['home', 'program', 'speaker', 'partner', 'explore', 'join'];
+    var order = PROGRAM_LIVE ? ['home', 'program', 'speaker', 'partner', 'explore', 'join'] : ['home', 'explore', 'partner', 'join'];
     var names = { home: 'Start', program: 'Programm', speaker: 'Speaker', partner: 'Partner', explore: 'Über die D3', join: 'Teilnahme' };
     var idx = order.indexOf(s.st === 'media' ? 'partner' : s.st);
-    var navTo = function (st, extra) { return function (e) { if (e && e.preventDefault) e.preventDefault(); self.go(st, extra); }; };
+    var total = '0' + order.length;
+    /* Solange Programm und Speaker nicht veröffentlicht sind, führen alle Wege dorthin zum Januar-Hinweis */
+    var gate = function (st) { return !PROGRAM_LIVE && (st === 'program' || st === 'speaker') ? 'soon' : st; };
+    var navTo = function (st, extra) { return function (e) { if (e && e.preventDefault) e.preventDefault(); self.go(gate(st), extra); }; };
 
     /* sessions */
     var SP = SPEAKER_PHOTOS;
@@ -396,6 +409,7 @@ export default class D3App extends Component<D3Props, any> {
           if (touch && self._3d && !self._3d.failed && mod && self._3d.want !== mod) { self._3d.activate(mod); return; }
           if (m.f === 'stand') { if (st === 'partner') return; self.go('partner', null, mod); return; }
           if (st === 'home') { self.go('explore', { hover: m.k }); return; }
+          if (!PROGRAM_LIVE) { self.setState({ hover: m.k }); return; }
           self.go('program', { ffmt: fam[m.f] || 'all', sel: null }, mod);
         } };
     });
@@ -415,26 +429,31 @@ export default class D3App extends Component<D3Props, any> {
     var tp = tgt && L[tgt];
 
     /* ctas */
+    var ctaLabel = p2 ? 'Jetzt kostenfrei anmelden' : 'Teilnahmeinfos';
     var ctaDefs = {
-      home: ['Jetzt kostenfrei anmelden', 'Bist du dabei? · 14. April 2027', 'join'],
-      explore: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join'],
-      speaker: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join'],
-      partner: ['Jetzt kostenfrei anmelden', 'Für Beschäftigte aus Behörden', 'join'],
-      media: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join'],
-      program: ['Jetzt kostenfrei anmelden', '14. April 2027 · digital', 'join']
+      home: [ctaLabel, p2 ? 'Bist du dabei? · 14. April 2027' : 'Anmeldung ab Januar 2027', 'join'],
+      explore: [ctaLabel, '14. April 2027 · digital', 'join'],
+      speaker: [ctaLabel, '14. April 2027 · digital', 'join'],
+      partner: [ctaLabel, 'Für Beschäftigte aus Behörden', 'join'],
+      media: [ctaLabel, '14. April 2027 · digital', 'join'],
+      program: [ctaLabel, '14. April 2027 · digital', 'join'],
+      soon: [ctaLabel, 'Anmeldung ab Januar 2027', 'join']
     };
-    var faqReg = p2 ? 'Jetzt. Die kostenfreie Registrierung läuft über unsere digitale Eventplattform.' : 'Die Anmeldung startet voraussichtlich Mitte Januar 2027. Den Link zur kostenfreien Registrierung findest du dann hier.';
+    var faqReg = p2 ? 'Jetzt. Die kostenfreie Registrierung läuft über unsere digitale Eventplattform.' : NOTICE.reg;
 
     var mk = function (d) { d = d || ['', '', null]; return { label: d[0], note: d[1], go: function (e) { if (d[2]) self.go(d[2], null, e && e.currentTarget); } }; };
     var cta = mk(ctaDefs[s.st]);
     var nxt = order[idx + 1];
     if (s.st === 'media') nxt = 'partner';
+    if (s.st === 'soon') nxt = 'explore';
     var hint = nxt ? { label: names[nxt], go: function (e) { self.go(nxt, null, e && e.currentTarget); } } : { label: 'Zum Start', go: function (e) { self.go('home', null, e && e.currentTarget); } };
 
     var step = function (dir) {
       var now = Date.now();
       if (now < self._lock) return;
-      var i = order.indexOf(self.state.st) + dir;
+      var cur0 = self.state.st === 'media' ? 'partner' : self.state.st;
+      if (cur0 === 'soon') { if (dir < 0) return; self._lock = now + 1300; self.go('explore'); return; }
+      var i = order.indexOf(cur0) + dir;
       if (i < 0 || i >= order.length) return;
       self._lock = now + 1300;
       self.go(order[i]);
@@ -452,24 +471,23 @@ export default class D3App extends Component<D3Props, any> {
       rootRef: this._rootRef, stageRef: this._stageRef,
       introCls: s.intro === 0 ? '' : (s.intro === 2 ? 'out' : 'out gone'), bootCls: s.intro < 2 ? 'booting' : '', skipIntro: function () { self.endIntro(); }, ilogoRef: this._ilogoRef,
       depthCls: (bp === 'desk' && !(typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) ? 'depth' : '',
-      lockSpan: bp === 'desk' ? 4 : (bp === 'tab' ? 5 : 3), ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: bp === 'mob' ? 'Anmelden' : 'Kostenfrei anmelden', idxSpan: bp === 'desk' ? 1 : 1,
+      lockSpan: bp === 'desk' ? (PROGRAM_LIVE ? 3 : 4) : (bp === 'tab' ? 5 : 3), legalSpan: PROGRAM_LIVE ? 1 : 2, ctaSpan: bp === 'mob' ? 1 : 2, ctaBarLabel: p2 ? (bp === 'mob' ? 'Anmelden' : 'Kostenfrei anmelden') : (bp === 'mob' ? 'Infos' : 'Teilnahmeinfos'), idxSpan: bp === 'desk' ? 1 : 1,
+      programLive: PROGRAM_LIVE, legal: LEGAL, partnerMail: PARTNER_MAIL, notice: NOTICE, total: total,
       P: P, fmts: fmts, heroPlace: heroPlace, heroTime: heroTimes[heroPlace], heroFmt: { fk: 'Keynote', fc: 'Case', fm: 'Masterclass', fn: 'Networking', fs: 'Stände' }[heroPlace], heroVerb: heroVerbs[heroPlace],
-      stNo: '0' + (idx + 1), stName: names[s.st],
+      stNo: idx < 0 ? '–' : '0' + (idx + 1), stName: names[s.st] || '', hintLab: s.st === 'soon' ? 'Bis dahin' : 'Weiter · ' + (idx < 0 ? '–' : '0' + (idx + 1)) + ' / ' + total,
       on: { home: s.st === 'home' ? 'on' : '', explore: s.st === 'explore' ? 'on' : '', program: s.st === 'program' ? 'on' : '', speaker: s.st === 'speaker' ? 'on' : '', partner: s.st === 'partner' || s.st === 'media' ? 'on' : '', join: s.st === 'join' ? 'on' : '' },
-      nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner'), join: navTo('join'), media: navTo('media') },
-      ctaBar: { label: 'Kostenfrei anmelden', go: navTo('join') },
+      nav: { home: navTo('home'), explore: navTo('explore'), program: navTo('program'), speaker: navTo('speaker'), partner: navTo('partner'), join: navTo('join'), media: navTo('media'), cases: navTo('explore', { hover: 'fc' }) },
+      ctaBar: { label: ctaLabel, go: navTo('join') },
       cta: cta, hint: hint,
-      reg: p2 ? { title: 'Jetzt kostenfrei anmelden', text: 'Die Registrierung läuft über unsere digitale Eventplattform. [Button folgt.]' } : { title: 'Anmeldung startet Mitte Januar.', text: 'Ab dann kannst du dir deinen kostenfreien Platz beim Deep Dive Day sichern. Die Registrierung erfolgt über unsere digitale Eventplattform.' },
-      pf: { sent: s.pfSent, open: !s.pfSent, submit: function (e) {
-        if (e && e.preventDefault) e.preventDefault();
-        var f = e && e.currentTarget, v = function (n) { return f && f.elements[n] ? String(f.elements[n].value || '').trim() : ''; };
-        var body = 'Name: ' + v('name') + '\nUnternehmen: ' + v('firma') + '\nE-Mail: ' + v('mail') + (v('text') ? '\n\n' + v('text') : '');
-        try { window.location.href = 'mailto:hallo@amtshelden.de?subject=' + encodeURIComponent('Partner der D3 werden – ' + v('firma')) + '&body=' + encodeURIComponent(body); } catch (x) {}
-        self.setState({ pfSent: true });
-      } },
-      progNote: p2 ? 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Tippe auf einen Programmpunkt.' : 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Das vollständige Programm veröffentlichen wir im Frühjahr 2027.',
+      reg: p2 ? { title: 'Jetzt kostenfrei anmelden', text: 'Die Registrierung läuft über unsere digitale Eventplattform. [Button folgt.]' } : { title: 'Kostenfreie Anmeldung ab Januar 2027', text: NOTICE.reg },
+      pf: {
+        mailto: 'mailto:' + PARTNER_MAIL + '?subject=' + encodeURIComponent('Partneranfrage D3 Deep Dive Day'),
+        copyLabel: s.copied === 'pmail' ? 'Adresse kopiert' : 'Adresse kopieren',
+        copy: function () { try { navigator.clipboard.writeText(PARTNER_MAIL); } catch (e) {} self.setState({ copied: 'pmail' }); }
+      },
+      progNote: p2 ? 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Tippe auf einen Programmpunkt.' : 'Zwei Tracks, unterschiedliche Formate und viel Gelegenheit, selbst aktiv zu werden. Erste Einblicke ins Programm veröffentlichen wir ab Januar 2027.',
       spkNote: p2 ? 'Fachleute, Menschen aus Behörden und alle, die Projekte umgesetzt haben.' : 'Fachleute, Menschen aus Behörden und alle, die Projekte umgesetzt haben. Weitere folgen.',
-      partnerNote: 'Unsere Partner zeigen gemeinsam mit Behörden, wie ihre Lösungen in der Praxis eingesetzt werden. Was war die Herausforderung? Was hat funktioniert? Und was hat es gebracht?',
+      partnerNote: 'Bei der D3 sollen Unternehmen und Behörden gemeinsam zeigen, wie Lösungen im Verwaltungsalltag eingesetzt werden. Im Mittelpunkt stehen konkrete Anwendungsfälle und die Möglichkeit, direkt nachzufragen. Welche Unternehmen dabei sind, stellen wir hier vor, sobald ihre Teilnahme feststeht.',
       faqReg: faqReg,
       logos: [0, 1, 2, 3, 4, 5].map(function (i) { return { label: '[Partner ' + (i + 1) + ']', bg: i % 2 ? 'var(--d3-bg)' : 'transparent' }; }),
       jItems: jItems, jTicks: jTicks, jn: jn, ex: ex, jrRef: this._jrRef, jScrollRef: this._jScrollRef,

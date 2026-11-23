@@ -117,7 +117,7 @@ export function AboutHead({ v }: { v: V }) {
 export function Organizer({ v }: { v: V }) {
   return (
     <div className={`mod k-about ${v.P.about.cls ?? ""}`} style={{ background: "var(--d3-white)", left: `calc(${v.P.about.c ?? ""} * 100% / var(--cols))`, top: `calc(${v.P.about.r ?? ""} * var(--rowh))`, width: `calc(${v.P.about.w ?? ""} * 100% / var(--cols))`, height: `calc(${v.P.about.h ?? ""} * var(--rowh))`, transitionDelay: v.P.about.d } as Css}>
-      <div className="L l-explore fill pad org">
+      <div className="L l-explore fill pad org" style={{ overflow: "auto" } as Css} onWheel={v.stopWheel}>
         <span className="lab">
           Veranstalter
         </span>

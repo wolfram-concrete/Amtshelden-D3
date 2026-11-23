@@ -6,23 +6,31 @@ Ausgabe 01: **KI + Transformation**. Anmeldung später über Let's Get Digital.
 > Sprachregel: „die D3“ oder „Deep Dive Day“ (bestätigt von Christian am 20.10.2026). Absender ist immer Amtshelden.
 
 - Briefing: https://docs.google.com/document/d/1grwTioy0KYaqkIG4jyswoq4MoUHnkSsbOVQYmfsstwM
-- Live (noindex): https://d3.amtshelden.de (Vercel, Projekt `amtshelden-d3`; DNS bei internetwerk, CNAME `d3` → `cname.vercel-dns.com`)
+- Live (indexierbar seit 23.11.2026): https://d3.amtshelden.de (Vercel, Projekt `amtshelden-d3`; DNS bei internetwerk, CNAME `d3` → `cname.vercel-dns.com`)
 
-## Aktueller Stand: v8.3 – Inhalte nach Christians Feedback
+## Aktueller Stand: v9 – Veröffentlichung ohne Programm und Speaker
 
 Das Interface ist ein Vollbild-Raster (Desktop 12, Tablet 8, Mobil 4 Spalten), das seinen Zustand wechselt statt
-klassischer Sections: **Start → Programm → Speaker → Partner → Über die D3 → Teilnahme**. Scrollen, Navigation
-oder die Weiter-Felder lösen den Wechsel aus. Jeder Zustand hat einen eigenen Link (`#/programm`, `#/teilnahme` …),
-jede Session ebenfalls (`#/programm/praxis-case-1`). Die Startseite erreicht man über das Logo.
+klassischer Sections: **Start → Über die D3 → Partner → Teilnahme**. Scrollen, Navigation oder die Weiter-Felder lösen
+den Wechsel aus. Jeder Zustand hat einen eigenen Link (`#/ueber`, `#/partner`, `#/teilnahme`, `#/medienpartner`).
+Die Startseite erreicht man über das Logo.
+
+**Programm und Speaker sind bis Januar 2027 ausgeblendet** (Briefing Christian, 23.11.2026). Der Schalter steht in
+`lib/d3/release.ts` (`PROGRAM_LIVE`), dort liegen auch der einheitliche Januar-Hinweis, die Partner-Adresse und die Links
+zu Impressum und Datenschutz. Alte Links auf `#/programm` und `#/speaker` zeigen den Januar-Hinweis. Mit
+`PROGRAM_LIVE = true` kommen Navigation, Weiter-Kacheln und Zählung „0X / 06“ zurück; vorher die Platzhalter durch
+echte Inhalte ersetzen.
 
 **Viel Inhalt, gleiches System:** Kacheln für den Überblick, aufklappende Kacheln für Details (Session, Speaker),
 längere Texte scrollen innerhalb ihrer Kachel. Keine neuen Unterseiten-Typen.
 
 **Bausteine:** Amtshelden-Logo als Absender, Claim „Die digitale Konferenz für alle, die in Behörden lieber machen als reden.“,
-Fakten (14. April 2027, 9:00–15:30, digital & kostenfrei), Button „Kostenfrei anmelden“ in der Leiste. Drei Gründe als
-Kacheln (Start kurz, Teilnahme ausführlich). Format-Zeichen in Ruhe flach, bei Hover 3D (Über die D3). Programm mit
-zwei Tracks und neun Themen-Tags. Partner-Übersicht (Platzhalter), eigene Medienpartnerseite Innovative Verwaltung (`#/medienpartner`, mit Logo),
-Formular „Partner werden“ (öffnet eine E-Mail an hallo@amtshelden.de). Bildwelt mit Hinweis „KI-generiert“. Häufige Fragen als Akkordeon auf Teilnahme. Phase 1/Phase 2 als Schalter (`phase`). Regeln: `/design-system`.
+Fakten (14. April 2027, 9:00–15:30, digital & kostenfrei) mit Januar-Hinweis, Button „Teilnahmeinfos“ in der Leiste.
+Drei Gründe als Kacheln (Start kurz, Teilnahme ausführlich). Format-Zeichen in Ruhe flach, bei Hover 3D (Über die D3).
+Medienpartnerseite Innovative Verwaltung (`#/medienpartner`, mit Logo). „Partner der D3 werden“ mit Anfrage per E-Mail an
+hallo@amtshelden.de (Adresse sichtbar und kopierbar). Moderation auf Teilnahme. Bildwelt mit Hinweis „KI-generiert“.
+Häufige Fragen als Akkordeon auf Teilnahme. Impressum und Datenschutz in jeder Ansicht. Phase 1/Phase 2 als Schalter
+(`phase`). Regeln: `/design-system`.
 
 ### Lokal starten
 
@@ -43,6 +51,7 @@ npm run dev   # http://localhost:4320
 | `components/d3/d3.css` | Alle Stile, Tokens als Custom Properties in `:root` |
 | `lib/d3/layout.ts` | Raster-Layouts je Gerät und Zustand |
 | `lib/d3/program.ts` | Programm, Formate, Tracks, Porträts |
+| `lib/d3/release.ts` | Veröffentlichungsstand: `PROGRAM_LIVE`, Januar-Hinweis, Partner-Adresse, Impressum/Datenschutz |
 | `public/bildwelt/`, `public/people/` | Bildwelt, Porträt-Platzhalter |
 | `public/partner/` | Partner-Logos (Innovative Verwaltung) |
 
@@ -54,7 +63,7 @@ Ausführen `components/d3/` und `lib/d3/`.
 
 | Route | Inhalt |
 |---|---|
-| `/` | Die App, Stand v8.3 |
+| `/` | Die App, Stand v9 |
 | `/design-system` | Regeln und Bausteine, Stand v7 (Board aus `design/canvas-v7/DesignSystem-v7.dc.html`) |
 | `/v7` | v7 als Prototyp-HTML aus dem Canvas – Referenz zur App |
 | `/prototype/mosaic-v5.html` | v5.8 als Archiv (nutzt dieselben Bilddateien, zeigt daher die aktuelle Bildwelt) |
@@ -64,7 +73,10 @@ Ausführen `components/d3/` und `lib/d3/`.
 
 ### Offen
 
-- Inhalte: Datum, Speaker*innen, Porträts, Partner, Kosten, Plattform, Kontakt-Adresse, Let's-Get-Digital-Link.
+- Inhalte für Januar 2027: Programm, Speaker*innen, Porträts, Anmeldestart und Let's-Get-Digital-Link.
+- Partneranfragen laufen per E-Mail. Ein Formular mit direkter Übermittlung braucht einen Versanddienst; Zieladresse
+  stimmt Christian ab.
+- Benachrichtigung zum Anmeldestart: noch nicht entschieden.
 - Gelb `#FFE500` ist noch nicht offiziell von Amtshelden bestätigt.
 - `components/d3/D3App.tsx` ist 1:1 portiert und noch nicht typisiert (`@ts-nocheck`).
 

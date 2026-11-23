@@ -47,7 +47,7 @@ a{color:inherit}
 .hit:focus-visible{outline:3px solid var(--d3-orange);outline-offset:-3px}
 .L{position:absolute;inset:0;z-index:2;opacity:0;visibility:hidden;pointer-events:none;box-sizing:border-box;transition:opacity var(--motion-fast) var(--ease-out),visibility 0s linear var(--motion-fast)}
 .L a,.L button,.L details,.L summary{pointer-events:auto}
-.st-home .l-home,.st-explore .l-explore,.st-program .l-program,.st-speaker .l-speaker,.st-partner .l-partner,.st-join .l-join,.st-media .l-media,.l-all{opacity:1;visibility:visible;transition:opacity var(--motion-ui) var(--ease-out) var(--motion-in),visibility 0s linear 0s}
+.st-home .l-home,.st-explore .l-explore,.st-program .l-program,.st-speaker .l-speaker,.st-partner .l-partner,.st-join .l-join,.st-media .l-media,.st-soon .l-soon,.l-all{opacity:1;visibility:visible;transition:opacity var(--motion-ui) var(--ease-out) var(--motion-in),visibility 0s linear 0s}
 .pad{padding:var(--label-position) var(--cell-padding) var(--content-baseline)}
 .fill{display:flex;flex-direction:column;justify-content:space-between;height:100%;box-sizing:border-box}
 .end{display:flex;flex-direction:column;justify-content:flex-end;height:100%;box-sizing:border-box;gap:8px}
@@ -458,3 +458,37 @@ a{color:inherit}
 @container mod (max-height: 130px){ .hide-s{display:none !important} }
 @container mod (max-width: 150px){ .hide-n{display:none !important} }
 .grain{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:multiply;opacity:.14;z-index:30}
+
+/* ---- Stand 23.11.2026: Veröffentlichung ohne Programm und Speaker ---- */
+/* Leiste: Impressum und Datenschutz (Desktop); unten in der Navigation für Tablet und Mobil */
+.bar .legal{gap:14px;justify-content:center;font-size:10px}
+.bar .legal a{text-decoration:none;color:var(--d3-mute)}
+.bar .legal a:hover{color:var(--d3-black);text-decoration:underline}
+.bp-tab .bot,.bp-mob .bot{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+.bot .bot-legal{flex-direction:column;gap:3px;font-size:9px;letter-spacing:.02em;color:var(--d3-mute)}
+.bot .bot-legal a{text-decoration:none}
+/* Datum mit Januar-Hinweis */
+.k-date .dataRow{height:auto;flex:1}
+.date-note{margin:0;font-family:var(--f-sys);font-size:11px;letter-spacing:.04em;text-transform:uppercase;line-height:1.35;padding-top:8px;border-top:1px solid var(--d3-line);width:100%}
+/* Januar-Hinweis für alte Programm- und Speaker-Links */
+.soon-b{display:flex;flex-direction:column;gap:14px}
+.soon-t{font-size:clamp(28px,min(7cqw,14cqh),64px);color:var(--d3-yellow);max-width:16ch}
+.soon-p{max-width:52ch;color:var(--d3-bg)}
+.soon-l{display:flex;flex-wrap:wrap;gap:10px 24px}
+/* Partner werden: Anfrage per E-Mail */
+.pf-when{font-size:clamp(14px,3.6cqw,16px)}
+.pf-mail{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.pf-mail .pf-go{display:inline-block;text-decoration:none}
+.pf-mail .pf-go:hover{background:var(--d3-green)}
+.pf-addr{display:flex;align-items:center;gap:10px}
+.pf-addr .sys{user-select:all}
+.pf-copy{border-bottom:1px solid currentColor;padding-bottom:1px;user-select:none !important}
+.pf-note{margin:0;color:var(--d3-black);opacity:.75}
+.pf-cols{display:flex;flex-direction:column;gap:10px}
+.pf-a,.pf-b{display:flex;flex-direction:column;gap:10px}
+@container mod (min-width: 720px){
+  .pf-cols{flex-direction:row;align-items:flex-end;gap:40px;flex:1}
+  .pf-a{flex:1.25;min-width:0}.pf-b{flex:1;min-width:0}
+  .pf-a .p{max-width:56ch}
+}
+.bp-mob .l-join .gp{font-size:14px}
